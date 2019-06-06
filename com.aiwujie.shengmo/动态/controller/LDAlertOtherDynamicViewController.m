@@ -8,6 +8,9 @@
 
 #import "LDAlertOtherDynamicViewController.h"
 #import "LDStandardViewController.h"
+#import "LDCertificateViewController.h"
+#import "LDMemberViewController.h"
+#import "LDSelectTopicViewController.h"
 
 //照片选择
 #import "TZImagePickerController.h"
@@ -22,7 +25,7 @@
 #import "MGSelectionTagView.h"
 
 
-@interface LDAlertOtherDynamicViewController ()<TZImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate,UINavigationControllerDelegate,UITextViewDelegate> {
+@interface LDAlertOtherDynamicViewController ()<TZImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate,UINavigationControllerDelegate,UITextViewDelegate,MGSelectionTagViewDelegate,MGSelectionTagViewDataSource,YBAttributeTapActionDelegate> {
     
     NSMutableArray *_selectedPhotos;
     BOOL _isSelectOriginalPhoto;
@@ -53,13 +56,35 @@
 //存储水印图数组及发布动态时上传的字符串
 @property (nonatomic, strong) NSMutableArray *shuiyinArray;
 @property (nonatomic, copy) NSString *shuiyinPath;
-@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
-@property (weak, nonatomic) IBOutlet UIView *backView;
-@property (weak, nonatomic) IBOutlet UILabel *textLabel;
-@property (weak, nonatomic) IBOutlet UITextView *textView;
-@property (weak, nonatomic) IBOutlet UILabel *numberLabel;
+@property (strong, nonatomic)  UIView *publishView;
 
+@property (strong, nonatomic) UIScrollView *scrollView;
+@property (strong, nonatomic) UILabel *warnLabel;
+
+@property (strong, nonatomic)  UIView *backView;
+@property (strong, nonatomic)  UILabel *textLabel;
+@property (strong, nonatomic)  UITextView *textView;
+@property (strong, nonatomic)  UILabel *numberLabel;
+
+
+@property (strong, nonatomic)  MGSelectionTagView *tagView;
+@property (nonatomic, strong) NSArray *tags;
+
+//话题的界面
+@property (strong, nonatomic)  UIView *topicbackView;
+@property (strong, nonatomic)  UILabel *topicLabel;
+@property (strong, nonatomic)  NSMutableArray *topicArray;
+
+//@默认的view
+@property (strong, nonatomic)  UIView *atView;
+
+//话题语句
+@property (nonatomic,copy) NSString *topicStr;
+@property (nonatomic,copy) NSString *contentStr;
+
+//活动ID
+@property (nonatomic,copy) NSString *topicTid;
 
 @end
 
@@ -68,7 +93,6 @@
 -(void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];
-    
     if (ISIPHONEX) {
         
         self.scrollView.frame = CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX]);
@@ -77,7 +101,6 @@
         
         self.scrollView.frame = CGRectMake(0, 0, WIDTH, HEIGHT);
     }
-    
     _scrollView.contentSize = CGSizeMake(WIDTH, CGRectGetHeight(_scrollView.frame) + 20);
 }
 
@@ -86,14 +109,7 @@
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.title = @"编辑动态";
     
-    if (@available(iOS 11.0, *)) {
-        
-        _scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
-        
-    }else {
-        
-        self.automaticallyAdjustsScrollViewInsets = NO;
-    }
+    [self createScrollViewAndSubviews];
     
     _selectedPhotos = [NSMutableArray array];
     
@@ -117,6 +133,109 @@
 
 }
 
+/**
+ 创建界面
+ */
+-(void)createScrollViewAndSubviews
+{
+    if (ISIPHONEX) {
+        self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX])];
+        
+    }else{
+        
+        self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
+    }
+    self.scrollView.delegate = self;
+    self.scrollView.showsVerticalScrollIndicator = NO;
+    [self.view addSubview:self.scrollView];
+    if (@available(iOS 11.0, *)) {
+        _scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
+        
+    }else {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+    
+    self.backView = [[UIView alloc] init];
+    
+    self.backView.backgroundColor = [UIColor colorWithHexString:@"#f5f5f5" alpha:1];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 250, 21)];
+    label.font = [UIFont systemFontOfSize:14];
+    label.textColor = [UIColor lightGrayColor];
+    label.text = @"参与话题(可选,正确分类将被优先被推荐)";
+    [self.backView addSubview:label];
+    
+    [self.scrollView addSubview:self.backView];
+    
+    [self prepareDataSource];
+    
+    [self setupViewUI];
+    [self.backView addSubview:self.tagView];
+
+    _topicLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.tagView.frame) + 10, WIDTH - 20, 0)];
+    _topicLabel.numberOfLines = 0;
+    _topicLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    [self.backView addSubview:_topicLabel];
+
+//    if (self.index != 0) {
+//
+//        [self.tagView reloadData:self.index];
+//
+//    }else{
+
+        [self.tagView reloadData:0];
+//    }
+    
+    self.publishView  = [[UIView alloc] init];
+    self.publishView.backgroundColor = [UIColor whiteColor];
+    self.publishView.frame = CGRectMake(0, CGRectGetMaxY(self.topicLabel.frame), WIDTH, 203);
+    self.publishView.frame = CGRectMake(0, 220, WIDTH, 203);
+    
+    [self.scrollView addSubview:self.publishView];
+    
+    _textView = [[UITextView alloc] initWithFrame:CGRectMake(8, 8, WIDTH - 16, 162)];
+
+    self.textView.contentInset = UIEdgeInsetsMake(-8.f, 0.f, 0.f, 0.f);
+    _textView.font = [UIFont systemFontOfSize:14];
+    _textView.delegate = self;
+    _textView.backgroundColor = [UIColor whiteColor];
+    [self.publishView addSubview:_textView];
+
+    _textLabel = [[UILabel alloc] initWithFrame:CGRectMake(12, 8, WIDTH - 24, 10)];
+    _textLabel.text = @"分享我的斯慕生活......（请勿使用露骨的项目词汇、大尺度文字描述、有偿收费描述、多人夫妻描述等！九年圣魔来之不易，需要同好们的共同呵护~）";
+    _textLabel.font = [UIFont systemFontOfSize:14];
+    _textLabel.numberOfLines = 0;
+    [_textLabel sizeToFit];
+    _textLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    _textLabel.frame = CGRectMake(12, 8, WIDTH - 24, _textLabel.frame.size.height);
+    _textLabel.textColor = [UIColor lightGrayColor];
+    [_publishView addSubview:_textLabel];
+    
+    _numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(WIDTH - 127, 175, 119, 21)];
+    _numberLabel.text = @"0/10000";
+    _numberLabel.textColor = [UIColor lightGrayColor];
+    _numberLabel.font = [UIFont systemFontOfSize:13];
+    _numberLabel.textAlignment = NSTextAlignmentRight;
+    [_publishView addSubview:_numberLabel];
+    _atView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(_publishView.frame), WIDTH, 41)];
+    _atView.backgroundColor = [UIColor whiteColor];
+    
+    [self.scrollView addSubview:_atView];
+    [self configCollectionView:_atView];
+    
+}
+
+- (void)setupViewUI {
+    
+    self.tagView = [[MGSelectionTagView alloc] initWithFrame:CGRectMake(0, 40,WIDTH,162)];
+    self.tagView.backgroundColor = [UIColor colorWithHexString:@"#f5f5f5" alpha:1];
+    self.tagView.dataSource = self;
+    self.tagView.delegate = self;
+    self.tagView.itemBackgroundImage = [UIImage imageNamed:@"buttonNormal"];
+    self.tagView.itemSelectedBackgroundImage = [UIImage imageNamed:@"buttonSelected.jpg"];
+    self.tagView.maxSelectNum = 1;
+}
+
 -(void)createScanData{
     
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
@@ -133,18 +252,14 @@
         
         parameters = @{@"did":_did,@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":@"",@"lng":@""};
     }
-    //    NSLog(@"%@",role);
     
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
         
-//        NSLog(@"%@",responseObject);
-        
         if (integer != 2000 && integer != 2001) {
             
            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-            
             
         }else{
             
@@ -152,7 +267,11 @@
             
             if ([responseObject[@"data"][@"content"] length] != 0) {
                 
-                self.textView.text = responseObject[@"data"][@"content"];
+                self.contentStr =  responseObject[@"data"][@"content"];
+                self.topicStr = [NSString stringWithFormat:@"%@%@%@",@"#",responseObject[@"data"][@"topictitle"],@"#"];
+                self.textView.text = [NSString stringWithFormat:@"%@%@",self.topicStr,self.contentStr];
+                
+                //self.textView.text = responseObject[@"data"][@"content"];
                 
                 self.numberLabel.text = [NSString stringWithFormat:@"%ld/10000",(unsigned long)self.textView.text.length];
                 
@@ -184,7 +303,8 @@
             [_shuiyinArray addObjectsFromArray:responseObject[@"data"][@"sypic"]];
             
             //创建collectionView
-            [self configCollectionView];
+           // [self configCollectionView];
+            [self.collectionView reloadData];
         
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -193,6 +313,392 @@
     
 }
 
+#pragma mark - Data
+
+- (void)prepareDataSource {
+    
+    self.tags = @[@"推荐",@"杂谈",@"兴趣",@"爆照",@"交友",@"生活",@"情感",@"官方"];
+}
+
+#pragma mark - MGSelectionTagViewDataSource
+
+- (NSInteger)numberOfTagsInSelectionTagView:(MGSelectionTagView *)tagView {
+    
+    return self.tags.count;
+}
+
+- (NSString *)tagView:(MGSelectionTagView *)tagView titleForIndex:(NSInteger)index {
+    
+    return [self.tags objectAtIndex:index];
+}
+
+/**
+ *  标识index位置的tag是否选中
+ *
+ */
+- (BOOL)tagView:(MGSelectionTagView *)tagView isTagSelectedForIndex:(NSInteger)index {
+    
+    return NO;
+}
+
+/**
+ *  标识index位置的tag是否“其他”（设置了“其他”tag会在选择时产生互斥）
+ *
+ */
+- (BOOL)tagView:(MGSelectionTagView *)tagView isOtherTagForIndex:(NSInteger)index {
+    
+    return NO;
+}
+
+#pragma mark - MGSelectionTagViewDelegate
+
+- (void)tagView:(MGSelectionTagView *)tagView tagTouchedAtIndex:(NSInteger)index {
+    
+    if ([self.tagView indexesOfSelectionTags].count != 0) {
+        
+        [self getTopicData:[NSString stringWithFormat:@"%d",[[self.tagView indexesOfSelectionTags][0] intValue]]];
+        
+    }else{
+        
+        //点击了话题或者点击了选中的tag
+        [self clickTagViewOrTopic];
+        
+    }
+}
+
+/**
+ 点击了话题或者点击了选中的tag
+ */
+
+-(void)clickTagViewOrTopic{
+    
+    [_topicArray removeAllObjects];
+    
+    _topicLabel.text = @"";
+    
+    _topicLabel.frame = CGRectMake(10, CGRectGetMaxY(self.tagView.frame) + 10, WIDTH - 20, 0);
+    
+    self.numberLabel.text = [NSString stringWithFormat:@"%ld/10000",(unsigned long)self.textView.text.length];
+    
+    if (self.textView.text.length == 0) {
+        
+        [self.textLabel setHidden:NO];
+        
+    }else{
+        
+        [self.textLabel setHidden:YES];
+    }
+    
+    [self getDynamicHeight];
+}
+
+/**
+ 获取每个话题下的话题数
+ */
+
+-(void)getTopicData:(NSString *)pid{
+    
+    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getTopicEight"];
+    
+    NSDictionary *parameters = @{@"pid":pid};
+    
+    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
+        
+        //NSLog(@"%@",responseObject);
+        
+        if (integer == 3000) {
+            
+            _topicLabel.text = @"";
+            
+            _topicLabel.frame = CGRectMake(10, CGRectGetMaxY(self.tagView.frame) + 10, WIDTH - 20, 0);
+            
+        }else{
+            
+            _topicLabel.text = @"";
+            
+            if (_topicArray.count > 0) {
+                
+                [_topicArray removeAllObjects];
+            }
+            
+            [_topicArray addObjectsFromArray:responseObject[@"data"]];
+            
+            NSMutableArray *titleArray = [NSMutableArray array];
+            
+            for (int i = 0; i < [responseObject[@"data"] count]; i++) {
+                
+                [titleArray addObject:[NSString stringWithFormat:@"#%@#",responseObject[@"data"][i][@"title"]]];
+                
+                if (i == 0) {
+                    
+                    _topicLabel.text = [NSString stringWithFormat:@"#%@#",responseObject[@"data"][0][@"title"]];
+                    
+                }else{
+                    
+                    _topicLabel.text = [NSString stringWithFormat:@"%@    #%@#",_topicLabel.text,responseObject[@"data"][i][@"title"]];
+                }
+                
+            }
+            
+            NSArray *colorArray = @[@"0xff0000",@"0xb73acb",@"0x0000ff",@"0x18a153",@"0xf39700",@"0xff00ff",@"0x00a0e9"];
+            
+            // 调整行间距
+            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:_topicLabel.text];
+            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+            
+            [paragraphStyle setLineSpacing:10];
+            
+            [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [_topicLabel.text length])];
+            
+            [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, [_topicLabel.text length])];
+            
+            for (int i = 0; i <titleArray.count; i++) {
+                
+                NSRange range;
+                
+                range = [_topicLabel.text rangeOfString:[NSString stringWithFormat:@"%@",titleArray[i]]];
+                
+                if (range.location != NSNotFound) {
+                    
+                    [attributedString addAttribute:NSForegroundColorAttributeName value:UIColorFromRGB(strtoul([colorArray[i%7] UTF8String], 0, 0)) range:range];
+                    
+                }else{
+                    
+                    NSLog(@"Not Found");
+                    
+                }
+            }
+            
+            if (titleArray.count >= 35) {
+                
+                NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@"[更多]"];
+                
+                [string addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor] range:NSMakeRange(0, [string length])];
+                
+                [string addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:13] range:NSMakeRange(0, [string length])];
+                
+                [attributedString appendAttributedString:string];
+                
+                [titleArray addObject:@"[更多]"];
+            }
+            
+            self.topicLabel.attributedText = attributedString;
+            
+            [self.topicLabel yb_addAttributeTapActionWithStrings:titleArray delegate:self];
+            
+            self.topicLabel.enabledTapEffect = NO;
+            
+            [self.topicLabel sizeToFit];
+            
+            _topicLabel.frame = CGRectMake(10, CGRectGetMaxY(self.tagView.frame) + 10, WIDTH - 20, self.topicLabel.frame.size.height);
+        }
+        
+        [self getDynamicHeight];
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        _topicLabel.text = @"";
+        
+        _topicLabel.frame = CGRectMake(10, CGRectGetMaxY(self.tagView.frame) + 10, WIDTH - 20, 0);
+        
+        [self getDynamicHeight];
+        
+    }];
+}
+
+//富文本文字可点击delegate
+- (void)yb_attributeTapReturnString:(NSString *)string range:(NSRange)range index:(NSInteger)index
+{
+    
+    if ([string isEqualToString:@"认证会员"]) {
+        
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"realname"] intValue] == 1) {
+            
+            LDCertificateViewController *cvc = [[LDCertificateViewController alloc] init];
+
+            cvc.type = @"2";
+
+            [self.navigationController pushViewController:cvc animated:YES];
+            
+        }else{
+            
+            AFHTTPSessionManager *manager = [LDAFManager sharedManager];
+            
+            NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Other/getidstate"];
+            
+            NSDictionary *parameters;
+            
+            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+            
+            [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                
+                NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
+                
+                //NSLog(@"%@",responseObject);
+                
+                if (integer == 2000) {
+                    
+                    LDCertificateViewController *cvc = [[LDCertificateViewController alloc] init];
+                    
+                    cvc.type = @"2";
+                    
+                    [self.navigationController pushViewController:cvc animated:YES];
+                    
+                }else if(integer == 2001){
+                    
+                    [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"正在审核,请耐心等待~"];
+                    
+                    
+                }else if (integer == 2002){
+                    
+                    LDCertificateViewController *cvc = [[LDCertificateViewController alloc] init];
+                    
+                    cvc.where = @"4";
+                    
+                    [self.navigationController pushViewController:cvc animated:YES];
+                }
+                
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                
+                NSLog(@"%@",error);
+                
+            }];
+            
+        }
+        
+        
+    }else if ([string isEqualToString:@"VIP会员"]){
+        
+        LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
+        
+        [self.navigationController pushViewController:mvc animated:YES];
+        
+    }else{
+        
+        if ([string isEqualToString:@"[更多]"]) {
+            
+            LDSelectTopicViewController *tvc = [[LDSelectTopicViewController alloc] init];
+            
+            tvc.title = self.tags[[[self.tagView indexesOfSelectionTags][0] intValue]];
+            
+            tvc.pid = [NSString stringWithFormat:@"%d",[[self.tagView indexesOfSelectionTags][0] intValue] + 1];
+            
+            tvc.block = ^(NSString *title, NSString *tid) {
+                
+                //_topicTid = tid;
+                self.topicTid = [NSString stringWithFormat:@"%@",_topicArray[index][@"tid"]];
+               // 点击了话题标题后输入框的文字改变
+                [self changeTopicToTextViewWithString:[NSString stringWithFormat:@"#%@#",title]];
+            };
+            
+            [self.navigationController pushViewController:tvc animated:YES];
+            
+        }else{
+            
+//            _topicTid = [NSString stringWithFormat:@"%@",_topicArray[index][@"tid"]];
+             self.topicTid = [NSString stringWithFormat:@"%@",_topicArray[index][@"tid"]];
+            //点击了话题标题后输入框的文字改变
+            [self changeTopicToTextViewWithString:string];
+        }
+        
+        //删除对应话题的选中状态
+        [self.tagView changeSomeoneSelectedState];
+    }
+}
+
+/**
+ * 点击了话题标题后输入框的文字改变
+ */
+-(void)changeTopicToTextViewWithString:(NSString *)string{
+    
+    if (self.textView.text.length == 0) {
+        
+        self.textView.text = string;
+        _topicStr = string;
+        
+    }else{
+        
+        if (_topicStr.length == 0) {
+            
+            _topicStr = string;
+            self.textView.text = [NSString stringWithFormat:@"%@%@",_topicStr,self.textView.text];
+            
+        }else if (_topicStr.length != 0){
+            
+            NSMutableString *str = [NSMutableString stringWithFormat:@"%@",self.textView.text];
+            self.textView.text = [str substringFromIndex:_topicStr.length];
+            _topicStr = string;
+            self.textView.text = [NSString stringWithFormat:@"%@%@",_topicStr,self.textView.text];
+        }
+    }
+    
+    self.numberLabel.text = [NSString stringWithFormat:@"%ld/10000",(unsigned long)self.textView.text.length];
+    
+    if (self.textView.text.length == 0) {
+        
+        [self.textLabel setHidden:NO];
+        
+    }else{
+        
+        [self.textLabel setHidden:YES];
+    }
+}
+
+
+/**
+ 更新scrollView的长度
+ */
+-(void)getDynamicHeight{
+    
+    if (_topicLabel.frame.size.height == 0) {
+        
+        self.backView.frame = CGRectMake(0, 0, WIDTH, CGRectGetMaxY(_topicLabel.frame));
+        
+    }else{
+        
+        self.backView.frame = CGRectMake(0, 0, WIDTH, CGRectGetMaxY(_topicLabel.frame) + 10);
+    }
+    
+    CGRect rectFrame;
+    
+    //更改发布view的frame的y值
+    rectFrame = self.publishView.frame;
+    rectFrame.origin.y = CGRectGetMaxY(self.backView.frame);
+    self.publishView.frame = rectFrame;
+    
+    //更改@view的frame的y值
+    rectFrame = self.atView.frame;
+    rectFrame.origin.y = CGRectGetMaxY(_publishView.frame);
+    self.atView.frame = rectFrame;
+
+    //更改提示label的frame的y值
+    rectFrame = self.warnLabel.frame;
+    rectFrame.origin.y = CGRectGetMaxY(_atView.frame) + 10;
+    self.warnLabel.frame = rectFrame;
+
+    //更改图片的frame的y值
+    rectFrame = self.collectionView.frame;
+    rectFrame.origin.y = CGRectGetMaxY(_warnLabel.frame) + 10;
+    self.collectionView.frame = rectFrame;
+
+    CGFloat dynamicH;
+    
+    if (CGRectGetMaxY(_collectionView.frame) > [self getIsIphoneX:ISIPHONEX]) {
+        
+        dynamicH = CGRectGetMaxY(_collectionView.frame) + 90;
+        
+    }else{
+        
+        dynamicH = HEIGHT + 20;
+    }
+    
+    self.scrollView.contentSize = CGSizeMake(WIDTH, dynamicH);
+}
 
 //textview代理方法
 #pragma mark  textView的代理方法
@@ -237,26 +743,34 @@
     return NO;
 }
 
-- (void)configCollectionView {
 
+- (void)configCollectionView:(UIView *)atView{
+    
+    _warnLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(self.textView.frame) + 10, 300, 21)];
+    _warnLabel.font = [UIFont systemFontOfSize:14];
+    _warnLabel.textColor = [UIColor lightGrayColor];
+    _warnLabel.text = @"请勿上传大尺度图片及调教照";
+    [self.scrollView addSubview:_warnLabel];
+    
+    // 如不需要长按排序效果，将LxGridViewFlowLayout类改成UICollectionViewFlowLayout即可
+    //    LxGridViewFlowLayout *layout = [[LxGridViewFlowLayout alloc] init];
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     _margin = 4;
-    _itemWH = (WIDTH - 2 * _margin - 20) / 3 - _margin;
+    _itemWH = (WIDTH - 2 * _margin - 24) / 3 - _margin;
     layout.itemSize = CGSizeMake(_itemWH, _itemWH);
     layout.minimumInteritemSpacing = _margin;
     layout.minimumLineSpacing = _margin;
     
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(10, 223, WIDTH - 20, HEIGHT - 217) collectionViewLayout:layout];
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_warnLabel.frame) + 10, WIDTH - 20, _itemWH + 2 * _margin) collectionViewLayout:layout];
     _collectionView.alwaysBounceVertical = YES;
     _collectionView.backgroundColor = [UIColor whiteColor];
-    _collectionView.contentInset = UIEdgeInsetsMake(0, 4, 0, 4);
+    _collectionView.contentInset = UIEdgeInsetsMake(6, 4, 4, 4);
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
     _collectionView.scrollEnabled = NO;
     _collectionView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+    [self.scrollView addSubview:_collectionView];
     [_collectionView registerClass:[TZTestCell class] forCellWithReuseIdentifier:@"TZTestCell"];
-    
-    [_scrollView addSubview:_collectionView];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
@@ -330,7 +844,7 @@
                 [self pushImagePickerController];
             }];
             
-            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:^(UIAlertAction *action) {
                 
             }];
             
@@ -548,8 +1062,6 @@
 
     } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
 
-//            NSLog(@"%@",responseObject);
-
         [_selectedPhotos addObject:[NSString stringWithFormat:@"%@%@",PICHEADURL,responseObject[@"data"][@"slimg"]]];
         [_selectedSyArray addObject:[NSString stringWithFormat:@"%@%@",PICHEADURL,responseObject[@"data"][@"syimg"]]];
         
@@ -561,7 +1073,7 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
 
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        //            NSLog(@"error --- %@",error.description);
+        
     }];
     
 }
@@ -620,7 +1132,7 @@
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否退出编辑?"    preferredStyle:UIAlertControllerStyleAlert];
     
-    UIAlertAction * action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault  handler:nil];
+    UIAlertAction * action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
     
     UIAlertAction * setAction = [UIAlertAction actionWithTitle:@"退出" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
         
@@ -665,8 +1177,6 @@
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
         
-        //NSLog(@"%@",responseObject);
-        
         if (integer == 2000) {
             
             if (i + 1 == _addArray.count) {
@@ -692,8 +1202,7 @@
         [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
         
         [self.navigationController popViewControllerAnimated:YES];
-        
-//        NSLog(@"%@",error);
+
     }];
 }
 
@@ -847,8 +1356,6 @@
     
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":self.did,@"content":content,@"pic":path,@"sypic":sypath};
     
-//    NSLog(@"%@",parameters);
-    
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
@@ -884,14 +1391,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
