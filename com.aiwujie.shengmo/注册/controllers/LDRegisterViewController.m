@@ -61,6 +61,8 @@
     
     self.navigationController.navigationBar.hidden = NO;
     
+    self.picCodeField.keyboardType = UIKeyboardTypeDefault;
+    
     _isAgree = NO;
     
     //获取图形验证码

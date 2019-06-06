@@ -2995,7 +2995,6 @@
 				00E85EA01E02BA6F004AB146 /* Sources */,
 				00E85EA11E02BA6F004AB146 /* Frameworks */,
 				00E85EA21E02BA6F004AB146 /* Resources */,
-				482D756C0A5F78C4542AEB11 /* [CP] Embed Pods Frameworks */,
 				82ECB6E5391D24979DEE1D43 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -3294,28 +3293,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		482D756C0A5F78C4542AEB11 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-圣魔无界/Pods-圣魔无界-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		82ECB6E5391D24979DEE1D43 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-圣魔无界/Pods-圣魔无界-resources.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-圣魔无界/Pods-圣魔无界-resources.sh",
 				"${PODS_ROOT}/AMap2DMap-NO-IDFA/MAMapKit.framework/AMap.bundle",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/RongCloudIM/RongCloudIM/RongCloud.bundle",
@@ -3327,11 +3311,18 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AMap.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RongCloud.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/en.lproj",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/zh-Hans.lproj",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Emoji.plist",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCConfig.plist",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/BQMM.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-圣魔无界/Pods-圣魔无界-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-圣魔无界/Pods-圣魔无界-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		82F04AC8F37456B9D48BA3BC /* [CP] Check Pods Manifest.lock */ = {

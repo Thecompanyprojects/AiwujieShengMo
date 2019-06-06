@@ -10,8 +10,7 @@
 #import "LDharassmentCell.h"
 
 @interface LDharassmentCell()
-@property (nonatomic,strong) UIImageView *leftImg;
-@property (nonatomic,strong) UILabel *nameLab;
+
 @end
 
 @implementation LDharassmentCell
@@ -30,8 +29,8 @@
 
 -(void)setuplayout
 {
-   
-    
+    self.leftImg.frame = CGRectMake(12, 12, 14, 14);
+    self.nameLab.frame = CGRectMake(30, 12, 300, 14);
 }
 
 

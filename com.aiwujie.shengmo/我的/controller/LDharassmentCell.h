@@ -11,7 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface LDharassmentCell : UITableViewCell
-
+@property (nonatomic,strong) UIImageView *leftImg;
+@property (nonatomic,strong) UILabel *nameLab;
 @end
 
 NS_ASSUME_NONNULL_END

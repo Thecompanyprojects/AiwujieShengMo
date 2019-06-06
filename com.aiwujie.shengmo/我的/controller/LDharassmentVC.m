@@ -11,7 +11,7 @@
 
 @interface LDharassmentVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong) UITableView *table;
-
+@property (nonatomic,assign) BOOL isChoose;
 @end
 
 static NSString *LDharassmentIdentfity = @"LDharassmentIdentfity";
@@ -23,6 +23,7 @@ static NSString *LDharassmentIdentfity = @"LDharassmentIdentfity";
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"防骚扰";
+    self.isChoose = YES;
     [self.view addSubview:self.table];
     self.table.tableFooterView = [UIView new];
 }
@@ -53,7 +54,27 @@ static NSString *LDharassmentIdentfity = @"LDharassmentIdentfity";
         cell = [[LDharassmentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LDharassmentIdentfity];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.textLabel.text = @"1234";
+    if (indexPath.row==0) {
+        if (self.isChoose) {
+            cell.leftImg.image = [UIImage imageNamed:@"shiguanzhu"];
+        }
+        else
+        {
+             cell.leftImg.image = [UIImage imageNamed:@"kongguanzhu"];
+        }
+        
+        cell.nameLab.text = @"所有人可给我发信息";
+    }
+    if (indexPath.row==1) {
+        if (!self.isChoose) {
+            cell.leftImg.image = [UIImage imageNamed:@"shiguanzhu"];
+        }
+        else
+        {
+            cell.leftImg.image = [UIImage imageNamed:@"kongguanzhu"];
+        }
+        cell.nameLab.text = @"好友/邮票/SVIP可给我发信息";
+    }
     return cell;
     
 }
@@ -61,6 +82,18 @@ static NSString *LDharassmentIdentfity = @"LDharassmentIdentfity";
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 40.0f;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (indexPath.row==0) {
+        self.isChoose = YES;
+    }
+    else
+    {
+        self.isChoose = NO;
+    }
+    [self.table reloadData];
 }
 
 @end

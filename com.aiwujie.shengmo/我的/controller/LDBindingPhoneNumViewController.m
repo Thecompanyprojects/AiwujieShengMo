@@ -44,6 +44,8 @@
     
     self.navigationItem.title = @"绑定手机";
     
+    self.picCodeField.keyboardType = UIKeyboardTypeDefault;
+    
     _codeButton.layer.cornerRadius = 2;
     _codeButton.clipsToBounds = YES;
     
@@ -123,7 +125,6 @@
     
     [self getCode];
 }
-
 
 - (IBAction)bindButtonClick:(id)sender {
     
