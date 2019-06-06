@@ -9,6 +9,7 @@
 #import "LDGeneralViewController.h"
 #import "MBProgressHUD.h"
 
+
 @interface LDGeneralViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *cacheLabel;
 

@@ -173,33 +173,22 @@
         [self.tableView.mj_footer endRefreshing];
         
     }];
-    
-
 }
 
 -(void)createTableView{
-
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX]) style:UITableViewStylePlain];
-    
     if (@available(iOS 11.0, *)) {
-        
         self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
-        
         self.tableView.estimatedRowHeight = 0;
         self.tableView.estimatedSectionHeaderHeight = 0;
         self.tableView.estimatedSectionFooterHeight = 0;
-        
     }else {
-        
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
     _tableView.delegate = self;
-    
     _tableView.dataSource = self;
-    
     _tableView.rowHeight = 88;
-    
+    _tableView.tableFooterView = [UIView new];
     [self.view addSubview:_tableView];
 }
 

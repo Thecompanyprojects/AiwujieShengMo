@@ -245,6 +245,8 @@
 		00FC749A1E1554C5005A6137 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 00FC74961E1554C5005A6137 /* LICENSE */; };
 		00FC749B1E1554C5005A6137 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 00FC74981E1554C5005A6137 /* MBProgressHUD.m */; };
 		00FE865F1E38EF7B0056877E /* LDShengMoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00FE865E1E38EF7B0056877E /* LDShengMoViewController.m */; };
+		53E8CDC022A93E2D007E5073 /* LDharassmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDBF22A93E2D007E5073 /* LDharassmentVC.m */; };
+		53E8CDC322A93EED007E5073 /* LDharassmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDC222A93EED007E5073 /* LDharassmentCell.m */; };
 		D20016D01F46C4160045D0A2 /* TAAbstractDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D20016C31F46C4160045D0A2 /* TAAbstractDotView.m */; };
 		D20016D11F46C4160045D0A2 /* TAAnimatedDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D20016C51F46C4160045D0A2 /* TAAnimatedDotView.m */; };
 		D20016D21F46C4160045D0A2 /* TADotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D20016C71F46C4160045D0A2 /* TADotView.m */; };
@@ -838,6 +840,10 @@
 		00FE865E1E38EF7B0056877E /* LDShengMoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDShengMoViewController.m; sourceTree = "<group>"; };
 		3B852FF7576E22B2E72ABEDA /* Pods-圣魔无界.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-圣魔无界.release.xcconfig"; path = "Pods/Target Support Files/Pods-圣魔无界/Pods-圣魔无界.release.xcconfig"; sourceTree = "<group>"; };
 		465F08B408D1E0EFBA3B8754 /* Pods-圣魔无界.ad hoc distribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-圣魔无界.ad hoc distribution.xcconfig"; path = "Pods/Target Support Files/Pods-圣魔无界/Pods-圣魔无界.ad hoc distribution.xcconfig"; sourceTree = "<group>"; };
+		53E8CDBE22A93E2D007E5073 /* LDharassmentVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDharassmentVC.h; sourceTree = "<group>"; };
+		53E8CDBF22A93E2D007E5073 /* LDharassmentVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDharassmentVC.m; sourceTree = "<group>"; };
+		53E8CDC122A93EED007E5073 /* LDharassmentCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDharassmentCell.h; sourceTree = "<group>"; };
+		53E8CDC222A93EED007E5073 /* LDharassmentCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDharassmentCell.m; sourceTree = "<group>"; };
 		9A89452E2B9EA4A7089D17A7 /* Pods-圣魔无界.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-圣魔无界.debug.xcconfig"; path = "Pods/Target Support Files/Pods-圣魔无界/Pods-圣魔无界.debug.xcconfig"; sourceTree = "<group>"; };
 		CF0643EA17B0DA53D0932F1A /* libPods-圣魔无界.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-圣魔无界.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D20016C21F46C4160045D0A2 /* TAAbstractDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAbstractDotView.h; sourceTree = "<group>"; };
@@ -1849,6 +1855,17 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		53E8CDBD22A93DE5007E5073 /* 防骚扰 */ = {
+			isa = PBXGroup;
+			children = (
+				53E8CDBE22A93E2D007E5073 /* LDharassmentVC.h */,
+				53E8CDBF22A93E2D007E5073 /* LDharassmentVC.m */,
+				53E8CDC122A93EED007E5073 /* LDharassmentCell.h */,
+				53E8CDC222A93EED007E5073 /* LDharassmentCell.m */,
+			);
+			name = "防骚扰";
+			sourceTree = "<group>";
+		};
 		A61CBB8DD0BA511459F60679 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -2826,6 +2843,7 @@
 				D268C99D1EF1238A009AC7D6 /* 通用设置 */,
 				D268C99A1EF1233F009AC7D6 /* 意见反馈 */,
 				D208A7351EDFD487000316D3 /* 帮助中心 */,
+				53E8CDBD22A93DE5007E5073 /* 防骚扰 */,
 			);
 			name = "设置";
 			sourceTree = "<group>";
@@ -3455,6 +3473,7 @@
 				D2366F671F7C88CD009B7F4C /* FollowMessageModel.m in Sources */,
 				D2155CBA1F9060520074A1C2 /* LDSelectTopicViewController.m in Sources */,
 				D23A5FF71ED590E200FE4AD5 /* LDGetChangeBindingEmailCodeViewController.m in Sources */,
+				53E8CDC022A93E2D007E5073 /* LDharassmentVC.m in Sources */,
 				D29AF6DC1FBD631E001098B3 /* HJDefaultTabViewBar.m in Sources */,
 				003B9A851E06C027006BF162 /* LDMainTabViewController.m in Sources */,
 				00EC29731E18F2670066273A /* LxGridViewFlowLayout.m in Sources */,
@@ -3581,6 +3600,7 @@
 				00E9D2D91E2F93860004365D /* LDApplyAddGroupViewController.m in Sources */,
 				00F4F3491E2CEE5C0017D0EC /* GroupSqureModel.m in Sources */,
 				00F9BD641E22752F00F5CD18 /* LDDepositViewController.m in Sources */,
+				53E8CDC322A93EED007E5073 /* LDharassmentCell.m in Sources */,
 				D23A5FEC1ED5795E00FE4AD5 /* LDBindingEmailViewController.m in Sources */,
 				D20016D91F46D4C10045D0A2 /* MatchmakerDetailModel.m in Sources */,
 				D24F96AF1FECF495008B7ECF /* LDEditIntroduceViewController.m in Sources */,

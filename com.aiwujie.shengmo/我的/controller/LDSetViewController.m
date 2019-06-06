@@ -23,6 +23,7 @@
 #import "ShowBadgeCell.h"
 #import "UITabBar+badge.h"
 #import "AppDelegate.h"
+#import "LDharassmentVC.h"
 
 @interface LDSetViewController ()<UITableViewDelegate,UITableViewDataSource,TencentSessionDelegate>{
     
@@ -44,6 +45,7 @@
 //存储的手机号,邮箱
 @property (nonatomic,copy) NSString *phoneNum;
 @property (nonatomic,copy) NSString *emailNum;
+@property (nonatomic,assign) BOOL isSvip;
 
 @end
 
@@ -164,7 +166,18 @@
 
 //    _dataArray = @[@[@"绑定手机"],@[@"绑定邮箱"],@[@"绑定第三方"],@[@"密码设置"],@[@"手势密码"],@[@"声音设置"],@[@"消息设置"],@[@"隐私"],@[@"通用"],@[@"意见反馈"],@[@"帮助中心"],@[@"关于圣魔APP"]];
     
-    _dataArray = @[@[@"绑定手机",@"绑定邮箱",@"绑定第三方"],@[@"密码设置",@"手势密码"],@[@"声音设置",@"隐私",@"通用"],@[@"意见反馈",@"帮助中心",@"版本号"]];
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue] == 1 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue] == 1) {
+        self.isSvip = YES;
+    }
+    
+    if (self.isSvip) {
+          _dataArray = @[@[@"绑定手机",@"绑定邮箱",@"绑定第三方"],@[@"密码设置",@"手势密码"],@[@"声音设置",@"隐私",@"防骚扰",@"通用"],@[@"意见反馈",@"帮助中心",@"版本号"]];
+    }
+    else
+    {
+          _dataArray = @[@[@"绑定手机",@"绑定邮箱",@"绑定第三方"],@[@"密码设置",@"手势密码"],@[@"声音设置",@"隐私",@"通用"],@[@"意见反馈",@"帮助中心",@"版本号"]];
+    }
+  
     
     [self createTableView];
     
@@ -238,9 +251,8 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-
-    return _dataArray.count;
     
+    return _dataArray.count;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -318,37 +330,62 @@
             
         }
         
-        if (indexPath.section == 0 && indexPath.row == 2) {
-            
-            cell.lineView.hidden = YES;
-            
-        }else if (indexPath.section == 1 && indexPath.row == 1){
         
-            cell.lineView.hidden = YES;
-            
-        }else if (indexPath.section == 2 && indexPath.row == 2){
-            
-            cell.lineView.hidden = YES;
-            
-        }else if (indexPath.section == 3 && indexPath.row == 2){
-            
-            cell.lineView.hidden = YES;
-            
-        }else{
-            
-            cell.lineView.hidden = NO;
+        if (indexPath.section==0) {
+            if (indexPath.row==2) {
+                cell.lineView.hidden = YES;
+            }
+            else
+            {
+                cell.lineView.hidden = NO;
+            }
+        }
+        if (indexPath.section==1) {
+            if (indexPath.row==1) {
+                cell.lineView.hidden = YES;
+            }
+            else
+            {
+                cell.lineView.hidden = NO;
+                
+            }
+        }
+        if (indexPath.section==2) {
+            if (self.isSvip) {
+                if (indexPath.row==3) {
+                    cell.lineView.hidden = YES;
+                }
+                else
+                {
+                    cell.lineView.hidden = NO;
+                }
+            }
+            else
+            {
+                if (indexPath.row==2) {
+                    cell.lineView.hidden = YES;
+                }
+                else
+                {
+                    cell.lineView.hidden = NO;
+                }
+            }
+        }
+        if (indexPath.section==3) {
+            if (indexPath.row==2) {
+                cell.lineView.hidden = YES;
+            }
+            else
+            {
+                cell.lineView.hidden = NO;
+            }
         }
         
         cell.detailLabel.font = [UIFont italicSystemFontOfSize:12];//设置字体为斜体
-        
         cell.nameLabel.text = _dataArray[indexPath.section][indexPath.row];
-        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
         return cell;
-
     }
-
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -358,12 +395,6 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     
-//    if (section == 2) {
-//
-//        return 46;
-//    }
-//
-//    return 1;
     return 10.0;
 }
 
@@ -567,10 +598,7 @@
             
         }else if(indexPath.row == 1){
             
-            //            LDNoDisturbViewController *pvc = [[LDNoDisturbViewController alloc] init];
-            //
-            //            [self.navigationController pushViewController:pvc animated:YES];
-            
+          
             LDProvacyViewController *pvc = [[LDProvacyViewController alloc] init];
             
             [self.navigationController pushViewController:pvc animated:YES];
@@ -579,10 +607,18 @@
             
         }else if(indexPath.row == 2){
             
+            if (self.isSvip)
+            {
+                LDharassmentVC *vc = [LDharassmentVC new];
+                [self.navigationController pushViewController:vc animated:YES];
+            }else
+            {
+                LDGeneralViewController *gvc = [[LDGeneralViewController alloc] init];
+                [self.navigationController pushViewController:gvc animated:YES];
+            }
+        }else if (indexPath.row==3){
             LDGeneralViewController *gvc = [[LDGeneralViewController alloc] init];
-            
             [self.navigationController pushViewController:gvc animated:YES];
-            
         }
         
     } else if (indexPath.section == 3) {
@@ -666,41 +702,11 @@
         [alertView show];
     }
 }
-//
+
 - (void)tencentDidNotNetWork {
     
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络错误,授权失败" delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:nil];
     [alertView show];
-}
-
-//退出登录
--(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    
-//    if (section == 3) {
-//
-//        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 54)];
-//
-//        view.backgroundColor = [UIColor clearColor];
-//
-//        UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 10, WIDTH, 44)];
-//
-//        [button setTitle:@"退出登录" forState:UIControlStateNormal];
-//
-//        button.backgroundColor = [UIColor whiteColor];
-//
-//        button.titleLabel.font = [UIFont systemFontOfSize:15];
-//
-//        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//
-//        [button addTarget:self action:@selector(exitButtonClick) forControlEvents:UIControlEventTouchUpInside];
-//
-//        [view addSubview:button];
-//
-//        return view;
-//
-//    }
-
-    return nil;
 }
 
 -(void)exitButtonClick{
@@ -733,14 +739,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
