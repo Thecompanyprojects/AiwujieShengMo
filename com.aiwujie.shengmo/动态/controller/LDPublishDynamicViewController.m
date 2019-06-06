@@ -316,7 +316,7 @@
     }
     else
     {
-        UIAlertController *control = [UIAlertController alertControllerWithTitle:@"提示" message:@"推荐SVIP才可以推荐" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *control = [UIAlertController alertControllerWithTitle:@"提示" message:@"推荐功能限SVIP可用" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             
         }];
