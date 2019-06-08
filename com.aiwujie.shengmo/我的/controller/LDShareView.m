@@ -312,6 +312,7 @@
         
         //        将内容分享到qzone
         QQApiSendResultCode sent = [QQApiInterface SendReqToQZone:req];
+        
     }
 }
 

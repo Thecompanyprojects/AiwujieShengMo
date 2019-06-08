@@ -13,6 +13,9 @@
  引擎类型
  */
 typedef NS_ENUM(NSInteger, RCCallEngineType) {
+    /*!
+     无
+     */
     RCCallEngineNone = 0,
     /*!
      声网
@@ -22,6 +25,10 @@ typedef NS_ENUM(NSInteger, RCCallEngineType) {
      融云
      */
     RCCallEngineRong = 2,
+    /*!
+     Blink
+     */
+    RCCallEngineBlink = 3,
 };
 /*!
  媒体类型
@@ -41,12 +48,33 @@ typedef NS_ENUM(NSInteger, RCCallMediaType) {
  通话质量
  */
 typedef NS_ENUM(NSUInteger, RCCallQuality) {
+    /*!
+     未知
+     */
     RCCall_Quality_Unknown = 0,
+    /*!
+     Excellent
+     */
     RCCall_Quality_Excellent = 1,
+    /*!
+     Good
+     */
     RCCall_Quality_Good = 2,
+    /*!
+     Poor
+     */
     RCCall_Quality_Poor = 3,
+    /*!
+     Bad
+     */
     RCCall_Quality_Bad = 4,
+    /*!
+     VBad
+     */
     RCCall_Quality_VBad = 5,
+    /*!
+     Down
+     */
     RCCall_Quality_Down = 6,
 };
 

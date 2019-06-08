@@ -13,6 +13,7 @@
 #import "UITabBar+badge.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import "UMMobClick/MobClick.h"
+#import <Bugly/Bugly.h>
 
 @interface AppDelegate ()<CLLocationManagerDelegate,RCIMConnectionStatusDelegate,UIAlertViewDelegate,RCIMReceiveMessageDelegate,WXApiDelegate,WeiboSDKDelegate,QQApiInterfaceDelegate>
 
@@ -32,6 +33,9 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
+    
+    //bugly
+     [Bugly startWithAppId:@"0b279600f2"];
     
     //@{}代表Dictionary  设置title颜色
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1],NSFontAttributeName:[UIFont systemFontOfSize:17]}];

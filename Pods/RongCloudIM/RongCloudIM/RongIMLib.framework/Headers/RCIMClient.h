@@ -1162,7 +1162,7 @@ FOUNDATION_EXPORT NSString *const RCLibDispatchReadReceiptNotification;
 
  @param conversationType    会话类型
  @param targetId            目标会话ID
- @param objectName          消息内容的类型名
+ @param objectName          消息内容的类型名，如果想取全部类型的消息请传 nil
  @param oldestMessageId     截止的消息ID
  @param count               需要获取的消息数量
  @return                    消息实体RCMessage对象列表
@@ -1180,11 +1180,11 @@ FOUNDATION_EXPORT NSString *const RCLibDispatchReadReceiptNotification;
                           count:(int)count;
 
 /*!
- 获取会话中，从指定消息之前、指定数量的、指定消息类型、可以向前或向后查找的最新消息实体
+ 获取会话中，指定消息、指定数量、指定消息类型、向前或向后查找的消息实体列表
 
  @param conversationType    会话类型
  @param targetId            目标会话ID
- @param objectName          消息内容的类型名
+ @param objectName          消息内容的类型名，如果想取全部类型的消息请传 nil
  @param baseMessageId       当前的消息ID
  @param isForward           查询方向 true为向前，false为向后
  @param count               需要获取的消息数量
@@ -1198,6 +1198,28 @@ FOUNDATION_EXPORT NSString *const RCLibDispatchReadReceiptNotification;
                        targetId:(NSString *)targetId
                      objectName:(NSString *)objectName
                   baseMessageId:(long)baseMessageId
+                      isForward:(BOOL)isForward
+                          count:(int)count;
+
+/*!
+ 获取会话中，指定时间、指定数量、指定消息类型（多个）、向前或向后查找的消息实体列表
+ 
+ @param conversationType    会话类型
+ @param targetId            目标会话ID
+ @param objectNames         消息内容的类型名称列表
+ @param sentTime            当前的消息时间戳
+ @param isForward           查询方向 true为向前，false为向后
+ @param count               需要获取的消息数量
+ @return                    消息实体RCMessage对象列表
+ 
+ @discussion
+ 此方法会获取该会话中，sentTime之前或之后的、指定数量、指定消息类型（多个）的消息实体列表，返回的消息实体按照时间从新到旧排列。
+ 返回的消息中不包含sentTime对应的那条消息，如果会话中的消息数量小于参数count的值，会将该会话中的所有消息返回。
+ */
+- (NSArray *)getHistoryMessages:(RCConversationType)conversationType
+                       targetId:(NSString *)targetId
+                    objectNames:(NSArray *)objectNames
+                       sentTime:(long long)sentTime
                       isForward:(BOOL)isForward
                           count:(int)count;
 
@@ -1226,7 +1248,7 @@ FOUNDATION_EXPORT NSString *const RCLibDispatchReadReceiptNotification;
  
  @param conversationType    会话类型
  @param targetId            目标会话ID
- @param recordTime          清除消息截止时间戳，【0 ~ 当前时间的 Unix 时间戳】
+ @param recordTime          清除消息时间戳，【0 <= recordTime <= 当前会话最后一条消息的 sentTime,0 清除所有消息，其他值清除小于等于 recordTime 的消息】
  @param successBlock        获取成功的回调
  @param errorBlock          获取失败的回调 [status:清除失败的错误码]
  
@@ -2219,6 +2241,16 @@ FOUNDATION_EXPORT NSString *const RCLibDispatchReadReceiptNotification;
                       onQuit:(void (^)(NSString *quitMsg))quitBlock;
 
 /*!
+ 客服后台关于评价相关的客服参数配置
+ 
+ @param evaConfigBlock       客服配置回调
+ 
+ @discussion 此方法依赖startCustomerService方法，只有调用成功以后才有效。
+ @warning 如果你使用的lib，或者使用kit但想要自定义评价弹窗，可以参考相关配置绘制评价UI
+ */
+- (void)getHumanEvaluateCustomerServiceConfig:(void (^)(NSDictionary *evaConfig))evaConfigBlock;
+
+/*!
  结束客服聊天
 
  @param kefuId       客服ID
@@ -2287,11 +2319,42 @@ FOUNDATION_EXPORT NSString *const RCLibDispatchReadReceiptNotification;
 
  @warning
  如果你使用IMKit，请不要使用此方法。RCConversationViewController默认已经做了处理。
+ 
+ @warning **已废弃，请勿使用。**
+ 升级说明：如果您之前使用了此接口，可以直接替换为evaluateCustomerService:dialogId:starValue:suggest:resolveStatus:tagText:extra: 接口，行为和实现完全一致。
  */
 - (void)evaluateCustomerService:(NSString *)kefuId
                        dialogId:(NSString *)dialogId
                      humanValue:(int)value
-                        suggest:(NSString *)suggest;
+                        suggest:(NSString *)suggest
+         __deprecated_msg("已废弃，请勿使用。");
+
+/*!
+ 评价人工客服。
+ 
+ @param kefuId                客服ID
+ @param dialogId              对话ID，客服请求评价的对话ID
+ @param value                 分数，取值范围1-5
+ @param suggest               客户建议
+ @param resolveStatus         解决状态，如果没有解决状态，这里可以随意赋值，SDK不会处理
+ @param tagText               客户评价的标签
+ @param extra                 扩展内容
+ 
+ @discussion 此方法依赖startCustomerService方法。可在客服结束之前或之后调用。
+ @discussion
+ 有些客服服务商会主动邀请评价，pullEvaluationBlock会被调用到，当评价完成后调用本函数同步到服务器，dialogId填pullEvaluationBlock返回的dialogId。若是离开会话触发的评价或者在加号扩展中主动触发的评价，dialogID为nil
+ 
+ @warning
+ 如果你使用IMKit，请不要使用此方法。RCConversationViewController默认已经做了处理。
+ */
+- (void)evaluateCustomerService:(NSString *)kefuId
+                       dialogId:(NSString *)dialogId
+                      starValue:(int)value
+                        suggest:(NSString *)suggest
+                  resolveStatus:(RCCSResolveStatus)resolveStatus
+                        tagText:(NSString *)tagText
+                          extra:(NSDictionary *)extra;
+
 
 /*!
  通用客服评价，不区分机器人人工
@@ -2318,6 +2381,8 @@ FOUNDATION_EXPORT NSString *const RCLibDispatchReadReceiptNotification;
 
  @param kefuId                客服ID
  @param leaveMessageDic       客服留言信息字典，根据RCCSLeaveMessageItem中关于留言的配置存储对应的key-value
+ @param successBlock          成功回调
+ @param failureBlock          失败回调
  @discussion 此方法依赖startCustomerService方法。可在客服结束之前或之后调用。
  @discussion 如果一些值没有，可以传nil
  @warning
@@ -2396,7 +2461,9 @@ FOUNDATION_EXPORT NSString *const RCLibDispatchReadReceiptNotification;
  */
 - (void)getVendorToken:(void (^)(NSString *vendorToken))successBlock error:(void (^)(RCErrorCode nErrorCode))errorBlock;
 
-//远程推送相关设置
+/**
+ 远程推送相关设置
+ */
 @property(nonatomic, strong, readonly) RCPushProfile *pushProfile;
 
 #pragma mark - 历史消息
@@ -2417,6 +2484,14 @@ FOUNDATION_EXPORT NSString *const RCLibDispatchReadReceiptNotification;
  @return 离线消息补偿时间
  */
 - (int)getOfflineMessageDuration;
+
+/**
+ 设置集成 sdk 的用户 App 版本信息。便于融云排查问题时，作为分析依据，属于自愿行为。
+ 
+ @param  appVer   用户 APP 的版本信息。
+ */
+- (void)setAppVer:(NSString *)appVer;
+
 @end
 
 #endif
