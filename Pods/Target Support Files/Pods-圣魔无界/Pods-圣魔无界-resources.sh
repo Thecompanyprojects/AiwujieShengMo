@@ -98,6 +98,7 @@ EOM
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${PODS_ROOT}/AMap2DMap-NO-IDFA/MAMapKit.framework/AMap.bundle"
+  install_resource "${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle"
   install_resource "${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle"
   install_resource "${PODS_ROOT}/RongCloudIM/RongCloudIM/RongCloud.bundle"
   install_resource "${PODS_ROOT}/RongCloudIM/RongCloudIM/en.lproj"
@@ -108,6 +109,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "${PODS_ROOT}/AMap2DMap-NO-IDFA/MAMapKit.framework/AMap.bundle"
+  install_resource "${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle"
   install_resource "${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle"
   install_resource "${PODS_ROOT}/RongCloudIM/RongCloudIM/RongCloud.bundle"
   install_resource "${PODS_ROOT}/RongCloudIM/RongCloudIM/en.lproj"
@@ -118,6 +120,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
 fi
 if [[ "$CONFIGURATION" == "ad hoc distribution" ]]; then
   install_resource "${PODS_ROOT}/AMap2DMap-NO-IDFA/MAMapKit.framework/AMap.bundle"
+  install_resource "${PODS_ROOT}/IQKeyboardManager/IQKeyboardManager/Resources/IQKeyboardManager.bundle"
   install_resource "${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle"
   install_resource "${PODS_ROOT}/RongCloudIM/RongCloudIM/RongCloud.bundle"
   install_resource "${PODS_ROOT}/RongCloudIM/RongCloudIM/en.lproj"
