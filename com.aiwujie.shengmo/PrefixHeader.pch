@@ -74,6 +74,7 @@
 #import "SDCycleScrollView.h"
 #import "WXApi.h"
 #import "WeiboSDK.h"
+#import "Masonry.h"
 
 #import "UITableView+FDTemplateLayoutCell.h"
 

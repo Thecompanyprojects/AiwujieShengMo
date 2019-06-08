@@ -29,10 +29,20 @@
 
 -(void)setuplayout
 {
-    self.leftImg.frame = CGRectMake(12, 12, 14, 14);
-    self.nameLab.frame = CGRectMake(30, 12, 300, 14);
+    __weak typeof (self) weakSelf = self;
+    [weakSelf.leftImg mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_offset(14);
+        make.height.mas_offset(14);
+        make.left.equalTo(weakSelf).with.offset(14);
+        make.centerY.equalTo(weakSelf);
+    }];
+    [weakSelf.nameLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(weakSelf);
+        make.right.equalTo(weakSelf).with.offset(-14);
+        make.left.equalTo(weakSelf.leftImg.mas_right).with.offset(20);
+        
+    }];
 }
-
 
 #pragma mark - getters
 
