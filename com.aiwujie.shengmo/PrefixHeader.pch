@@ -19,7 +19,7 @@
 //16进制转rgb颜色的宏定义
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 //软件的版本号设置
-#define VERSION @"V2.6.1"
+#define VERSION @"V2.6.6"
 //获取设备的系统版本
 #define PHONEVERSION [[UIDevice currentDevice] systemVersion]
 //判断设备是否是iPhone X
@@ -54,13 +54,15 @@
 #define HEIGHTRADIO [UIScreen mainScreen].bounds.size.height/568
 
 //男的图标背景颜色
-#define BOYCOLOR [UIColor colorWithHexString:@"#51c3ff" alpha:1]
-
+//#define BOYCOLOR [UIColor colorWithHexString:@"#51c3ff" alpha:1]
+#define BOYCOLOR [UIColor colorWithHexString:@"#96d6ff" alpha:1]
 //女的图标背景颜色
-#define GIRLECOLOR [UIColor colorWithHexString:@"#f56684" alpha:1]
+//#define GIRLECOLOR [UIColor colorWithHexString:@"#f56684" alpha:1]
+#define GIRLECOLOR [UIColor colorWithHexString:@"#ffacc0" alpha:1]
 
 //cd的图标背景颜色
-#define CDCOLOR [UIColor colorWithHexString:@"#c450d6" alpha:1]
+//#define CDCOLOR [UIColor colorWithHexString:@"#c450d6" alpha:1]
+#define CDCOLOR [UIColor colorWithHexString:@"#e7aaee" alpha:1]
 
 #import "LDAFManager.h"
 #import "AFNetworking.h"
