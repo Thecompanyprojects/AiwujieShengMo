@@ -267,8 +267,8 @@
         
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
         
-        cell.detailTextLabel.text = VERSION;
-        
+        //cell.detailTextLabel.text = VERSION;
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"v%@", [[[NSBundle mainBundle]infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
         cell.imageView.image = [UIImage imageNamed:_dataArray[indexPath.section][indexPath.row]];
         
         cell.detailTextLabel.font = [UIFont italicSystemFontOfSize:12];//设置字体为斜体
