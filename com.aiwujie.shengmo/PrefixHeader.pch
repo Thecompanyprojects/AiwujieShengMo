@@ -64,6 +64,9 @@
 //#define CDCOLOR [UIColor colorWithHexString:@"#c450d6" alpha:1]
 #define CDCOLOR [UIColor colorWithHexString:@"#e7aaee" alpha:1]
 
+//绿色图标背景颜色
+#define GREENCOLORS [UIColor colorWithHexString:@"#ade489" alpha:1]
+
 #import "LDAFManager.h"
 #import "AFNetworking.h"
 #import <RongIMKit/RongIMKit.h>
@@ -75,6 +78,7 @@
 #import "WXApi.h"
 #import "WeiboSDK.h"
 #import "Masonry.h"
+#import "NetManager.h"
 
 #import "UITableView+FDTemplateLayoutCell.h"
 

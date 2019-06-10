@@ -245,6 +245,7 @@
 		00FC749A1E1554C5005A6137 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 00FC74961E1554C5005A6137 /* LICENSE */; };
 		00FC749B1E1554C5005A6137 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 00FC74981E1554C5005A6137 /* MBProgressHUD.m */; };
 		00FE865F1E38EF7B0056877E /* LDShengMoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00FE865E1E38EF7B0056877E /* LDShengMoViewController.m */; };
+		5372254B22ABF8E30082472A /* NetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5372254922ABF8E30082472A /* NetManager.m */; };
 		53E8CDC022A93E2D007E5073 /* LDharassmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDBF22A93E2D007E5073 /* LDharassmentVC.m */; };
 		53E8CDC322A93EED007E5073 /* LDharassmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDC222A93EED007E5073 /* LDharassmentCell.m */; };
 		D20016D01F46C4160045D0A2 /* TAAbstractDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D20016C31F46C4160045D0A2 /* TAAbstractDotView.m */; };
@@ -840,6 +841,8 @@
 		00FE865E1E38EF7B0056877E /* LDShengMoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDShengMoViewController.m; sourceTree = "<group>"; };
 		3B852FF7576E22B2E72ABEDA /* Pods-圣魔无界.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-圣魔无界.release.xcconfig"; path = "Pods/Target Support Files/Pods-圣魔无界/Pods-圣魔无界.release.xcconfig"; sourceTree = "<group>"; };
 		465F08B408D1E0EFBA3B8754 /* Pods-圣魔无界.ad hoc distribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-圣魔无界.ad hoc distribution.xcconfig"; path = "Pods/Target Support Files/Pods-圣魔无界/Pods-圣魔无界.ad hoc distribution.xcconfig"; sourceTree = "<group>"; };
+		5372254922ABF8E30082472A /* NetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetManager.m; sourceTree = "<group>"; };
+		5372254A22ABF8E30082472A /* NetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetManager.h; sourceTree = "<group>"; };
 		53E8CDBE22A93E2D007E5073 /* LDharassmentVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDharassmentVC.h; sourceTree = "<group>"; };
 		53E8CDBF22A93E2D007E5073 /* LDharassmentVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDharassmentVC.m; sourceTree = "<group>"; };
 		53E8CDC122A93EED007E5073 /* LDharassmentCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDharassmentCell.h; sourceTree = "<group>"; };
@@ -1855,6 +1858,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		5372254822ABF8E30082472A /* NetWorking */ = {
+			isa = PBXGroup;
+			children = (
+				5372254A22ABF8E30082472A /* NetManager.h */,
+				5372254922ABF8E30082472A /* NetManager.m */,
+			);
+			path = NetWorking;
+			sourceTree = "<group>";
+		};
 		53E8CDBD22A93DE5007E5073 /* 防骚扰 */ = {
 			isa = PBXGroup;
 			children = (
@@ -1938,6 +1950,7 @@
 		D200962E1F302D5D00673C40 /* tools */ = {
 			isa = PBXGroup;
 			children = (
+				5372254822ABF8E30082472A /* NetWorking */,
 				D232FA5B1E73C11C001D4018 /* WUGestureUnlockView */,
 				00E2F7BD1E02BEC800908B5B /* PrefixHeader.pch */,
 				D25212DC1FAD556400A8A3A4 /* 提示框工具 */,
@@ -3395,6 +3408,7 @@
 				00F9BD691E227DEC00F5CD18 /* LDSetBankCardViewController.m in Sources */,
 				D220579D201ACD3F00B231C0 /* UILabel+HeightForAttributedString.m in Sources */,
 				D2197D8E1FBE812F00723093 /* LDWarnPersonViewController.m in Sources */,
+				5372254B22ABF8E30082472A /* NetManager.m in Sources */,
 				004D014A1E373F6700EF5135 /* LDMoreTopicViewController.m in Sources */,
 				000BFA0C1E04106900E23998 /* LDEmailRegisterViewController.m in Sources */,
 				000528BD1E265D1B00CCBB1B /* PersonChatViewController.m in Sources */,

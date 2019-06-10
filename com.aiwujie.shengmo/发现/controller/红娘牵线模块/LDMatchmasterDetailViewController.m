@@ -432,8 +432,7 @@
     }else{
         
         sexualLabel.text = @"~";
-        
-        sexualLabel.backgroundColor = [UIColor colorWithRed:84/255.0 green:185/255.0 blue:36/255.0 alpha:1];
+        sexualLabel.backgroundColor = GREENCOLORS;
     }
     sexualLabel.font = [UIFont systemFontOfSize:10];
     sexualLabel.layer.cornerRadius = 2;

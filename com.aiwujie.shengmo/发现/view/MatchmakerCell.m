@@ -72,10 +72,9 @@
     }else{
         
         self.sexualLabel.text = @"~";
-        
-        self.sexualLabel.backgroundColor = [UIColor colorWithRed:84/255.0 green:185/255.0 blue:36/255.0 alpha:1];
+        self.sexualLabel.backgroundColor = GREENCOLORS;
     }
-    
+
     if ([_model.sex intValue] == 1) {
         
         self.sexImageView.image = [UIImage imageNamed:@"男"];
