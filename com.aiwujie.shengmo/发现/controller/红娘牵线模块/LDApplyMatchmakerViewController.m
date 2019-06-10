@@ -12,7 +12,7 @@
 #import "PersonChatViewController.h"
 #import "ApplyMatchmakerCell.h"
 #import "ApplyMatchMakerModel.h"
-
+#import "LDOwnInformationViewController.h"
 
 @interface LDApplyMatchmakerViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate>
 
@@ -1033,14 +1033,19 @@
 
     if (button.tag - 9 <= _serviceArray.count) {
         
-        PersonChatViewController *conversationVC = [[PersonChatViewController alloc]init];
-        conversationVC.conversationType = ConversationType_PRIVATE;
-        conversationVC.targetId = [NSString stringWithFormat:@"%@",_serviceArray[button.tag - 10][@"uid"]];
-        conversationVC.mobile = [NSString stringWithFormat:@"%@",_serviceArray[button.tag - 10][@"uid"]];
-        conversationVC.title = [NSString stringWithFormat:@"%@",_serviceArray[button.tag - 10][@"nickname"]];
-        //conversationVC.unReadMessage = model.unreadMessageCount;
-        conversationVC.enableUnreadMessageIcon = YES;
-        [self.navigationController pushViewController:conversationVC animated:YES];
+//        PersonChatViewController *conversationVC = [[PersonChatViewController alloc]init];
+//        conversationVC.conversationType = ConversationType_PRIVATE;
+//        conversationVC.targetId = [NSString stringWithFormat:@"%@",_serviceArray[button.tag - 10][@"uid"]];
+//        conversationVC.mobile = [NSString stringWithFormat:@"%@",_serviceArray[button.tag - 10][@"uid"]];
+//        conversationVC.title = [NSString stringWithFormat:@"%@",_serviceArray[button.tag - 10][@"nickname"]];
+//        //conversationVC.unReadMessage = model.unreadMessageCount;
+//        conversationVC.enableUnreadMessageIcon = YES;
+//        [self.navigationController pushViewController:conversationVC animated:YES];
+        
+        LDOwnInformationViewController *InfoVC = [LDOwnInformationViewController new];
+        InfoVC.userID = [NSString stringWithFormat:@"%@",_serviceArray[button.tag - 10][@"uid"]];
+        [self.navigationController pushViewController:InfoVC animated:YES];
+        
         
     }else{
         

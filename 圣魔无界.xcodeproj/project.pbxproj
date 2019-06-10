@@ -251,6 +251,7 @@
 		531D738722AE0A3600903BB4 /* LDpermissionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D738622AE0A3600903BB4 /* LDpermissionsVC.m */; };
 		531D738A22AE0DDA00903BB4 /* LDpermissionsVCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D738922AE0DDA00903BB4 /* LDpermissionsVCCell.m */; };
 		531D738D22AE142E00903BB4 /* LDBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D738C22AE142E00903BB4 /* LDBaseViewController.m */; };
+		531D739022AE3AC400903BB4 /* UIButton+ImageTitleSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D738F22AE3AC400903BB4 /* UIButton+ImageTitleSpace.m */; };
 		5372254B22ABF8E30082472A /* NetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5372254922ABF8E30082472A /* NetManager.m */; };
 		53E8CDC022A93E2D007E5073 /* LDharassmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDBF22A93E2D007E5073 /* LDharassmentVC.m */; };
 		53E8CDC322A93EED007E5073 /* LDharassmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDC222A93EED007E5073 /* LDharassmentCell.m */; };
@@ -859,6 +860,8 @@
 		531D738922AE0DDA00903BB4 /* LDpermissionsVCCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDpermissionsVCCell.m; sourceTree = "<group>"; };
 		531D738B22AE142E00903BB4 /* LDBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDBaseViewController.h; sourceTree = "<group>"; };
 		531D738C22AE142E00903BB4 /* LDBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDBaseViewController.m; sourceTree = "<group>"; };
+		531D738E22AE3AC400903BB4 /* UIButton+ImageTitleSpace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+ImageTitleSpace.h"; sourceTree = "<group>"; };
+		531D738F22AE3AC400903BB4 /* UIButton+ImageTitleSpace.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+ImageTitleSpace.m"; sourceTree = "<group>"; };
 		5372254922ABF8E30082472A /* NetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetManager.m; sourceTree = "<group>"; };
 		5372254A22ABF8E30082472A /* NetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetManager.h; sourceTree = "<group>"; };
 		53E8CDBE22A93E2D007E5073 /* LDharassmentVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDharassmentVC.h; sourceTree = "<group>"; };
@@ -3028,6 +3031,8 @@
 				D2B5DDE71F9DE03900BE6B1B /* UIViewController+LDViewH.m */,
 				D220579B201ACD3F00B231C0 /* UILabel+HeightForAttributedString.h */,
 				D220579C201ACD3F00B231C0 /* UILabel+HeightForAttributedString.m */,
+				531D738E22AE3AC400903BB4 /* UIButton+ImageTitleSpace.h */,
+				531D738F22AE3AC400903BB4 /* UIButton+ImageTitleSpace.m */,
 			);
 			name = category;
 			sourceTree = "<group>";
@@ -3593,6 +3598,7 @@
 				0013A9481E2A5DA5003647EE /* LDConnectUsViewController.m in Sources */,
 				D2C0F1AB1EFBA8740038652F /* LDGiveGifListPageViewController.m in Sources */,
 				00F79B9A1E27A476001C7593 /* LDBillViewController.m in Sources */,
+				531D739022AE3AC400903BB4 /* UIButton+ImageTitleSpace.m in Sources */,
 				D20096331F3067CF00673C40 /* LDAlertOtherDynamicViewController.m in Sources */,
 				D20152801EB09E200084D800 /* LDHomePageViewController.m in Sources */,
 				D286FC491EEE75E700B6FC68 /* UICKeyChainStore.m in Sources */,

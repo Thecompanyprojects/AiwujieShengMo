@@ -34,6 +34,7 @@
 #import "LDChargeCenterViewController.h"
 #import "LDLookGifListViewController.h"
 #import <Accelerate/Accelerate.h>
+#import "UIButton+ImageTitleSpace.h"
 
 @interface LDOwnInformationViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIScrollViewDelegate,StampChatDelete,YBAttributeTapActionDelegate>
 
@@ -299,6 +300,11 @@
 //记录状态
 @property (nonatomic,assign) BOOL isRecord;
 
+//图片是否可见
+@property (nonatomic,assign) BOOL islockPhoto;
+
+@property (nonatomic,strong) UIButton *leftBtn;
+@property (nonatomic,strong) UIButton *rightBtn;
 @end
 
 @implementation LDOwnInformationViewController
@@ -308,10 +314,8 @@
     [super viewWillAppear:animated];
     
     if ([self.userID intValue] == [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]) {
-    
         //获取判断是否可以发布动态的状态
         [self createPublishCommentData];
-        
     }
 }
 
@@ -537,11 +541,8 @@
     }
     
     self.tableView.delegate = self;
-    
     self.tableView.dataSource = self;
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     self.tableView.showsHorizontalScrollIndicator = NO;
 }
 
@@ -563,7 +564,6 @@
     
     return 80;
 }
-
 
 - (IBAction)attentionButtonClick:(id)sender {
     
@@ -590,7 +590,6 @@
     
     
 }
-
 
 - (IBAction)fansButtonClick:(id)sender {
     
@@ -634,9 +633,7 @@
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/judgeDynamicNewrd"];
     
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    
-    //    NSLog(@"%@",role);
-    
+
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
@@ -1354,11 +1351,7 @@
     NSDictionary *parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"uid":self.userID};
     
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //                NSLog(@"%@",responseObject);
-        
         if (integer != 2000) {
             
             [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -1395,8 +1388,6 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //                NSLog(@"%@",responseObject);
         
         if (integer != 2000) {
             
@@ -2289,9 +2280,7 @@
             self.introduceTopLineH.constant = 25;
             
             self.introduceTopLineLabel.hidden = NO;
-            
-//            if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue] == 1 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue] == 1 || [responseObject[@"data"][@"follow_state"] intValue] == 3 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"realname"] intValue] == 1) {
-            
+
             self.introduceWarnLabel.hidden = YES;
             
             self.introduceLabel.text = responseObject[@"data"][@"introduce"];
@@ -2319,32 +2308,6 @@
                 self.introduceH.constant = self.introduceLabel.frame.size.height + extraH + 20;
                 
             }
-                
-//            }else{
-//
-//                self.introduceH.constant = introduceLabelH;
-//
-//                self.introduceWarnH.constant = introduceLabelH;
-//
-//                self.introduceWarnLabel.hidden = NO;
-//
-//                self.introduceLabel.text = @"";
-//
-//                // 调整行间距
-//                NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.introduceWarnLabel.text];
-//                NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-//                [paragraphStyle setLineSpacing:0];
-//                [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [self.introduceWarnLabel.text length])];
-//                [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(0, [self.introduceWarnLabel.text length])];
-//                [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:183/255.0 green:53/255.0 blue:208/255.0 alpha:1] range:NSMakeRange(5, 4)];
-//                [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:183/255.0 green:53/255.0 blue:208/255.0 alpha:1] range:NSMakeRange(10, 4)];
-//                [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:183/255.0 green:53/255.0 blue:208/255.0 alpha:1] range:NSMakeRange(15, 5)];
-//                self.introduceWarnLabel.attributedText = attributedString;
-//
-//                [self.introduceWarnLabel yb_addAttributeTapActionWithStrings:@[@"互为好友",@"VIP会员",@"认证用户"] delegate:self];
-//                self.introduceWarnLabel.enabledTapEffect = NO;
-//
-//            }
         }
     }
     
@@ -2360,19 +2323,16 @@
     int picScrollH = (WIDTH - 3 * bothPicSpace)/3.5;
     CGFloat picViewH = picScrollH + 4 * bothPicSpace;
     CGFloat picScrollY = (picViewH - picScrollH)/2;
-
     
     if (_scrollView == nil) {
-        
         _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, picScrollY, WIDTH, picScrollH)];
-        
         [_picBackView addSubview:_scrollView];
     }
 
+
+    
     for (UIImageView *view in _scrollView.subviews) {
-        
         if ([view isKindOfClass:[UIImageView class]]) {
-            
             [view removeFromSuperview];
         }
     }
@@ -2380,26 +2340,22 @@
     //如果是自己查看自己的资料可以添加图片
     if ([responseObject[@"data"][@"uid"] intValue] == [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]) {
         
+        self.picH.constant = picViewH + self.introduceTopLineH.constant;
+        
         if ([responseObject[@"data"][@"photo"] count] == 0) {
             
-            self.picH.constant = picViewH + self.introduceTopLineH.constant;
-            
+           // self.picH.constant = picViewH + self.introduceTopLineH.constant;
             UIButton *addButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, picScrollH, picScrollH)];
-            
             [addButton setBackgroundImage:[UIImage imageNamed:@"添加图片"] forState:UIControlStateNormal];
-            
             [addButton addTarget:self action:@selector(addButtonClick) forControlEvents:UIControlEventTouchUpInside];
-            
             [_scrollView addSubview:addButton];
+            
             
         }else{
             
             _lock = responseObject[@"data"][@"photo_lock"];
-            
-            self.picH.constant = picViewH + self.introduceTopLineH.constant;
-            
+           // self.picH.constant = picViewH + self.introduceTopLineH.constant;
             _scrollView.contentSize = CGSizeMake(picScrollH * [responseObject[@"data"][@"photo"] count] + bothPicSpace * ([responseObject[@"data"][@"photo"] count] - 1), picScrollH);
-            
             [self createShowPicView:responseObject[@"data"][@"photo"] andPicScrollH:picScrollH andBothPicSpace:bothPicSpace andType:1];
         }
         
@@ -2562,9 +2518,6 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//                NSLog(@"%@",responseObject);
-        
         if (integer != 2000) {
             
             if (integer == 4001) {
@@ -3847,20 +3800,33 @@
     }];
 }
 
+#pragma mark - 是否展示图片
+-(void)chooseshowphotoLeftClick
+{
+    self.islockPhoto = NO;
+    UIButton *btn0 = [self.tableView viewWithTag:101];
+    UIButton *btn1 = [self.tableView viewWithTag:102];
+    [btn0 setImage:[UIImage imageNamed:@"照片认证实圈"] forState:normal];
+    [btn1 setImage:[UIImage imageNamed:@"照片认证空圈"] forState:normal];
+    [self.tableView reloadData];
+}
+
+-(void)chooseshowphotoRightClick
+{
+    self.islockPhoto = YES;
+    UIButton *btn0 = [self.tableView viewWithTag:101];
+    UIButton *btn1 = [self.tableView viewWithTag:102];
+    [btn0 setImage:[UIImage imageNamed:@"照片认证空圈"] forState:normal];
+    [btn1 setImage:[UIImage imageNamed:@"照片认证实圈"] forState:normal];
+    [self.tableView reloadData];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

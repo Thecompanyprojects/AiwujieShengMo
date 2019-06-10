@@ -22,6 +22,7 @@
 #import "TZAssetModel.h"
 #import "LDPrivacyPhotoViewController.h"
 #import "LDAlertNameandIntroduceViewController.h"
+#import "UIButton+ImageTitleSpace.h"
 
 @interface LDEditViewController ()<TZImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate,UINavigationControllerDelegate,UITextViewDelegate,UITableViewDataSource,UITableViewDelegate,RegisterNextCellDelegate,UIPickerViewDelegate,UIPickerViewDataSource,LDIamCellDelegate,UIImagePickerControllerDelegate>{
     
@@ -123,6 +124,8 @@
 
 @property (nonatomic,strong) UIButton * rightButton;
 
+//是否显示图片
+@property (nonatomic,assign) BOOL isshowPhoto;
 @end
 
 @implementation LDEditViewController
@@ -220,8 +223,6 @@
     [manager POST:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getmineinfodetailnew"] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//        NSLog(@"%@",responseObject);
         
         if (integer != 2000) {
             
@@ -399,22 +400,22 @@
         
         if (_selectedPhotos.count == 6) {
             
-            self.backGroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 149 + (_selectedPhotos.count/3) * _itemWH + (_selectedPhotos.count/3) * _margin)];
+            self.backGroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 40+149 + (_selectedPhotos.count/3) * _itemWH + (_selectedPhotos.count/3) * _margin)];
             
         }else{
             
-            self.backGroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 149 + (_selectedPhotos.count/3 + 1) * _itemWH + (_selectedPhotos.count/3 + 1) * _margin)];
+            self.backGroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 40+149 + (_selectedPhotos.count/3 + 1) * _itemWH + (_selectedPhotos.count/3 + 1) * _margin)];
         }
         
     }else{
         
         if (_selectedPhotos.count == 15) {
             
-            self.backGroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 149 + (_selectedPhotos.count/3) * _itemWH + (_selectedPhotos.count/3) * _margin)];
+            self.backGroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 40+149 + (_selectedPhotos.count/3) * _itemWH + (_selectedPhotos.count/3) * _margin)];
             
         }else{
             
-            self.backGroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 149 + (_selectedPhotos.count/3 + 1) * _itemWH + (_selectedPhotos.count/3 + 1) * _margin)];
+            self.backGroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 40+149 + (_selectedPhotos.count/3 + 1) * _itemWH + (_selectedPhotos.count/3 + 1) * _margin)];
         }
     }
     
@@ -513,6 +514,74 @@
     _picButton.titleLabel.font = [UIFont systemFontOfSize:15];
     [_picBackView addSubview:_picButton];
 
+    
+    UIButton *leftBtn = [UIButton new];
+    UIButton *rightBtn = [UIButton new];
+    
+    [_backGroundView addSubview:leftBtn];
+    [_backGroundView addSubview:rightBtn];
+    
+    //是否展示图片
+    
+    [leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.pickerView);
+        make.top.equalTo(self.collectionView.mas_bottom).with.offset(6);
+        make.width.mas_offset(WIDTH/2);
+        make.height.mas_offset(20);
+    }];
+    [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.pickerView);
+        make.top.equalTo(leftBtn);
+        make.width.mas_offset(WIDTH/2);
+        make.height.mas_offset(20);
+    }];
+    
+//    if (self.isshowPhoto) {
+//        [leftBtn setImage:[UIImage imageNamed:@"照片认证空圈"] forState:normal];
+//        [rightBtn setImage:[UIImage imageNamed:@"照片认证实圈"] forState:normal];
+//    }
+//    else
+//    {
+        [rightBtn setImage:[UIImage imageNamed:@"照片认证空圈"] forState:normal];
+        [leftBtn setImage:[UIImage imageNamed:@"照片认证实圈"] forState:normal];
+   // }
+    
+    [leftBtn setTitle:@"所有人可见" forState:normal];
+    [rightBtn setTitle:@"好友/会员可见" forState:normal];
+    [leftBtn setTitleColor:[UIColor blackColor] forState:normal];
+    [rightBtn setTitleColor:[UIColor blackColor] forState:normal];
+    leftBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    rightBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    
+    [leftBtn addTarget:self action:@selector(chooseshowphotoLeftClick) forControlEvents:UIControlEventTouchUpInside];
+    [rightBtn addTarget:self action:@selector(chooseshowphotoRightClick) forControlEvents:UIControlEventTouchUpInside];
+    
+    [leftBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:5];
+    [rightBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:5];
+    leftBtn.tag = 101;
+    rightBtn.tag = 102;
+}
+
+#pragma mark - 图片是否显示
+
+-(void)chooseshowphotoLeftClick
+{
+    self.isshowPhoto = NO;
+    UIButton *btn0 = [self.tableView viewWithTag:101];
+    UIButton *btn1 = [self.tableView viewWithTag:102];
+    [btn0 setImage:[UIImage imageNamed:@"照片认证实圈"] forState:normal];
+    [btn1 setImage:[UIImage imageNamed:@"照片认证空圈"] forState:normal];
+    [self.tableView reloadData];
+}
+
+-(void)chooseshowphotoRightClick
+{
+    self.isshowPhoto = YES;
+    UIButton *btn0 = [self.tableView viewWithTag:101];
+    UIButton *btn1 = [self.tableView viewWithTag:102];
+    [btn1 setImage:[UIImage imageNamed:@"照片认证实圈"] forState:normal];
+    [btn0 setImage:[UIImage imageNamed:@"照片认证空圈"] forState:normal];
+    [self.tableView reloadData];
 }
 
 -(void)picButtonClick{
@@ -594,7 +663,6 @@
     [picker dismissViewControllerAnimated:YES completion:nil];
     
 }
-
 
 -(void)createTableView{
     
@@ -1199,7 +1267,6 @@
 #pragma mark - 该方法的返回值决定该控件包含多少列
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView*)pickerView
 {
-    
     return 4;
 }
 
@@ -1210,9 +1277,7 @@
 
 #pragma mark - 该方法的返回值决定该控件指定列包含多少个列表项
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
-    
-    //    NSLog(@"%@",_heightArray);
-    
+
     if (component == 0) {
         
         return _heightArray.count;
@@ -1286,7 +1351,6 @@
     }
     
 }
-
 
 - (void)cancleButtonClick {
     
@@ -1528,7 +1592,7 @@
                 [self pushImagePickerController];
             }];
             
-            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:^(UIAlertAction *action) {
                 
             }];
             
