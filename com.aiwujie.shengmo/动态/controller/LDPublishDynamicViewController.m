@@ -211,7 +211,7 @@
     self.publishView.backgroundColor = [UIColor whiteColor];
     self.publishView.frame = CGRectMake(0, CGRectGetMaxY(self.backView.frame), WIDTH, 203);
     
-    _textView = [[UITextView alloc] initWithFrame:CGRectMake(8, 8, WIDTH - 16, 162)];
+    _textView = [[UITextView alloc] initWithFrame:CGRectMake(8, 8, WIDTH - 16, 182)];
      self.textView.contentInset = UIEdgeInsetsMake(-8.f, 0.f, 0.f, 0.f);
     _textView.font = [UIFont systemFontOfSize:14];
     _textView.delegate = self;

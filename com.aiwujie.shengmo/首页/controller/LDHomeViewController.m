@@ -1278,10 +1278,12 @@
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"searchSwitch"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"searchSwitch"] integerValue] == 0) {
         
         _openLabel.text = @"未开启";
+        _openLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
         
     }else{
         
         _openLabel.text = @"已开启";
+        _openLabel.textColor = MainColor;
     }
 
     if (_isSelect == NO) {
@@ -1358,7 +1360,7 @@
             searchLabel.font = [UIFont systemFontOfSize:15];
             
             searchLabel.textColor = [UIColor colorWithRed:100/255.0 green:100/255.0 blue:100/255.0 alpha:1];
-            
+ 
             [searchView addSubview:searchLabel];
             
             //点击事件
@@ -1382,6 +1384,7 @@
                 [searchButton setImage:[UIImage imageNamed:imageArray[i][j]] forState:UIControlStateNormal];
                 
                 [searchButton setTitleColor:[UIColor colorWithRed:100/255.0 green:100/255.0 blue:100/255.0 alpha:1] forState:UIControlStateNormal];
+
                 
                 searchButton.tag = 20 + j;
                 
@@ -1439,17 +1442,15 @@
                 
                 _openLabel.text = @"未开启";
                 
+                _openLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
+                
             }else{
             
                 _openLabel.text = @"已开启";
+                _openLabel.textColor = MainColor;
             }
-            
-            _openLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1];
-            
             _openLabel.font = [UIFont systemFontOfSize:15];
-            
             [searchView addSubview:_openLabel];
-
         }
     }
 }
@@ -1798,7 +1799,7 @@
 
     if (button.tag == 11) {
         
-        _searchLabel.textColor = CDCOLOR;
+        _searchLabel.textColor = MainColor;
         
         for (int i = 20; i < 24; i++) {
             
@@ -1815,7 +1816,7 @@
             
             if (btn.tag == button.tag) {
                 
-                [button setTitleColor:CDCOLOR forState:UIControlStateNormal];
+                [button setTitleColor:MainColor forState:UIControlStateNormal];
                 
             }else{
             

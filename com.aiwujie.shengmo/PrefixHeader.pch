@@ -67,6 +67,9 @@
 //绿色图标背景颜色
 #define GREENCOLORS [UIColor colorWithHexString:@"#ade489" alpha:1]
 
+//main 紫色
+#define MainColor [UIColor colorWithHexString:@"#B73ACB" alpha:1]
+
 #import "LDAFManager.h"
 #import "AFNetworking.h"
 #import <RongIMKit/RongIMKit.h>
