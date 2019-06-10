@@ -91,40 +91,6 @@
 
 }
 
-- (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView{
-    
-    return YES;
-}
-
-
--(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    
-    if (scrollView == _tableView) {
-        
-        if (scrollView.contentOffset.y > 0) {
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"显示置顶附近按钮" object:nil];
-        }
-        
-        if (scrollView.contentOffset.y == 0) {
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"隐藏置顶附近按钮" object:nil];
-        }
-
-    }else if (scrollView == _collectionView){
-    
-        if (scrollView.contentOffset.y > 0) {
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"显示置顶附近按钮" object:nil];
-        }
-        
-        if (scrollView.contentOffset.y == 0) {
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"隐藏置顶附近按钮" object:nil];
-        }
-    }
-    
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -245,39 +211,18 @@
  */
 -(void)createHeaderViewData{
     
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Other/getSlideMore"];
-    
     NSDictionary *parameters = @{@"type":@"1"};
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //                        NSLog(@"%@",responseObject);
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            
-           [self createTableAndCollectView];
-            
-        }else{
-            
-//            _pathString = responseObject[@"data"][@"path"];
-//
-//            _urlString = responseObject[@"data"][@"url"];
-//
-//            _titleString = responseObject[@"data"][@"title"];
-            
-            [_slideArray addObjectsFromArray:responseObject[@"data"]];
-            
             [self createTableAndCollectView];
-            
+        }else{
+            [_slideArray addObjectsFromArray:responseObj[@"data"]];
+            [self createTableAndCollectView];
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-       [self createTableAndCollectView];
+    } failed:^(NSString *errorMsg) {
+        [self createTableAndCollectView];
     }];
 }
 
@@ -350,13 +295,10 @@
         self.tableView.hidden = YES;
         
     }else{
-        
         self.collectionView.hidden = YES;
-        
         self.tableView.hidden = NO;
         
     }
-
 }
 
 /**
@@ -1587,6 +1529,41 @@
     [self.navigationController pushViewController:svc animated:YES];
 }
 
+- (BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView{
+    
+    return YES;
+}
+
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    
+    if (scrollView == _tableView) {
+        
+        if (scrollView.contentOffset.y > 0) {
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"显示置顶附近按钮" object:nil];
+        }
+        
+        if (scrollView.contentOffset.y == 0) {
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"隐藏置顶附近按钮" object:nil];
+        }
+        
+    }else if (scrollView == _collectionView){
+        
+        if (scrollView.contentOffset.y > 0) {
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"显示置顶附近按钮" object:nil];
+        }
+        
+        if (scrollView.contentOffset.y == 0) {
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"隐藏置顶附近按钮" object:nil];
+        }
+    }
+    
+}
+
+
 -(void)dealloc{
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -1597,14 +1574,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

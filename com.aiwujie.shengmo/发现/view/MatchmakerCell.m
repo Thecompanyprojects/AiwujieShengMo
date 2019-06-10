@@ -58,44 +58,31 @@
         self.sexualLabel.backgroundColor = BOYCOLOR;
         
     }else if ([_model.role isEqualToString:@"M"]){
-        
         self.sexualLabel.text = @"慕";
-        
         self.sexualLabel.backgroundColor = GIRLECOLOR;
-        
     }else if([_model.role isEqualToString:@"SM"]){
-        
         self.sexualLabel.text = @"双";
-        
         self.sexualLabel.backgroundColor = CDCOLOR;
-        
     }else{
         
         self.sexualLabel.text = @"~";
         self.sexualLabel.backgroundColor = GREENCOLORS;
     }
-
     if ([_model.sex intValue] == 1) {
         
         self.sexImageView.image = [UIImage imageNamed:@"男"];
-        
         self.ageSexView.backgroundColor = BOYCOLOR;
         
     }else if ([_model.sex intValue] == 2){
-        
         self.sexImageView.image = [UIImage imageNamed:@"女"];
-        
         self.ageSexView.backgroundColor = GIRLECOLOR;
         
     }else{
         
         self.sexImageView.image = [UIImage imageNamed:@"双性"];
-        
         self.ageSexView.backgroundColor = CDCOLOR;
     }
-    
     self.ageLabel.text = [NSString stringWithFormat:@"%@",_model.age];
-    
     if (model.province.length != 0) {
         
         self.cityLabel.text = [NSString stringWithFormat:@"%@",model.province];

@@ -24,6 +24,7 @@
 #import "UITabBar+badge.h"
 #import "AppDelegate.h"
 #import "LDharassmentVC.h"
+#import "NewldprovacyVC.h"
 
 @interface LDSetViewController ()<UITableViewDelegate,UITableViewDataSource,TencentSessionDelegate>{
     
@@ -599,11 +600,12 @@
         }else if(indexPath.row == 1){
             
           
-            LDProvacyViewController *pvc = [[LDProvacyViewController alloc] init];
+//            LDProvacyViewController *pvc = [[LDProvacyViewController alloc] init];
+//
+//            [self.navigationController pushViewController:pvc animated:YES];
             
-            [self.navigationController pushViewController:pvc animated:YES];
-            
-            
+            NewldprovacyVC *vc = [NewldprovacyVC new];
+            [self.navigationController pushViewController:vc animated:YES];
             
         }else if(indexPath.row == 2){
             

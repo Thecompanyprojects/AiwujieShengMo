@@ -229,32 +229,22 @@
 //        NSLog(@"%@",error);
         
     }];
-
 }
 
 -(void)signButtonOnClick{
-
     LDCollectionDynamicViewController *dvc = [[LDCollectionDynamicViewController alloc] init];
-    
     dvc.title = @"我的收藏";
-    
     [self.navigationController pushViewController:dvc animated:YES];
 }
 
 -(void)createHeadData{
 
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Other/getSlideMore"];
-    
     NSDictionary *parameters = @{@"type":@"4"};
-    
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-       // NSLog(@"%@",responseObject);
-        
         if (integer != 2000) {
             
             self.headerH.constant = 0;

@@ -23,11 +23,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *privacyButton;
 
 @property (nonatomic,copy) NSString *attentString;
-
 @property (nonatomic,copy) NSString *groupString;
-
 @property (nonatomic,copy) NSString *loginTimeString;
-
 @property (nonatomic,copy) NSString *statusString;
 
 @end
@@ -37,28 +34,21 @@
 -(void)viewWillAppear:(BOOL)animated{
 
     [super viewWillAppear:animated];
-    
     [self createAlertStatusData];
 }
 
 -(void)createAlertStatusData{
 
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getSecretSit"];
-    
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
         
-        //        NSLog(@"%@",responseObject);
-        
         if (integer != 2000) {
             
             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-            
             
         }else{
             
@@ -108,7 +98,6 @@
     }
 }
 
-
 -(void)createStatusData{
 
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
@@ -121,13 +110,10 @@
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
         
-//        NSLog(@"%@",responseObject);
-        
         if (integer != 2000) {
             
             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
 
-            
         }else{
             
             if ([responseObject[@"data"][@"follow_list_switch"] intValue] == 0) {
@@ -211,6 +197,7 @@
         
     }
 }
+
 - (IBAction)groupSwitchClick:(id)sender {
     
     if ([_groupString intValue] == 0) {
@@ -226,6 +213,7 @@
         _groupString = @"0";
     }
 }
+
 - (IBAction)hideLocationSwitch:(id)sender {
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
@@ -242,6 +230,7 @@
     }
     
 }
+
 - (IBAction)hideLoginTimeSwitch:(id)sender {
     
     if ([_loginTimeString intValue] == 0) {
@@ -260,6 +249,7 @@
 
     
 }
+
 - (IBAction)blackButtonClick:(id)sender {
     
     LDBlackListViewController *bvc = [[LDBlackListViewController alloc] init];
@@ -289,27 +279,19 @@
 }
 
 -(void)createButton{
-
     UIButton * areaButton = [[UIButton alloc] initWithFrame:CGRectMake(16, 36, 10, 14)];
-    
     if (@available(iOS 11.0, *)) {
-        
         [areaButton setImage:[UIImage imageNamed:@"back-11"] forState:UIControlStateNormal];
-        
     }else{
         
         [areaButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     }
-    
     [areaButton addTarget:self action:@selector(backButtonOnClick) forControlEvents:UIControlEventTouchUpInside];
     
     UIBarButtonItem* leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:areaButton];
-    
     if (@available(iOS 11.0, *)) {
-        
         leftBarButtonItem.customView.frame = CGRectMake(0, 0, 100, 44);
     }
-    
     self.navigationItem.leftBarButtonItem = leftBarButtonItem;
 }
 
@@ -327,8 +309,7 @@
             
             NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
             
-            //        NSLog(@"%@",responseObject);
-            
+
             if (integer != 2000) {
                 
                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:[responseObject objectForKey:@"msg"]    preferredStyle:UIAlertControllerStyleAlert];
@@ -373,15 +354,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

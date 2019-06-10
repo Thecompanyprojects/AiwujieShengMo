@@ -245,6 +245,12 @@
 		00FC749A1E1554C5005A6137 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 00FC74961E1554C5005A6137 /* LICENSE */; };
 		00FC749B1E1554C5005A6137 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 00FC74981E1554C5005A6137 /* MBProgressHUD.m */; };
 		00FE865F1E38EF7B0056877E /* LDShengMoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00FE865E1E38EF7B0056877E /* LDShengMoViewController.m */; };
+		531D737922ADF2D100903BB4 /* NewldprovacyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D737822ADF2D100903BB4 /* NewldprovacyVC.m */; };
+		531D737F22ADF3C900903BB4 /* LDProvacyCell0.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D737E22ADF3C900903BB4 /* LDProvacyCell0.m */; };
+		531D738222ADF3D800903BB4 /* LDProvacyCell1.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D738122ADF3D800903BB4 /* LDProvacyCell1.m */; };
+		531D738722AE0A3600903BB4 /* LDpermissionsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D738622AE0A3600903BB4 /* LDpermissionsVC.m */; };
+		531D738A22AE0DDA00903BB4 /* LDpermissionsVCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D738922AE0DDA00903BB4 /* LDpermissionsVCCell.m */; };
+		531D738D22AE142E00903BB4 /* LDBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D738C22AE142E00903BB4 /* LDBaseViewController.m */; };
 		5372254B22ABF8E30082472A /* NetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5372254922ABF8E30082472A /* NetManager.m */; };
 		53E8CDC022A93E2D007E5073 /* LDharassmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDBF22A93E2D007E5073 /* LDharassmentVC.m */; };
 		53E8CDC322A93EED007E5073 /* LDharassmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDC222A93EED007E5073 /* LDharassmentCell.m */; };
@@ -841,6 +847,18 @@
 		00FE865E1E38EF7B0056877E /* LDShengMoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDShengMoViewController.m; sourceTree = "<group>"; };
 		3B852FF7576E22B2E72ABEDA /* Pods-圣魔无界.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-圣魔无界.release.xcconfig"; path = "Pods/Target Support Files/Pods-圣魔无界/Pods-圣魔无界.release.xcconfig"; sourceTree = "<group>"; };
 		465F08B408D1E0EFBA3B8754 /* Pods-圣魔无界.ad hoc distribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-圣魔无界.ad hoc distribution.xcconfig"; path = "Pods/Target Support Files/Pods-圣魔无界/Pods-圣魔无界.ad hoc distribution.xcconfig"; sourceTree = "<group>"; };
+		531D737722ADF2D100903BB4 /* NewldprovacyVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewldprovacyVC.h; sourceTree = "<group>"; };
+		531D737822ADF2D100903BB4 /* NewldprovacyVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewldprovacyVC.m; sourceTree = "<group>"; };
+		531D737D22ADF3C900903BB4 /* LDProvacyCell0.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDProvacyCell0.h; sourceTree = "<group>"; };
+		531D737E22ADF3C900903BB4 /* LDProvacyCell0.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDProvacyCell0.m; sourceTree = "<group>"; };
+		531D738022ADF3D800903BB4 /* LDProvacyCell1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDProvacyCell1.h; sourceTree = "<group>"; };
+		531D738122ADF3D800903BB4 /* LDProvacyCell1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDProvacyCell1.m; sourceTree = "<group>"; };
+		531D738522AE0A3600903BB4 /* LDpermissionsVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDpermissionsVC.h; sourceTree = "<group>"; };
+		531D738622AE0A3600903BB4 /* LDpermissionsVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDpermissionsVC.m; sourceTree = "<group>"; };
+		531D738822AE0DDA00903BB4 /* LDpermissionsVCCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDpermissionsVCCell.h; sourceTree = "<group>"; };
+		531D738922AE0DDA00903BB4 /* LDpermissionsVCCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDpermissionsVCCell.m; sourceTree = "<group>"; };
+		531D738B22AE142E00903BB4 /* LDBaseViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDBaseViewController.h; sourceTree = "<group>"; };
+		531D738C22AE142E00903BB4 /* LDBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDBaseViewController.m; sourceTree = "<group>"; };
 		5372254922ABF8E30082472A /* NetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetManager.m; sourceTree = "<group>"; };
 		5372254A22ABF8E30082472A /* NetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetManager.h; sourceTree = "<group>"; };
 		53E8CDBE22A93E2D007E5073 /* LDharassmentVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDharassmentVC.h; sourceTree = "<group>"; };
@@ -1858,6 +1876,37 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		531D737622ADEBB500903BB4 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		531D738322AE09F800903BB4 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				531D737722ADF2D100903BB4 /* NewldprovacyVC.h */,
+				531D737822ADF2D100903BB4 /* NewldprovacyVC.m */,
+				531D738522AE0A3600903BB4 /* LDpermissionsVC.h */,
+				531D738622AE0A3600903BB4 /* LDpermissionsVC.m */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		531D738422AE0A0300903BB4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				531D737D22ADF3C900903BB4 /* LDProvacyCell0.h */,
+				531D737E22ADF3C900903BB4 /* LDProvacyCell0.m */,
+				531D738022ADF3D800903BB4 /* LDProvacyCell1.h */,
+				531D738122ADF3D800903BB4 /* LDProvacyCell1.m */,
+				531D738822AE0DDA00903BB4 /* LDpermissionsVCCell.h */,
+				531D738922AE0DDA00903BB4 /* LDpermissionsVCCell.m */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
 		5372254822ABF8E30082472A /* NetWorking */ = {
 			isa = PBXGroup;
 			children = (
@@ -1950,6 +1999,7 @@
 		D200962E1F302D5D00673C40 /* tools */ = {
 			isa = PBXGroup;
 			children = (
+				531D737622ADEBB500903BB4 /* Managers */,
 				5372254822ABF8E30082472A /* NetWorking */,
 				D232FA5B1E73C11C001D4018 /* WUGestureUnlockView */,
 				00E2F7BD1E02BEC800908B5B /* PrefixHeader.pch */,
@@ -2728,6 +2778,8 @@
 		D268C9991EF1231E009AC7D6 /* 隐私 */ = {
 			isa = PBXGroup;
 			children = (
+				531D738422AE0A0300903BB4 /* View */,
+				531D738322AE09F800903BB4 /* Controller */,
 				00EC8EF41E1D2DC8001521D8 /* LDProvacyViewController.h */,
 				00EC8EF51E1D2DC8001521D8 /* LDProvacyViewController.m */,
 				00EC8EF61E1D2DC8001521D8 /* LDProvacyViewController.xib */,
@@ -2956,6 +3008,8 @@
 				003B9A841E06C027006BF162 /* LDMainTabViewController.xib */,
 				003B9A871E06C049006BF162 /* LDMainNavViewController.h */,
 				003B9A881E06C049006BF162 /* LDMainNavViewController.m */,
+				531D738B22AE142E00903BB4 /* LDBaseViewController.h */,
+				531D738C22AE142E00903BB4 /* LDBaseViewController.m */,
 			);
 			name = "其他";
 			path = "消息";
@@ -3404,6 +3458,7 @@
 				00EF77D91E3788CF00FDF998 /* LDGetListViewController.m in Sources */,
 				D20FD3AB1F95A563007E0A03 /* LDOwnInfoDynamicCommentViewController.m in Sources */,
 				00EF77E11E37963800FDF998 /* CommentedCell.m in Sources */,
+				531D737F22ADF3C900903BB4 /* LDProvacyCell0.m in Sources */,
 				00EC29811E18F2670066273A /* UIView+Layout.m in Sources */,
 				00F9BD691E227DEC00F5CD18 /* LDSetBankCardViewController.m in Sources */,
 				D220579D201ACD3F00B231C0 /* UILabel+HeightForAttributedString.m in Sources */,
@@ -3419,6 +3474,7 @@
 				000516031E2E6041007C627C /* LDSearchViewController.m in Sources */,
 				00E9D2E11E2F99780004365D /* ApplyGroupCell.m in Sources */,
 				0013A8B31E29F731003647EE /* LDCreateGroupViewController.m in Sources */,
+				531D738722AE0A3600903BB4 /* LDpermissionsVC.m in Sources */,
 				D201C3D01EF38394004281BA /* SoundControlCell.m in Sources */,
 				D20E88F71F0624C0008D174C /* LDStampChatView.m in Sources */,
 				003B9A711E06BFA7006BF162 /* LDDynamicViewController.m in Sources */,
@@ -3434,6 +3490,7 @@
 				D2376E921F0E424600C9D9D8 /* UIImage+Extension.m in Sources */,
 				D232FA591E73BC6E001D4018 /* LDSetGenstureViewController.m in Sources */,
 				004B2C921E33438C00EDCCC1 /* MGSelectionTagView.m in Sources */,
+				531D738222ADF3D800903BB4 /* LDProvacyCell1.m in Sources */,
 				D2DAD0501EFCEBA80015793F /* LDMyWalletPageViewController.m in Sources */,
 				D213FD951ED41DB6001160F7 /* LDBindingPhoneNumViewController.m in Sources */,
 				D2C0F1A61EFB9A180038652F /* totalRewardRankingCell.m in Sources */,
@@ -3450,6 +3507,7 @@
 				D2DAD04B1EFCE76E0015793F /* LDMyReceiveGifViewController.m in Sources */,
 				D203DEE51F441B9E005D5160 /* MatchmakerModel.m in Sources */,
 				000D93DB1E0D77200076931E /* TableModel.m in Sources */,
+				531D737922ADF2D100903BB4 /* NewldprovacyVC.m in Sources */,
 				0043DB391E2B4E6500577DE5 /* LDGroupInformationViewController.m in Sources */,
 				000254E71E30F56F00229898 /* LDCertificateBeforeViewController.m in Sources */,
 				D2F1B9F91F4E79E100FFCB31 /* LDAFManager.m in Sources */,
@@ -3500,6 +3558,7 @@
 				D2692A041E7A8D5200250A05 /* UITableView+FDIndexPathHeightCache.m in Sources */,
 				00EC29521E18E4150066273A /* LDEditViewController.m in Sources */,
 				00EC8EFC1E1D3236001521D8 /* LDPrivacyPhotoViewController.m in Sources */,
+				531D738A22AE0DDA00903BB4 /* LDpermissionsVCCell.m in Sources */,
 				00EEBC9B1E36563B00A175EB /* commentModel.m in Sources */,
 				000E77491E2E0A3800F2894B /* GroupMemberListModel.m in Sources */,
 				00EC29481E18DB990066273A /* LDAttentionListViewController.m in Sources */,
@@ -3523,6 +3582,7 @@
 				00F79BA21E27A6A7001C7593 /* BillCell.m in Sources */,
 				D20016E01F46D5110045D0A2 /* MatchmakerDetailCell.m in Sources */,
 				0005AB311E324A4200F605EF /* LDGroupChatViewController.m in Sources */,
+				531D738D22AE142E00903BB4 /* LDBaseViewController.m in Sources */,
 				D208A7391EDFE590000316D3 /* LDNoDisturbViewController.m in Sources */,
 				D263D3561EE92D36005CFA4F /* InvitationMemberCell.m in Sources */,
 				00E60CD51E2522BD0078779C /* LDRevisePasswordViewController.m in Sources */,

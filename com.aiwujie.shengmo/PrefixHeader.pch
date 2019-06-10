@@ -102,6 +102,6 @@
 
 //提示类工具alert
 #import "AlertTool.h"
-
+#import "LDBaseViewController.h"
 
 #endif /* PrefixHeader_pch */
