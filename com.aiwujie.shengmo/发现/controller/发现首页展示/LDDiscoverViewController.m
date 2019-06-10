@@ -75,56 +75,6 @@
     [self createHeadData];
    
     
-    
-//    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-//    
-//    NSString *url = [NSString stringWithFormat:@"%@",@"http://hao.shengmo.org:888/Api/Other/verify"];
-//    
-//    [manager POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        
-//        // 获取所有数据报头信息
-//        NSHTTPURLResponse *HTTPResponse = (NSHTTPURLResponse *)task.response;
-//        NSDictionary *fields = [HTTPResponse allHeaderFields];// 原生NSURLConnection写法
-//        NSLog(@"fields = %@", [fields description]);
-//        
-//        // 获取cookie方法2
-//        NSString *cookieString = [[[HTTPResponse allHeaderFields] valueForKey:@"Set-Cookie"] componentsSeparatedByString:@";"][0];
-//        NSLog(@"cookie2 －> %@", cookieString);
-//        
-//        AFHTTPSessionManager *manager = [LDAFManager sharedDataManager];
-//        
-//        [manager.requestSerializer setValue:cookieString forHTTPHeaderField:@"Cookie"];
-//
-//        
-//        NSString *url = [NSString stringWithFormat:@"%@",@"http://test.shengmo.xin:81/result.php"];
-//        
-//        [manager POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//            
-////            // 获取所有数据报头信息
-////            NSHTTPURLResponse *HTTPResponse = (NSHTTPURLResponse *)task.response;
-////            NSDictionary *fields = [HTTPResponse allHeaderFields];// 原生NSURLConnection写法
-////            NSLog(@"fields = %@", [fields description]);
-////
-////            // 获取cookie方法2
-////            NSString *cookieString = [[HTTPResponse allHeaderFields] valueForKey:@"Set-Cookie"];
-////            NSLog(@"cookie2 －> %@", cookieString);
-//            
-//            id getJsonObject  = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingAllowFragments error:nil];
-//            
-//            NSLog(@"llllllllllll%@",getJsonObject);
-//            
-//            
-//            
-//        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//            
-//        }];
-//       
-//    
-//        
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//       
-//    }];
-    
 }
 
 /**
@@ -625,7 +575,8 @@
         
         if ([_viewTitleArray[button.tag - 100][@"url"] length] == 0) {
             
-            avc.url = [NSString stringWithFormat:@"%@%@",@"http://hao.shengmo.org:888/Home/Info/news/id/",_viewTitleArray[button.tag - 100][@"id"]];
+            
+            avc.url = [NSString stringWithFormat:@"%@%@%@",PICHEADURL,@"Home/Info/news/id/",_viewTitleArray[button.tag - 100][@"id"]];
             
         }else{
             
@@ -636,7 +587,8 @@
         
         if ([_viewTitleArray1[button.tag - 200][@"url"] length] == 0) {
             
-            avc.url = [NSString stringWithFormat:@"%@%@",@"http://hao.shengmo.org:888/Home/Info/news/id/",_viewTitleArray1[button.tag - 200][@"id"]];
+            //avc.url = [NSString stringWithFormat:@"%@%@",@"http://hao.shengmo.org:888/Home/Info/news/id/",_viewTitleArray1[button.tag - 200][@"id"]];
+             avc.url = [NSString stringWithFormat:@"%@%@%@",PICHEADURL,@"Home/Info/news/id/",_viewTitleArray1[button.tag - 200][@"id"]];
             
         }else{
             

@@ -146,15 +146,18 @@
         
     }else if([_comeFrom isEqualToString:@"Dynamic"]){
         
-        [self createShare:sender andTitle:@"分享了一个链接" andDescription:[NSString stringWithFormat:@"%@ 在圣魔斯慕发布了精彩的动态",_name] andPicImage:nil andWebUrl:[NSString stringWithFormat:@"http://hao.shengmo.org:888/Home/Share/dynamic/did/%@",_shareId] andImageData:[self compressPicture] andImageUrl:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_pic]]];
+//        [self createShare:sender andTitle:@"分享了一个链接" andDescription:[NSString stringWithFormat:@"%@ 在圣魔斯慕发布了精彩的动态",_name] andPicImage:nil andWebUrl:[NSString stringWithFormat:@"http://hao.shengmo.org:888/Home/Share/dynamic/did/%@",_shareId] andImageData:[self compressPicture] andImageUrl:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_pic]]];
+        
+    NSString *url = [NSString stringWithFormat:@"%@%@%@",PICHEADURL,@"Home/Share/dynamic/did/",_shareId];
+    [self createShare:sender andTitle:@"分享了一个链接" andDescription:[NSString stringWithFormat:@"%@ 在圣魔斯慕发布了精彩的动态",_name] andPicImage:nil andWebUrl:[NSString stringWithFormat:@"%@",url] andImageData:[self compressPicture] andImageUrl:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_pic]]];
         
     }else if ([_comeFrom isEqualToString:@"Group"]){
-    
-        [self createShare:sender andTitle:@"分享了一个链接" andDescription:[NSString stringWithFormat:@"邀请你加入群组: %@,快快加入吧~",_name] andPicImage:nil andWebUrl:[NSString stringWithFormat:@"http://hao.shengmo.org:888/Home/Share/group/gid/%@",_shareId] andImageData:[self compressPicture] andImageUrl:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_pic]]];
+        NSString *url = [NSString stringWithFormat:@"%@%@%@",PICHEADURL,@"Home/Share/group/did/",_shareId];
+        [self createShare:sender andTitle:@"分享了一个链接" andDescription:[NSString stringWithFormat:@"邀请你加入群组: %@,快快加入吧~",_name] andPicImage:nil andWebUrl:[NSString stringWithFormat:@"%@",url] andImageData:[self compressPicture] andImageUrl:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_pic]]];
         
     }else if([_comeFrom isEqualToString:@"Infomation"]){
-    
-        [self createShare:sender andTitle:@"分享了一个链接" andDescription:[NSString stringWithFormat:@"%@ 的个人主页，快来圣魔斯慕关注Ta~",_name] andPicImage:nil andWebUrl:[NSString stringWithFormat:@"http://hao.shengmo.org:888/Home/Share/user/uid/%@",_shareId] andImageData:[self compressPicture] andImageUrl:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_pic]]];
+        NSString *url = [NSString stringWithFormat:@"%@%@%@",PICHEADURL,@"Home/Share/user/did/",_shareId];
+        [self createShare:sender andTitle:@"分享了一个链接" andDescription:[NSString stringWithFormat:@"%@ 的个人主页，快来圣魔斯慕关注Ta~",_name] andPicImage:nil andWebUrl:[NSString stringWithFormat:@"%@",url] andImageData:[self compressPicture] andImageUrl:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_pic]]];
     
     }
 }

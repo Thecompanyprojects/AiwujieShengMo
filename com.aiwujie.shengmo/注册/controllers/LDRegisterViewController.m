@@ -86,7 +86,9 @@
 
 -(void)createPicCode{
     
-    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage]cookiesForURL:[NSURL URLWithString:@"http://hao.shengmo.org:888/Api/Other/verify"]];
+//    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage]cookiesForURL:[NSURL URLWithString:@"http://hao.shengmo.org:888/Api/Other/verify"]];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Other/verify"];
+    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage]cookiesForURL:[NSURL URLWithString:url]];
     for (NSHTTPCookie *tempCookie in cookies)
     {
         [[NSHTTPCookieStorage sharedHTTPCookieStorage] deleteCookie:tempCookie];
@@ -97,7 +99,7 @@
     //3种解析方式:JSON & XML &http(不做任何处理)
     getManager.responseSerializer = [AFHTTPResponseSerializer serializer];//用XML解析数据
     //2.发请求
-    [getManager GET:@"http://hao.shengmo.org:888/Api/Other/verify" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [getManager GET:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         // 获取所有数据报头信息
         NSHTTPURLResponse *HTTPResponse = (NSHTTPURLResponse *)task.response;

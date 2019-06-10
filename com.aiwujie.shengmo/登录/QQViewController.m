@@ -31,7 +31,7 @@
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
         
-    [web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",@"http://hao.shengmo.org:888/index.php/home/info/temporary"]]]];
+    [web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"index.php/home/info/temporary"]]]];
 
     [self.view addSubview:web];
     

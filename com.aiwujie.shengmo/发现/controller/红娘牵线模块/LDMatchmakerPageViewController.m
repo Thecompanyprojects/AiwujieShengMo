@@ -51,8 +51,8 @@
             self.automaticallyAdjustsScrollViewInsets = NO;
         }
         
-        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",@"http://hao.shengmo.org:888/Home/Info/hongniang"]]];
-        
+        //NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",@"http://hao.shengmo.org:888/Home/Info/hongniang"]]];
+        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Home/Info/hongniang"]]];
         [web loadRequest:request];
         
         [self.view addSubview:web];

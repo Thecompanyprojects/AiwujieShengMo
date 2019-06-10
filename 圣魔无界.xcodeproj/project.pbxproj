@@ -252,6 +252,7 @@
 		531D738A22AE0DDA00903BB4 /* LDpermissionsVCCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D738922AE0DDA00903BB4 /* LDpermissionsVCCell.m */; };
 		531D738D22AE142E00903BB4 /* LDBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D738C22AE142E00903BB4 /* LDBaseViewController.m */; };
 		531D739022AE3AC400903BB4 /* UIButton+ImageTitleSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D738F22AE3AC400903BB4 /* UIButton+ImageTitleSpace.m */; };
+		531D739422AE8CE700903BB4 /* LDtotopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D739322AE8CE700903BB4 /* LDtotopViewController.m */; };
 		5372254B22ABF8E30082472A /* NetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5372254922ABF8E30082472A /* NetManager.m */; };
 		53E8CDC022A93E2D007E5073 /* LDharassmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDBF22A93E2D007E5073 /* LDharassmentVC.m */; };
 		53E8CDC322A93EED007E5073 /* LDharassmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDC222A93EED007E5073 /* LDharassmentCell.m */; };
@@ -862,6 +863,8 @@
 		531D738C22AE142E00903BB4 /* LDBaseViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDBaseViewController.m; sourceTree = "<group>"; };
 		531D738E22AE3AC400903BB4 /* UIButton+ImageTitleSpace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+ImageTitleSpace.h"; sourceTree = "<group>"; };
 		531D738F22AE3AC400903BB4 /* UIButton+ImageTitleSpace.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+ImageTitleSpace.m"; sourceTree = "<group>"; };
+		531D739222AE8CE700903BB4 /* LDtotopViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDtotopViewController.h; sourceTree = "<group>"; };
+		531D739322AE8CE700903BB4 /* LDtotopViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDtotopViewController.m; sourceTree = "<group>"; };
 		5372254922ABF8E30082472A /* NetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetManager.m; sourceTree = "<group>"; };
 		5372254A22ABF8E30082472A /* NetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetManager.h; sourceTree = "<group>"; };
 		53E8CDBE22A93E2D007E5073 /* LDharassmentVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDharassmentVC.h; sourceTree = "<group>"; };
@@ -1910,6 +1913,15 @@
 			name = View;
 			sourceTree = "<group>";
 		};
+		531D739122AE879D00903BB4 /* 推顶卡 */ = {
+			isa = PBXGroup;
+			children = (
+				531D739222AE8CE700903BB4 /* LDtotopViewController.h */,
+				531D739322AE8CE700903BB4 /* LDtotopViewController.m */,
+			);
+			name = "推顶卡";
+			sourceTree = "<group>";
+		};
 		5372254822ABF8E30082472A /* NetWorking */ = {
 			isa = PBXGroup;
 			children = (
@@ -2863,6 +2875,7 @@
 				00F9BD581E2242FA00F5CD18 /* LDMyWalletViewController.m */,
 				00F9BD591E2242FA00F5CD18 /* LDMyWalletViewController.xib */,
 				D2C103B11F02507D00B2FFC6 /* 邮票界面 */,
+				531D739122AE879D00903BB4 /* 推顶卡 */,
 				D2C103B01F02503C00B2FFC6 /* 收到的礼物 */,
 				D268C9A11EF12499009AC7D6 /* 充值界面 */,
 			);
@@ -3643,6 +3656,7 @@
 				D21DA6C81EC5988200827A2E /* LDPopularityRankingViewController.m in Sources */,
 				D29AF6ED1FBD632C001098B3 /* HJTabViewControllerPlugin_HeaderScroll.m in Sources */,
 				D25BA6C71EFE5B6E003990A3 /* LDBillPageViewController.m in Sources */,
+				531D739422AE8CE700903BB4 /* LDtotopViewController.m in Sources */,
 				D2E1CEF11E83D569008D8BF0 /* UITabBar+badge.m in Sources */,
 				D29AF6F31FBD632C001098B3 /* HJTabViewBar.m in Sources */,
 				D2197D981FBEBC0400723093 /* WarnPersonCell.m in Sources */,

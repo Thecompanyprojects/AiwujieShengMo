@@ -1433,7 +1433,6 @@
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
         
-        
         if (integer == 2001) {
             
             self.tableView.scrollEnabled = NO;

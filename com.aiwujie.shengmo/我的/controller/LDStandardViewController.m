@@ -35,11 +35,11 @@
     
     if ([self.state isEqualToString:@"图文规范"]) {
         
-        request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",@"http://hao.shengmo.org:888/index.php/Home/Info/specification.html"]]];
+        request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"index.php/Home/Info/specification.html"]]];
         
     }else if([self.state isEqualToString:@"隐私协议"]){
     
-        request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",@"http://hao.shengmo.org:888/Home/info/secretAgreement"]]];
+        request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Home/info/secretAgreement"]]];
         
     }else if([self.state isEqualToString:@"排名规则"]){
     
