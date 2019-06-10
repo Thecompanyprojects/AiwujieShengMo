@@ -209,7 +209,7 @@
     }
     self.publishView  = [[UIView alloc] init];
     self.publishView.backgroundColor = [UIColor whiteColor];
-    self.publishView.frame = CGRectMake(0, CGRectGetMaxY(self.backView.frame), WIDTH, 203);
+    self.publishView.frame = CGRectMake(0, CGRectGetMaxY(self.backView.frame), WIDTH, 223);
     
     _textView = [[UITextView alloc] initWithFrame:CGRectMake(8, 8, WIDTH - 16, 182)];
      self.textView.contentInset = UIEdgeInsetsMake(-8.f, 0.f, 0.f, 0.f);
@@ -227,14 +227,12 @@
     _textLabel.textColor = [UIColor lightGrayColor];
     [_publishView addSubview:_textLabel];
     
-    _numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(WIDTH - 127, 175, 119, 21)];
+    _numberLabel = [[UILabel alloc] initWithFrame:CGRectMake(WIDTH - 127, 175+20, 119, 21)];
     _numberLabel.text = @"0/10000";
     _numberLabel.textColor = [UIColor lightGrayColor];
     _numberLabel.font = [UIFont systemFontOfSize:13];
     _numberLabel.textAlignment = NSTextAlignmentRight;
     [_publishView addSubview:_numberLabel];
-    
-
     
     UIView *oneLineView = [[UIView alloc] initWithFrame:CGRectMake(0, _publishView.frame.size.height - 1, WIDTH, 1)];
     oneLineView.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
@@ -283,16 +281,9 @@
     
     UISwitch * swi = [[UISwitch alloc]initWithFrame:CGRectMake(WIDTH-68, CGRectGetMaxY(twoLineView.frame)+6,0, 0)];
     
-//    // 设置控件开启状态填充色
-//    swi.onTintColor = [UIColor greenColor];
-//    // 设置控件关闭状态填充色
-//    swi.tintColor = [UIColor grayColor];
-//    // 设置控件开关按钮颜色
-//    swi.thumbTintColor = [UIColor whiteColor];
     [swi addTarget:self action:@selector(changeColor:) forControlEvents:UIControlEventValueChanged];
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue] == 1 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue] == 1) {
         swi.on = YES;
-
     }
     else
     {
@@ -358,18 +349,12 @@
 }
 
 - (void)setupViewUI {
-    
     self.tagView = [[MGSelectionTagView alloc] initWithFrame:CGRectMake(0, 40,WIDTH,162)];
-    
     self.tagView.backgroundColor = [UIColor colorWithHexString:@"#f5f5f5" alpha:1];
-    
     self.tagView.dataSource = self;
     self.tagView.delegate = self;
-    
     self.tagView.itemBackgroundImage = [UIImage imageNamed:@"buttonNormal"];
-    
     self.tagView.itemSelectedBackgroundImage = [UIImage imageNamed:@"buttonSelected.jpg"];
-    
     self.tagView.maxSelectNum = 1;
 }
 
@@ -413,11 +398,7 @@
 #pragma mark - MGSelectionTagViewDelegate
 
 - (void)tagView:(MGSelectionTagView *)tagView tagTouchedAtIndex:(NSInteger)index {
-    
-//    NSLog(@"select tag:%@",[self.tags objectAtIndex:index]);
-//
-//    NSLog(@"%@",[self.tagView indexesOfSelectionTags]);
-    
+
     if ([self.tagView indexesOfSelectionTags].count != 0) {
         
         [self getTopicData:[NSString stringWithFormat:@"%d",[[self.tagView indexesOfSelectionTags][0] intValue]]];
@@ -426,7 +407,6 @@
         
         //点击了话题或者点击了选中的tag
         [self clickTagViewOrTopic];
-
     }
 }
 
@@ -772,8 +752,6 @@
     self.scrollView.contentSize = CGSizeMake(WIDTH, dynamicH);
 }
 
-
-
 //textview代理方法
 #pragma mark  textView的代理方法
 -(void)textViewDidChange:(UITextView *)textView{
@@ -810,10 +788,8 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
     if (scrollView == self.scrollView) {
-        
-        [self.textView resignFirstResponder];
+        //[self.textView resignFirstResponder];
     }
-
 }
 
 /**

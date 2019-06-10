@@ -227,37 +227,24 @@
 }
 
 -(void)createTableAndCollectView{
-
-    [self createCollectionView];
     
+    [self createCollectionView];
     [self createTableView];
-     
      self.collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-         
          if ([self.content intValue] == 3) {
-             
              [[NSNotificationCenter defaultCenter] postNotificationName:@"清除新人红点" object:nil];
-             
          }
-         
          [[NSNotificationCenter defaultCenter] postNotificationName:@"隐藏置顶附近按钮" object:nil];
-        
         _collectPage = 0;
-         
         [self createData:_collectPage type:@"1"];
         
     }];
      
      [self.collectionView.mj_header beginRefreshing];
-     
      self.collectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        
         _collectPage++;
-        
         [self createData:_collectPage type:@"2"];
-        
-    }];
-     
+     }];
      self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
          
          if ([self.content intValue] == 3) {
@@ -309,15 +296,9 @@
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/index/userListNewth"];
-    
-    //    NSLog(@"22222");
-    
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"] length] == 0) {
-        
         [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"layout"];
-        
     }
-    
     NSString *age;
     NSString *sex;
     NSString *sexual;
@@ -682,15 +663,11 @@
         }
  
     }
-    
-    //NSLog(@"%@",parameters);
-    
+
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         _integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//        NSLog(@"%@",responseObject);
-        
+
         if (_integer != 2000 && _integer != 2001) {
             
             if ([type intValue] == 1 && _integer == 4001) {
@@ -873,8 +850,6 @@
         cell.model = model;
         
     }
-    
-    
     return cell;
 }
 
@@ -1411,7 +1386,6 @@
     [searchButton addTarget:self action:@selector(SearchButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [searchView addSubview:searchButton];
     
-    
     if (_searchTextField != nil) {
         
         _searchTextField = nil;
@@ -1516,7 +1490,6 @@
     UIButton *warnButton = [[UIButton alloc] initWithFrame:warnLabel.bounds];
     [warnButton addTarget:self action:@selector(warnButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [warnLabel addSubview:warnButton];
-    
 }
 /**
  * 提示语可点击
@@ -1573,7 +1546,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
 
 @end
