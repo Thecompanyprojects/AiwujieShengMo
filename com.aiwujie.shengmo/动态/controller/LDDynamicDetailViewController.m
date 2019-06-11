@@ -261,9 +261,7 @@
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/judgeDynamicNewrd"];
     
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    
-    //    NSLog(@"%@",role);
-    
+
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
@@ -611,8 +609,7 @@
         //                NSLog(@"%@",responseObject);
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-//        NSLog(@"%@",responseObject);
+
         
         if (integer != 2000) {
             
@@ -1073,7 +1070,7 @@
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         [paragraphStyle setLineSpacing:5];
         [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [content length])];
-        [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:NSMakeRange(0, [content length])];
+        [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(0, [content length])];
         self.commentLabel.attributedText = attributedString;
 
     }else{
@@ -1086,7 +1083,7 @@
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         [paragraphStyle setLineSpacing:5];
         [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [content length])];
-        [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:NSMakeRange(0, [content length])];
+        [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(0, [content length])];
         
         self.commentLabel.attributedText = attributedString;
         
@@ -1535,61 +1532,6 @@
         }];
         
     }
-    /*
-    else{
-        
-        AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-        
-        NSString *url = [NSString stringWithFormat:@"%@%@",URL,@"Api/Dynamic/cancelLaud"];
-        
-        NSDictionary *parameters = [NSDictionary dictionary];
-        
-        parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":_did};
-        //    NSLog(@"%@",role);
-        
-        [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
-            NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-            
-            //        NSLog(@"%@",responseObject);
-            
-            if (integer != 2000) {
-                
-                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:[responseObject objectForKey:@"msg"]    preferredStyle:UIAlertControllerStyleAlert];
-                
-                UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault  handler:nil];
-                
-                [alert addAction:action];
-                
-                [self presentViewController:alert animated:YES completion:nil];
-                
-                
-            }else{
-                
-                self.zanLabel.textColor = [UIColor lightGrayColor];
-                
-                self.zanImageView.image = [UIImage imageNamed:@"赞灰"];
-                
-                _zanState = @"0";
-                
-                [self.zanButton setTitle:[NSString stringWithFormat:@"赞 %@",[NSString stringWithFormat:@"%d",[_zanNum intValue] - 1]] forState:UIControlStateNormal];
-                
-                _zanNum = [NSString stringWithFormat:@"%d",[_zanNum intValue] - 1];
-                
-                if (_block) {
-                    
-                    self.block([NSString stringWithFormat:@"%d",[_zanNum intValue]],_zanState);
-                }
-   
-            }
-            
-            
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
-            
-        }];
-    }
-     */
 
 }
 

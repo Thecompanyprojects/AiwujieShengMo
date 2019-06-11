@@ -83,22 +83,31 @@
         
          self.contentLabel.text = model.content;
         
+        NSMutableAttributedString *attributedString = [self.contentLabel.attributedText mutableCopy];
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        [paragraphStyle setLineSpacing:5];
+        [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [model.content length])];
+        self.contentLabel.attributedText = attributedString;
+        
     }else{
     
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"回复 %@: %@",model.othernickname,model.content]];
         [str addAttribute:NSForegroundColorAttributeName value:MainColor range:NSMakeRange(3,[model.othernickname length])];
-        
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        [paragraphStyle setLineSpacing:5];
+        [str addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [str length])];
         self.contentLabel.attributedText = str;
     }
     
     self.contentLabel.isCopyable = YES;
     
+    
     self.contentLabel.lineBreakMode = NSLineBreakByWordWrapping;
     
+ 
+    
     CGSize size = [self.contentLabel sizeThatFits:CGSizeMake(WIDTH - 84, 0)];
-    
     self.contentH.constant = size.height;
-    
     self.contentView.frame = CGRectMake(0, 0, self.contentView.frame.size.width, 65 + self.contentH.constant);
 }
 
@@ -118,5 +127,6 @@
 }
 
 - (IBAction)headButton:(id)sender {
+    
 }
 @end

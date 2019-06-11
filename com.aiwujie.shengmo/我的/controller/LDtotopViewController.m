@@ -110,7 +110,8 @@ static float AD_height = 150;//头部高度
     LdtotopCell *cell = (LdtotopCell *)[collectionView cellForItemAtIndexPath:indexPath];
     cell.layer.borderColor = MainColor.CGColor;
     NSLog(@"第%ld区，第%ld个",(long)indexPath.section,(long)indexPath.row);
-    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"" message:@"购买推顶卡" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertController *control = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
+    
     UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
     }];

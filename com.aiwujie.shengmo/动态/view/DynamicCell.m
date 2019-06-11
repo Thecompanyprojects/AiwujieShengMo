@@ -458,13 +458,13 @@
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
     [paragraphStyle setLineSpacing:5];
     [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [content length])];
-    [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:NSMakeRange(0, [content length])];
+    [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(0, [content length])];
     
     if (haveTopic) {
         
         [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:183/255.0 green:53/255.0 blue:208/255.0 alpha:1] range:NSMakeRange(0, [[NSString stringWithFormat:@"#%@#",_model.topictitle] length])];
         
-        CGSize size = [[NSString stringWithFormat:@"#%@#",_model.topictitle] boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil].size;
+        CGSize size = [[NSString stringWithFormat:@"#%@#",_model.topictitle] boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16]} context:nil].size;
         
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(self.commentLabel.frame.origin.x, self.commentLabel.frame.origin.y, size.width, size.height)];
         
