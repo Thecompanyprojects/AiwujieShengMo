@@ -53,26 +53,18 @@
 @implementation LDSetViewController
 
 -(void)viewWillAppear:(BOOL)animated{
-
     [super viewWillAppear:animated];
-    
     [self getBindState];
-    
 }
 
 -(void)getBindState{
 
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
     manager.requestSerializer.timeoutInterval = 10.f;
-    
     [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getBindingState"];
-    
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
@@ -178,12 +170,8 @@
     {
           _dataArray = @[@[@"绑定手机",@"绑定邮箱",@"绑定第三方"],@[@"密码设置",@"手势密码"],@[@"声音设置",@"隐私",@"通用"],@[@"意见反馈",@"帮助中心",@"版本号"]];
     }
-  
-    
     [self createTableView];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindWXOpendClick) name:@"绑定微信第三方" object:nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindWBOpendClick) name:@"绑定微博第三方" object:nil];
 }
 
@@ -207,46 +195,28 @@
 -(void)createTableView{
 
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX]) style:UITableViewStyleGrouped];
-    
     self.tableView.delegate = self;
-    
     self.tableView.dataSource = self;
-    
     if (@available(iOS 11.0, *)) {
-        
         _tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
-        
     }else {
-        
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     self.tableView.rowHeight = 50;
-    
     [self.view addSubview:self.tableView];
-    
     [self addTableViewFootView];
 }
 
 - (void)addTableViewFootView {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 44)];
-    
     view.backgroundColor = [UIColor clearColor];
-    
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 44)];
-    
     [button setTitle:@"退出登录" forState:UIControlStateNormal];
-    
     button.backgroundColor = [UIColor whiteColor];
-    
     button.titleLabel.font = [UIFont systemFontOfSize:15];
-    
     [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    
     [button addTarget:self action:@selector(exitButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    
     [view addSubview:button];
     self.tableView.tableFooterView = view;
 }
@@ -259,38 +229,25 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 
     return [_dataArray[section] count];
-    
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.section == 3 && indexPath.row == 2) {
-        
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
-        
         //cell.detailTextLabel.text = VERSION;
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"v%@", [[[NSBundle mainBundle]infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"V%@", [[[NSBundle mainBundle]infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
         cell.imageView.image = [UIImage imageNamed:_dataArray[indexPath.section][indexPath.row]];
-        
         cell.detailTextLabel.font = [UIFont italicSystemFontOfSize:12];//设置字体为斜体
-        
         cell.textLabel.text = _dataArray[indexPath.section][indexPath.row];
-        
         cell.textLabel.font = [UIFont systemFontOfSize:15];
-        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
         return cell;
-
-        
     }else{
     
         ShowBadgeCell *cell = [[NSBundle mainBundle] loadNibNamed:@"ShowBadgeCell" owner:self options:nil].lastObject;
-        
         cell.headView.image = [UIImage imageNamed:_dataArray[indexPath.section][indexPath.row]];
-        
         if (indexPath.section == 0) {
-            
             if (indexPath.row == 0) {
                 
                 if (_bindPhoneState.length == 0) {

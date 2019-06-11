@@ -545,7 +545,8 @@
         device = keychain[@"device_token"];
     }
     
-    NSDictionary *parameters = @{@"version":VERSION,@"device_tag":@"ios",@"uid":uid,@"device_token":device};
+    NSString *versionStr =  [NSString stringWithFormat:@"V%@", [[[NSBundle mainBundle]infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+    NSDictionary *parameters = @{@"version":versionStr,@"device_tag":@"ios",@"uid":uid,@"device_token":device};
     
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
