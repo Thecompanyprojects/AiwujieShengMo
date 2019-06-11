@@ -81,9 +81,9 @@
                 [self.navigationController popViewControllerAnimated:YES];
             }];
             
-            [action setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
             
-            [cancelAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
             
             [alert addAction:action];
             
@@ -125,7 +125,7 @@
             self.beanField.text = nil;
         }];
         
-        [action setValue:CDCOLOR forKey:@"_titleTextColor"];
+        [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
         
         [alert addAction:action];
         
@@ -153,9 +153,9 @@
                 
                 if (PHONEVERSION.doubleValue >= 8.3) {
                     
-                    [action setValue:CDCOLOR forKey:@"_titleTextColor"];
+                    [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
                     
-                    [cancelAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+                    [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
                 }
                 
                 [alert addAction:action];
@@ -176,7 +176,7 @@
                 self.beanField.text = nil;
             }];
             
-            [action setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
             
             [alert addAction:action];
             

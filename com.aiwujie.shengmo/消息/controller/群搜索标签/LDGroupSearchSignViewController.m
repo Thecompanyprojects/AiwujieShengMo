@@ -281,8 +281,8 @@
         if([cc isKindOfClass:[UIButton class]])
         {
             UIButton *btn = (UIButton *)cc;
-            //            [btn setTitle:[AppLanguageProcess getLanguageWithKey:@"TEXT_CANCEL"]  forState:UIControlStateNormal];
-            [btn setTitleColor:CDCOLOR forState:UIControlStateNormal];
+
+            [btn setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
         }
     }
     

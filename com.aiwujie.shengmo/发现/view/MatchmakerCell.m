@@ -62,7 +62,7 @@
         self.sexualLabel.backgroundColor = GIRLECOLOR;
     }else if([_model.role isEqualToString:@"SM"]){
         self.sexualLabel.text = @"双";
-        self.sexualLabel.backgroundColor = CDCOLOR;
+        self.sexualLabel.backgroundColor = DOUBLECOLOR;
     }else{
         
         self.sexualLabel.text = @"~";
@@ -80,7 +80,7 @@
     }else{
         
         self.sexImageView.image = [UIImage imageNamed:@"双性"];
-        self.ageSexView.backgroundColor = CDCOLOR;
+        self.ageSexView.backgroundColor = DOUBLECOLOR;
     }
     self.ageLabel.text = [NSString stringWithFormat:@"%@",_model.age];
     if (model.province.length != 0) {

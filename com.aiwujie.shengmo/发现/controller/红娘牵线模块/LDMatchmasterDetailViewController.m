@@ -137,7 +137,7 @@
     UIButton *applyButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 20)];
     [applyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [applyButton setTitle:@"个人中心" forState:UIControlStateNormal];
-    [applyButton setBackgroundColor:CDCOLOR];
+    [applyButton setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
     applyButton.alpha = 0.7;
     applyButton.titleLabel.font = [UIFont systemFontOfSize:12];
     applyButton.layer.cornerRadius = 2;
@@ -397,7 +397,7 @@
         
         sexImageView.image = [UIImage imageNamed:@"双性"];
         
-        ageView.backgroundColor = CDCOLOR;
+        ageView.backgroundColor = DOUBLECOLOR;
     }
 
     
@@ -427,7 +427,7 @@
         
         sexualLabel.text = @"双";
         
-        sexualLabel.backgroundColor = CDCOLOR;
+        sexualLabel.backgroundColor = DOUBLECOLOR;
         
     }else{
         

@@ -676,9 +676,9 @@
     
     if (PHONEVERSION.doubleValue >= 8.3) {
     
-        [cancelAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+        [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
         
-        [action setValue:CDCOLOR forKey:@"_titleTextColor"];
+        [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
     }
     
     [alertController addAction:action];
@@ -768,9 +768,9 @@
         
         if (PHONEVERSION.doubleValue >= 8.3) {
         
-            [action setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
             
-            [cancelAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
         }
 
         [alert addAction:cancelAction];
@@ -832,9 +832,9 @@
         
         if (PHONEVERSION.doubleValue >= 8.3) {
         
-            [action setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
             
-            [cancelAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
         }
         
         [alert addAction:cancelAction];
@@ -936,11 +936,11 @@
     
     if (PHONEVERSION.doubleValue >= 8.3) {
     
-        [action setValue:CDCOLOR forKey:@"_titleTextColor"];
+        [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
         
-        [shareAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+        [shareAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
         
-        [cancel setValue:CDCOLOR forKey:@"_titleTextColor"];
+        [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
     }
 
     

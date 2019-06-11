@@ -681,9 +681,9 @@
         
         if (PHONEVERSION.doubleValue >= 8.3) {
             
-            [action setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
             
-            [cancel setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
         }
         
         [alert addAction:cancel];
@@ -789,9 +789,9 @@
     
     if (PHONEVERSION.doubleValue >= 8.3) {
         
-        [shareButton setValue:CDCOLOR forKey:@"_titleTextColor"];
+        [shareButton setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
         
-        [cancel setValue:CDCOLOR forKey:@"_titleTextColor"];
+        [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
     }
     [alert addAction:cancel];
     
@@ -1007,13 +1007,13 @@
         
         if (PHONEVERSION.doubleValue >= 8.3) {
             
-            [titleAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-            [SuspiciousUserAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-            [delHeadAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-            [delNickNameAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-            [delSignAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-            [delPicAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-            [titleDynamicAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [titleAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [SuspiciousUserAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [delHeadAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [delNickNameAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [delSignAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [delPicAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [titleDynamicAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
         }
         
         [alert addAction:titleAction];
@@ -1027,13 +1027,13 @@
     
     if (PHONEVERSION.doubleValue >= 8.3) {
         
-        [action setValue:CDCOLOR forKey:@"_titleTextColor"];
+        [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
         
-        [report setValue:CDCOLOR forKey:@"_titleTextColor"];
+        [report setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
         
-        [shareButton setValue:CDCOLOR forKey:@"_titleTextColor"];
+        [shareButton setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
         
-        [cancel setValue:CDCOLOR forKey:@"_titleTextColor"];
+        [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
     }
     
     [alert addAction:shareButton];
@@ -1211,12 +1211,12 @@
     
     if (PHONEVERSION.doubleValue >= 8.3) {
         
-         [titleAccountAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-        [titleDynamicAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-        [titleMessageAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-        [titleInfomationAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-        [titleDeviceAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-        [cancel setValue:CDCOLOR forKey:@"_titleTextColor"];
+         [titleAccountAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [titleDynamicAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [titleMessageAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [titleInfomationAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [titleDeviceAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
     }
     [alert addAction:titleAccountAction];
     [alert addAction:titleDynamicAction];
@@ -1278,13 +1278,13 @@
     
     if (PHONEVERSION.doubleValue >= 8.3) {
         
-        [titleOneDayAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-        [titleTwoDayAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-        [titleOneWeekAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-        [titleTwoWeekAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-        [titleOneMonthAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-        [titleForeverAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-        [cancel setValue:CDCOLOR forKey:@"_titleTextColor"];
+        [titleOneDayAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [titleTwoDayAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [titleOneWeekAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [titleTwoWeekAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [titleOneMonthAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [titleForeverAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
     }
     [alert addAction:titleOneDayAction];
     [alert addAction:titleTwoDayAction];
@@ -1313,8 +1313,6 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //                NSLog(@"%@",responseObject);
         
         if (integer != 2000) {
             
@@ -1436,17 +1434,12 @@
         if (integer == 2001) {
             
             self.tableView.scrollEnabled = NO;
-            
             self.blackView.hidden = NO;
             self.blackLabel.layer.cornerRadius = 16;
             self.blackLabel.clipsToBounds = YES;
-            
             [self showBasicData:responseObject[@"data"] andIsShow:YES];
-            
             _headBackView.hidden = NO;
-            
             [self.tableView.mj_header endRefreshing];
-
             UIView *showView = [[UIView alloc] initWithFrame:CGRectMake(0, self.backGroundViewH.constant, WIDTH, HEIGHT - self.backGroundViewH.constant)];
             showView.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
             [self.headBackView addSubview:showView];
@@ -1457,7 +1450,7 @@
             reportButton.layer.cornerRadius = reportButton.frame.size.height/2;
             reportButton.clipsToBounds = YES;
             [reportButton setTitle:@"举报" forState:UIControlStateNormal];
-            [reportButton setTitleColor:CDCOLOR forState:UIControlStateNormal];
+            [reportButton setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
             [showView addSubview:reportButton];
             
             _blackButton = [[UIButton alloc] initWithFrame:CGRectMake(20 * WIDTHRADIO, CGRectGetMaxY(reportButton.frame) + 20 * WIDTHRADIO, WIDTH - 2 * (20 * WIDTHRADIO), 40 * WIDTHRADIO)];
@@ -1465,34 +1458,22 @@
             [_blackButton addTarget:self action:@selector(blackButtonClick) forControlEvents:UIControlEventTouchUpInside];
             _blackButton.layer.cornerRadius = _blackButton.frame.size.height/2;
             _blackButton.clipsToBounds = YES;
-            
             if ([_blackState intValue] == 1) {
-                
                 [_blackButton setTitle:@"取消拉黑" forState:UIControlStateNormal];
-                
             }else{
-                
                 [_blackButton setTitle:@"拉黑" forState:UIControlStateNormal];
             }
-        
-            [_blackButton setTitleColor:CDCOLOR forState:UIControlStateNormal];
+            [_blackButton setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
             [showView addSubview:_blackButton];
-            
 
         }else if (integer == 2000){
             
             self.blackView.hidden = YES;
-            
             [self showBasicData:responseObject[@"data"] andIsShow:NO];
-           
             if ([responseObject[@"data"][@"realname"] intValue] == 0) {
-                
                 self.picPublicButton.hidden = YES;
-                
             }else{
-                
                 self.picPublicButton.hidden = NO;
-
             }
             
             //认证照的查看权限的设置
@@ -1660,11 +1641,9 @@
         }
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        
-        
-    }];
 
+    }];
+    
 }
 
 /**
@@ -1686,16 +1665,13 @@
         
         url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/setOneToBlacklist"];
     }
-    
-    
+
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"fuid":self.userID};
     
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //                NSLog(@"%@",responseObject);
-        
+
         if (integer != 2000) {
             
             hud.removeFromSuperViewOnHide = YES;
@@ -1912,7 +1888,7 @@
         
         self.sexualLabel.text = @"双";
         
-        self.sexualLabel.backgroundColor = CDCOLOR;
+        self.sexualLabel.backgroundColor = DOUBLECOLOR;
         
     }else{
         
@@ -1941,9 +1917,9 @@
         
         self.sexImageView.image = [UIImage imageNamed:@"双性"];
         
-        self.backView.backgroundColor = CDCOLOR;
+        self.backView.backgroundColor = DOUBLECOLOR;
         
-        _signColor = CDCOLOR;
+        _signColor = DOUBLECOLOR;
     }
     
     self.ageLabel.text = [NSString stringWithFormat:@"%@",dic[@"age"]];
@@ -3217,9 +3193,9 @@
         
         if (PHONEVERSION.doubleValue >= 8.3) {
         
-            [action setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
             
-            [cancelAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
         }
         
         [alert addAction:action];
@@ -3243,69 +3219,7 @@
     LDGroupNumberViewController *nvc = [[LDGroupNumberViewController alloc] init];
     nvc.userId = self.userID;
     [self.navigationController pushViewController:nvc animated:YES];
-    
-//    if ([self.userID intValue] == [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]) {
-//
-//        LDGroupNumberViewController *nvc = [[LDGroupNumberViewController alloc] init];
-//
-//        nvc.userId = self.userID;
-//
-//        [self.navigationController pushViewController:nvc animated:YES];
-//
-//    }else{
-//
-//        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue] == 1 || [_followState intValue] == 3 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue] == 1 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"realname"] intValue] == 1) {
-//
-//            LDGroupNumberViewController *nvc = [[LDGroupNumberViewController alloc] init];
-//
-//            nvc.userId = self.userID;
-//
-//            [self.navigationController pushViewController:nvc animated:YES];
-//
-//        }else{
-//
-//            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"群组限互为好友/认证用户/VIP会员可见~"    preferredStyle:UIAlertControllerStyleAlert];
-//
-//            UIAlertAction * addFriendAction = [UIAlertAction actionWithTitle:@"加好友" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
-//
-//                [self attentButtonClickState:_attentStatus];
-//
-//            }];
-//
-//            UIAlertAction * vipAction = [UIAlertAction actionWithTitle:@"开通VIP" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
-//
-//                LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
-//
-//                [self.navigationController pushViewController:mvc animated:YES];
-//
-//            }];
-//
-//            UIAlertAction * realNameAction = [UIAlertAction actionWithTitle:@"免费认证" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
-//
-//                //判断用户是否认证
-//                [self createRealNameState];
-//
-//            }];
-//
-//            UIAlertAction * action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
-//
-//            if (PHONEVERSION.doubleValue >= 8.3) {
-//
-//                [action setValue:[UIColor lightGrayColor] forKey:@"_titleTextColor"];
-//                [vipAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-//                [addFriendAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-//                [realNameAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-//            }
-//
-//
-//            [alert addAction:action];
-//            [alert addAction:addFriendAction];
-//            [alert addAction:realNameAction];
-//            [alert addAction:vipAction];
-//
-//            [self presentViewController:alert animated:YES completion:nil];
-//        }
-//    }
+
 }
 
 -(void)blackData{
@@ -3431,7 +3345,7 @@
     
     [alertButton setTitle:@"确定" forState:UIControlStateNormal];
     
-    [alertButton setTitleColor:CDCOLOR forState:UIControlStateNormal];
+    [alertButton setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
     
     [alertView addSubview:alertButton];
 }
@@ -3473,9 +3387,9 @@
             
             if (PHONEVERSION.doubleValue >= 8.3) {
             
-                [action setValue:CDCOLOR forKey:@"_titleTextColor"];
+                [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
                 
-                [cancelAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+                [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
                 
             }
 
@@ -3581,9 +3495,9 @@
                 
                 [action setValue:[UIColor lightGrayColor] forKey:@"_titleTextColor"];
                 
-                [vipAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+                [vipAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
                 
-                [addFriendAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+                [addFriendAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
             }
 
             

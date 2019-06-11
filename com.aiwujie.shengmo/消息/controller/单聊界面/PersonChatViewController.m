@@ -128,12 +128,12 @@
         
     }else if (_type == personIsVIPANNUAL) {
         
-        navTitleColor = CDCOLOR;
+        navTitleColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
         navTitleImage = [UIImage imageNamed:@"年费会员"];
         
     }else if (_type == personIsVIP) {
         
-        navTitleColor = CDCOLOR;
+        navTitleColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
         navTitleImage = [UIImage imageNamed:@"高级紫"];
     }
     

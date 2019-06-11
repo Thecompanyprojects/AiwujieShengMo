@@ -358,7 +358,7 @@
 }
 - (IBAction)giveButtonClick:(UIButton *)sender {
     
-    [_chargeGiveButton setTitleColor:CDCOLOR forState:UIControlStateNormal];
+    [_chargeGiveButton setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
     [_chargeExchangeButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     _buttonState = @"1";
     [self.tableView.mj_header beginRefreshing];
@@ -367,36 +367,12 @@
 }
 - (IBAction)chargeExchangeButtonClick:(UIButton *)sender {
     
-    [_chargeExchangeButton setTitleColor:CDCOLOR forState:UIControlStateNormal];
+    [_chargeExchangeButton setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
     [_chargeGiveButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     _buttonState = @"2";
     [self.tableView.mj_header beginRefreshing];
 
 }
-//- (IBAction)detailGiveButtonClick:(id)sender {
-//
-//    [_detailGiveButton setTitleColor:CDCOLOR forState:UIControlStateNormal];
-//    [_detailDepositButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-//    [_detailExchangeButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-//    _buttonState = @"1";
-//    [self.tableView.mj_header beginRefreshing];
-//}
-//- (IBAction)detailExchangeButtonClick:(id)sender {
-//
-//    [_detailGiveButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-//    [_detailDepositButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-//    [_detailExchangeButton setTitleColor:CDCOLOR forState:UIControlStateNormal];
-//    _buttonState = @"2";
-//    [self.tableView.mj_header beginRefreshing];
-//}
-//- (IBAction)detailDepositButtonClick:(id)sender {
-//
-//    [_detailGiveButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-//    [_detailDepositButton setTitleColor:CDCOLOR forState:UIControlStateNormal];
-//    [_detailExchangeButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-//    _buttonState = @"3";
-//    [self.tableView.mj_header beginRefreshing];
-//}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

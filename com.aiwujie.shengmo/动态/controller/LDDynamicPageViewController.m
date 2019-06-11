@@ -91,38 +91,20 @@
 
 //获取动态有几条未读消息
 -(void)createUnreadData{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
+
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/getUnreadNum"];
-    
     NSDictionary *parameters;
-    
     NSString *uid;
-    
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] length] == 0) {
-        
         uid = @"";
-        
     }else{
     
         uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
     }
-    
     parameters = @{@"uid":uid,@"type":@"1"};
-    //    NSLog(@"%@",role);
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-        //NSLog(@"%@",responseObject);
-        
-        if (integer == 2000){
-            
-            //NSLog(@"%@",mvc.tabBar.items);
-            
-            NSInteger badge = [responseObject[@"data"][@"allnum"] integerValue] + [[[NSUserDefaults standardUserDefaults] objectForKey:@"atPerson"] count];
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        if ([[responseObj objectForKey:@"retcode"] intValue]) {
+            NSInteger badge = [responseObj[@"data"][@"allnum"] integerValue] + [[[NSUserDefaults standardUserDefaults] objectForKey:@"atPerson"] count];
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 
@@ -133,15 +115,14 @@
                 }else{
                     
                     self.unreadLabel.hidden = NO;
-
+                    
                 }
             });
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failed:^(NSString *errorMsg) {
         
     }];
-    
+ 
 }
 
 //消息接受监听
@@ -155,11 +136,8 @@
     // Do any additional setup after loading the view from its nib.
     
     _dataArray = [NSMutableArray array];
-    
     _sectionArray = [NSMutableArray array];
-    
     _topicArray = [NSMutableArray array];
-    
     _slideArray = [NSMutableArray array];
     
     if ([self.content intValue] == 0) {
@@ -225,9 +203,7 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//        NSLog(@"%@",responseObject);
-        
+
         if (integer != 2000) {
             
             if (integer == 3000) {
@@ -615,7 +591,7 @@
                 _page = 0;
                 
                 [self createDataType:@"1"];
-                
+            
 //            }else{
 //
 //                [_dataArray removeAllObjects];
@@ -825,14 +801,10 @@
             parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":@"",@"lng":@"",@"type":content,@"page":[NSString stringWithFormat:@"%d",_page],@"loginuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
         }
     }
-
-
+    
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         _integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-//        NSLog(@"%@",responseObject);
-        
         if (_integer != 2000 && _integer != 2001) {
             
             if (_integer == 4001) {
@@ -907,7 +879,6 @@
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
-//        NSLog(@"%@",error);
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
     }];
@@ -1638,9 +1609,9 @@
                 oneLabel.text = [NSString stringWithFormat:@"%@回复%@: %@",model.comArr[0][@"nickname"],model.comArr[0][@"othernickname"],model.comArr[0][@"content"]];
                 
                 NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:oneLabel.text];
-                [str addAttribute:NSForegroundColorAttributeName value:CDCOLOR range:NSMakeRange(0,[model.comArr[0][@"nickname"] length])];
+                [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange(0,[model.comArr[0][@"nickname"] length])];
                 
-                [str addAttribute:NSForegroundColorAttributeName value:CDCOLOR range:NSMakeRange([model.comArr[0][@"nickname"] length] + 2,[model.comArr[0][@"othernickname"] length])];
+                [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange([model.comArr[0][@"nickname"] length] + 2,[model.comArr[0][@"othernickname"] length])];
                 
                 oneLabel.attributedText = str;
                 
@@ -1649,7 +1620,7 @@
                 oneLabel.text = [NSString stringWithFormat:@"%@: %@",model.comArr[0][@"nickname"],model.comArr[0][@"content"]];
                 
                 NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:oneLabel.text];
-                [str addAttribute:NSForegroundColorAttributeName value:CDCOLOR range:NSMakeRange(0,[model.comArr[0][@"nickname"] length])];
+                [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange(0,[model.comArr[0][@"nickname"] length])];
                 
                 oneLabel.attributedText = str;
             }
@@ -1665,9 +1636,9 @@
                 twoLabel.text = [NSString stringWithFormat:@"%@回复%@: %@",model.comArr[1][@"nickname"],model.comArr[1][@"othernickname"],model.comArr[1][@"content"]];
                 
                 NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:twoLabel.text];
-                [str addAttribute:NSForegroundColorAttributeName value:CDCOLOR range:NSMakeRange(0,[model.comArr[1][@"nickname"] length])];
+                [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange(0,[model.comArr[1][@"nickname"] length])];
                 
-                [str addAttribute:NSForegroundColorAttributeName value:CDCOLOR range:NSMakeRange([model.comArr[1][@"nickname"] length] + 2,[model.comArr[1][@"othernickname"] length])];
+                [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange([model.comArr[1][@"nickname"] length] + 2,[model.comArr[1][@"othernickname"] length])];
                 
                 twoLabel.attributedText = str;
                 
@@ -1676,7 +1647,7 @@
                 twoLabel.text = [NSString stringWithFormat:@"%@: %@",model.comArr[1][@"nickname"],model.comArr[1][@"content"]];
                 
                 NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:twoLabel.text];
-                [str addAttribute:NSForegroundColorAttributeName value:CDCOLOR range:NSMakeRange(0,[model.comArr[1][@"nickname"] length])];
+                [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange(0,[model.comArr[1][@"nickname"] length])];
                 
                 twoLabel.attributedText = str;
             }
@@ -1732,9 +1703,9 @@
                 oneLabel.text = [NSString stringWithFormat:@"%@回复%@: %@",model.comArr[0][@"nickname"],model.comArr[0][@"othernickname"],model.comArr[0][@"content"]];
                 
                 NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:oneLabel.text];
-                [str addAttribute:NSForegroundColorAttributeName value:CDCOLOR range:NSMakeRange(0,[model.comArr[0][@"nickname"] length])];
+                [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange(0,[model.comArr[0][@"nickname"] length])];
                 
-                [str addAttribute:NSForegroundColorAttributeName value:CDCOLOR range:NSMakeRange([model.comArr[0][@"nickname"] length] + 2,[model.comArr[0][@"othernickname"] length])];
+                [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange([model.comArr[0][@"nickname"] length] + 2,[model.comArr[0][@"othernickname"] length])];
                 
                 oneLabel.attributedText = str;
                 
@@ -1744,7 +1715,7 @@
                 oneLabel.text = [NSString stringWithFormat:@"%@: %@",model.comArr[0][@"nickname"],model.comArr[0][@"content"]];
                 
                 NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:oneLabel.text];
-                [str addAttribute:NSForegroundColorAttributeName value:CDCOLOR range:NSMakeRange(0,[model.comArr[0][@"nickname"] length])];
+                [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange(0,[model.comArr[0][@"nickname"] length])];
                 
                 oneLabel.attributedText = str;
             }

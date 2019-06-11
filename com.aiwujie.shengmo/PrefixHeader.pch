@@ -35,10 +35,10 @@
 
 //服务器的域名
 //#define URL  @"http://59.110.28.150:888/"
-//服务器的另一个域名
-//#define PICHEADURL  @"http://hao.shengmo.org:888/"
 
-#define PICHEADURL  @"http://ceshi.shengmo.org/"
+//服务器的另一个域名
+#define PICHEADURL  @"http://hao.shengmo.org:888/"
+//#define PICHEADURL  @"http://ceshi.shengmo.org/"
 
 //微博的key和url
 #define kAppKey         @"2758008921"
@@ -64,13 +64,16 @@
 
 //cd的图标背景颜色
 //#define CDCOLOR [UIColor colorWithHexString:@"#c450d6" alpha:1]
-#define CDCOLOR [UIColor colorWithHexString:@"#e7aaee" alpha:1]
+
+//双性图标背景颜色
+#define DOUBLECOLOR [UIColor colorWithHexString:@"#e7aaee" alpha:1]
 
 //绿色图标背景颜色
 #define GREENCOLORS [UIColor colorWithHexString:@"#ade489" alpha:1]
 
 //main 紫色
-#define MainColor [UIColor colorWithHexString:@"#B73ACB" alpha:1]
+//#define MainColor [UIColor colorWithHexString:@"#B73ACB" alpha:1]
+#define MainColor [UIColor colorWithHexString:@"#c450d6" alpha:1]
 
 #import "LDAFManager.h"
 #import "AFNetworking.h"

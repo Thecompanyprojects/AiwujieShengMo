@@ -1253,7 +1253,7 @@
     }else if ([dic[@"role"] isEqualToString:@"SM"]){
         
         self.sexualLabel.text = @"双";
-        self.sexualLabel.backgroundColor = CDCOLOR;
+        self.sexualLabel.backgroundColor = DOUBLECOLOR;
         
     }else{
     
@@ -1274,7 +1274,7 @@
     }else{
         
         self.sexLabel.image = [UIImage imageNamed:@"双性"];
-        self.aSexView.backgroundColor = CDCOLOR;
+        self.aSexView.backgroundColor = DOUBLECOLOR;
     }
     
     self.ageLabel.text = [NSString stringWithFormat:@"%@",dic[@"age"]];
@@ -1287,7 +1287,7 @@
     }else{
         
         self.zanImageView.image = [UIImage imageNamed:@"赞紫"];
-        self.zanLabel.textColor = CDCOLOR;
+        self.zanLabel.textColor = [UIColor colorWithHexString:@"#c450d6" alpha:1];
     }
     
     _zanNum = dic[@"laudnum"];
@@ -1299,7 +1299,7 @@
     [self.zanButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     
     [self.commentButton setTitle:[NSString stringWithFormat:@"评论 %@",dic[@"comnum"]] forState:UIControlStateNormal];
-    [self.commentButton setTitleColor:CDCOLOR forState:UIControlStateNormal];
+    [self.commentButton setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
     
     [self.rewardButton setTitle:[NSString stringWithFormat:@"打赏 %@",dic[@"rewardnum"]] forState:UIControlStateNormal];
     [self.rewardButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
@@ -1409,7 +1409,7 @@
     
     [self.zanButton setTitle:[NSString stringWithFormat:@"赞 %@",_zanNum] forState:UIControlStateNormal];
     
-    [self.zanButton setTitleColor:CDCOLOR forState:UIControlStateNormal];
+    [self.zanButton setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
     
     [self.commentButton setTitle:[NSString stringWithFormat:@"评论 %@",_commentNum] forState:UIControlStateNormal];
     
@@ -1437,7 +1437,7 @@
     
     [self.commentButton setTitle:[NSString stringWithFormat:@"评论 %@",_commentNum] forState:UIControlStateNormal];
     
-    [self.commentButton setTitleColor:CDCOLOR forState:UIControlStateNormal];
+    [self.commentButton setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
     
     [self.rewardButton setTitle:[NSString stringWithFormat:@"打赏 %@",_rewordNum] forState:UIControlStateNormal];
     
@@ -1465,7 +1465,7 @@
     
     [self.rewardButton setTitle:[NSString stringWithFormat:@"打赏 %@",_rewordNum] forState:UIControlStateNormal];
     
-    [self.rewardButton setTitleColor:CDCOLOR forState:UIControlStateNormal];
+    [self.rewardButton setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
     
     _page = 0;
     
@@ -1521,7 +1521,7 @@
                 
             }else{
                 
-                self.zanLabel.textColor = CDCOLOR;
+                self.zanLabel.textColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
                 
                 self.zanImageView.image = [UIImage imageNamed:@"赞紫"];
                 
@@ -1633,9 +1633,9 @@
         
         if (PHONEVERSION.doubleValue >= 8.3) {
             
-            [action setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
             
-            [cancel setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
         }
         
         [alert addAction:cancel];
@@ -1970,7 +1970,7 @@
         
         if (PHONEVERSION.doubleValue >= 8.3) {
             
-            [alertAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [alertAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
         }
         
         UIAlertAction * cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
@@ -1993,11 +1993,11 @@
         
         if (PHONEVERSION.doubleValue >= 8.3) {
             
-            [shareAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [shareAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
             
-            [topAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [topAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
             
-            [cancel setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
         }
 
         [self presentViewController:alert animated:YES completion:nil];
@@ -2145,7 +2145,7 @@
             
             if (PHONEVERSION.doubleValue >= 8.3) {
                 
-                [alertAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+                [alertAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
             }
             
             [alert addAction:alertAction];
@@ -2161,13 +2161,13 @@
         
         if (PHONEVERSION.doubleValue >= 8.3) {
             
-            [action setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
             
-            [shareAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [shareAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
             
-            [cancel setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
             
-            [collectAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [collectAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
         }
         
         if ([_recommendstate intValue] == 0) {
@@ -2284,7 +2284,7 @@
     
     if (PHONEVERSION.doubleValue >= 8.3) {
         
-        [hiddenAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+        [hiddenAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
     }
     
     [alert addAction:hiddenAction];
@@ -2317,7 +2317,7 @@
     
     if (PHONEVERSION.doubleValue >= 8.3) {
         
-        [recommendAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+        [recommendAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
     }
     
     [alert addAction:recommendAction];
@@ -2375,7 +2375,7 @@
     
     if (PHONEVERSION.doubleValue >= 8.3) {
         
-        [report setValue:CDCOLOR forKey:@"_titleTextColor"];
+        [report setValue:DOUBLECOLOR forKey:@"_titleTextColor"];
     }
 }
 
@@ -2429,7 +2429,7 @@
         
         if (PHONEVERSION.doubleValue >= 8.3) {
             
-            [adminCancelRecommendAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [adminCancelRecommendAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
         }
     }
     
@@ -2453,15 +2453,15 @@
         
         if (PHONEVERSION.doubleValue >= 8.3) {
             
-            [adminCancelStickAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [adminCancelStickAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
         
         }
     }
     
     if (PHONEVERSION.doubleValue >= 8.3) {
         
-        [adminRecommendAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-        [adminStickAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+        [adminRecommendAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [adminStickAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
     }
 }
 

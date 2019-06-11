@@ -94,7 +94,7 @@
         
         self.sexualLabel.text = @"双";
         
-        self.sexualLabel.backgroundColor = CDCOLOR;
+        self.sexualLabel.backgroundColor = DOUBLECOLOR;
         
     }else{
         
@@ -118,7 +118,7 @@
         
         self.sexView.image = [UIImage imageNamed:@"双性"];
         
-        self.aSexView.backgroundColor = CDCOLOR;
+        self.aSexView.backgroundColor = DOUBLECOLOR;
     }
     
     self.ageLabel.text = [NSString stringWithFormat:@"%@",_model.age];

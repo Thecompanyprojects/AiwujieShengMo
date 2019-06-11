@@ -148,9 +148,9 @@
     
     UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault  handler:nil];
     
-    [action setValue:CDCOLOR forKey:@"_titleTextColor"];
+    [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
     
-    [cancelAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+    [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
     
     [alert addAction:action];
     

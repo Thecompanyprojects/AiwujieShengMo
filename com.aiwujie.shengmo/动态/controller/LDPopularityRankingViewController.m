@@ -279,7 +279,7 @@
         
         if (index + 14 == btn.tag) {
             
-            [btn setTitleColor:CDCOLOR forState:UIControlStateNormal];
+            [btn setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
             
         }else{
             

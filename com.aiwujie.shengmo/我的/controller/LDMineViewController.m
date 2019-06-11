@@ -28,6 +28,7 @@
 #import "LDSignView.h"
 #import "ShowBadgeCell.h"
 #import "UITabBar+badge.h"
+#import "LDtotopViewController.h"
 
 @interface LDMineViewController ()<UITableViewDelegate,UITableViewDataSource,SDCycleScrollViewDelegate>
 
@@ -120,7 +121,7 @@
     
     [self createRightButton];
     
-    _dataArray = @[@[@"充值礼物",@"圣魔邮票",@"会员中心",@"红娘牵线"],@[@"自拍认证",@"分享APP"],@[@"设置"]];
+    _dataArray = @[@[@"充值礼物",@"圣魔邮票",@"圣魔推顶",@"会员中心",@"红娘牵线"],@[@"自拍认证",@"分享APP"],@[@"设置"]];
     
     [self createHeadData];
     
@@ -409,13 +410,9 @@
         
         cell.lineView.hidden = NO;
     }
-    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     return cell;
-    
 }
-
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -446,19 +443,21 @@
             
             [self.navigationController pushViewController:svc animated:YES];
             
-        }else if (indexPath.row == 2) {
+        }else if (indexPath.row==2){
+            LDtotopViewController *vc = [LDtotopViewController new];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        else if (indexPath.row == 3) {
             
             LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
-            
             [self.navigationController pushViewController:mvc animated:YES];
             
-        }else if (indexPath.row == 3){
+        }else if (indexPath.row == 4){
             
             LDMatchmakerViewController *match = [[LDMatchmakerViewController alloc] init];
-            
             [self.navigationController pushViewController:match animated:YES];
             
-        }else if(indexPath.row == 4){
+        }else if(indexPath.row == 5){
             
             
         }else if (indexPath.row == 5){

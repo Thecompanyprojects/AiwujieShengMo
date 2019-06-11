@@ -953,7 +953,7 @@
     
     [toolBar setItems:@[item1, flexible1, item3, flexible2 ,item2]];
     
-    toolBar.barTintColor = CDCOLOR;
+    toolBar.barTintColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
     
     [self.LVView addSubview:toolBar];
     
@@ -1199,7 +1199,7 @@
                 
                 if ([_sexStateArray[i] isEqualToString:@"yes"]) {
                     
-                    [button setBackgroundColor:CDCOLOR];
+                    [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
                     
                     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                     
@@ -1221,7 +1221,7 @@
                 
                 if ([_sexualStateArray[i] isEqualToString:@"yes"]) {
                     
-                    [button setBackgroundColor:CDCOLOR];
+                    [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
                     
                     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                     
@@ -1259,7 +1259,7 @@
             
                 if ([_roleStateArray[i] isEqualToString:@"yes"]) {
                     
-                    [button setBackgroundColor:CDCOLOR];
+                    [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
                     
                     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                     
@@ -1308,7 +1308,7 @@
                 
             }else{
                 
-                [button setBackgroundColor:CDCOLOR];
+                [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
                 
                 [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 
@@ -1332,7 +1332,7 @@
                     
                     if ([_sexStateArray[i] isEqualToString:@"yes"]) {
                         
-                        [button setBackgroundColor:CDCOLOR];
+                        [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
                         
                         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                         
@@ -1363,7 +1363,7 @@
                     
                     if ([_sexStateArray[i] isEqualToString:@"yes"]) {
                         
-                        [button setBackgroundColor:CDCOLOR];
+                        [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
                         
                         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                         
@@ -1398,7 +1398,7 @@
                 
             }else{
                 
-                [button setBackgroundColor:CDCOLOR];
+                [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
                 
                 [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 
@@ -1422,7 +1422,7 @@
                     
                     if ([_sexualStateArray[i] isEqualToString:@"yes"]) {
                         
-                        [button setBackgroundColor:CDCOLOR];
+                        [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
                         
                         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                         
@@ -1453,7 +1453,7 @@
                     
                     if ([_sexualStateArray[i] isEqualToString:@"yes"]) {
                         
-                        [button setBackgroundColor:CDCOLOR];
+                        [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
                         
                         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                         
@@ -1489,7 +1489,7 @@
                 
             }else{
                 
-                [button setBackgroundColor:CDCOLOR];
+                [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
                 
                 [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 
@@ -1513,7 +1513,7 @@
                     
                     if ([_roleStateArray[i] isEqualToString:@"yes"]) {
                         
-                        [button setBackgroundColor:CDCOLOR];
+                        [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
                         
                         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                         
@@ -1543,7 +1543,7 @@
                     
                     if ([_roleStateArray[i] isEqualToString:@"yes"]) {
                         
-                        [button setBackgroundColor:CDCOLOR];
+                        [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
                         
                         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                         

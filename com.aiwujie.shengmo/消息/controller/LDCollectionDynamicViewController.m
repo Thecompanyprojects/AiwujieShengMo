@@ -518,9 +518,9 @@
                 oneLabel.text = [NSString stringWithFormat:@"%@回复%@: %@",model.comArr[0][@"nickname"],model.comArr[0][@"othernickname"],model.comArr[0][@"content"]];
                 
                 NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:oneLabel.text];
-                [str addAttribute:NSForegroundColorAttributeName value:CDCOLOR range:NSMakeRange(0,[model.comArr[0][@"nickname"] length])];
+                [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange(0,[model.comArr[0][@"nickname"] length])];
                 
-                [str addAttribute:NSForegroundColorAttributeName value:CDCOLOR range:NSMakeRange([model.comArr[0][@"nickname"] length] + 2,[model.comArr[0][@"othernickname"] length])];
+                [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange([model.comArr[0][@"nickname"] length] + 2,[model.comArr[0][@"othernickname"] length])];
                 
                 oneLabel.attributedText = str;
                 
@@ -529,7 +529,7 @@
                 oneLabel.text = [NSString stringWithFormat:@"%@: %@",model.comArr[0][@"nickname"],model.comArr[0][@"content"]];
                 
                 NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:oneLabel.text];
-                [str addAttribute:NSForegroundColorAttributeName value:CDCOLOR range:NSMakeRange(0,[model.comArr[0][@"nickname"] length])];
+                [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange(0,[model.comArr[0][@"nickname"] length])];
                 
                 oneLabel.attributedText = str;
             }
@@ -545,9 +545,9 @@
                 twoLabel.text = [NSString stringWithFormat:@"%@回复%@: %@",model.comArr[1][@"nickname"],model.comArr[1][@"othernickname"],model.comArr[1][@"content"]];
                 
                 NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:twoLabel.text];
-                [str addAttribute:NSForegroundColorAttributeName value:CDCOLOR range:NSMakeRange(0,[model.comArr[1][@"nickname"] length])];
+                [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange(0,[model.comArr[1][@"nickname"] length])];
                 
-                [str addAttribute:NSForegroundColorAttributeName value:CDCOLOR range:NSMakeRange([model.comArr[1][@"nickname"] length] + 2,[model.comArr[1][@"othernickname"] length])];
+                [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange([model.comArr[1][@"nickname"] length] + 2,[model.comArr[1][@"othernickname"] length])];
                 
                 twoLabel.attributedText = str;
                 
@@ -556,7 +556,7 @@
                 twoLabel.text = [NSString stringWithFormat:@"%@: %@",model.comArr[1][@"nickname"],model.comArr[1][@"content"]];
                 
                 NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:twoLabel.text];
-                [str addAttribute:NSForegroundColorAttributeName value:CDCOLOR range:NSMakeRange(0,[model.comArr[1][@"nickname"] length])];
+                [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange(0,[model.comArr[1][@"nickname"] length])];
                 
                 twoLabel.attributedText = str;
             }
@@ -612,9 +612,9 @@
                 oneLabel.text = [NSString stringWithFormat:@"%@回复%@: %@",model.comArr[0][@"nickname"],model.comArr[0][@"othernickname"],model.comArr[0][@"content"]];
                 
                 NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:oneLabel.text];
-                [str addAttribute:NSForegroundColorAttributeName value:CDCOLOR range:NSMakeRange(0,[model.comArr[0][@"nickname"] length])];
+                [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange(0,[model.comArr[0][@"nickname"] length])];
                 
-                [str addAttribute:NSForegroundColorAttributeName value:CDCOLOR range:NSMakeRange([model.comArr[0][@"nickname"] length] + 2,[model.comArr[0][@"othernickname"] length])];
+                [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange([model.comArr[0][@"nickname"] length] + 2,[model.comArr[0][@"othernickname"] length])];
                 
                 oneLabel.attributedText = str;
                 
@@ -624,7 +624,7 @@
                 oneLabel.text = [NSString stringWithFormat:@"%@: %@",model.comArr[0][@"nickname"],model.comArr[0][@"content"]];
                 
                 NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:oneLabel.text];
-                [str addAttribute:NSForegroundColorAttributeName value:CDCOLOR range:NSMakeRange(0,[model.comArr[0][@"nickname"] length])];
+                [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange(0,[model.comArr[0][@"nickname"] length])];
                 
                 oneLabel.attributedText = str;
             }

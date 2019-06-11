@@ -253,6 +253,8 @@
 		531D738D22AE142E00903BB4 /* LDBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D738C22AE142E00903BB4 /* LDBaseViewController.m */; };
 		531D739022AE3AC400903BB4 /* UIButton+ImageTitleSpace.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D738F22AE3AC400903BB4 /* UIButton+ImageTitleSpace.m */; };
 		531D739422AE8CE700903BB4 /* LDtotopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D739322AE8CE700903BB4 /* LDtotopViewController.m */; };
+		531D739D22AF7F5D00903BB4 /* LdtotopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D739C22AF7F5D00903BB4 /* LdtotopCell.m */; };
+		531D73A022AF80A600903BB4 /* LdtopHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D739F22AF80A600903BB4 /* LdtopHeaderView.m */; };
 		5372254B22ABF8E30082472A /* NetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5372254922ABF8E30082472A /* NetManager.m */; };
 		53E8CDC022A93E2D007E5073 /* LDharassmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDBF22A93E2D007E5073 /* LDharassmentVC.m */; };
 		53E8CDC322A93EED007E5073 /* LDharassmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDC222A93EED007E5073 /* LDharassmentCell.m */; };
@@ -866,6 +868,10 @@
 		531D739222AE8CE700903BB4 /* LDtotopViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDtotopViewController.h; sourceTree = "<group>"; };
 		531D739322AE8CE700903BB4 /* LDtotopViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDtotopViewController.m; sourceTree = "<group>"; };
 		531D739522AF37B500903BB4 /* wangHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wangHeader.h; sourceTree = "<group>"; };
+		531D739B22AF7F5D00903BB4 /* LdtotopCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LdtotopCell.h; sourceTree = "<group>"; };
+		531D739C22AF7F5D00903BB4 /* LdtotopCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LdtotopCell.m; sourceTree = "<group>"; };
+		531D739E22AF80A600903BB4 /* LdtopHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LdtopHeaderView.h; sourceTree = "<group>"; };
+		531D739F22AF80A600903BB4 /* LdtopHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LdtopHeaderView.m; sourceTree = "<group>"; };
 		5372254922ABF8E30082472A /* NetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetManager.m; sourceTree = "<group>"; };
 		5372254A22ABF8E30082472A /* NetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetManager.h; sourceTree = "<group>"; };
 		53E8CDBE22A93E2D007E5073 /* LDharassmentVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDharassmentVC.h; sourceTree = "<group>"; };
@@ -1918,10 +1924,30 @@
 		531D739122AE879D00903BB4 /* 推顶卡 */ = {
 			isa = PBXGroup;
 			children = (
+				531D739722AF7D3C00903BB4 /* View */,
+				531D739622AF7D3B00903BB4 /* Controller */,
+			);
+			name = "推顶卡";
+			sourceTree = "<group>";
+		};
+		531D739622AF7D3B00903BB4 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
 				531D739222AE8CE700903BB4 /* LDtotopViewController.h */,
 				531D739322AE8CE700903BB4 /* LDtotopViewController.m */,
 			);
-			name = "推顶卡";
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		531D739722AF7D3C00903BB4 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				531D739B22AF7F5D00903BB4 /* LdtotopCell.h */,
+				531D739C22AF7F5D00903BB4 /* LdtotopCell.m */,
+				531D739E22AF80A600903BB4 /* LdtopHeaderView.h */,
+				531D739F22AF80A600903BB4 /* LdtopHeaderView.m */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 		5372254822ABF8E30082472A /* NetWorking */ = {
@@ -3573,6 +3599,7 @@
 				D2FF92EF1EE6B75C00D96B3A /* LDInvitationMemberViewController.m in Sources */,
 				D2692A071E7A8D5200250A05 /* UITableView+FDTemplateLayoutCellDebug.m in Sources */,
 				D20E4B1E1F1F086200232E08 /* TopicCell.m in Sources */,
+				531D739D22AF7F5D00903BB4 /* LdtotopCell.m in Sources */,
 				0043DB4B1E2B6AD100577DE5 /* LDReportResonViewController.m in Sources */,
 				004B2C981E3393A200EDCCC1 /* DynamicModel.m in Sources */,
 				D2692A041E7A8D5200250A05 /* UITableView+FDIndexPathHeightCache.m in Sources */,
@@ -3585,6 +3612,7 @@
 				000E773B1E2DE1D500F2894B /* LDAlertHeadAndNameViewController.m in Sources */,
 				D2FF4C381EF8CB0900025448 /* GifView.m in Sources */,
 				D21DA6CC1EC5B10000827A2E /* RankingModel.m in Sources */,
+				531D73A022AF80A600903BB4 /* LdtopHeaderView.m in Sources */,
 				D2FEB5D31EC45B13002A0886 /* LDRewardRankingViewController.m in Sources */,
 				D232FA6E1E73C11C001D4018 /* WUGesturesUnlockView.m in Sources */,
 				00E9D2DD1E2F995B0004365D /* ApplyGroupModel.m in Sources */,
@@ -4082,7 +4110,7 @@
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = NO;
 				CODE_SIGN_ENTITLEMENTS = com.aiwujie.shengmo/com.aiwujie.shengmo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Beijing Aiwujie Culture Media Co., Ltd. (34KF672EP8)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 34KF672EP8;
 				ENABLE_BITCODE = NO;

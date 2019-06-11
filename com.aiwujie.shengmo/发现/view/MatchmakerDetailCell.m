@@ -95,7 +95,7 @@
         
     }else{
         
-        label.backgroundColor = CDCOLOR;
+        label.backgroundColor = DOUBLECOLOR;
     }
     
     label.layer.cornerRadius = 2;

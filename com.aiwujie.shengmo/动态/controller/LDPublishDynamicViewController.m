@@ -261,7 +261,7 @@
     _personNumberLabel = [[UILabel alloc] initWithFrame:CGRectMake(WIDTH - 138, 10, 112, 21)];
     _personNumberLabel.font = [UIFont systemFontOfSize:11];
     _personNumberLabel.textAlignment = NSTextAlignmentRight;
-    _personNumberLabel.textColor = CDCOLOR;
+    _personNumberLabel.textColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
     [_atView addSubview:_personNumberLabel];
     
     UIView *twoLineView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(atLabel.frame)+8, WIDTH, 1)];
@@ -977,11 +977,11 @@
             
             if (PHONEVERSION.doubleValue >= 8.3) {
             
-                [cancelAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+                [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
                 
-                [photoAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+                [photoAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
                 
-                [cameraAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+                [cameraAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
             }
             
             [alertController addAction:cameraAction];

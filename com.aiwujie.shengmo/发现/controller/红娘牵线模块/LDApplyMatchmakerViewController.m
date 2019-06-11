@@ -125,7 +125,6 @@
 }
 
 
-
 /**
  * 上传资料成功
  */
@@ -172,9 +171,7 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //                NSLog(@"%@",responseObject);
-        
+
         if (integer == 2000) {
             
             self.headerImageView.layer.cornerRadius = 40;
@@ -233,7 +230,7 @@
                 
                 self.sexualLabel.text = @"双";
                 
-                self.sexualLabel.backgroundColor = CDCOLOR;
+                self.sexualLabel.backgroundColor = DOUBLECOLOR;
                 
             }else{
                 
@@ -260,7 +257,7 @@
                 
                 self.sexLabel.image = [UIImage imageNamed:@"双性"];
                 
-                self.aSexView.backgroundColor = CDCOLOR;
+                self.aSexView.backgroundColor = DOUBLECOLOR;
             }
             
             self.ageLabel.text = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"age"]];
@@ -399,14 +396,10 @@
  * 获取第三步的数据
  */
 -(void)getStep3Data{
-    
     //获取第三步的红娘荐语的数据
     [self getStep3IntroduceData];
-    
     //获取第三步的展开介绍的数据
     [self getStep3PresentData];
-    
-    
 }
 
 /**
@@ -424,9 +417,7 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//        NSLog(@"%@",responseObject);
-        
+
         if (integer == 2000) {
             
             if (self.stemp3Array.count != 0) {
@@ -434,9 +425,7 @@
                 [self.stemp3Array removeAllObjects];
                 
             }
-            
             [self.stemp3Array addObjectsFromArray:responseObject[@"data"]];
-            
             _isHaveMatchObList = YES;
             
         }else if (integer == 3000){
@@ -568,18 +557,12 @@
             }
          
         }else if (integer == 4002){
-            
             [self createStep2WarnView:@"非牵线会员~"];
-            
         }else{
-            
             [self createStep2WarnView:@"请求发生错误~"];
         }
-        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
         [self createStep2WarnView:@"网络连接错误,请检查网络设置~"];
-        
     }];
 }
 
@@ -980,9 +963,7 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
         [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"网络连接错误,请检查网络设置~"];
-        
     }];
-    
 }
 
 /**
@@ -1128,7 +1109,6 @@
     backImageView.image = [UIImage imageNamed:@"红娘文字背景"];
     [view addSubview:backImageView];
     
-    
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(20, 10, WIDTH - 20, 30)];
     
     label.text = _dataArray[[_recordStep intValue] - 1][section];
@@ -1181,14 +1161,5 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

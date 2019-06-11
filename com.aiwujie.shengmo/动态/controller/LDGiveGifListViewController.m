@@ -9,16 +9,12 @@
 #import "LDGiveGifListViewController.h"
 #import "LDGiveGifListPageViewController.h"
 
-
 @interface LDGiveGifListViewController ()<UIPageViewControllerDelegate,UIPageViewControllerDataSource>
-
 //翻页控制器
 @property (nonatomic, strong) UIPageViewController *pageViewController;
 @property (nonatomic, strong) NSArray *pageContentArray;
 @property (nonatomic, strong) LDGiveGifListPageViewController *GiveGifListPageViewController;
-
 @property (nonatomic, weak) UIView *navLine;
-
 @end
 
 @implementation LDGiveGifListViewController
@@ -28,15 +24,11 @@
 - (NSArray *)pageContentArray {
     if (!_pageContentArray) {
         NSMutableArray *arrayM = [[NSMutableArray alloc] init];
-        
         LDGiveGifListPageViewController *v1 = [[LDGiveGifListPageViewController alloc] init];
         LDGiveGifListPageViewController *v2 = [[LDGiveGifListPageViewController alloc] init];
-        
         [arrayM addObject:v1];
         [arrayM addObject:v2];
-        
         _pageContentArray = [[NSArray alloc] initWithArray:arrayM];
-        
     }
     return _pageContentArray;
 }
@@ -110,18 +102,13 @@
 #pragma mark 返回上一个ViewController对象
 
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerBeforeViewController:(UIViewController *)viewController {
-    
     NSUInteger index = [self indexOfViewController:(LDGiveGifListPageViewController *)viewController];
-    
     if ((index == 0) || (index == NSNotFound)) {
         
         return nil;
     }
-    
     index--;
-    
     return [self viewControllerAtIndex:index];
-    
 }
 
 #pragma mark 返回下一个ViewController对象
@@ -140,10 +127,7 @@
         
         return nil;
     }
-    
-    
     return [self viewControllerAtIndex:index];
-    
 }
 
 //翻页视图控制器将要翻页时执行的方法
@@ -197,22 +181,15 @@
 - (NSUInteger)indexOfViewController:(LDGiveGifListPageViewController *)viewController {
     
     return [viewController.content integerValue];
-    
 }
 
 //改变导航栏上按钮的颜色
 -(void)changeNavButtonColor:(NSInteger)index{
     
     UIButton *button = (UIButton *)[self.view viewWithTag:index + 100];
-    
-//    _index = index;
-    
     for (int i = 100; i < 102; i++) {
-        
         UIButton *btn = (UIButton *)[self.view viewWithTag:i];
-        
         UIView *view = (UIView *)[self.view viewWithTag:i + 100];
-        
         if (button.tag == btn.tag) {
             
             view.hidden = NO;
@@ -223,6 +200,7 @@
         }
     }
 }
+
 - (IBAction)buttonClick:(UIButton *)sender {
     
     LDGiveGifListPageViewController *initialViewController = [self viewControllerAtIndex:sender.tag - 100];// 得到对应页
@@ -247,14 +225,5 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

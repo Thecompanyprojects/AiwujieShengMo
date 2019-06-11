@@ -120,7 +120,7 @@
             
             [alertButton setTitle:@"确定" forState:UIControlStateNormal];
             
-            [alertButton setTitleColor:CDCOLOR forState:UIControlStateNormal];
+            [alertButton setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
             
             [alertView addSubview:alertButton];
             
@@ -130,7 +130,7 @@
             
             [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
             
-            [cancelButton setTitleColor:CDCOLOR forState:UIControlStateNormal];
+            [cancelButton setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
             
             [alertView addSubview:cancelButton];
             
@@ -347,7 +347,7 @@
     
     [alertButton setTitle:@"重置" forState:UIControlStateNormal];
     
-    [alertButton setTitleColor:CDCOLOR forState:UIControlStateNormal];
+    [alertButton setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
     
     [alertView addSubview:alertButton];
     
@@ -357,7 +357,7 @@
     
     [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
     
-    [cancelButton setTitleColor:CDCOLOR forState:UIControlStateNormal];
+    [cancelButton setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
     
     [alertView addSubview:cancelButton];
 }

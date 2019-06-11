@@ -256,7 +256,7 @@
     
     if ([selectionArray[button.tag%100] isEqualToString:@"yes"]) {
         
-        [button setBackgroundColor:CDCOLOR];
+        [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
         if (button.tag/100 == 2){
@@ -306,7 +306,7 @@
         
         if (button.tag == btn.tag) {
             
-            [button setBackgroundColor:CDCOLOR];
+            [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
             [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             
             if (button.tag/100 == 0) {
@@ -387,7 +387,7 @@
 
         [self.completeButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
-        [self.completeButton setBackgroundColor:CDCOLOR];
+        [self.completeButton setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
         
         self.completeButton.userInteractionEnabled = YES;
         

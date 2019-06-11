@@ -388,9 +388,9 @@
             
             if (PHONEVERSION.doubleValue >= 8.3) {
             
-                [action setValue:CDCOLOR forKey:@"_titleTextColor"];
+                [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
                 
-                [cancelAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+                [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
             }
             
             
@@ -444,9 +444,9 @@
             
             if (PHONEVERSION.doubleValue >= 8.3) {
             
-                [action setValue:CDCOLOR forKey:@"_titleTextColor"];
+                [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
                 
-                [cancelAction setValue:CDCOLOR forKey:@"_titleTextColor"];
+                [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
             }
             
             
@@ -574,7 +574,7 @@
         {
             UIButton *btn = (UIButton *)cc;
             
-            [btn setTitleColor:CDCOLOR forState:UIControlStateNormal];
+            [btn setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
         }
     }
     

@@ -60,7 +60,7 @@
             
             if ([selectionArray[i] isEqualToString:@"yes"]) {
                 
-                [button setBackgroundColor:CDCOLOR];
+                [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
                 [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 [button setTitle:array[i] forState:UIControlStateNormal];
                 
@@ -99,7 +99,7 @@
             
             if ([array[i] isEqualToString:otherArray[indexPath.section]]) {
                 
-                [button setBackgroundColor:CDCOLOR];
+                [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
                 [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 [button setTitle:otherArray[indexPath.section] forState:UIControlStateNormal];
                 
@@ -214,7 +214,7 @@
             
             if ([selectionArray[i] isEqualToString:@"yes"]) {
                 
-                [button setBackgroundColor:CDCOLOR];
+                [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
                 [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 [button setTitle:array[i] forState:UIControlStateNormal];
                 
@@ -253,7 +253,7 @@
             
             if (i + 1 == [otherArray[indexPath.section - 7] intValue]) {
                 
-                [button setBackgroundColor:CDCOLOR];
+                [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
                 [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 [button setTitle:array[i] forState:UIControlStateNormal];
                 

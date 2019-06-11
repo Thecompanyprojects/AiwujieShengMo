@@ -822,10 +822,10 @@
         
         if (PHONEVERSION.doubleValue >= 8.3) {
         
-            [action setValue:CDCOLOR forKey:@"_titleTextColor"];
-            [report setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [report setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
             
-            [cancel setValue:CDCOLOR forKey:@"_titleTextColor"];
+            [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
         }
         
         [alert addAction:cancel];

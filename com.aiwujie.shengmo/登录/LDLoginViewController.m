@@ -190,7 +190,7 @@
         
         [self.loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
-        [self.loginButton setBackgroundColor:CDCOLOR];
+        [self.loginButton setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
         
         self.loginButton.userInteractionEnabled = YES;
         

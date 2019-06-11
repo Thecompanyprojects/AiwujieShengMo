@@ -106,14 +106,14 @@
         
         [self.selectButton setImage:[UIImage imageNamed:@"条件筛选"] forState:UIControlStateNormal];
         
-        _searchLabel1.textColor = CDCOLOR;
+        _searchLabel1.textColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
         
         
     }else{
         
         [self.selectButton setImage:[UIImage imageNamed:@"条件筛选绿"] forState:UIControlStateNormal];
         
-        _searchLabel2.textColor = CDCOLOR;
+        _searchLabel2.textColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteGroupNew) name:@"groupNewDelete" object:nil];
@@ -564,7 +564,7 @@
     
     if(button.tag == 11){
         
-        _searchLabel2.textColor = CDCOLOR;
+        _searchLabel2.textColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
         
         _searchLabel1.textColor = [UIColor colorWithRed:100/255.0 green:100/255.0 blue:100/255.0 alpha:1];
         
@@ -588,7 +588,7 @@
         }
     }else{
         
-        _searchLabel1.textColor = CDCOLOR;
+        _searchLabel1.textColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
         
         _searchLabel2.textColor = [UIColor colorWithRed:100/255.0 green:100/255.0 blue:100/255.0 alpha:1];
         

@@ -356,11 +356,10 @@
             
             UIButton *btn = (UIButton *)[cell.contentView viewWithTag:button.tag/100 * 100 + i];
             
-            //        NSLog(@"%ld",btn.tag);
-            
+
             if (button.tag == btn.tag) {
                 
-                [button setBackgroundColor:CDCOLOR];
+                [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
                 [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                
                 if (button.tag%100 == 0) {
@@ -405,7 +404,7 @@
             
             if (button.tag == btn.tag) {
                 
-                [button setBackgroundColor:CDCOLOR];
+                [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
                 [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 
                 if (button.tag/100 - 1 == 0) {
@@ -451,7 +450,7 @@
     
     if ([_selectionArray[button.tag%100] isEqualToString:@"yes"]) {
         
-        [button setBackgroundColor:CDCOLOR];
+        [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
         [_sexualArray replaceObjectAtIndex:button.tag%100 withObject:button.titleLabel.text];
@@ -699,7 +698,7 @@
         [toolBar1 setItems:@[item1, flexible1, item3, flexible2 ,item2]];
         
         
-        toolBar1.barTintColor = CDCOLOR;
+        toolBar1.barTintColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
         
         [self.dateView addSubview:toolBar1];
         
@@ -756,7 +755,7 @@
         
         [toolBar setItems:@[item1, flexible1, item3, flexible2 ,item2]];
         
-        toolBar.barTintColor = CDCOLOR;
+        toolBar.barTintColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
         
         [self.LVView addSubview:toolBar];
         
@@ -910,7 +909,7 @@
         
         [self.nextButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
-        [self.nextButton setBackgroundColor:CDCOLOR];
+        [self.nextButton setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
         
         self.nextButton.userInteractionEnabled = YES;
         

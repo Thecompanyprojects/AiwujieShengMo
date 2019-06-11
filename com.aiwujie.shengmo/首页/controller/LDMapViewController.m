@@ -522,7 +522,7 @@
             
             [btn setEnabled:YES];
             
-            [btn setTitleColor:CDCOLOR forState:UIControlStateNormal];
+            [btn setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
         }
     }
 }

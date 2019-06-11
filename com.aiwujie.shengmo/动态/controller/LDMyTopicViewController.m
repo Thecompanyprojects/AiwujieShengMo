@@ -151,7 +151,7 @@
         
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake((btn.frame.size.width - titleSize.width)/2 , 36, titleSize.width , 2)];
         
-        view.backgroundColor = CDCOLOR;
+        view.backgroundColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
         
         view.tag = 200 + i;
         

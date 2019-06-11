@@ -156,7 +156,7 @@
 -(void)createBuyButton{
     
     UIButton *buyButton = [[UIButton alloc] initWithFrame:CGRectMake(0, [self getIsIphoneX:ISIPHONEX] - 44, WIDTH, 44)];
-    [buyButton setBackgroundColor:CDCOLOR];
+    [buyButton setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
     [buyButton setTitle:@"确认支付" forState:UIControlStateNormal];
     [buyButton addTarget:self action:@selector(buyButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [buyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];

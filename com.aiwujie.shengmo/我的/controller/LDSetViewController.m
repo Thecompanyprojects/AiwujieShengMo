@@ -338,7 +338,6 @@
                 cell.lineView.hidden = NO;
             }
         }
-        
         cell.detailLabel.font = [UIFont italicSystemFontOfSize:12];//设置字体为斜体
         cell.nameLabel.text = _dataArray[indexPath.section][indexPath.row];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -347,7 +346,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-
+    
     return 0.1;
 }
 
@@ -435,10 +434,10 @@
                 
                 if (PHONEVERSION.doubleValue >= 8.3) {
                 
-                    [wechatAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-                    [qqAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-                    [wbAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-                    [cancel setValue:CDCOLOR forKey:@"_titleTextColor"];
+                    [wechatAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+                    [qqAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+                    [wbAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+                    [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
                 }
                 
                 [alert addAction:cancel];
@@ -515,8 +514,8 @@
                 
                 if (PHONEVERSION.doubleValue >= 8.3) {
                 
-                    [sureAction setValue:CDCOLOR forKey:@"_titleTextColor"];
-                    [cancel setValue:CDCOLOR forKey:@"_titleTextColor"];
+                    [sureAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+                    [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
                     
                 }
                 

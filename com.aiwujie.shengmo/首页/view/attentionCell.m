@@ -126,7 +126,7 @@
         
         self.sexualLabel.text = @"双";
         
-        self.sexualLabel.backgroundColor = CDCOLOR;
+        self.sexualLabel.backgroundColor = DOUBLECOLOR;
         
     }else{
     
@@ -150,7 +150,7 @@
         
         self.sexLabel.image = [UIImage imageNamed:@"双性"];
         
-        self.aSexView.backgroundColor = CDCOLOR;
+        self.aSexView.backgroundColor = DOUBLECOLOR;
     }
     
     NSArray *colorArray = @[@"握手紫",@"黄瓜紫",@"玫瑰紫",@"送吻紫",@"红酒紫",@"对戒紫",@"蛋糕紫",@"跑车紫",@"游轮紫" ,@"棒棒糖",@"狗粮",@"秋裤",@"黄瓜",@"心心相印",@"香蕉",@"口红",@"亲一个",@"玫瑰花",@"眼罩",@"心灵束缚",@"黄金",@"拍之印",@"鞭之痕",@"老司机",@"一生一世",@"水晶高跟",@"恒之光",@"666",@"红酒",@"蛋糕",@"钻戒",@"皇冠",@"跑车",@"直升机",@"游轮",@"城堡",@"幸运草",@"糖果",@"玩具狗",@"内内",@"TT"];
@@ -488,7 +488,7 @@
     }else if ([_model.userInfo[@"role"] isEqualToString:@"SM"]){
         
         self.sexualLabel.text = @"双";
-        self.sexualLabel.backgroundColor = CDCOLOR;
+        self.sexualLabel.backgroundColor = DOUBLECOLOR;
     }else{
     
         self.sexualLabel.text = @"~";
@@ -511,7 +511,7 @@
         
         self.sexLabel.image = [UIImage imageNamed:@"双性"];
         
-        self.aSexView.backgroundColor = CDCOLOR;
+        self.aSexView.backgroundColor = DOUBLECOLOR;
     }
     
     self.ageLabel.text = [NSString stringWithFormat:@"%@",_model.userInfo[@"age"]];

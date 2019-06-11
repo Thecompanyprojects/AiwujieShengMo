@@ -93,20 +93,13 @@
 -(void)createData{
 
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Restrict/getStampPageInfo"];
-    
     NSDictionary *parameters;
-    
     parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    //NSLog(@"%@",parameters);
-    
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//        NSLog(@"%@",responseObject);
-        
+
         if (integer != 2000) {
                 
             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
@@ -282,17 +275,17 @@
         if (btn.tag == button.tag) {
             
             button.layer.borderWidth = 1;
-            button.layer.borderColor = CDCOLOR.CGColor;
+            button.layer.borderColor = [UIColor colorWithHexString:@"c450d6" alpha:1].CGColor;
             button.layer.cornerRadius = 2;
             button.clipsToBounds = YES;
             
             UILabel *priceLabel = (UILabel *)[self.view viewWithTag:button.tag - 20];
             
-            priceLabel.textColor = CDCOLOR;
+            priceLabel.textColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
             
             UILabel *label = (UILabel *)[self.view viewWithTag:button.tag - 10];
             
-            label.textColor = CDCOLOR;
+            label.textColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
             
             _subject = _shopArray[i];
             
@@ -376,8 +369,8 @@
     
     if (PHONEVERSION.doubleValue >= 8.3) {
     
-        [action setValue:CDCOLOR forKey:@"_titleTextColor"];
-        [cancel setValue:CDCOLOR forKey:@"_titleTextColor"];
+        [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
     }
     
     [alert addAction:cancel];

@@ -116,7 +116,7 @@
         
         self.stateLabel.text = @"群主";
     
-        self.stateLabel.backgroundColor = CDCOLOR;
+        self.stateLabel.backgroundColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
     
         self.otherNameLabel.text = model.nickname;
     }
@@ -206,7 +206,7 @@
         
         self.roleLabel.text = @"双";
         
-        self.roleLabel.backgroundColor = CDCOLOR;
+        self.roleLabel.backgroundColor = DOUBLECOLOR;
     }
     
     if ([_model.sex intValue] == 1) {
@@ -225,7 +225,7 @@
         
         self.sexView.image = [UIImage imageNamed:@"双性"];
         
-        self.backView.backgroundColor = CDCOLOR;
+        self.backView.backgroundColor = DOUBLECOLOR;
     }
     
     self.ageLabel.text = [NSString stringWithFormat:@"%@",_model.age];

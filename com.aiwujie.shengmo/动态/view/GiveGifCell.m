@@ -115,8 +115,8 @@
     }
     
     NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:self.showLabel.text];
-    [str addAttribute:NSForegroundColorAttributeName value:CDCOLOR range:NSMakeRange([_model.nickname length],1)];
-    [str addAttribute:NSForegroundColorAttributeName value:CDCOLOR range:NSMakeRange([_model.nickname length] + 1 + [_model.fnickname length],3)];
+    [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange([_model.nickname length],1)];
+    [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange([_model.nickname length] + 1 + [_model.fnickname length],3)];
     [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:255/255.0 green:157/255.0 blue:0/255.0 alpha:1] range:NSMakeRange([_model.nickname length] + 4 + [_model.fnickname length],[str length] - ([_model.nickname length] + 4 + [_model.fnickname length]))];
     
     self.showLabel.attributedText = str;

@@ -271,7 +271,7 @@
         
         [self.registerButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
-        [self.registerButton setBackgroundColor:CDCOLOR];
+        [self.registerButton setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
         
         self.registerButton.userInteractionEnabled = YES;
         
