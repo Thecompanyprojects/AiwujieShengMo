@@ -85,8 +85,7 @@
 }
 
 -(void)createPicCode{
-    
-//    NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage]cookiesForURL:[NSURL URLWithString:@"http://hao.shengmo.org:888/Api/Other/verify"]];
+
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Other/verify"];
     NSArray *cookies = [[NSHTTPCookieStorage sharedHTTPCookieStorage]cookiesForURL:[NSURL URLWithString:url]];
     for (NSHTTPCookie *tempCookie in cookies)

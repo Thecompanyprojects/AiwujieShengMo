@@ -872,9 +872,8 @@
     NSString *pic;
 
     if ([dic[@"head_pic"] length] == 0) {
-        
-        pic = @"http://hao.shengmo.org/nopeople.png";
-        
+
+        pic = [PICHEADURL stringByAppendingString:@"nopeople.png"];
     }else{
     
         pic = dic[@"head_pic"];

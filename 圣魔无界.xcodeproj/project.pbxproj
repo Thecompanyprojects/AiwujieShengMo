@@ -865,6 +865,7 @@
 		531D738F22AE3AC400903BB4 /* UIButton+ImageTitleSpace.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+ImageTitleSpace.m"; sourceTree = "<group>"; };
 		531D739222AE8CE700903BB4 /* LDtotopViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDtotopViewController.h; sourceTree = "<group>"; };
 		531D739322AE8CE700903BB4 /* LDtotopViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDtotopViewController.m; sourceTree = "<group>"; };
+		531D739522AF37B500903BB4 /* wangHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wangHeader.h; sourceTree = "<group>"; };
 		5372254922ABF8E30082472A /* NetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetManager.m; sourceTree = "<group>"; };
 		5372254A22ABF8E30082472A /* NetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetManager.h; sourceTree = "<group>"; };
 		53E8CDBE22A93E2D007E5073 /* LDharassmentVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDharassmentVC.h; sourceTree = "<group>"; };
@@ -1885,6 +1886,7 @@
 		531D737622ADEBB500903BB4 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				531D739522AF37B500903BB4 /* wangHeader.h */,
 			);
 			path = Managers;
 			sourceTree = "<group>";

@@ -142,11 +142,12 @@
     
     if ([_comeFrom isEqualToString:@"Mine"]) {
         
-        [self createShare:sender andTitle:@"圣魔斯慕" andDescription:@"圣魔斯慕——专业亚文化交友APP诞生了！刚上线就很火爆~" andPicImage:[UIImage imageNamed:@"圣魔logo"] andWebUrl:@"www.shengmo.org" andImageData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://hao.shengmo.org/share.png"]] andImageUrl:[NSURL URLWithString:@"http://hao.shengmo.org/share.png"]];
+        NSString *shareUrl = [PICHEADURL stringByAppendingString:@"share.png"];
+        
+        [self createShare:sender andTitle:@"圣魔斯慕" andDescription:@"圣魔斯慕——专业亚文化交友APP诞生了！刚上线就很火爆~" andPicImage:[UIImage imageNamed:@"圣魔logo"] andWebUrl:@"www.shengmo.org" andImageData:[NSData dataWithContentsOfURL:[NSURL URLWithString:shareUrl]] andImageUrl:[NSURL URLWithString:shareUrl]];
         
     }else if([_comeFrom isEqualToString:@"Dynamic"]){
         
-//        [self createShare:sender andTitle:@"分享了一个链接" andDescription:[NSString stringWithFormat:@"%@ 在圣魔斯慕发布了精彩的动态",_name] andPicImage:nil andWebUrl:[NSString stringWithFormat:@"http://hao.shengmo.org:888/Home/Share/dynamic/did/%@",_shareId] andImageData:[self compressPicture] andImageUrl:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_pic]]];
         
     NSString *url = [NSString stringWithFormat:@"%@%@%@",PICHEADURL,@"Home/Share/dynamic/did/",_shareId];
     [self createShare:sender andTitle:@"分享了一个链接" andDescription:[NSString stringWithFormat:@"%@ 在圣魔斯慕发布了精彩的动态",_name] andPicImage:nil andWebUrl:[NSString stringWithFormat:@"%@",url] andImageData:[self compressPicture] andImageUrl:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_pic]]];

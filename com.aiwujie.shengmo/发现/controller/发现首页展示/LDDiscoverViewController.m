@@ -587,7 +587,7 @@
         
         if ([_viewTitleArray1[button.tag - 200][@"url"] length] == 0) {
             
-            //avc.url = [NSString stringWithFormat:@"%@%@",@"http://hao.shengmo.org:888/Home/Info/news/id/",_viewTitleArray1[button.tag - 200][@"id"]];
+    
              avc.url = [NSString stringWithFormat:@"%@%@%@",PICHEADURL,@"Home/Info/news/id/",_viewTitleArray1[button.tag - 200][@"id"]];
             
         }else{

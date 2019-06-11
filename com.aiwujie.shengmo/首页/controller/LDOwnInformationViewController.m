@@ -1784,8 +1784,8 @@
     NSString *pic;
     
     if ([dic[@"head_pic"] length] == 0) {
-        
-        pic = @"http://hao.shengmo.org/nopeople.png";
+
+        pic = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"nopeople.png"];
         
     }else{
         

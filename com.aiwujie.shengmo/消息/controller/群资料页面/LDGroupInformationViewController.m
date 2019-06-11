@@ -379,8 +379,8 @@
             NSString *pic;
             
             if ([responseObject[@"data"][@"group_pic"] isEqualToString:PICHEADURL]) {
-                
-                pic = @"http://hao.shengmo.org/nopic.png";
+  
+                pic = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"nopeople.png"];
                 
             }else{
                 

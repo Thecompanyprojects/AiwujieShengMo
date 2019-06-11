@@ -109,4 +109,5 @@
 #import "AlertTool.h"
 #import "LDBaseViewController.h"
 
+#import "wangHeader.h"
 #endif /* PrefixHeader_pch */
