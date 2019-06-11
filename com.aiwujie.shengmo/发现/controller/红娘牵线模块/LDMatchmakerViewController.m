@@ -331,7 +331,7 @@
     
     self.applyButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 20)];
     [self.applyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [self.applyButton setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
+    [self.applyButton setBackgroundColor:MainColor];
     self.applyButton.alpha = 0.7;
     self.applyButton.titleLabel.font = [UIFont systemFontOfSize:12];
     self.applyButton.layer.cornerRadius = 2;

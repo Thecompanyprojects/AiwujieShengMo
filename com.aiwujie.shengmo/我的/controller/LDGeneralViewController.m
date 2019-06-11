@@ -54,13 +54,13 @@
         
     }];
     
-    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault  handler:nil];
+    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
     
     if (PHONEVERSION.doubleValue >= 8.3) {
     
-        [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [action setValue:MainColor forKey:@"_titleTextColor"];
         
-        [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
     }
     
     [alert addAction:action];
@@ -105,13 +105,13 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:@"清空聊天记录" object:nil];
     }];
     
-    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault  handler:nil];
+    UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
     
     if (PHONEVERSION.doubleValue >= 8.3) {
     
-        [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [action setValue:MainColor forKey:@"_titleTextColor"];
         
-        [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
     }
     
     [alert addAction:action];

@@ -28,7 +28,7 @@
         self.widths = [NSMutableDictionary dictionary];
         
         self.normalColor = [UIColor colorWithWhite:0 alpha:0.2];
-        self.highlightedColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
+        self.highlightedColor = MainColor;
         
         _indicatorView = [[UIView alloc] initWithFrame:CGRectZero];
         _indicatorView.backgroundColor = self.highlightedColor;

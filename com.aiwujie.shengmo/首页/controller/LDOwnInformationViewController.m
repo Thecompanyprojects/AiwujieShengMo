@@ -681,9 +681,9 @@
         
         if (PHONEVERSION.doubleValue >= 8.3) {
             
-            [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [action setValue:MainColor forKey:@"_titleTextColor"];
             
-            [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [cancel setValue:MainColor forKey:@"_titleTextColor"];
         }
         
         [alert addAction:cancel];
@@ -789,9 +789,9 @@
     
     if (PHONEVERSION.doubleValue >= 8.3) {
         
-        [shareButton setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [shareButton setValue:MainColor forKey:@"_titleTextColor"];
         
-        [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [cancel setValue:MainColor forKey:@"_titleTextColor"];
     }
     [alert addAction:cancel];
     
@@ -1007,13 +1007,13 @@
         
         if (PHONEVERSION.doubleValue >= 8.3) {
             
-            [titleAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-            [SuspiciousUserAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-            [delHeadAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-            [delNickNameAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-            [delSignAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-            [delPicAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-            [titleDynamicAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [titleAction setValue:MainColor forKey:@"_titleTextColor"];
+            [SuspiciousUserAction setValue:MainColor forKey:@"_titleTextColor"];
+            [delHeadAction setValue:MainColor forKey:@"_titleTextColor"];
+            [delNickNameAction setValue:MainColor forKey:@"_titleTextColor"];
+            [delSignAction setValue:MainColor forKey:@"_titleTextColor"];
+            [delPicAction setValue:MainColor forKey:@"_titleTextColor"];
+            [titleDynamicAction setValue:MainColor forKey:@"_titleTextColor"];
         }
         
         [alert addAction:titleAction];
@@ -1027,13 +1027,13 @@
     
     if (PHONEVERSION.doubleValue >= 8.3) {
         
-        [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [action setValue:MainColor forKey:@"_titleTextColor"];
         
-        [report setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [report setValue:MainColor forKey:@"_titleTextColor"];
         
-        [shareButton setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [shareButton setValue:MainColor forKey:@"_titleTextColor"];
         
-        [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [cancel setValue:MainColor forKey:@"_titleTextColor"];
     }
     
     [alert addAction:shareButton];
@@ -1211,12 +1211,12 @@
     
     if (PHONEVERSION.doubleValue >= 8.3) {
         
-         [titleAccountAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-        [titleDynamicAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-        [titleMessageAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-        [titleInfomationAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-        [titleDeviceAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-        [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+         [titleAccountAction setValue:MainColor forKey:@"_titleTextColor"];
+        [titleDynamicAction setValue:MainColor forKey:@"_titleTextColor"];
+        [titleMessageAction setValue:MainColor forKey:@"_titleTextColor"];
+        [titleInfomationAction setValue:MainColor forKey:@"_titleTextColor"];
+        [titleDeviceAction setValue:MainColor forKey:@"_titleTextColor"];
+        [cancel setValue:MainColor forKey:@"_titleTextColor"];
     }
     [alert addAction:titleAccountAction];
     [alert addAction:titleDynamicAction];
@@ -1278,13 +1278,13 @@
     
     if (PHONEVERSION.doubleValue >= 8.3) {
         
-        [titleOneDayAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-        [titleTwoDayAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-        [titleOneWeekAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-        [titleTwoWeekAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-        [titleOneMonthAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-        [titleForeverAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-        [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [titleOneDayAction setValue:MainColor forKey:@"_titleTextColor"];
+        [titleTwoDayAction setValue:MainColor forKey:@"_titleTextColor"];
+        [titleOneWeekAction setValue:MainColor forKey:@"_titleTextColor"];
+        [titleTwoWeekAction setValue:MainColor forKey:@"_titleTextColor"];
+        [titleOneMonthAction setValue:MainColor forKey:@"_titleTextColor"];
+        [titleForeverAction setValue:MainColor forKey:@"_titleTextColor"];
+        [cancel setValue:MainColor forKey:@"_titleTextColor"];
     }
     [alert addAction:titleOneDayAction];
     [alert addAction:titleTwoDayAction];
@@ -1450,7 +1450,7 @@
             reportButton.layer.cornerRadius = reportButton.frame.size.height/2;
             reportButton.clipsToBounds = YES;
             [reportButton setTitle:@"举报" forState:UIControlStateNormal];
-            [reportButton setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
+            [reportButton setTitleColor:MainColor forState:UIControlStateNormal];
             [showView addSubview:reportButton];
             
             _blackButton = [[UIButton alloc] initWithFrame:CGRectMake(20 * WIDTHRADIO, CGRectGetMaxY(reportButton.frame) + 20 * WIDTHRADIO, WIDTH - 2 * (20 * WIDTHRADIO), 40 * WIDTHRADIO)];
@@ -1463,7 +1463,7 @@
             }else{
                 [_blackButton setTitle:@"拉黑" forState:UIControlStateNormal];
             }
-            [_blackButton setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
+            [_blackButton setTitleColor:MainColor forState:UIControlStateNormal];
             [showView addSubview:_blackButton];
 
         }else if (integer == 2000){
@@ -3193,9 +3193,9 @@
         
         if (PHONEVERSION.doubleValue >= 8.3) {
         
-            [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [action setValue:MainColor forKey:@"_titleTextColor"];
             
-            [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
         }
         
         [alert addAction:action];
@@ -3345,7 +3345,7 @@
     
     [alertButton setTitle:@"确定" forState:UIControlStateNormal];
     
-    [alertButton setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
+    [alertButton setTitleColor:MainColor forState:UIControlStateNormal];
     
     [alertView addSubview:alertButton];
 }
@@ -3387,9 +3387,9 @@
             
             if (PHONEVERSION.doubleValue >= 8.3) {
             
-                [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+                [action setValue:MainColor forKey:@"_titleTextColor"];
                 
-                [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+                [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
                 
             }
 
@@ -3495,9 +3495,9 @@
                 
                 [action setValue:[UIColor lightGrayColor] forKey:@"_titleTextColor"];
                 
-                [vipAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+                [vipAction setValue:MainColor forKey:@"_titleTextColor"];
                 
-                [addFriendAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+                [addFriendAction setValue:MainColor forKey:@"_titleTextColor"];
             }
 
             

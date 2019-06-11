@@ -275,17 +275,17 @@
         if (btn.tag == button.tag) {
             
             button.layer.borderWidth = 1;
-            button.layer.borderColor = [UIColor colorWithHexString:@"c450d6" alpha:1].CGColor;
+            button.layer.borderColor = MainColor.CGColor;
             button.layer.cornerRadius = 2;
             button.clipsToBounds = YES;
             
             UILabel *priceLabel = (UILabel *)[self.view viewWithTag:button.tag - 20];
             
-            priceLabel.textColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
+            priceLabel.textColor = MainColor;
             
             UILabel *label = (UILabel *)[self.view viewWithTag:button.tag - 10];
             
-            label.textColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
+            label.textColor = MainColor;
             
             _subject = _shopArray[i];
             
@@ -369,8 +369,8 @@
     
     if (PHONEVERSION.doubleValue >= 8.3) {
     
-        [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-        [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [action setValue:MainColor forKey:@"_titleTextColor"];
+        [cancel setValue:MainColor forKey:@"_titleTextColor"];
     }
     
     [alert addAction:cancel];

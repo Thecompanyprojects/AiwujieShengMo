@@ -676,9 +676,9 @@
     
     if (PHONEVERSION.doubleValue >= 8.3) {
     
-        [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
         
-        [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [action setValue:MainColor forKey:@"_titleTextColor"];
     }
     
     [alertController addAction:action];
@@ -764,13 +764,12 @@
             
         }];
         
-        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault  handler:nil];
+        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
         
         if (PHONEVERSION.doubleValue >= 8.3) {
         
-            [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-            
-            [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [action setValue:MainColor forKey:@"_titleTextColor"];
+            [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
         }
 
         [alert addAction:cancelAction];
@@ -828,13 +827,13 @@
             
         }];
         
-        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault  handler:nil];
+        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
         
         if (PHONEVERSION.doubleValue >= 8.3) {
         
-            [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [action setValue:MainColor forKey:@"_titleTextColor"];
             
-            [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
         }
         
         [alert addAction:cancelAction];
@@ -936,11 +935,11 @@
     
     if (PHONEVERSION.doubleValue >= 8.3) {
     
-        [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [action setValue:MainColor forKey:@"_titleTextColor"];
         
-        [shareAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [shareAction setValue:MainColor forKey:@"_titleTextColor"];
         
-        [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [cancel setValue:MainColor forKey:@"_titleTextColor"];
     }
 
     

@@ -62,9 +62,6 @@
 //#define GIRLECOLOR [UIColor colorWithHexString:@"#f56684" alpha:1]
 #define GIRLECOLOR [UIColor colorWithHexString:@"#ffacc0" alpha:1]
 
-//cd的图标背景颜色
-//#define CDCOLOR [UIColor colorWithHexString:@"#c450d6" alpha:1]
-
 //双性图标背景颜色
 #define DOUBLECOLOR [UIColor colorWithHexString:@"#e7aaee" alpha:1]
 

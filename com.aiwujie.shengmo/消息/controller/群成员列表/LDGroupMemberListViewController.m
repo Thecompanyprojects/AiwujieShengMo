@@ -384,13 +384,13 @@
                 
             }];
             
-            UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault  handler:nil];
+            UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
             
             if (PHONEVERSION.doubleValue >= 8.3) {
             
-                [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+                [action setValue:MainColor forKey:@"_titleTextColor"];
                 
-                [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+                [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
             }
             
             
@@ -440,13 +440,13 @@
                 
             }];
             
-            UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault  handler:nil];
+            UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
             
             if (PHONEVERSION.doubleValue >= 8.3) {
             
-                [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+                [action setValue:MainColor forKey:@"_titleTextColor"];
                 
-                [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+                [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
             }
             
             
@@ -574,7 +574,7 @@
         {
             UIButton *btn = (UIButton *)cc;
             
-            [btn setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
+            [btn setTitleColor:MainColor forState:UIControlStateNormal];
         }
     }
     

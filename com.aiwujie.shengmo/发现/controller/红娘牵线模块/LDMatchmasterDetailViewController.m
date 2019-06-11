@@ -137,7 +137,7 @@
     UIButton *applyButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 20)];
     [applyButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [applyButton setTitle:@"个人中心" forState:UIControlStateNormal];
-    [applyButton setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
+    [applyButton setBackgroundColor:MainColor];
     applyButton.alpha = 0.7;
     applyButton.titleLabel.font = [UIFont systemFontOfSize:12];
     applyButton.layer.cornerRadius = 2;

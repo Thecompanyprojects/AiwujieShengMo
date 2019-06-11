@@ -96,7 +96,7 @@
             UILabel *topicLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(topicImageView.frame) + 14, 30, WIDTH - CGRectGetMaxX(topicImageView.frame) - 2 * 14, 21)];
             topicLabel.text = [NSString stringWithFormat:@"#%@#",_dict[@"title"]];
             topicLabel.font = [UIFont boldSystemFontOfSize:16];
-            topicLabel.textColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
+            topicLabel.textColor = MainColor;
             [_headerView addSubview:topicLabel];
             
             UILabel *topicIntroduceLabel = [[UILabel alloc] init];

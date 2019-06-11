@@ -186,7 +186,7 @@
         
         UIButton *btn = (UIButton *)[_backgroundView viewWithTag:20];
         
-        [btn setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
+        [btn setTitleColor:MainColor forState:UIControlStateNormal];
         
     }else{
         
@@ -214,23 +214,23 @@
             
             UIButton *btn = (UIButton *)[_backgroundView viewWithTag:21];
             
-            [btn setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
+            [btn setTitleColor:MainColor forState:UIControlStateNormal];
             
         }else if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"dynamicSex"] intValue] == 2 && [[[NSUserDefaults standardUserDefaults] objectForKey:@"dynamicSexual"] intValue] == 0){
             
             UIButton *btn = (UIButton *)[_backgroundView viewWithTag:22];
             
-            [btn setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
+            [btn setTitleColor:MainColor forState:UIControlStateNormal];
             
         }else if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"dynamicSex"] intValue] == 3 && [[[NSUserDefaults standardUserDefaults] objectForKey:@"dynamicSexual"] intValue] == 0){
             
             UIButton *btn = (UIButton *)[_backgroundView viewWithTag:23];
             
-            [btn setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
+            [btn setTitleColor:MainColor forState:UIControlStateNormal];
             
         }else if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"dynamicSex"] intValue] != 0 && [[[NSUserDefaults standardUserDefaults] objectForKey:@"dynamicSexual"] intValue] != 0){
             
-            _searchLabel.textColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
+            _searchLabel.textColor = MainColor;
             
         }
     }
@@ -513,9 +513,9 @@
         
         if (PHONEVERSION.doubleValue >= 8.3) {
             
-            [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [action setValue:MainColor forKey:@"_titleTextColor"];
             
-            [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [cancel setValue:MainColor forKey:@"_titleTextColor"];
         }
         
         [alert addAction:cancel];
@@ -891,7 +891,7 @@
     
     if (button.tag == 12) {
         
-        _searchLabel.textColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
+        _searchLabel.textColor = MainColor;
         
         for (int i = 20; i < 24; i++) {
             
@@ -908,7 +908,7 @@
             
             if (btn.tag == button.tag) {
                 
-                [button setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
+                [button setTitleColor:MainColor forState:UIControlStateNormal];
                 
             }else{
                 

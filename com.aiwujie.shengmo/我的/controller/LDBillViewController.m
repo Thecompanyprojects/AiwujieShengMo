@@ -358,7 +358,7 @@
 }
 - (IBAction)giveButtonClick:(UIButton *)sender {
     
-    [_chargeGiveButton setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
+    [_chargeGiveButton setTitleColor:MainColor forState:UIControlStateNormal];
     [_chargeExchangeButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     _buttonState = @"1";
     [self.tableView.mj_header beginRefreshing];
@@ -367,7 +367,7 @@
 }
 - (IBAction)chargeExchangeButtonClick:(UIButton *)sender {
     
-    [_chargeExchangeButton setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
+    [_chargeExchangeButton setTitleColor:MainColor forState:UIControlStateNormal];
     [_chargeGiveButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     _buttonState = @"2";
     [self.tableView.mj_header beginRefreshing];

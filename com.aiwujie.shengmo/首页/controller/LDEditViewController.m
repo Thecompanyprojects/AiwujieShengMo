@@ -816,7 +816,7 @@
         
         if ([_selectionArray[button.tag%100] isEqualToString:@"yes"]) {
             
-            [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
+            [button setBackgroundColor:MainColor];
             [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             
             [_sexualArray replaceObjectAtIndex:button.tag%100 withObject:[NSString stringWithFormat:@"%ld",button.tag%100 + 1]];
@@ -848,7 +848,7 @@
         
         if ([selectionArray[button.tag%1000] isEqualToString:@"yes"]) {
             
-            [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
+            [button setBackgroundColor:MainColor];
             [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             
             if (button.tag/1000 - 7 == 2){
@@ -904,7 +904,7 @@
                 
                 if (button.tag == btn.tag) {
                     
-                    [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
+                    [button setBackgroundColor:MainColor];
                     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
              
                  
@@ -947,7 +947,7 @@
                 
                 if (button.tag == btn.tag) {
                     
-                    [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
+                    [button setBackgroundColor:MainColor];
                     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                     
                     if (button.tag/100 - 1 == 5) {
@@ -993,7 +993,7 @@
             
             if (button.tag == btn.tag) {
                 
-                [button setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
+                [button setBackgroundColor:MainColor];
                 [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 
                 if (button.tag/1000 == 7) {
@@ -1182,7 +1182,7 @@
         [toolBar1 setItems:@[item1, flexible1, item3, flexible2 ,item2]];
         
         
-        toolBar1.barTintColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
+        toolBar1.barTintColor = MainColor;
         
         [self.dateView addSubview:toolBar1];
         
@@ -1245,7 +1245,7 @@
         
         [toolBar setItems:@[item1, flexible1, item3, flexible2 ,item2]];
         
-        toolBar.barTintColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
+        toolBar.barTintColor = MainColor;
         
         [self.LVView addSubview:toolBar];
         
@@ -1598,11 +1598,11 @@
             
             if (PHONEVERSION.doubleValue >= 8.3) {
             
-                [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+                [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
                 
-                [photoAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+                [photoAction setValue:MainColor forKey:@"_titleTextColor"];
                 
-                [cameraAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+                [cameraAction setValue:MainColor forKey:@"_titleTextColor"];
                 
             }
             

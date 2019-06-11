@@ -111,7 +111,7 @@
         }
 
         //更改[专属]的颜色
-        [self changeWordColorTitle:label.text andTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1]  andLoc:0 andLen:4 andLabel:label];
+        [self changeWordColorTitle:label.text andTitleColor:MainColor  andLoc:0 andLen:4 andLabel:label];
         
         if (i == array.count - 1) {
                 
@@ -129,10 +129,10 @@
         warnLabel.text = @"升级无忧:已是VIP会员的用户,开通SVIP会员后VIP会暂停计时,待SVIP到期后VIP恢复计时,从而不给您造成任何损失,让您无后顾之忧!";
         warnLabel.font = [UIFont systemFontOfSize:wordFont];
         //更改升级无忧颜色
-        [self changeWordColorTitle:warnLabel.text andTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] andLoc:0 andLen:5 andLabel:warnLabel];
+        [self changeWordColorTitle:warnLabel.text andTitleColor:MainColor andLoc:0 andLen:5 andLabel:warnLabel];
         
         NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:warnLabel.text];
-        [attributedStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange(0,5)];
+        [attributedStr addAttribute:NSForegroundColorAttributeName value:MainColor range:NSMakeRange(0,5)];
         [attributedStr addAttribute:NSForegroundColorAttributeName value:[UIColor lightGrayColor] range:NSMakeRange(5,warnLabel.text.length - 5)];
         warnLabel.attributedText = attributedStr;
         
@@ -149,14 +149,14 @@
         _moneyLabel.text = @"金额 30 元";
         
         //更改钱数的颜色
-        [self changeWordColorTitle:_moneyLabel.text andTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1]  andLoc:3 andLen:2 andLabel:_moneyLabel];
+        [self changeWordColorTitle:_moneyLabel.text andTitleColor:MainColor  andLoc:3 andLen:2 andLabel:_moneyLabel];
         
     }else{
         
         _moneyLabel.text = @"金额 128 元";
         
         //更改钱数的颜色
-        [self changeWordColorTitle:_moneyLabel.text andTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1]  andLoc:3 andLen:3 andLabel:_moneyLabel];
+        [self changeWordColorTitle:_moneyLabel.text andTitleColor:MainColor  andLoc:3 andLen:3 andLabel:_moneyLabel];
     }
     
     _moneyLabel.font = [UIFont systemFontOfSize:15];
@@ -171,7 +171,7 @@
     protcolLabel.textColor = [UIColor lightGrayColor];
     [self addSubview:protcolLabel];
     
-    [self changeWordColorTitle:protcolLabel.text andTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] andLoc:protcolLabel.text.length - 6 andLen:6 andLabel:protcolLabel];
+    [self changeWordColorTitle:protcolLabel.text andTitleColor:MainColor andLoc:protcolLabel.text.length - 6 andLen:6 andLabel:protcolLabel];
     
     UIButton *protcolButton = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetWidth(protcolLabel.frame) - 150, 0, 150, 15)];
     [protcolButton addTarget:self action:@selector(protcolButtonClick) forControlEvents:UIControlEventTouchUpInside];

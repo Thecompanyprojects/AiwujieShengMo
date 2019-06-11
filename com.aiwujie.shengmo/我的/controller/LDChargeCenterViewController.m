@@ -139,17 +139,17 @@
             _subject = _shopArray[0];
             
             button.layer.borderWidth = 1;
-            button.layer.borderColor = [UIColor colorWithHexString:@"c450d6" alpha:1].CGColor;
+            button.layer.borderColor = MainColor.CGColor;
             button.layer.cornerRadius = 2;
             button.clipsToBounds = YES;
             
             UILabel *priceLabel = (UILabel *)[self.view viewWithTag:i + 10];
             
-            priceLabel.textColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
+            priceLabel.textColor = MainColor;
             
             UILabel *label = (UILabel *)[self.view viewWithTag:i + 20];
             
-            label.textColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
+            label.textColor = MainColor;
             
         }else{
         
@@ -233,17 +233,17 @@
         if (btn.tag == button.tag) {
             
             button.layer.borderWidth = 1;
-            button.layer.borderColor = [UIColor colorWithHexString:@"c450d6" alpha:1].CGColor;
+            button.layer.borderColor = MainColor.CGColor;
             button.layer.cornerRadius = 2;
             button.clipsToBounds = YES;
             
             UILabel *priceLabel = (UILabel *)[self.view viewWithTag:button.tag - 20];
             
-            priceLabel.textColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
+            priceLabel.textColor = MainColor;
             
             UILabel *label = (UILabel *)[self.view viewWithTag:button.tag - 10];
             
-            label.textColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
+            label.textColor = MainColor;
             
             _subject = _shopArray[i];
             

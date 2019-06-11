@@ -171,7 +171,7 @@
 -(void)changeWordColorTitle:(NSString *)str andLoc:(NSUInteger)loc andLen:(NSUInteger)len andLabel:(UILabel *)attributedLabel{
     
     NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:str];
-    [attributedStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange(loc,len)];
+    [attributedStr addAttribute:NSForegroundColorAttributeName value:MainColor range:NSMakeRange(loc,len)];
     attributedLabel.attributedText = attributedStr;
 }
 

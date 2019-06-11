@@ -92,42 +92,25 @@
         self.sexualLabel.backgroundColor = GIRLECOLOR;
         
     }else if ([_model.role isEqualToString:@"SM"]){
-        
         self.sexualLabel.text = @"双";
-        
         self.sexualLabel.backgroundColor = DOUBLECOLOR;
-        
     }else{
-    
         self.sexualLabel.text = @"~";
         self.sexualLabel.backgroundColor = GREENCOLORS;
     }
-    
     if ([_model.sex intValue] == 1) {
-        
         self.sexView.image = [UIImage imageNamed:@"男"];
-        
         self.aSexView.backgroundColor = BOYCOLOR;
-        
     }else if ([_model.sex intValue] == 2){
-        
         self.sexView.image = [UIImage imageNamed:@"女"];
-        
         self.aSexView.backgroundColor = GIRLECOLOR;
-        
     }else{
-        
         self.sexView.image = [UIImage imageNamed:@"双性"];
-        
         self.aSexView.backgroundColor = DOUBLECOLOR;
     }
-    
     self.ageLabel.text = [NSString stringWithFormat:@"%@",_model.age];
-    
     [self getWealthAndCharmState:_wealthLabel andView:_wealthView andNSLayoutConstraint:_wealthW andType:@"财富"];
-    
     [self getWealthAndCharmState:_charmLabel andView:_charmView andNSLayoutConstraint:_charmW andType:@"魅力"];
-    
 }
 
 -(void)getWealthAndCharmState:(UILabel *)label andView:(UIView *)backView andNSLayoutConstraint:(NSLayoutConstraint *)constraint andType:(NSString *)type{

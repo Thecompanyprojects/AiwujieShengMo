@@ -86,7 +86,7 @@
     }else{
     
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"回复 %@: %@",model.othernickname,model.content]];
-        [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHexString:@"c450d6" alpha:1] range:NSMakeRange(3,[model.othernickname length])];
+        [str addAttribute:NSForegroundColorAttributeName value:MainColor range:NSMakeRange(3,[model.othernickname length])];
         
         self.contentLabel.attributedText = str;
     }

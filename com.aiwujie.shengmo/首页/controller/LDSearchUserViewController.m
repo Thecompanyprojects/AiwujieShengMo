@@ -156,7 +156,7 @@
         {
             UIButton *btn = (UIButton *)cc;
 
-            [btn setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
+            [btn setTitleColor:MainColor forState:UIControlStateNormal];
         }
     }
 

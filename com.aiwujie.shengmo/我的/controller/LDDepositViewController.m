@@ -76,14 +76,14 @@
                 [self.navigationController pushViewController:bvc animated:YES];
             }];
             
-            UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
+            UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:^(UIAlertAction * _Nonnull action) {
                 
                 [self.navigationController popViewControllerAnimated:YES];
             }];
             
-            [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [action setValue:MainColor forKey:@"_titleTextColor"];
             
-            [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
             
             [alert addAction:action];
             
@@ -125,7 +125,7 @@
             self.beanField.text = nil;
         }];
         
-        [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [action setValue:MainColor forKey:@"_titleTextColor"];
         
         [alert addAction:action];
         
@@ -149,13 +149,13 @@
                     
                 }];
                 
-                UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault  handler:nil];
+                UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
                 
                 if (PHONEVERSION.doubleValue >= 8.3) {
                     
-                    [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+                    [action setValue:MainColor forKey:@"_titleTextColor"];
                     
-                    [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+                    [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
                 }
                 
                 [alert addAction:action];
@@ -176,7 +176,7 @@
                 self.beanField.text = nil;
             }];
             
-            [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [action setValue:MainColor forKey:@"_titleTextColor"];
             
             [alert addAction:action];
             

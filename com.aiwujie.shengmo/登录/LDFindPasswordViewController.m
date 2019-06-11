@@ -314,7 +314,7 @@
         
         [self.sureButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
-        [self.sureButton setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
+        [self.sureButton setBackgroundColor:MainColor];
         
         self.sureButton.userInteractionEnabled = YES;
         

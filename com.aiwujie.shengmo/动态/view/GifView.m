@@ -703,7 +703,7 @@
     UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(5, WIDTH - 95, (WIDTH - 50)/2 - 7.5, 30)];
     cancelButton.titleLabel.font = [UIFont systemFontOfSize:14];
     [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
-    cancelButton.backgroundColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
+    cancelButton.backgroundColor = MainColor;
     [cancelButton addTarget:self action:@selector(giveCancelButtonClick) forControlEvents:UIControlEventTouchUpInside];
     [_giveView addSubview:cancelButton];
     
@@ -711,7 +711,7 @@
     sureButton.titleLabel.font = [UIFont systemFontOfSize:14];
     [sureButton setTitle:@"确认赠送" forState:UIControlStateNormal];
     [sureButton addTarget:self action:@selector(doneButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    sureButton.backgroundColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
+    sureButton.backgroundColor = MainColor;
     [_giveView addSubview:sureButton];
 }
 

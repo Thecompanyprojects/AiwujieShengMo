@@ -191,9 +191,9 @@
         
         if (PHONEVERSION.doubleValue >= 8.3) {
             
-            [action setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [action setValue:MainColor forKey:@"_titleTextColor"];
             
-            [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+            [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
         }
         
         [alert addAction:action];

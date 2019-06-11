@@ -175,7 +175,7 @@
             
             if ([otherArray[indexPath.section] intValue] - 1 == i) {
                 
-                [btn setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
+                [btn setBackgroundColor:MainColor];
                 
                 [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 
@@ -244,7 +244,7 @@
             
             if ([role isEqualToString:chooseArray[indexPath.section][i]]) {
                 
-                [btn setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
+                [btn setBackgroundColor:MainColor];
                 
                 [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 
@@ -292,7 +292,7 @@
             
             if ([selectionArray[i] isEqualToString:@"yes"]) {
                 
-                [btn setBackgroundColor:[UIColor colorWithHexString:@"c450d6" alpha:1]];
+                [btn setBackgroundColor:MainColor];
                 
                 [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
                 

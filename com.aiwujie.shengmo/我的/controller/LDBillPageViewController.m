@@ -266,7 +266,7 @@
         
         if (button.tag == btn.tag) {
             
-            [button setTitleColor:[UIColor colorWithHexString:@"c450d6" alpha:1] forState:UIControlStateNormal];
+            [button setTitleColor:MainColor forState:UIControlStateNormal];
             
             view.hidden = NO;
             

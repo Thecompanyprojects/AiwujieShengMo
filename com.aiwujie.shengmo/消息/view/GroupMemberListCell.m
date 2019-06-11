@@ -116,7 +116,7 @@
         
         self.stateLabel.text = @"群主";
     
-        self.stateLabel.backgroundColor = [UIColor colorWithHexString:@"c450d6" alpha:1];
+        self.stateLabel.backgroundColor = MainColor;
     
         self.otherNameLabel.text = model.nickname;
     }

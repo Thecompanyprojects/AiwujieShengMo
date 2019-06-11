@@ -59,17 +59,17 @@
         [self presentViewController:picker animated:YES completion:nil];//显示出来
     }];
     
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:^(UIAlertAction *action) {
         
     }];
     
     if (PHONEVERSION.doubleValue >= 8.3) {
     
-        [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
         
-        [photoAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [photoAction setValue:MainColor forKey:@"_titleTextColor"];
         
-        [cameraAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [cameraAction setValue:MainColor forKey:@"_titleTextColor"];
     }
     
     [alertController addAction:cameraAction];

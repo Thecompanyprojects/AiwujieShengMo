@@ -84,7 +84,7 @@ static NSString *_stampNum;
             
             if (PHONEVERSION.doubleValue >= 8.3) {
                 
-                [month setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+                [month setValue:MainColor forKey:@"_titleTextColor"];
             }
         }
         
@@ -109,9 +109,9 @@ static NSString *_stampNum;
     
     if (PHONEVERSION.doubleValue >= 8.3) {
         
-        [SVIPAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-        [VIPAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-        [chargeAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [SVIPAction setValue:MainColor forKey:@"_titleTextColor"];
+        [VIPAction setValue:MainColor forKey:@"_titleTextColor"];
+        [chargeAction setValue:MainColor forKey:@"_titleTextColor"];
     }
     
     [controller presentViewController:alert animated:YES completion:nil];
@@ -161,7 +161,7 @@ static NSString *_stampNum;
     
     if (PHONEVERSION.doubleValue >= 8.3) {
         
-        [sureAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [sureAction setValue:MainColor forKey:@"_titleTextColor"];
         
     }
     
@@ -187,7 +187,7 @@ static NSString *_stampNum;
     
     if (PHONEVERSION.doubleValue >= 8.3) {
         
-        [cancelAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+        [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
     }
 }
 

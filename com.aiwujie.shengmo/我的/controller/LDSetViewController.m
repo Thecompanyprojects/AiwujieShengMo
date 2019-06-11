@@ -434,10 +434,10 @@
                 
                 if (PHONEVERSION.doubleValue >= 8.3) {
                 
-                    [wechatAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-                    [qqAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-                    [wbAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-                    [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+                    [wechatAction setValue:MainColor forKey:@"_titleTextColor"];
+                    [qqAction setValue:MainColor forKey:@"_titleTextColor"];
+                    [wbAction setValue:MainColor forKey:@"_titleTextColor"];
+                    [cancel setValue:MainColor forKey:@"_titleTextColor"];
                 }
                 
                 [alert addAction:cancel];
@@ -514,8 +514,8 @@
                 
                 if (PHONEVERSION.doubleValue >= 8.3) {
                 
-                    [sureAction setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
-                    [cancel setValue:[UIColor colorWithHexString:@"c450d6" alpha:1] forKey:@"_titleTextColor"];
+                    [sureAction setValue:MainColor forKey:@"_titleTextColor"];
+                    [cancel setValue:MainColor forKey:@"_titleTextColor"];
                     
                 }
                 
