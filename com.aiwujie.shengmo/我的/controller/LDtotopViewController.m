@@ -26,6 +26,11 @@ static float AD_height = 150;//头部高度
     self.title = @"推顶卡";
     [self.view addSubview:self.collectionView];
     [self createRightButton];
+    
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+//    [self.collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
+//    [self collectionView:self.collectionView didSelectItemAtIndexPath:indexPath];
+    
 }
 
 -(void)createRightButton{
@@ -64,6 +69,8 @@ static float AD_height = 150;//头部高度
         _collectionView.backgroundColor = [UIColor whiteColor];
         //自适应大小
         _collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        
+
     }
     return _collectionView;
 }
@@ -96,10 +103,38 @@ static float AD_height = 150;//头部高度
 }
 
 #pragma mark UICollectionView被选中时调用的方法
+
+//点击选定
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    LdtotopCell *cell = (LdtotopCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    cell.layer.borderColor = MainColor.CGColor;
+    NSLog(@"第%ld区，第%ld个",(long)indexPath.section,(long)indexPath.row);
+    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"" message:@"购买推顶卡" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"购买" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [control addAction:action0];
+    [control addAction:action1];
     
+    if (PHONEVERSION.doubleValue >= 8.3) {
+        [action0 setValue:MainColor forKey:@"_titleTextColor"];
+        [action1 setValue:MainColor forKey:@"_titleTextColor"];
+    }
+    [self presentViewController:control animated:YES completion:nil];
 }
+
+//取消选定
+-(void)collectionView:(UICollectionView *)collectionView didDeselectItemAtIndexPath:(NSIndexPath *)indexPath{
+    LdtotopCell *cell = (LdtotopCell *)[collectionView cellForItemAtIndexPath:indexPath];
+    cell.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    NSLog(@"1第%ld区，1第%ld个",(long)indexPath.section,(long)indexPath.row);
+}
+
+#pragma mark - RightBtn
 
 -(void)rightButtonOnClic
 {

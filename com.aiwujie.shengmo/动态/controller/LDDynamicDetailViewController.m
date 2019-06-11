@@ -147,29 +147,19 @@
     
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
     self.navigationItem.title = @"动态详情";
-    
     [self.tableView addSubview:self.sendView];
-    
     if ([_clickState isEqualToString:@"comment"]) {
         
         [self.textView becomeFirstResponder];
     }
-    
     _dataArray = [NSMutableArray array];
-    
     //点赞,评论,打赏状态
     _status = @"2";
-    
     [self createTableView];
-    
     _backView.hidden = YES;
-    
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-
         _page = 0;
-            
         [self createData:@"1"];
     }];
     

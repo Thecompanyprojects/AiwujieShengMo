@@ -56,7 +56,6 @@
     return _topImg;
 }
 
-
 -(UILabel *)contentLab
 {
     if(!_contentLab)
@@ -69,7 +68,5 @@
     }
     return _contentLab;
 }
-
-
 
 @end

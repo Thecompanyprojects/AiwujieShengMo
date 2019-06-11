@@ -2804,9 +2804,7 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//        NSLog(@"%@",responseObject);
-        
+
         if (integer == 2000) {
             
             LDCertificateViewController *cvc = [[LDCertificateViewController alloc] init];
@@ -2889,22 +2887,16 @@
     }else{
     
         [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        
+        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Restrict/getOpenChatRestrictAndInfo"];
+        NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"otheruid":self.userID};
         AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-        
         [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
         manager.requestSerializer.timeoutInterval = 10.f;
-        
         [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
-        
-        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Restrict/getOpenChatRestrictAndInfo"];
-        
-        NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"otheruid":self.userID};
-        
-        //    NSLog(@"%@",parameters);
-        
-        [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [manager POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
             
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
             
             if (integer == 2000 || integer == 2001) {
@@ -2954,11 +2946,11 @@
                 
                 conversationVC.title = self.nameLabel.text;
                 [self.navigationController pushViewController:conversationVC animated:YES];
-               
+                
             }else if(integer == 3001){
                 
-                 [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-                    
+                [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                
                 _stampView = [[LDStampChatView alloc] initWithFrame:CGRectMake(0, 0 , WIDTH, HEIGHT)];
                 
                 _stampView.viewController = self;
@@ -2971,14 +2963,12 @@
                 
             }else{
                 
-                 [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+                [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
                 
             }
-            
+
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
             [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-            
         }];
     }
 }
@@ -3002,9 +2992,7 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//                NSLog(@"%@",responseObject);
-        
+
         if (integer != 2000) {
             
             [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
@@ -3189,7 +3177,7 @@
             [self blackData];
         }];
         
-        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault  handler:nil];
+        UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
         
         if (PHONEVERSION.doubleValue >= 8.3) {
         
