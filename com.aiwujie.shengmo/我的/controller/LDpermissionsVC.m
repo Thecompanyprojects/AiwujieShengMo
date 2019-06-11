@@ -60,6 +60,7 @@ static NSString *ldpermissidendfity = @"ldpermissidendfity";
     if (!cell) {
         cell= [[LDpermissionsVCCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ldpermissidendfity];
     }
+   
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (indexPath.row==0) {
         if (!self.isChoose) {
@@ -87,7 +88,7 @@ static NSString *ldpermissidendfity = @"ldpermissidendfity";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 44;
+    return 50;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

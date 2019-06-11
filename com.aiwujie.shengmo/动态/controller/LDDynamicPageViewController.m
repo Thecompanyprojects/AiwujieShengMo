@@ -1711,47 +1711,26 @@
             }
             
             oneLabel.font = [UIFont systemFontOfSize:13];
-            
             [view addSubview:oneLabel];
-            
             UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 1)];
-            
             line.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
-            
             [view addSubview:line];
-            
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(12, 35, WIDTH - 24, 15)];
-            
             [button setTitle:@"更多评论>" forState:UIControlStateNormal];
-            
             [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-            
             button.titleLabel.font = [UIFont systemFontOfSize:13];
-            
             button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-            
             [view addSubview:button];
-            
             UIButton *moreButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 60)];
-            
             [moreButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-            
             moreButton.tag = section;
-            
             moreButton.titleLabel.font = [UIFont systemFontOfSize:13];
-            
             [moreButton addTarget:self action:@selector(moreButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-            
             moreButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-            
             [view addSubview:moreButton];
-            
             return view;
-            
         }
-        
     }
-    
     return nil;
 }
 

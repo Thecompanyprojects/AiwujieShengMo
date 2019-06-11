@@ -47,7 +47,7 @@
     if(!_leftLab)
     {
         _leftLab = [UILabel new];
-        _leftLab.textColor = [UIColor blackColor];
+        _leftLab.textColor = [UIColor colorWithHexString:@"303030" alpha:0.8];
         _leftLab.font = [UIFont systemFontOfSize:15];
     }
     return _leftLab;

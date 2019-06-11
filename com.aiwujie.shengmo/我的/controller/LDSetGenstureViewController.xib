@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -24,12 +24,12 @@
                     <rect key="frame" x="0.0" y="7" width="375" height="45"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="开启密码锁定" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bH5-gH-0gp">
-                            <rect key="frame" x="8" y="12" width="126" height="21"/>
+                            <rect key="frame" x="20" y="12" width="126" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="126" id="Ja8-Qe-nQI"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <nil key="textColor"/>
+                            <color key="textColor" red="0.18823529410000001" green="0.18823529410000001" blue="0.18823529410000001" alpha="0.79906892119999995" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="AS8-fW-u1J">
@@ -47,7 +47,7 @@
                     <constraints>
                         <constraint firstItem="AS8-fW-u1J" firstAttribute="top" secondItem="ym6-HF-Vg7" secondAttribute="top" constant="7" id="38e-jh-bCL"/>
                         <constraint firstAttribute="bottom" secondItem="AS8-fW-u1J" secondAttribute="bottom" constant="7" id="5yL-Pc-NiY"/>
-                        <constraint firstItem="bH5-gH-0gp" firstAttribute="leading" secondItem="ym6-HF-Vg7" secondAttribute="leading" constant="8" id="Dmt-uS-tV9"/>
+                        <constraint firstItem="bH5-gH-0gp" firstAttribute="leading" secondItem="ym6-HF-Vg7" secondAttribute="leading" constant="20" id="Dmt-uS-tV9"/>
                         <constraint firstAttribute="bottom" secondItem="bH5-gH-0gp" secondAttribute="bottom" constant="12" id="OWy-wb-sSs"/>
                         <constraint firstAttribute="trailing" secondItem="AS8-fW-u1J" secondAttribute="trailing" constant="12" id="fOm-ot-6l3"/>
                         <constraint firstItem="bH5-gH-0gp" firstAttribute="top" secondItem="ym6-HF-Vg7" secondAttribute="top" constant="12" id="loK-LR-qKW"/>
@@ -58,12 +58,12 @@
                     <rect key="frame" x="0.0" y="53" width="375" height="45"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="重置手势密码" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1kX-Vy-mRA">
-                            <rect key="frame" x="8" y="12" width="126" height="21"/>
+                            <rect key="frame" x="20" y="12" width="126" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="126" id="f4T-RH-hrE"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <nil key="textColor"/>
+                            <color key="textColor" red="0.18823529410000001" green="0.18823529410000001" blue="0.18823529410000001" alpha="0.79906892119999995" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="youjiantou" translatesAutoresizingMaskIntoConstraints="NO" id="0Qv-S7-5p0">
@@ -75,6 +75,9 @@
                         </imageView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hse-Vh-MQZ">
                             <rect key="frame" x="0.0" y="0.0" width="375" height="45"/>
+                            <state key="normal">
+                                <color key="titleColor" red="0.18823529410000001" green="0.18823529410000001" blue="0.18823529410000001" alpha="0.79906892119999995" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
                             <connections>
                                 <action selector="repeatButtonClick:" destination="-1" eventType="touchUpInside" id="Maf-6h-gbx"/>
                             </connections>
@@ -89,7 +92,7 @@
                         <constraint firstAttribute="bottom" secondItem="Hse-Vh-MQZ" secondAttribute="bottom" id="PIW-US-Z2p"/>
                         <constraint firstAttribute="trailing" secondItem="0Qv-S7-5p0" secondAttribute="trailing" constant="16" id="aYA-cY-b7Q"/>
                         <constraint firstItem="Hse-Vh-MQZ" firstAttribute="leading" secondItem="1Dg-0I-n7t" secondAttribute="leading" id="cNw-fw-0vk"/>
-                        <constraint firstItem="1kX-Vy-mRA" firstAttribute="leading" secondItem="1Dg-0I-n7t" secondAttribute="leading" constant="8" id="fXL-Th-xRN"/>
+                        <constraint firstItem="1kX-Vy-mRA" firstAttribute="leading" secondItem="1Dg-0I-n7t" secondAttribute="leading" constant="20" id="fXL-Th-xRN"/>
                         <constraint firstItem="1kX-Vy-mRA" firstAttribute="top" secondItem="1Dg-0I-n7t" secondAttribute="top" constant="12" id="hxv-yj-vJa"/>
                         <constraint firstAttribute="trailing" secondItem="Hse-Vh-MQZ" secondAttribute="trailing" id="mXf-HZ-UuV"/>
                         <constraint firstAttribute="height" constant="45" id="mXq-yX-QpV"/>
@@ -109,6 +112,6 @@
         </view>
     </objects>
     <resources>
-        <image name="youjiantou" width="11" height="17"/>
+        <image name="youjiantou" width="11" height="17.5"/>
     </resources>
 </document>

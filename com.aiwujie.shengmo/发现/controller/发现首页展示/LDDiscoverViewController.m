@@ -122,7 +122,6 @@
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
         
-//        NSLog(@"%@",responseObject);
         
         if (integer == 2000) {
             
@@ -398,9 +397,7 @@
     [manager POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //        NSLog(@"%@",responseObject);
-        
+
         if (integer != 2000) {
             
            [self createAlwaysQuestionWithView:introduceView andViewH:viewH andViewMaxY:0 andViewSpace:viewSpace andViewInSpaceX:viewInSpaceX andLastItemY:lastItemY andBigSpace:bigSpace andHaveData:NO];
@@ -434,6 +431,7 @@
                 label.text = _viewTitleArray[i][@"title"];
                 label.numberOfLines = 0;
                 label.font = [UIFont systemFontOfSize:15];
+                label.textColor = [UIColor colorWithHexString:@"303030" alpha:0.8];
                 [view addSubview:label];
                 
                 UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, view.frame.size.width, view.frame.size.height)];
@@ -461,7 +459,6 @@
 
 }
 
-
 /**
  * 创建常见问题
  */
@@ -474,9 +471,7 @@
     [manager POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //        NSLog(@"%@",responseObject);
-        
+  
         if (integer != 2000) {
             
             introduceView.hidden = NO;
@@ -523,6 +518,7 @@
                 label.text = _viewTitleArray1[j][@"title"];
                 label.numberOfLines = 0;
                 label.font = [UIFont systemFontOfSize:15];
+                label.textColor = [UIColor colorWithHexString:@"303030" alpha:0.8];
                 [view addSubview:label];
                 
                 UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, view.frame.size.width, view.frame.size.height)];
@@ -741,8 +737,6 @@
             
             NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
             
-            //        NSLog(@"%@",responseObject);
-            
             [MBProgressHUD hideHUDForView:self.view animated:YES];
             
             if (integer == 2000) {
@@ -835,6 +829,7 @@
         
         label.font = [UIFont systemFontOfSize:11];
         label.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
+        
         label.textAlignment = NSTextAlignmentCenter;
         [serviceView addSubview:label];
         

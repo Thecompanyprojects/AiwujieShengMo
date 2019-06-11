@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -24,12 +24,13 @@
                     <rect key="frame" x="0.0" y="2" width="375" height="45"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="清除缓存" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fN5-eu-kSB">
-                            <rect key="frame" x="12" y="12" width="95" height="21"/>
+                            <rect key="frame" x="20" y="12" width="92" height="21"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="95" id="Cnr-f1-dCQ"/>
+                                <constraint firstAttribute="width" constant="92" id="Cnr-f1-dCQ"/>
                                 <constraint firstAttribute="height" constant="21" id="ovS-0G-tM8"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" red="0.18823529410000001" green="0.18823529410000001" blue="0.18823529410000001" alpha="0.79906892119999995" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NVs-my-Qus">
@@ -67,7 +68,7 @@
                         <constraint firstItem="fN5-eu-kSB" firstAttribute="top" secondItem="MbP-eb-PG3" secondAttribute="top" constant="12" id="aKj-81-SUb"/>
                         <constraint firstAttribute="height" constant="45" id="bm1-KL-AC2"/>
                         <constraint firstAttribute="bottom" secondItem="9ti-C0-DOC" secondAttribute="bottom" id="c7P-oZ-oKW"/>
-                        <constraint firstItem="fN5-eu-kSB" firstAttribute="leading" secondItem="MbP-eb-PG3" secondAttribute="leading" constant="12" id="e3K-q9-WTf"/>
+                        <constraint firstItem="fN5-eu-kSB" firstAttribute="leading" secondItem="MbP-eb-PG3" secondAttribute="leading" constant="20" id="e3K-q9-WTf"/>
                         <constraint firstAttribute="trailing" secondItem="DjC-L5-fkv" secondAttribute="trailing" constant="12" id="hkd-gS-2CF"/>
                         <constraint firstAttribute="bottom" secondItem="NVs-my-Qus" secondAttribute="bottom" constant="12" id="kXu-K7-Y4k"/>
                         <constraint firstAttribute="bottom" secondItem="fN5-eu-kSB" secondAttribute="bottom" constant="12" id="wbK-O5-bdp"/>
@@ -78,12 +79,13 @@
                     <rect key="frame" x="0.0" y="49" width="375" height="45"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="清空聊天记录" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bhW-gn-UMN">
-                            <rect key="frame" x="12" y="12" width="114" height="21"/>
+                            <rect key="frame" x="20" y="12" width="114" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="114" id="GeX-7X-RDI"/>
                                 <constraint firstAttribute="height" constant="21" id="c0V-uD-apW"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <color key="textColor" red="0.18823529410000001" green="0.18823529410000001" blue="0.18823529410000001" alpha="0.79906892119999995" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="youjiantou" translatesAutoresizingMaskIntoConstraints="NO" id="hrn-Sz-xz0">
@@ -109,7 +111,7 @@
                         <constraint firstAttribute="height" constant="45" id="jd0-bY-1dz"/>
                         <constraint firstItem="He7-ZK-6kB" firstAttribute="leading" secondItem="KSH-VD-eCK" secondAttribute="leading" id="l6I-Ag-i96"/>
                         <constraint firstItem="hrn-Sz-xz0" firstAttribute="top" secondItem="KSH-VD-eCK" secondAttribute="top" constant="17" id="mAQ-Y1-nDy"/>
-                        <constraint firstItem="bhW-gn-UMN" firstAttribute="leading" secondItem="KSH-VD-eCK" secondAttribute="leading" constant="12" id="nYX-TR-hBp"/>
+                        <constraint firstItem="bhW-gn-UMN" firstAttribute="leading" secondItem="KSH-VD-eCK" secondAttribute="leading" constant="20" id="nYX-TR-hBp"/>
                         <constraint firstAttribute="bottom" secondItem="He7-ZK-6kB" secondAttribute="bottom" id="oKs-IO-gvC"/>
                         <constraint firstAttribute="trailing" secondItem="He7-ZK-6kB" secondAttribute="trailing" id="oxL-5N-9p6"/>
                         <constraint firstAttribute="bottom" secondItem="hrn-Sz-xz0" secondAttribute="bottom" constant="17" id="sjp-7B-jYd"/>
@@ -126,10 +128,10 @@
                 <constraint firstAttribute="trailing" secondItem="KSH-VD-eCK" secondAttribute="trailing" id="o8P-D7-C2v"/>
                 <constraint firstAttribute="trailing" secondItem="MbP-eb-PG3" secondAttribute="trailing" id="x4H-Hp-Gf0"/>
             </constraints>
-            <point key="canvasLocation" x="73" y="228"/>
+            <point key="canvasLocation" x="72.799999999999997" y="227.13643178410797"/>
         </view>
     </objects>
     <resources>
-        <image name="youjiantou" width="11" height="17"/>
+        <image name="youjiantou" width="11" height="17.5"/>
     </resources>
 </document>

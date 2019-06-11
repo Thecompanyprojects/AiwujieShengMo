@@ -70,27 +70,19 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
-    
     cell.imageView.image = [UIImage imageNamed:_dataArray[indexPath.row]];
-    
     cell.textLabel.text = _dataArray[indexPath.row];
-    
+    cell.textLabel.textColor = [UIColor colorWithHexString:@"303030" alpha:0.8];
     cell.textLabel.font = [UIFont systemFontOfSize:15];
-    
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     return cell;
 }
-
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.row == 0){
-        
         LDHelpViewController *hvc = [[LDHelpViewController alloc] init];
-        
         [self.navigationController pushViewController:hvc animated:YES];
         
     }else if (indexPath.row == 1){

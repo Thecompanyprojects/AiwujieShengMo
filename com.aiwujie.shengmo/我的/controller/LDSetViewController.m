@@ -241,6 +241,7 @@
         cell.detailTextLabel.font = [UIFont italicSystemFontOfSize:12];//设置字体为斜体
         cell.textLabel.text = _dataArray[indexPath.section][indexPath.row];
         cell.textLabel.font = [UIFont systemFontOfSize:15];
+        cell.textLabel.textColor = [UIColor colorWithHexString:@"303030" alpha:0.8];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }else{
