@@ -19,7 +19,7 @@ typedef void(^MyCommentBlock)(NSString *commentNum);
 typedef void(^MyRewordBlock)(NSString *rewordNum);
 
 //删除动态的block
-typedef void(^MyDeleteBlock)();
+typedef void(^MyDeleteBlock)(void);
 
 @interface LDDynamicDetailViewController : UIViewController
 

@@ -36,7 +36,7 @@
     }];
     [weakSelf.contentLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(weakSelf);
-        make.right.equalTo(weakSelf).with.offset(-24);
+        make.right.equalTo(weakSelf).with.offset(-26);
         make.width.mas_offset(200);
     }];
 }

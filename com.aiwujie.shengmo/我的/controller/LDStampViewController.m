@@ -92,56 +92,53 @@
 
 -(void)createData{
 
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
+    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Restrict/getStampPageInfo"];
     NSDictionary *parameters;
     parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
+        
         if (integer != 2000) {
-                
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-
-          
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
         }else{
             
-            _walletLabel.text = [NSString stringWithFormat:@"共购买 %@ 张通用邮票(永久有效)",responseObject[@"data"][@"wallet_stamp"]];
-            [self changeWordColorTitle:_walletLabel.text andLoc:4 andLen:[responseObject[@"data"][@"wallet_stamp"] length] andLabel:_walletLabel];
+            _walletLabel.text = [NSString stringWithFormat:@"共购买 %@ 张通用邮票(永久有效)",responseObj[@"data"][@"wallet_stamp"]];
+            [self changeWordColorTitle:_walletLabel.text andLoc:4 andLen:[responseObj[@"data"][@"wallet_stamp"] length] andLabel:_walletLabel];
             
-            _basicstampX = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"basicstampX"]];
-            _basicstampY = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"basicstampY"]];
-            _basicstampZ = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"basicstampZ"]];
+            _basicstampX = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"basicstampX"]];
+            _basicstampY = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"basicstampY"]];
+            _basicstampZ = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"basicstampZ"]];
             _getFreeStampLabel.text = [NSString stringWithFormat:@"共获赠 %d 张任务邮票(当日有效)",[_basicstampX intValue] + [_basicstampY intValue] + [_basicstampZ intValue]];
             [self changeWordColorTitle:_getFreeStampLabel.text andLoc:4 andLen:[[NSString stringWithFormat:@"%d",[_basicstampX intValue] + [_basicstampY intValue] + [_basicstampZ intValue]] length] andLabel:_getFreeStampLabel];
             
-            _basicstampXLabel.text = [NSString stringWithFormat:@"男票 %@ 张",responseObject[@"data"][@"basicstampX"]];
-            _basicstampYLabel.text = [NSString stringWithFormat:@"女票 %@ 张",responseObject[@"data"][@"basicstampY"]];
-            _basicstampZLabel.text = [NSString stringWithFormat:@"CDTS票 %@ 张",responseObject[@"data"][@"basicstampZ"]];
+            _basicstampXLabel.text = [NSString stringWithFormat:@"男票 %@ 张",responseObj[@"data"][@"basicstampX"]];
+            _basicstampYLabel.text = [NSString stringWithFormat:@"女票 %@ 张",responseObj[@"data"][@"basicstampY"]];
+            _basicstampZLabel.text = [NSString stringWithFormat:@"CDTS票 %@ 张",responseObj[@"data"][@"basicstampZ"]];
             [self changeWordColorTitle:_basicstampXLabel.text andLoc:3 andLen:_basicstampX.length andLabel:_basicstampXLabel];
             [self changeWordColorTitle:_basicstampYLabel.text andLoc:3 andLen:_basicstampY.length andLabel:_basicstampYLabel];
             [self changeWordColorTitle:_basicstampZLabel.text andLoc:6 andLen:_basicstampZ.length andLabel:_basicstampZLabel];
             
-            _lauddynamic = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"lauddynamic"]];
-            _commentdynamic = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"commentdynamic"]];
-            _senddynamic = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"senddynamic"]];
-            _shareapp = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"shareapp"]];
-            _rewarddynamic = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"rewarddynamic"]];
+            _lauddynamic = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"lauddynamic"]];
+            _commentdynamic = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"commentdynamic"]];
+            _senddynamic = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"senddynamic"]];
+            _shareapp = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"shareapp"]];
+            _rewarddynamic = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"rewarddynamic"]];
             
-            _commentappstate = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"commentappstate"]];
-            _mobile = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"mobile"]];
+            _commentappstate = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"commentappstate"]];
+            _mobile = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"mobile"]];
             
-            _narmaluser = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"narmaluser"]];
-            _vipuser = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"vipuser"]];
+            _narmaluser = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"narmaluser"]];
+            _vipuser = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"vipuser"]];
             
             [self.tableView reloadData];
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failed:^(NSString *errorMsg) {
         
     }];
-
+    
 }
 
 //更改某个字体的颜色

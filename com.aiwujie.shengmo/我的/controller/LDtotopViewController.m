@@ -9,6 +9,7 @@
 #import "LDtotopViewController.h"
 #import "LdtotopCell.h"
 #import "LdtopHeaderView.h"
+#import "LDDetailPageViewController.h"
 
 @interface LDtotopViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property (nonatomic,strong)  UICollectionView *collectionView;
@@ -139,7 +140,9 @@ static float AD_height = 150;//头部高度
 
 -(void)rightButtonOnClic
 {
-    
+    LDDetailPageViewController *VC = [LDDetailPageViewController new];
+    VC.index = 1;
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 @end

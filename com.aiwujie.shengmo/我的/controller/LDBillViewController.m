@@ -274,14 +274,11 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 
     BillCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Bill"];
-    
     if (!cell) {
-        
         cell = [[NSBundle mainBundle] loadNibNamed:@"BillCell" owner:self options:nil].lastObject;
     }
-    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     BillModel *model = _dataArray[indexPath.row];
-    
     if ([_index intValue] == 1) {
         
         if ([self.content intValue] == 0) {
@@ -356,6 +353,7 @@
     return 75;
     
 }
+
 - (IBAction)giveButtonClick:(UIButton *)sender {
     
     [_chargeGiveButton setTitleColor:MainColor forState:UIControlStateNormal];
@@ -365,6 +363,7 @@
     
     
 }
+
 - (IBAction)chargeExchangeButtonClick:(UIButton *)sender {
     
     [_chargeExchangeButton setTitleColor:MainColor forState:UIControlStateNormal];
@@ -379,14 +378,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
