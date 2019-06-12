@@ -115,6 +115,7 @@
     _pictureArray = [NSMutableArray array];
     _shuiyinArray = [NSMutableArray array];
     _deleteArray = [NSMutableArray array];
+    self.topicArray = [NSMutableArray array];
     [self.textLabel sizeToFit];
     self.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
     [self createScanData];
@@ -227,9 +228,7 @@
 -(void)createScanData{
     
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/getDynamicdetailNewth"];
-    
     NSDictionary *parameters;
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
@@ -260,6 +259,7 @@
                 self.textView.text = [NSString stringWithFormat:@"%@%@",self.topicStr,self.contentStr];
                 
                 self.numberLabel.text = [NSString stringWithFormat:@"%ld/10000",(unsigned long)self.textView.text.length];
+                self.topicTid = responseObject[@"data"][@"tid"];
                 
                 if (self.textView.text.length == 0) {
                     
@@ -287,9 +287,7 @@
             //用于对比是否图片更改的原始数组
             [_pictureArray addObjectsFromArray:responseObject[@"data"][@"pic"]];
             [_shuiyinArray addObjectsFromArray:responseObject[@"data"][@"sypic"]];
-            
-            //创建collectionView
-           // [self configCollectionView];
+
             [self.collectionView reloadData];
         
         }
@@ -393,13 +391,10 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //NSLog(@"%@",responseObject);
-        
+
         if (integer == 3000) {
             
             _topicLabel.text = @"";
-            
             _topicLabel.frame = CGRectMake(10, CGRectGetMaxY(self.tagView.frame) + 10, WIDTH - 20, 0);
             
         }else{
@@ -525,8 +520,6 @@
                 
                 NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
                 
-                //NSLog(@"%@",responseObject);
-                
                 if (integer == 2000) {
                     
                     LDCertificateViewController *cvc = [[LDCertificateViewController alloc] init];
@@ -576,7 +569,6 @@
             
             tvc.block = ^(NSString *title, NSString *tid) {
                 
-                //_topicTid = tid;
                 self.topicTid = [NSString stringWithFormat:@"%@",_topicArray[index][@"tid"]];
                // 点击了话题标题后输入框的文字改变
                 [self changeTopicToTextViewWithString:[NSString stringWithFormat:@"#%@#",title]];
@@ -586,12 +578,10 @@
             
         }else{
             
-//            _topicTid = [NSString stringWithFormat:@"%@",_topicArray[index][@"tid"]];
              self.topicTid = [NSString stringWithFormat:@"%@",_topicArray[index][@"tid"]];
             //点击了话题标题后输入框的文字改变
             [self changeTopicToTextViewWithString:string];
         }
-        
         //删除对应话题的选中状态
         [self.tagView changeSomeoneSelectedState];
     }
@@ -1007,17 +997,8 @@
     // NSLog(@"cancel");
 }
 
-// The picker should dismiss itself; when it dismissed these handle will be called.
-// If isOriginalPhoto is YES, user picked the original photo.
-// You can get original photo with asset, by the method [[TZImageManager manager] getOriginalPhotoWithAsset:completion:].
-// The UIImage Object in photos default width is 828px, you can set it by photoWidth property.
-// 这个照片选择器会自己dismiss，当选择器dismiss的时候，会执行下面的代理方法
-// 如果isSelectOriginalPhoto为YES，表明用户选择了原图
-// 你可以通过一个asset获得原图，通过这个方法：[[TZImageManager manager] getOriginalPhotoWithAsset:completion:]
-// photos数组里的UIImage对象，默认是828像素宽，你可以通过设置photoWidth属性的值来改变它
+
 - (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingPhotos:(NSArray *)photos sourceAssets:(NSArray *)assets isSelectOriginalPhoto:(BOOL)isSelectOriginalPhoto {
-    
-    //    NSLog(@"%@",photos);
     [self thumbnaiWithImage:photos andAssets:assets];
 }
 
@@ -1326,19 +1307,24 @@
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Power/editDynamic"];
-    
     NSString *content;
     
-    if ([_oldContent isEqualToString:self.textView.text]) {
-        
-        content = _oldContent;
-        
-    }else{
-        
-        content = self.textView.text;
+    if (self.topicStr.length==0) {
+        if ([_oldContent isEqualToString:self.textView.text]) {
+            content = _oldContent;
+        }else{
+            content = self.textView.text;
+        }
     }
+    else
+    {
+        
+        content  = [self.textView.text substringFromIndex:self.topicStr.length];
+    }
+  
+    NSLog(@"content---%@",content);
     
-    NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":self.did,@"content":content,@"pic":path,@"sypic":sypath};
+    NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":self.did,@"content":content?:@"",@"pic":path,@"sypic":sypath,@"tid":self.topicTid?:@""};
     
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
