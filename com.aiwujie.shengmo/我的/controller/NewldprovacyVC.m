@@ -55,7 +55,7 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
 -(void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];
-    [self createAlertStatusData];
+    [self afterstaticData];
 }
 
 #pragma mark - getters
@@ -81,7 +81,6 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
-        
         if (integer != 2000) {
             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
         }
@@ -117,6 +116,37 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
                 
                 self.isshowPhoto = NO;
             }
+            
+            //相册查看权限 0 所有人可见 1 好友/会员可见
+            if ([responseObj[@"data"][@"photo_rule"] intValue] == 1) {
+                
+                self.isshowalbum = YES;
+            }
+            else
+            {
+                self.isshowalbum = NO;
+            }
+            
+            //主页动态查看 0 所有人可见 1 好友/会员可见
+            if ([responseObj[@"data"][@"dynamic_rule"] intValue] == 1) {
+                
+                self.isshowdynamic = YES;
+            }
+            else
+            {
+                self.isshowdynamic = NO;
+            }
+
+            //主页评论查看 0 所有人可见 1 好友/会员可见
+            if ([responseObj[@"data"][@"comment_rule"] intValue] == 1) {
+                
+                self.isshowcomments = YES;
+            }
+            else
+            {
+                self.isshowcomments = NO;
+            }
+            
             self.blackNumStr = responseObj[@"data"][@"black_limit"];
         }
         [self.table reloadData];
@@ -126,27 +156,23 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
     }];
 }
 
--(void)createAlertStatusData{
-    
+-(void)afterstaticData
+{
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getSecretSit"];
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
-        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
-        if (integer!=2000) {
-             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
+        if ([responseObj[@"data"][@"photo_lock"] intValue] == 1) {
+
+            self.isshowPhoto = YES;
+        }else{
+
+            self.isshowPhoto = NO;
         }
-        else
-        {
-            if ([responseObj[@"data"][@"photo_lock"] intValue] == 1) {
-                self.isshowPhoto = YES;
-            }else{
-                self.isshowPhoto = NO;
-            }
-            self.blackNumStr = responseObj[@"data"][@"black_limit"];
-        }
+        
+         self.blackNumStr = responseObj[@"data"][@"black_limit"];
+        [self.table reloadData];
     } failed:^(NSString *errorMsg) {
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        
     }];
 }
 
@@ -459,31 +485,50 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
         loginTimeString = @"1";
     }
     
-    NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"follow_list_switch":attentString,@"group_list_switch":groupString,@"login_time_switch":loginTimeString};
+    NSString *photo_rule = [NSString new];
+    if (!self.isshowalbum) {
+        photo_rule = @"0";
+    }
+    else
+    {
+        photo_rule = @"1";
+    }
+    
+    NSString *dynamic_rule = [NSString new];
+    if (!self.isshowdynamic) {
+        dynamic_rule = @"0";
+    }
+    else
+    {
+        dynamic_rule = @"1";
+    }
+    
+    NSString *comment_rule = [NSString new];
+    if (!self.isshowcomments) {
+        comment_rule = @"0";
+    }
+    else
+    {
+        comment_rule = @"1";
+    }
+    
+    NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"follow_list_switch":attentString,@"group_list_switch":groupString,@"login_time_switch":loginTimeString,@"photo_rule":photo_rule,@"dynamic_rule":dynamic_rule,@"comment_rule":comment_rule};
     
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:[responseObj objectForKey:@"msg"]    preferredStyle:UIAlertControllerStyleAlert];
-            
             UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
-                
                 [self.navigationController popViewControllerAnimated:YES];
             }];
-            
             [alert addAction:action];
-            
             [self presentViewController:alert animated:YES completion:nil];
-            
         }else{
             [self.navigationController popViewControllerAnimated:YES];
         }
-
     } failed:^(NSString *errorMsg) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"因网络等原因修改失败"    preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
-            
             [self.navigationController popViewControllerAnimated:YES];
         }];
         [alert addAction:action];

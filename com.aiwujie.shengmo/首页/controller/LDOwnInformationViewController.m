@@ -305,6 +305,12 @@
 
 @property (nonatomic,strong) UIButton *leftBtn;
 @property (nonatomic,strong) UIButton *rightBtn;
+
+
+//权限限制 0 默认不做限制 1 做限制
+@property (nonatomic,copy) NSString *photo_rule;
+@property (nonatomic,copy) NSString *dynamic_rule;
+@property (nonatomic,copy) NSString *comment_rule;
 @end
 
 @implementation LDOwnInformationViewController
@@ -546,6 +552,8 @@
     self.tableView.showsHorizontalScrollIndicator = NO;
 }
 
+#pragma mark - UITableViewDataSource
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
     return 1;
@@ -637,9 +645,7 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-        //        NSLog(@"%@",responseObject);
-        
+
         if (integer == 4003  || integer == 4004) {
             
             _publishComment = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"retcode"]];
@@ -716,6 +722,8 @@
     }
 
 }
+
+#pragma mark - RightBtn
 
 -(void)createRightButton{
     
@@ -799,6 +807,8 @@
     
     [self presentViewController:alert animated:YES completion:nil];
 }
+
+#pragma mark - //其他，拉黑等功能
 
 //其他，拉黑等功能
 -(void)rightButtonOnClick{
@@ -1407,6 +1417,9 @@
     }];
 }
 
+
+#pragma mark - 获取个人资料信息
+
 /**
  * 获取个人资料信息
  */
@@ -1431,7 +1444,13 @@
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
         
+        self.photo_rule = [responseObject objectForKey:@"data"][@"photo_rule"];
+        self.dynamic_rule = [responseObject objectForKey:@"data"][@"dynamic_rule"];
+        self.comment_rule = [responseObject objectForKey:@"data"][@"comment_rule"];
+        
         if (integer == 2001) {
+            
+      
             
             self.tableView.scrollEnabled = NO;
             self.blackView.hidden = NO;
@@ -2114,6 +2133,9 @@
     }
 }
 
+
+#pragma mark - 获取用户的认证头像
+
 /**
  * 获取用户的认证头像
  */
@@ -2130,9 +2152,7 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //        NSLog(@"%@",responseObject);
-        
+
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
         if (integer == 2000) {
@@ -2641,17 +2661,10 @@
     }else{
         
         AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-        
         NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/friend/writeVisitRecord"];
-        
         NSDictionary *parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"uid":self.userID};
-        
         [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
             NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-            
-            //NSLog(@"%@",responseObject);
-            
             if (integer == 2000) {
                 
                 NSDate *date = [NSDate date];
@@ -2674,31 +2687,91 @@
  */
 - (IBAction)dynamicCommentButtonClick:(id)sender {
     
-    LDOwnInfoDynamicCommentViewController *info = [[LDOwnInfoDynamicCommentViewController alloc] init];
-    
-    info.personUid = self.userID;
-    
-    info.attentStatus = _attentStatus;
-    
-    info.navigationItem.title = self.nameLabel.text;
-    
-    [self.navigationController pushViewController:info animated:YES];
-    
+    if ([self.comment_rule isEqualToString:@"0"]) {
+        LDOwnInfoDynamicCommentViewController *info = [[LDOwnInfoDynamicCommentViewController alloc] init];
+        info.personUid = self.userID;
+        info.attentStatus = _attentStatus;
+        info.navigationItem.title = self.nameLabel.text;
+        [self.navigationController pushViewController:info animated:YES];
+    }
+    else
+    {
+        [self toshowAlertwithtype:@"2"];
+    }
 }
 /**
  * 点击发布的动态跳转到相应的列表
  */
 - (IBAction)ownInfoDynamicButtonClick:(id)sender {
     
-    LDownInfoDynamicViewController *dvc = [[LDownInfoDynamicViewController alloc] init];
+    if ([self.dynamic_rule isEqualToString:@"0"]) {
+        LDownInfoDynamicViewController *dvc = [[LDownInfoDynamicViewController alloc] init];
+        
+        dvc.personUid = self.userID;
+        
+        dvc.attentStatus = _attentStatus;
+        
+        dvc.navigationItem.title = self.nameLabel.text;
+        
+        [self.navigationController pushViewController:dvc animated:YES];
+        
+    }
+    else
+    {
+        [self toshowAlertwithtype:@"1"];
+    }
+
+}
+
+/**
+ 消息详情不可见AlertView
+
+ @param typestr 消息类别  0 相册  1 动态  2 评论
+ */
+-(void)toshowAlertwithtype:(NSString *)typestr
+{
+    NSString *message = [NSString new];
+    if ([typestr isEqualToString:@"0"]) {
+        message = @"TA的相册限互为好友、VIP会员可见~";
+    }
+    if ([typestr isEqualToString:@"1"]) {
+        message = @"TA的动态限互为好友、VIP会员可见~";
+    }
+    if ([typestr isEqualToString:@"0"]) {
+         message = @"TA的评论限互为好友、VIP会员可见~";
+    }
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"TA的动态限互为好友、VIP会员可见~"    preferredStyle:UIAlertControllerStyleAlert];
     
-    dvc.personUid = self.userID;
+    UIAlertAction * addFriendAction = [UIAlertAction actionWithTitle:@"加好友" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
+        
+        [self attentButtonClickState:_attentStatus];
+        
+    }];
     
-    dvc.attentStatus = _attentStatus;
+    UIAlertAction * vipAction = [UIAlertAction actionWithTitle:@"开通VIP" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
+        
+        LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
+        
+        [self.navigationController pushViewController:mvc animated:YES];
+        
+    }];
+    UIAlertAction * action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
     
-    dvc.navigationItem.title = self.nameLabel.text;
+    if (PHONEVERSION.doubleValue >= 8.3) {
+        
+        [action setValue:[UIColor lightGrayColor] forKey:@"_titleTextColor"];
+        
+        [vipAction setValue:MainColor forKey:@"_titleTextColor"];
+        
+        [addFriendAction setValue:MainColor forKey:@"_titleTextColor"];
+    }
     
-    [self.navigationController pushViewController:dvc animated:YES];
+    
+    [alert addAction:action];
+    [alert addAction:addFriendAction];
+    [alert addAction:vipAction];
+    
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 //获取并剪裁标签
@@ -3438,65 +3511,42 @@
         }];
 
     }else{
-    
+        
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue] == 1 || [_followState intValue] == 3 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue] == 1) {
-            
             if ([_lock intValue] == 2) {
-                
                 UIImageView *img = (UIImageView *)tap.view;
-                
                 [self createPasswordView:img.tag];
-                
             }else{
-            
                 UIImageView *img = (UIImageView *)tap.view;
-                
                 __weak typeof(self) weakSelf=self;
-                
                 [ImageBrowserViewController show:self type:PhotoBroswerVCTypeModal index:img.tag - 10 imagesBlock:^NSArray *{
-                    
                     return weakSelf.picArray;
                 }];
-
             }
-            
         }else{
-            
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"TA的相册限互为好友、VIP会员可见~"    preferredStyle:UIAlertControllerStyleAlert];
-            
-            UIAlertAction * addFriendAction = [UIAlertAction actionWithTitle:@"加好友" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
-                
-                [self attentButtonClickState:_attentStatus];
-                
-            }];
-            
-            UIAlertAction * vipAction = [UIAlertAction actionWithTitle:@"开通VIP" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
-                
-                LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
-                
-                [self.navigationController pushViewController:mvc animated:YES];
-                
-            }];
-            UIAlertAction * action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
-            
-            if (PHONEVERSION.doubleValue >= 8.3) {
-                
-                [action setValue:[UIColor lightGrayColor] forKey:@"_titleTextColor"];
-                
-                [vipAction setValue:MainColor forKey:@"_titleTextColor"];
-                
-                [addFriendAction setValue:MainColor forKey:@"_titleTextColor"];
+            if ([self.photo_rule isEqualToString:@"1"]) {
+                [self toshowAlertwithtype:@"0"];
             }
-
+            else
+            {
+                if ([_lock intValue] == 2) {
+                    UIImageView *img = (UIImageView *)tap.view;
+                    [self createPasswordView:img.tag];
+                }else{
+                    UIImageView *img = (UIImageView *)tap.view;
+                    __weak typeof(self) weakSelf=self;
+                    [ImageBrowserViewController show:self type:PhotoBroswerVCTypeModal index:img.tag - 10 imagesBlock:^NSArray *{
+                        return weakSelf.picArray;
+                    }];
+                }
+            }
             
-            [alert addAction:action];
-            [alert addAction:addFriendAction];
-            [alert addAction:vipAction];
-            
-            [self presentViewController:alert animated:YES completion:nil];
         }
+        
+        
     }
 }
+
 
 - (IBAction)recordButtonClick:(id)sender {
     

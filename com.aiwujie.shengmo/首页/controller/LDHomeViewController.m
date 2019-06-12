@@ -1070,22 +1070,13 @@
         
         [leftButton setImage:[UIImage imageNamed:@"宫格模式"] forState:UIControlStateNormal];
     }
-
+    
     [leftButton addTarget:self action:@selector(leftButtonOnClick:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     self.navigationItem.leftBarButtonItem = leftBarButtonItem;
 
     //右侧下拉列表
     _rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 5, 20, 20)];
-    
-//    if (_index == 0) {
-//
-//        _rightButton.hidden = YES;
-//
-//    }else{
-//
-//        _rightButton.hidden = NO;
-//    }
     
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"searchSwitch"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"searchSwitch"] integerValue] == 0) {
@@ -1213,18 +1204,6 @@
 //改变导航栏上按钮的颜色
 -(void)changeNavButtonColor:(NSInteger)index{
     
-//    if (index == 0) {
-//
-//        _rightButton.hidden = YES;
-//
-//        _backgroundView.alpha = 0;
-//
-//        _isSelect = NO;
-//
-//    }else{
-//
-//        _rightButton.hidden = NO;
-//    }
 
     _rightButton.hidden = NO;
     

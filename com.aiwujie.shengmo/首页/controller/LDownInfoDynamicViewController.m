@@ -140,14 +140,10 @@
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/friend/getDynamicAndTopicCount"];
     
     NSDictionary *parameters = @{@"uid":self.personUid};
-        
-    //    NSLog(@"%@",role);
     
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-        //NSLog(@"%@",responseObject);
         
         [self.tableView.mj_header beginRefreshing];
         

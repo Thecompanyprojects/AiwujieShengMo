@@ -169,11 +169,8 @@
 -(void)changeModel{
 
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"] intValue] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"] length] == 0){
-        
         self.collectionView.hidden = YES;
-        
         self.tableView.hidden = NO;
-        
         [self.tableView.mj_header beginRefreshing];
 
     }else{
