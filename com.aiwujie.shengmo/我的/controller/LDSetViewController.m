@@ -10,7 +10,6 @@
 #import "LDLoginViewController.h"
 #import "LDBindingPhoneNumViewController.h"
 #import "LDBindingEmailViewController.h"
-#import "LDProvacyViewController.h"
 #import "LDCertificateViewController.h"
 #import "LDFeedbackViewController.h"
 #import "LDRevisePasswordViewController.h"

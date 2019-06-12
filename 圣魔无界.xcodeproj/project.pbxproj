@@ -197,8 +197,6 @@
 		00EC58CB1E1E952E00B06073 /* LDAttentOtherViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00EC58C91E1E952E00B06073 /* LDAttentOtherViewController.xib */; };
 		00EC8EF21E1D24E6001521D8 /* LDSetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00EC8EF01E1D24E6001521D8 /* LDSetViewController.m */; };
 		00EC8EF31E1D24E6001521D8 /* LDSetViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00EC8EF11E1D24E6001521D8 /* LDSetViewController.xib */; };
-		00EC8EF71E1D2DC8001521D8 /* LDProvacyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00EC8EF51E1D2DC8001521D8 /* LDProvacyViewController.m */; };
-		00EC8EF81E1D2DC8001521D8 /* LDProvacyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00EC8EF61E1D2DC8001521D8 /* LDProvacyViewController.xib */; };
 		00EC8EFC1E1D3236001521D8 /* LDPrivacyPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00EC8EFA1E1D3236001521D8 /* LDPrivacyPhotoViewController.m */; };
 		00EC8EFD1E1D3236001521D8 /* LDPrivacyPhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00EC8EFB1E1D3236001521D8 /* LDPrivacyPhotoViewController.xib */; };
 		00ED35AB1E0BF7AE00FC37FE /* LDMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00ED35A91E0BF7AE00FC37FE /* LDMapViewController.m */; };
@@ -774,9 +772,6 @@
 		00EC8EEF1E1D24E6001521D8 /* LDSetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDSetViewController.h; sourceTree = "<group>"; };
 		00EC8EF01E1D24E6001521D8 /* LDSetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDSetViewController.m; sourceTree = "<group>"; };
 		00EC8EF11E1D24E6001521D8 /* LDSetViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LDSetViewController.xib; sourceTree = "<group>"; };
-		00EC8EF41E1D2DC8001521D8 /* LDProvacyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDProvacyViewController.h; sourceTree = "<group>"; };
-		00EC8EF51E1D2DC8001521D8 /* LDProvacyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDProvacyViewController.m; sourceTree = "<group>"; };
-		00EC8EF61E1D2DC8001521D8 /* LDProvacyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LDProvacyViewController.xib; sourceTree = "<group>"; };
 		00EC8EF91E1D3236001521D8 /* LDPrivacyPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDPrivacyPhotoViewController.h; sourceTree = "<group>"; };
 		00EC8EFA1E1D3236001521D8 /* LDPrivacyPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDPrivacyPhotoViewController.m; sourceTree = "<group>"; };
 		00EC8EFB1E1D3236001521D8 /* LDPrivacyPhotoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LDPrivacyPhotoViewController.xib; sourceTree = "<group>"; };
@@ -2823,9 +2818,6 @@
 			children = (
 				531D738422AE0A0300903BB4 /* View */,
 				531D738322AE09F800903BB4 /* Controller */,
-				00EC8EF41E1D2DC8001521D8 /* LDProvacyViewController.h */,
-				00EC8EF51E1D2DC8001521D8 /* LDProvacyViewController.m */,
-				00EC8EF61E1D2DC8001521D8 /* LDProvacyViewController.xib */,
 				D268C99B1EF12364009AC7D6 /* 隐私相册 */,
 				D268C99E1EF123DD009AC7D6 /* 黑名单列表 */,
 			);
@@ -3250,7 +3242,6 @@
 				0043DB4C1E2B6AD100577DE5 /* LDReportResonViewController.xib in Resources */,
 				D23A5FF31ED5898F00FE4AD5 /* LDLookChangeBindingEmailViewController.xib in Resources */,
 				D2366F711F7CE078009B7F4C /* LDownInfoDynamicViewController.xib in Resources */,
-				00EC8EF81E1D2DC8001521D8 /* LDProvacyViewController.xib in Resources */,
 				D25BA6C31EFE52CE003990A3 /* LDDetailPageViewController.xib in Resources */,
 				D238791E205281150078C798 /* WeiboSDK.bundle in Resources */,
 				003B9A861E06C027006BF162 /* LDMainTabViewController.xib in Resources */,
@@ -3674,7 +3665,6 @@
 				D2FEB5DD1EC46D7C002A0886 /* RewardRankingCell.m in Sources */,
 				00F04B891E12979A00FF9524 /* LDOwnInformationViewController.m in Sources */,
 				D2374EAA1EAEF2B400020483 /* UIColor+RCColor.m in Sources */,
-				00EC8EF71E1D2DC8001521D8 /* LDProvacyViewController.m in Sources */,
 				D2D969FF1F28A123009FE0D0 /* HeaderTabViewController.m in Sources */,
 				D2376E861F0DCCB500C9D9D8 /* LDLookGifListViewController.m in Sources */,
 				0043DB461E2B663200577DE5 /* LDReportViewController.m in Sources */,

@@ -9,7 +9,6 @@
 #import "LDMainNavViewController.h"
 #import "LDLoginViewController.h"
 #import "LDMapViewController.h"
-#import "LDProvacyViewController.h"
 #import "LDPrivacyPhotoViewController.h"
 #import "LDEditViewController.h"
 #import "LDGetListViewController.h"
@@ -38,7 +37,7 @@
         
         viewController.hidesBottomBarWhenPushed = YES;
     
-        if (![viewController isKindOfClass:[LDLoginViewController class]] && ![viewController isKindOfClass:[LDMapViewController class]] && ![viewController isKindOfClass:[LDProvacyViewController class]] && ![viewController isKindOfClass:[LDPrivacyPhotoViewController class]] && ![viewController isKindOfClass:[LDEditViewController class]] && ![viewController isKindOfClass:[WUGesturesUnlockViewController class]] && ![viewController isKindOfClass:[LDGetListViewController class]] && ![viewController isKindOfClass:[LDEditMatchmakerViewController class]]) {
+        if (![viewController isKindOfClass:[LDLoginViewController class]] && ![viewController isKindOfClass:[LDMapViewController class]] && ![viewController isKindOfClass:[LDPrivacyPhotoViewController class]] && ![viewController isKindOfClass:[LDEditViewController class]] && ![viewController isKindOfClass:[WUGesturesUnlockViewController class]] && ![viewController isKindOfClass:[LDGetListViewController class]] && ![viewController isKindOfClass:[LDEditMatchmakerViewController class]]) {
             
             UIButton * areaButton = [[UIButton alloc] initWithFrame:CGRectMake(16, 36, 10, 14)];
 
