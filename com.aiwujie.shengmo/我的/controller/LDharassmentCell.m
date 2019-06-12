@@ -61,8 +61,8 @@
     if(!_nameLab)
     {
         _nameLab = [[UILabel alloc] init];
-        _nameLab.font = [UIFont systemFontOfSize:13];
-        _nameLab.textColor = [UIColor lightGrayColor];
+        _nameLab.font = [UIFont systemFontOfSize:15];
+        _nameLab.textColor = TextCOLOR;
     }
     return _nameLab;
 }

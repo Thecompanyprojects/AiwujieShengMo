@@ -58,7 +58,7 @@
     {
         _nameLab = [[UILabel alloc] init];
         _nameLab.font = [UIFont systemFontOfSize:15];
-        _nameLab.textColor = [UIColor colorWithHexString:@"303030" alpha:0.8];
+        _nameLab.textColor = TextCOLOR;
     }
     return _nameLab;
 }

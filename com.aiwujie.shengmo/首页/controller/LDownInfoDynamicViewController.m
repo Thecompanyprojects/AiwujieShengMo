@@ -1012,7 +1012,7 @@
             view.backgroundColor = [UIColor whiteColor];
             
             UILabel *oneLabel = [[UILabel alloc] initWithFrame:CGRectMake(12, 15, WIDTH - 24, 15)];
-            oneLabel.textColor = [UIColor colorWithHexString:@"303030" alpha:0.8];
+            oneLabel.textColor = TextCOLOR;
             if ([model.comArr[0][@"otheruid"] intValue] != 0) {
                 
                 oneLabel.text = [NSString stringWithFormat:@"%@回复%@: %@",model.comArr[0][@"nickname"],model.comArr[0][@"othernickname"],model.comArr[0][@"content"]];
@@ -1039,7 +1039,7 @@
             [view addSubview:oneLabel];
             
             UILabel *twoLabel = [[UILabel alloc] initWithFrame:CGRectMake(12, 35, WIDTH - 24, 15)];
-             twoLabel.textColor = [UIColor colorWithHexString:@"303030" alpha:0.8];
+             twoLabel.textColor = TextCOLOR;
             if ([model.comArr[1][@"otheruid"] intValue] != 0) {
                 
                 twoLabel.text = [NSString stringWithFormat:@"%@回复%@: %@",model.comArr[1][@"nickname"],model.comArr[1][@"othernickname"],model.comArr[1][@"content"]];
@@ -1106,7 +1106,7 @@
             view.backgroundColor = [UIColor whiteColor];
             
             UILabel *oneLabel = [[UILabel alloc] initWithFrame:CGRectMake(12, 15, WIDTH - 24, 15)];
-             oneLabel.textColor = [UIColor colorWithHexString:@"303030" alpha:0.8];
+             oneLabel.textColor = TextCOLOR;
             if ([model.comArr[0][@"otheruid"] intValue] != 0) {
                 
                 oneLabel.text = [NSString stringWithFormat:@"%@回复%@: %@",model.comArr[0][@"nickname"],model.comArr[0][@"othernickname"],model.comArr[0][@"content"]];

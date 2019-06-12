@@ -431,7 +431,7 @@
                 label.text = _viewTitleArray[i][@"title"];
                 label.numberOfLines = 0;
                 label.font = [UIFont systemFontOfSize:15];
-                label.textColor = [UIColor colorWithHexString:@"303030" alpha:0.8];
+                label.textColor = TextCOLOR;
                 [view addSubview:label];
                 
                 UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, view.frame.size.width, view.frame.size.height)];
@@ -518,7 +518,7 @@
                 label.text = _viewTitleArray1[j][@"title"];
                 label.numberOfLines = 0;
                 label.font = [UIFont systemFontOfSize:15];
-                label.textColor = [UIColor colorWithHexString:@"303030" alpha:0.8];
+                label.textColor = TextCOLOR;
                 [view addSubview:label];
                 
                 UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, view.frame.size.width, view.frame.size.height)];

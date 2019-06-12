@@ -72,7 +72,7 @@
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
     cell.imageView.image = [UIImage imageNamed:_dataArray[indexPath.row]];
     cell.textLabel.text = _dataArray[indexPath.row];
-    cell.textLabel.textColor = [UIColor colorWithHexString:@"303030" alpha:0.8];
+    cell.textLabel.textColor = TextCOLOR;
     cell.textLabel.font = [UIFont systemFontOfSize:15];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;

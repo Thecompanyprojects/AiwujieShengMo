@@ -108,29 +108,17 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.title = @"编辑动态";
-    
     [self createScrollViewAndSubviews];
-    
     _selectedPhotos = [NSMutableArray array];
-    
     _selectedSyArray = [NSMutableArray array];
-    
     _addArray = [NSMutableArray array];
-    
     _pictureArray = [NSMutableArray array];
-    
     _shuiyinArray = [NSMutableArray array];
-    
     _deleteArray = [NSMutableArray array];
-
     [self.textLabel sizeToFit];
-    
     self.textLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    
     [self createScanData];
-    
     [self createButton];
-
 }
 
 /**
@@ -270,8 +258,6 @@
                 self.contentStr =  responseObject[@"data"][@"content"];
                 self.topicStr = [NSString stringWithFormat:@"%@%@%@",@"#",responseObject[@"data"][@"topictitle"],@"#"];
                 self.textView.text = [NSString stringWithFormat:@"%@%@",self.topicStr,self.contentStr];
-                
-                //self.textView.text = responseObject[@"data"][@"content"];
                 
                 self.numberLabel.text = [NSString stringWithFormat:@"%ld/10000",(unsigned long)self.textView.text.length];
                 
@@ -776,10 +762,8 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
     if (scrollView == _scrollView) {
-        
-           [self.view endEditing:YES];
+          //[self.view endEditing:YES];
     }
-
 }
 
 #pragma mark UICollectionView
