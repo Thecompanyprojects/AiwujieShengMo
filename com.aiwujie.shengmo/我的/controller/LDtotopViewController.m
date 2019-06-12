@@ -28,10 +28,6 @@ static float AD_height = 150;//头部高度
     [self.view addSubview:self.collectionView];
     [self createRightButton];
     
-//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-//    [self.collectionView selectItemAtIndexPath:indexPath animated:NO scrollPosition:UICollectionViewScrollPositionNone];
-//    [self collectionView:self.collectionView didSelectItemAtIndexPath:indexPath];
-    
 }
 
 -(void)createRightButton{

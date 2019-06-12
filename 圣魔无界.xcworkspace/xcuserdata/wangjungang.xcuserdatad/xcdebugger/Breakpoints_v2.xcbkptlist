@@ -30,19 +30,125 @@
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            scope = "0"
+            stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "com.aiwujie.shengmo/&#x9996;&#x9875;/controller/LDOwnInfoDynamicCommentViewController.m"
-            timestampString = "581999549.695365"
+            filePath = "com.aiwujie.shengmo/&#x52a8;&#x6001;/controller/LDAlertOtherDynamicViewController.m"
+            timestampString = "582005617.675251"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "57"
-            endingLineNumber = "57"
-            landmarkName = "-viewDidLoad"
+            startingLineNumber = "244"
+            endingLineNumber = "244"
+            landmarkName = "-createScanData"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[LDAlertOtherDynamicViewController createScanData]"
+                  moduleName = "&#x5723;&#x9b54;&#x65e0;&#x754c;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/wangjungang/Desktop/%E6%9C%AA%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6%E5%A4%B9%206/AiwujieShengMo/com.aiwujie.shengmo/%E5%8A%A8%E6%80%81/controller/LDAlertOtherDynamicViewController.m"
+                  timestampString = "582005618.362478"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "244"
+                  endingLineNumber = "244"
+                  offsetFromSymbolStart = "1324">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__51-[LDAlertOtherDynamicViewController createScanData]_block_invoke"
+                  moduleName = "&#x5723;&#x9b54;&#x65e0;&#x754c;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/wangjungang/Desktop/%E6%9C%AA%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6%E5%A4%B9%206/AiwujieShengMo/com.aiwujie.shengmo/%E5%8A%A8%E6%80%81/controller/LDAlertOtherDynamicViewController.m"
+                  timestampString = "582005618.376304"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "246"
+                  endingLineNumber = "246"
+                  offsetFromSymbolStart = "92">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "com.aiwujie.shengmo/&#x52a8;&#x6001;/controller/LDAlertOtherDynamicViewController.m"
+            timestampString = "582005617.676023"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "248"
+            endingLineNumber = "248"
+            landmarkName = "-createScanData"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "com.aiwujie.shengmo/&#x52a8;&#x6001;/controller/LDPublishDynamicViewController.m"
+            timestampString = "582005750.85342"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1403"
+            endingLineNumber = "1403"
+            landmarkName = "-createData:andShuiyin:andButton:"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[LDPublishDynamicViewController createData:andShuiyin:andButton:]"
+                  moduleName = "&#x5723;&#x9b54;&#x65e0;&#x754c;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/wangjungang/Desktop/%E6%9C%AA%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6%E5%A4%B9%206/AiwujieShengMo/com.aiwujie.shengmo/%E5%8A%A8%E6%80%81/controller/LDPublishDynamicViewController.m"
+                  timestampString = "582005751.08547"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1403"
+                  endingLineNumber = "1403"
+                  offsetFromSymbolStart = "2632">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__66-[LDPublishDynamicViewController createData:andShuiyin:andButton:]_block_invoke"
+                  moduleName = "&#x5723;&#x9b54;&#x65e0;&#x754c;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/wangjungang/Desktop/%E6%9C%AA%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6%E5%A4%B9%206/AiwujieShengMo/com.aiwujie.shengmo/%E5%8A%A8%E6%80%81/controller/LDPublishDynamicViewController.m"
+                  timestampString = "582005751.087613"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "1405"
+                  endingLineNumber = "1405"
+                  offsetFromSymbolStart = "88">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

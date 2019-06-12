@@ -15,4 +15,5 @@ pod 'UMengAnalytics-NO-IDFA'
 pod 'Masonry', '~> 1.1.0'
 pod 'IQKeyboardManager'
 pod 'Bugly'
+pod 'YYModel'
 end

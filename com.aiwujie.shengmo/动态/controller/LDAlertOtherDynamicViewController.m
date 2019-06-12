@@ -1347,23 +1347,16 @@
         if (integer != 2001) {
             
             [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-            
-             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"编辑失败~"];
-            
-            
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"编辑失败~"];
         }else{
-            
            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-            
             [[NSNotificationCenter defaultCenter] postNotificationName:@"编辑动态成功" object:nil];
-            
-            [self.navigationController popViewControllerAnimated:YES];
+           [self.navigationController popViewControllerAnimated:YES];
         }
         
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        
+
         [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
         
     }];

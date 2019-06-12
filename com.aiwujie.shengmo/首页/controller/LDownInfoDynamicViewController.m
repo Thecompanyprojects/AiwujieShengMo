@@ -92,80 +92,10 @@
             [self createDataType:@"1"];
             
         }else{
-            // 取消会员限制
-//            if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue] == 1) {
-            
+
                 _page = 0;
-                
                 [self createDataType:@"1"];
-                
-//            }else{
-//
-//                AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-//
-//                NSString *url = [NSString stringWithFormat:@"%@%@",URL,@"Api/Power/getAchievePower"];
-//
-//                NSDictionary *parameters = @{@"uid":self.personUid,@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-//                //NSLog(@"%@",parameters);
-//
-//                [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//
-//                    NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-//
-//                    //NSLog(@"%@",responseObject[@"msg"]);
-//
-//                    if (integer == 2002) {
-//
-//                        [_dataArray removeAllObjects];
-//
-//                        [self.tableView reloadData];
-//
-//                        _warnView = [[UIView alloc] initWithFrame:CGRectMake(0, self.tableView.tableHeaderView.frame.size.height + 2, WIDTH, self.tableView.frame.size.height)];
-//                        _warnView.backgroundColor = [UIColor whiteColor];
-//                        [self.tableView addSubview:_warnView];
-//
-//                        // 调整行间距
-//                        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"TA的动态限互为好友/VIP会员可见"];
-//                        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-//                        [paragraphStyle setLineSpacing:5];
-//                        [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:13] range:NSMakeRange(0, [@"TA的动态限互为好友/VIP会员可见" length])];
-//                        [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:183/255.0 green:53/255.0 blue:208/255.0 alpha:1] range:NSMakeRange(6, 4)];
-//                        [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:183/255.0 green:53/255.0 blue:208/255.0 alpha:1] range:NSMakeRange(11, 5)];
-//
-//                        UILabel *warnLabel = [[UILabel alloc] init];
-//                        warnLabel.attributedText = attributedString;
-//                        [warnLabel sizeToFit];
-//                        warnLabel.frame = CGRectMake((WIDTH -  warnLabel.frame.size.width - 40)/2, 20, warnLabel.frame.size.width + 40, 30);
-//                        warnLabel.textAlignment = NSTextAlignmentCenter;
-//                        warnLabel.backgroundColor = [UIColor colorWithRed:239/255.0 green:239/255.0 blue:244/255.0 alpha:1];
-//                        warnLabel.layer.cornerRadius = 15;
-//                        warnLabel.clipsToBounds = YES;
-//                        [_warnView addSubview:warnLabel];
-//
-//                        [warnLabel yb_addAttributeTapActionWithStrings:@[@"互为好友",@"VIP会员"] delegate:self];
-//                        warnLabel.enabledTapEffect = NO;
-//
-//                        [self.tableView.mj_header endRefreshing];
-//
-//                        [self.tableView.mj_footer endRefreshingWithNoMoreData];
-//
-//                    }else if(integer == 2001){
-//
-//                        _page = 0;
-//
-//                        [self createDataType:@"1"];
-//
-//                    }else{
-//
-//                        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"请求发生错误~"];
-//
-//                    }
-//
-//                } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//
-//
-//                }];
-//            }
+
         }
     }];
     

@@ -169,9 +169,7 @@
     }
     
     self.ageLabel.text = [NSString stringWithFormat:@"%@",_model.userInfo[@"age"]];
-    
-//    self.timeLabel.text = [NSString stringWithFormat:@"%@",_model.userInfo[@"last_login_time"]];
-    
+
     self.timeLabel.text = @"";
     
     self.timeLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -186,37 +184,7 @@
     
         self.introduceLabel.text = @"(用户未设置个性签名)";
     }
-    
-//    if (![_model.userInfo[@"city"] isEqual:[NSNull null]] && ![_model.userInfo[@"province"] isEqual:[NSNull null]]) {
-//        
-//        if([_model.userInfo[@"city"] length] != 0){
-//            
-//            if ([_model.userInfo[@"city"] isEqualToString:_model.userInfo[@"province"]]) {
-//                
-//                self.introduceLabel.text = _model.userInfo[@"city"];
-//                
-//            }else{
-//                
-//                if ([_model.userInfo[@"province"] length] != 0) {
-//                    
-//                    self.introduceLabel.text = [NSString stringWithFormat:@"%@ %@",_model.userInfo[@"province"],_model.userInfo[@"city"]];
-//                    
-//                }else{
-//                    
-//                    self.introduceLabel.text = [NSString stringWithFormat:@"%@",_model.userInfo[@"city"]];
-//                }
-//            }
-//            
-//        }else{
-//            
-//            self.introduceLabel.text = @"隐身";
-//            
-//        }
-//    }else{
-//    
-//        self.introduceLabel.text = @"隐身";
-//    }
-//
+
     
     [self getWealthAndCharmState:_wealthLabel andView:_wealthView andText:_model.userInfo[@"wealth_val"] andNSLayoutConstraint:_wealthW andType:@"财富"];
     

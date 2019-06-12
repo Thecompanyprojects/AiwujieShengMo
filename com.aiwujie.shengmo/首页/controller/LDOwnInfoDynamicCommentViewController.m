@@ -13,12 +13,13 @@
 #import "LDOwnInformationViewController.h"
 #import "LDMemberViewController.h"
 #import "LDMyTopicViewController.h"
+#import "TableCell.h"
+#import "TableModel.h"
 
-@interface LDOwnInfoDynamicCommentViewController ()<UITableViewDelegate,UITableViewDataSource,YBAttributeTapActionDelegate>
+@interface LDOwnInfoDynamicCommentViewController ()<UITableViewDelegate,UITableViewDataSource,YBAttributeTapActionDelegate,UITableViewDataSource,UITableViewDelegate>
 
 
 @property (nonatomic,strong) UITableView *tableView;
-
 @property (nonatomic,strong) NSMutableArray *dataArray;
 
 @property (nonatomic,assign) int page;

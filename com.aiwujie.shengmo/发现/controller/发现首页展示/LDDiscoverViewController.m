@@ -59,22 +59,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    圣魔公益、绿色斯慕、志愿者、全职招聘、关于圣魔斯慕、圣魔文化节、创始人
-    // Do any additional setup after loading the view from its nib.
-//     _dataArray = @[@[@"群广场",@"声音控",@"地图找人"],@[@"银河文摘"],@[@"绿色斯慕",@"圣魔公益",@"志愿者"],@[@"关于圣魔",@"全职招聘"]];
-    
     _dataArray = @[@"绿色斯慕",@"志愿者",@"全职招聘",@"关于圣魔",@"圣魔文化节",@"创始人"];
-    
     _topicArray = [NSMutableArray array];
-    
     _serviceArray = [NSMutableArray array];
-    
     _slideArray = [NSMutableArray array];
-    
     //判断视图顶部是否有广告栏
     [self createHeadData];
-   
-    
 }
 
 /**
