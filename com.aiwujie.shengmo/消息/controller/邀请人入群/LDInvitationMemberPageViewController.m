@@ -358,7 +358,7 @@
     
     if ([content integerValue] == 1) {
         
-        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/index/userListNewth"];
+        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,userListNewth];
         
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
             

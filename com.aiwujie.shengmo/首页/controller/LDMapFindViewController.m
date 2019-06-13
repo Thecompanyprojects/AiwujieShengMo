@@ -64,6 +64,9 @@
         _page++;
         [self createData:@"2"];
     }];
+    
+    //监听确定搜索
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sureScreen) name:@"screen" object:nil];
 }
 
 #pragma mark - 获取数据
@@ -71,9 +74,119 @@
 //地图找人
 -(void)createData:(NSString *)str{
     
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/index/searchByMapNew"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,searchByMapNew];
     
-    NSDictionary *parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"lat":[NSString stringWithFormat:@"%lf",self.lat],@"lng":[NSString stringWithFormat:@"%lf",self.lng]};
+    NSString *age;
+    NSString *sex;
+    NSString *sexual;
+    NSString *role = [NSString string];
+    NSString *education = [NSString string];
+    NSString *month = [NSString string];
+    NSString *online;
+    NSString *real = [NSString string];
+    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"sexButton"] length] == 0) {
+        sex = @"0";
+    }else{
+        sex = [[NSUserDefaults standardUserDefaults] objectForKey:@"sexButton"];
+    }
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"sexualButton"] length] == 0) {
+        sexual = @"0";
+    }else{
+        sexual = [[NSUserDefaults standardUserDefaults] objectForKey:@"sexualButton"];
+    }
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"roleButton"] length] == 0) {
+        role = @"0";
+    }else{
+        NSArray *roleArray = [[[NSUserDefaults standardUserDefaults] objectForKey:@"roleButton"] componentsSeparatedByString:@","];
+        
+        NSMutableArray *roleOtherArray = [[NSMutableArray alloc] init];
+        
+        for (int i = 0; i < roleArray.count; i++) {
+            
+            if ([roleArray[i] integerValue] == 0) {
+                
+                [roleOtherArray addObject:@"0"];
+                
+            }else if ([roleArray[i] integerValue] == 1){
+                
+                [roleOtherArray addObject:@"S"];
+                
+            }else if ([roleArray[i] integerValue] == 2){
+                
+                [roleOtherArray addObject:@"M"];
+                
+            }else if ([roleArray[i] integerValue] == 3){
+                
+                [roleOtherArray addObject:@"SM"];
+                
+            }else if ([roleArray[i] integerValue] == 4){
+                
+                [roleOtherArray addObject:@"~"];
+            }
+        }
+        
+        if (roleOtherArray.count == 1) {
+            
+            role = roleOtherArray[0];
+            
+        }else if (roleOtherArray.count == 2){
+            
+            role = [NSString stringWithFormat:@"%@,%@",roleOtherArray[0],roleOtherArray[1]];
+            
+        }else if (roleOtherArray.count == 3){
+            
+            role = [NSString stringWithFormat:@"%@,%@,%@",roleOtherArray[0],roleOtherArray[1],roleOtherArray[2]];
+            
+        }else if (roleOtherArray.count == 4){
+            
+            role = [NSString stringWithFormat:@"%@,%@,%@,%@",roleOtherArray[0],roleOtherArray[1],roleOtherArray[2],roleOtherArray[3]];
+            
+        }
+    }
+    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hight"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hight"] integerValue] == 0) {
+        education = @"";
+        month = @"";
+        real = @"";
+        online = @"";
+        age = @"";
+        
+    }else{
+        
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"screenEducation"] length] == 0) {
+            education = @"";
+        }else if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"screenEducation"] length] != 0){
+            education = [[NSUserDefaults standardUserDefaults] objectForKey:@"educationRow"];
+        }
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"screenMonth"] length] == 0) {
+            month = @"";
+        }else if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"screenMonth"] length] != 0){
+            month = [[NSUserDefaults standardUserDefaults] objectForKey:@"monthRow"];
+        }
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"authen"] length] == 0) {
+            real = @"";
+        }else if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"authen"] length] != 0){
+            real = [[NSUserDefaults standardUserDefaults] objectForKey:@"authen"];
+        }
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"online"] length]== 0) {
+            online = @"";
+        }else{
+            
+            online = [[NSUserDefaults standardUserDefaults] objectForKey:@"online"];
+        }
+        
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"screenAge"] length] != 0) {
+            
+            age = [NSString stringWithFormat:@"%@,%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"minAge"],[[NSUserDefaults standardUserDefaults] objectForKey:@"maxAge"]];
+            
+        }else{
+            
+            age = @"";
+        }
+    }
+    
+    NSDictionary *parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"lat":[NSString stringWithFormat:@"%lf",self.lat],@"lng":[NSString stringWithFormat:@"%lf",self.lng],@"layout":@"1",@"age":age,@"sex":sex,@"sexual":sexual,@"role":role,@"education":education,@"month":month,@"online":online,@"real":real};
     
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         
@@ -402,8 +515,8 @@
                 
                 [self.rightButton setImage:[UIImage imageNamed:@"条件筛选"] forState:UIControlStateNormal];
                 
-               // [[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
-                
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
+
             }else if (button.tag == 21){
                 
                 [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"searchSwitch"];
@@ -420,8 +533,9 @@
                 
                 self.backgroundView.alpha = 0;
                 
-                //[[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
                 
+    
             }else if (button.tag == 22){
                 
                 [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"searchSwitch"];
@@ -438,8 +552,8 @@
                 
                 self.backgroundView.alpha = 0;
                 
-               // [[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
-                
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
+
             }else if (button.tag == 23){
                 
                 [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:@"searchSwitch"];
@@ -455,7 +569,8 @@
                 _isSelect = NO;
                 
                 self.backgroundView.alpha = 0;
-               // [[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
+     
             }
             
         }else{
@@ -502,7 +617,8 @@
             
             [self.rightButton setImage:[UIImage imageNamed:@"条件筛选"] forState:UIControlStateNormal];
             
-            //[[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
+
             
         }else if (button.tag == 21){
             
@@ -520,7 +636,8 @@
             
             self.backgroundView.alpha = 0;
             
-           // [[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
+
             
         }else if (button.tag == 22){
             
@@ -538,7 +655,8 @@
             
             self.backgroundView.alpha = 0;
             
-           // [[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
+
             
         }else if (button.tag == 23){
             
@@ -556,7 +674,8 @@
             
             self.backgroundView.alpha = 0;
             
-          //  [[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
+
         }
     }
     
@@ -594,7 +713,7 @@
                     
                     self.backgroundView.alpha = 0;
                     
-                    //[[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
                     
                 }
                 
@@ -646,7 +765,7 @@
                 
                 self.backgroundView.alpha = 0;
                 
-               // [[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
                 
             }
             
@@ -658,11 +777,8 @@
             if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue] == 1) {
                 
                 LDScreenViewController *svc = [[LDScreenViewController alloc] init];
-                
                 self.backgroundView.alpha = 0;
-                
                 _isSelect = NO;
-                
                 [self.navigationController pushViewController:svc animated:YES];
                 
             }else{
@@ -684,26 +800,16 @@
                 [alert addAction:cancelAction];
                 
                 [alert addAction:action];
-                
                 [self presentViewController:alert animated:YES completion:nil];
             }
-            
-            
         }else{
-            
             LDScreenViewController *svc = [[LDScreenViewController alloc] init];
-            
             self.backgroundView.alpha = 0;
-            
             _isSelect = NO;
-            
             [self.navigationController pushViewController:svc animated:YES];
-            
         }
-        
     }
 }
-
 
 -(void)changeScreenColor:(UIButton *)button{
     
@@ -782,6 +888,15 @@
     ivc.userID = model.uid;
     [self.navigationController pushViewController:ivc animated:YES];
 
+}
+
+
+/**
+ * 点击了确定搜索后的监听方法
+ */
+-(void)sureScreen{
+//    [self createData:@"1"];
+    [self.table.mj_header beginRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -122,7 +122,7 @@
 
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/index/userListNewth"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,userListNewth];
     
     NSDictionary *parameters = @{@"page":[NSString stringWithFormat:@"%d",_tablePage],@"layout":@"1",@"type":@"4"};
        //NSLog(@"%@",parameters);

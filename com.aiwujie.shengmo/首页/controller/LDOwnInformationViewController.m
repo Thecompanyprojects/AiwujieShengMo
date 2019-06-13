@@ -218,10 +218,10 @@
 //好友状态
 @property (nonatomic,copy) NSString *followState;
 
-//可以用户状态
+//可疑用户状态
 @property (nonatomic,copy) NSString *is_likeliar;
 
-//可以用户上方展示的view
+//可疑用户上方展示的view
 @property (nonatomic,strong) UIView *likeliarView;
 
 @property (nonatomic,strong) UIButton * shareButton;

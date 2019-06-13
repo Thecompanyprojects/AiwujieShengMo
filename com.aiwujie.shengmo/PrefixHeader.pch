@@ -38,10 +38,10 @@
 //服务器的另一个域名
 //#define PICHEADURL  @"http://hao.shengmo.org:888/"
 
-#define PICHEADURL  @"http://ceshi.shengmo.org/"
-
+//#define PICHEADURL  @"http://ceshi.shengmo.org/"
 //测试服务器
-//#define PICHEADURL  @"http://cs.shengmo.org/"
+#define PICHEADURL  @"http://cs.shengmo.org/"
+
 //正式服务器
 //#define PICHEADURL  @"http://hao.shengmo.org:888/"
 

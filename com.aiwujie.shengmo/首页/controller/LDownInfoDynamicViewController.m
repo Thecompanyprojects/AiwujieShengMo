@@ -1348,7 +1348,7 @@
 
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
 
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/getDynamicListNewFive"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getDynamicListNewFive];
 
     NSDictionary *parameters;
 

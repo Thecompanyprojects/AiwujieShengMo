@@ -38,6 +38,13 @@
 //SVIP获取骚扰情况
 #define getVipSecretSit @"Api/users/getVipSecretSit"
 
+//获取动态列表
 
+#define getDynamicListNewFive @"Api/Dynamic/getDynamicListNewFive"
 
+//获取用户列表
+#define userListNewth   @"Api/index/userListNewth"
+
+//地图找人
+#define  searchByMapNew @"Api/index/searchByMapNew"
 #endif /* wangHeader_h */

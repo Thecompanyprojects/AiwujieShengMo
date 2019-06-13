@@ -292,7 +292,7 @@
     
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/index/userListNewth"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,userListNewth];
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"] length] == 0) {
         [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"layout"];
     }
@@ -651,7 +651,6 @@
                 content = _selectButtonState;
             }
 
-            
              parameters = @{@"page":[NSString stringWithFormat:@"%d",page],@"layout":[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"],@"type":content,@"lat":@"",@"lng":@"",@"onlinestate":online,@"realname":real,@"age":age,@"sex":sex,@"sexual":sexual,@"role":role,@"culture":education,@"monthly":month};
             
         }else{

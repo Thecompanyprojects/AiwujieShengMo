@@ -636,11 +636,9 @@
     
     NSString *url;
     
-    url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/getDynamicListNewFive"];
+    url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getDynamicListNewFive];
     
     NSDictionary *parameters;
-    
-  
     
     if ([self.content intValue] == 1||[self.content intValue]==0) {
         
@@ -705,8 +703,6 @@
                 }else{
                     
                     parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":@"",@"lng":@"",@"type":[NSString stringWithFormat:@"%d",[self.content intValue]],@"page":[NSString stringWithFormat:@"%d",_page],@"loginuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-                    
-                    
                 }
                 
             }
@@ -734,9 +730,7 @@
                             firsttime = @"0";
                         }
                     }
-                    
-                    //                    NSLog(@"%@",firsttime);
-                    
+
                     parameters = @{@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"firsttime":firsttime,@"page":[NSString stringWithFormat:@"%d",_page],@"loginuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"sex":[[NSUserDefaults standardUserDefaults] objectForKey:@"dynamicSex"],@"sexual":[[NSUserDefaults standardUserDefaults] objectForKey:@"dynamicSexual"]};
                     
                 }else{

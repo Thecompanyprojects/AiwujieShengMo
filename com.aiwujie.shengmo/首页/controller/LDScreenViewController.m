@@ -598,8 +598,9 @@
     
     [[NSUserDefaults standardUserDefaults] setObject:_authenString forKey:@"authen"];
     
-     [[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"screen" object:nil];
     
+
     [self.navigationController popViewControllerAnimated:YES];
     
 }
