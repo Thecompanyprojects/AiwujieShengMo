@@ -19,7 +19,7 @@
 
 //分页page
 @property (nonatomic,assign) int tablePage;
-
+@property (nonatomic,strong) UIView *headerView;
 
 @end
 
@@ -60,15 +60,11 @@
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getPresentMsg"];
     
     NSDictionary *parameters = @{@"page":[NSString stringWithFormat:@"%d",_tablePage],@"type":self.content};
-    //NSLog(@"%@",parameters);
-    
-    
+
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //        NSLog(@"%@",responseObject);
-        
+
         if (integer != 2000 && integer != 2001) {
             
             if (integer == 4000) {
@@ -160,6 +156,7 @@
     self.tableView.showsHorizontalScrollIndicator = NO;
     
     [self.view addSubview:self.tableView];
+    self.tableView.tableHeaderView = self.headerView;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -195,30 +192,20 @@
 -(void)giveButtonClick:(UIButton *)button{
 
     GiveGifCell *cell = (GiveGifCell *) button.superview.superview;
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
     LDOwnInformationViewController *ivc = [[LDOwnInformationViewController alloc] init];
-    
     GiveGifModel *model = _dataArray[indexPath.row];
-    
     ivc.userID = model.uid;
-    
     [self.navigationController pushViewController:ivc animated:YES];
 }
 
 -(void)givenButtonClick:(UIButton *)button{
 
     GiveGifCell *cell = (GiveGifCell *) button.superview.superview;
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
     LDOwnInformationViewController *ivc = [[LDOwnInformationViewController alloc] init];
-    
     GiveGifModel *model = _dataArray[indexPath.row];
-    
     ivc.userID = model.fuid;
-    
     [self.navigationController pushViewController:ivc animated:YES];
 }
 
@@ -227,19 +214,35 @@
     return 120;
 }
 
+#pragma mark - HeaderView
+
+-(UIView *)headerView
+{
+    if(!_headerView)
+    {
+        _headerView = [[UIView  alloc] init];
+        _headerView.frame = CGRectMake(0, 0, WIDTH, 20);
+        UILabel *lab = [UILabel new];
+        [_headerView addSubview:lab];
+        lab.frame = CGRectMake(0, 0, WIDTH, 20);
+        lab.font = [UIFont systemFontOfSize:13];
+        lab.textAlignment = NSTextAlignmentCenter;
+        lab.textColor = [UIColor whiteColor];
+        if ([self.content isEqualToString:@"0"]) {
+            lab.text = @"送500魔豆以上的礼物可上大喇叭";
+        }
+        else{
+            lab.text = @"送会员可上大喇叭";
+        }
+        
+    }
+    return _headerView;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

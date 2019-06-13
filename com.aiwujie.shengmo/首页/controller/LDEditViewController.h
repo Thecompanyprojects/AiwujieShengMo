@@ -8,8 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@interface LDEditViewController : UIViewController
+//定义枚举类型
+typedef enum {
+    ENUM_FROMUSER_ActionType=0,//用户本人修改
+    ENUM_FROMADMIN_ActionType//admin修改
+    
+} ENUM_FROM_ActionType;
 
+@interface LDEditViewController : UIViewController
+@property (nonatomic,assign) NSInteger InActionType; //操作类型
 @property (nonatomic,copy) NSString *userID;
 
 @end

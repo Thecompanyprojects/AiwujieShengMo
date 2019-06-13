@@ -645,8 +645,7 @@
     if ([self.content intValue] == 1||[self.content intValue]==0) {
         
         //判定动态筛选是否开启
-       
-        
+
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"动态筛选"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"动态筛选"] intValue] == 0) {
             
             if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {

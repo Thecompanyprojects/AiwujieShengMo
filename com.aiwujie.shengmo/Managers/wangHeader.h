@@ -29,4 +29,15 @@
 //textColor
 #define TextCOLOR [UIColor colorWithHexString:@"303030" alpha:0.8]
 
+//发起聊天
+#define getOpenChatRestrictAndInfo  @"Api/Restrict/getOpenChatRestrictAndInfo"
+
+//SVIP修改骚扰情况
+#define setVipSecretSit @"Api/users/setVipSecretSit"
+
+//SVIP获取骚扰情况
+#define getVipSecretSit @"Api/users/getVipSecretSit"
+
+
+
 #endif /* wangHeader_h */

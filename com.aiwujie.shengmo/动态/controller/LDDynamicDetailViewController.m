@@ -1906,12 +1906,7 @@
         
          [alert addAction:cancel];
         
-        if ([_recommendstate intValue] == 0) {
-            
-            //个人推荐动态
-            [self createRecommend:alert];
-            
-        }
+    
         
         [alert addAction:topAction];
         
@@ -2060,7 +2055,7 @@
             [self createAdminRecommendAndStick:alert];
             
             //创建删除动态
-            [self createDeleteDynamic:alert type:@"is_admin"];
+           // [self createDeleteDynamic:alert type:@"is_admin"];
             
             UIAlertAction * alertAction = [UIAlertAction actionWithTitle:@"编辑(svip)" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
                 
@@ -2099,12 +2094,7 @@
             [collectAction setValue:MainColor forKey:@"_titleTextColor"];
         }
         
-        if ([_recommendstate intValue] == 0) {
-            
-            //个人推荐动态
-            [self createRecommend:alert];
-            
-        }
+     
         
         [alert addAction:shareAction];
         
@@ -2210,46 +2200,10 @@
             
         }];
     }];
-    
     if (PHONEVERSION.doubleValue >= 8.3) {
-        
         [hiddenAction setValue:MainColor forKey:@"_titleTextColor"];
     }
-    
     [alert addAction:hiddenAction];
-}
-
-/**
- 个人推荐动态
- */
-- (void)createRecommend:(UIAlertController *)alert{
-    
-    UIAlertAction * recommendAction = [UIAlertAction actionWithTitle:@"推荐(vip/认证)" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
-        
-        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"is_volunteer"] intValue] == 1 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue] == 1 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue] == 1 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue] == 1 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"realname"] intValue] == 1) {
-            
-            
-            LDReportResonViewController *rvc = [[LDReportResonViewController alloc] init];
-            
-            rvc.type = @"recommendDynamic";
-            
-            rvc.did = _did;
-            
-            [self.navigationController pushViewController:rvc animated:YES];
-            
-        }else{
-            
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"推荐动态功能VIP/认证可用哦~"];
-        }
-        
-    }];
-    
-    if (PHONEVERSION.doubleValue >= 8.3) {
-        
-        [recommendAction setValue:MainColor forKey:@"_titleTextColor"];
-    }
-    
-    [alert addAction:recommendAction];
 }
 
 /**

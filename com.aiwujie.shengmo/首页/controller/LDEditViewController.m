@@ -183,6 +183,8 @@
     
     _dataArray = @[@[@"昵称"],@[@"我的签名"],@[@"出生日期"],@[@"身高体重"],@[@"性别"],@[@"角色"],@[@"性取向"],@[@"1年以下",@"2-3年",@"4-6年",@"7-10年",@"10-20年",@"20年以上"],@[@"有",@"无"],@[@"轻度",@"中度",@"重度"],@[@"聊天",@"现实",@"结婚"],@[@"高中及以下",@"大专",@"本科",@"双学士",@"硕士",@"博士",@"博士后"],@[@"2千以下",@"2千-5千",@"5千-1万",@"1万-2万",@"2万-5万",@"5万以上"]];
     
+    [self getphototIscanlookInfo];
+    
     for (int i = 120; i <= 220; i++) {
         
         [_heightArray addObject:[NSString stringWithFormat:@"%d",i]];
@@ -535,16 +537,17 @@
         make.width.mas_offset(WIDTH/2);
         make.height.mas_offset(20);
     }];
+
     
-//    if (self.isshowPhoto) {
-//        [leftBtn setImage:[UIImage imageNamed:@"照片认证空圈"] forState:normal];
-//        [rightBtn setImage:[UIImage imageNamed:@"照片认证实圈"] forState:normal];
-//    }
-//    else
-//    {
+    if (self.isshowPhoto) {
+        [leftBtn setImage:[UIImage imageNamed:@"照片认证空圈"] forState:normal];
+        [rightBtn setImage:[UIImage imageNamed:@"照片认证实圈"] forState:normal];
+    }
+    else
+    {
         [rightBtn setImage:[UIImage imageNamed:@"照片认证空圈"] forState:normal];
         [leftBtn setImage:[UIImage imageNamed:@"照片认证实圈"] forState:normal];
-   // }
+    }
     
     [leftBtn setTitle:@"所有人可见" forState:normal];
     [rightBtn setTitle:@"好友/会员可见" forState:normal];
@@ -1894,7 +1897,7 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        //            NSLog(@"error --- %@",error.description);
+      
     }];
     
 }
@@ -1963,6 +1966,9 @@
 }
 
 -(void)commitButtonOnClick{
+    
+    
+    [self choosethephototIscanlook];
     
     NSString *photo_charge_time;
     
@@ -2165,14 +2171,10 @@
         }
         
         NSDictionary *parameters = @{@"uid":self.userID,@"head_pic":_oldHeadUrl,@"nickname":_name,@"introduce":_sign,@"birthday":_birthday,@"tall":_height,@"weight":_weight,@"sex":_sex,@"role":_role,@"sexual":_sexual,@"along":_along,@"experience":_experience,@"level":_level,@"want":_want,@"culture":_culture,@"monthly":_monthly,@"photo":_photo,@"photo_charge_time":photo_charge_time,@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-        
-//            NSLog(@"%@",parameters);
-        
+
         [manager POST:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/editInfo"] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
             NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-            
-            //NSLog(@"%@,%@",responseObject,self.path);
             
             if (integer != 2000) {
                 
@@ -2186,40 +2188,44 @@
                 
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"修改了个人资料" object:nil];
                 
-                [[NSUserDefaults standardUserDefaults] setObject:_sex forKey:@"newestSex"];
-                
-                [[NSUserDefaults standardUserDefaults] setObject:_sexual forKey:@"newestSexual"];
-                
-                [[NSUserDefaults standardUserDefaults] setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"newestSexual"] forKey:@"sexButton"];
-                
-                [[NSUserDefaults standardUserDefaults] setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"newestSex"] forKey:@"sexualButton"];
-                
-                
-                [[NSUserDefaults standardUserDefaults] setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"newestSexual"] forKey:@"dynamicSex"];
-                
-                [[NSUserDefaults standardUserDefaults] setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"newestSex"] forKey:@"dynamicSexual"];
-                
-                if (_name.length == 0 && _oldHeadUrl.length == 0) {
+                if (self.InActionType==ENUM_FROMUSER_ActionType) {
                     
-                    //设置当前用户信息
-                    [RCIM sharedRCIM].currentUserInfo = [[RCUserInfo alloc] initWithUserId:[[NSUserDefaults standardUserDefaults]objectForKey:@"uid"] name:_oldName portrait:_oldUrl];
                     
-                }else if(_name.length == 0 && _oldHeadUrl.length != 0){
+                    [[NSUserDefaults standardUserDefaults] setObject:_sex forKey:@"newestSex"];
                     
-                    //设置当前用户信息
-                    [RCIM sharedRCIM].currentUserInfo = [[RCUserInfo alloc] initWithUserId:[[NSUserDefaults standardUserDefaults]objectForKey:@"uid"] name:_oldName portrait:[NSString stringWithFormat:@"%@%@",PICHEADURL,_headUrl]];
+                    [[NSUserDefaults standardUserDefaults] setObject:_sexual forKey:@"newestSexual"];
                     
-                }else if (_name.length != 0 && _oldHeadUrl.length == 0){
+                    [[NSUserDefaults standardUserDefaults] setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"newestSexual"] forKey:@"sexButton"];
                     
-                    //设置当前用户信息
-                    [RCIM sharedRCIM].currentUserInfo = [[RCUserInfo alloc] initWithUserId:[[NSUserDefaults standardUserDefaults]objectForKey:@"uid"] name:_name portrait:_oldUrl];
+                    [[NSUserDefaults standardUserDefaults] setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"newestSex"] forKey:@"sexualButton"];
                     
-                }else{
+                    [[NSUserDefaults standardUserDefaults] setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"newestSexual"] forKey:@"dynamicSex"];
                     
-                    //设置当前用户信息
-                    [RCIM sharedRCIM].currentUserInfo = [[RCUserInfo alloc] initWithUserId:[[NSUserDefaults standardUserDefaults]objectForKey:@"uid"] name:_name portrait:[NSString stringWithFormat:@"%@%@",PICHEADURL,_headUrl]];
+                    [[NSUserDefaults standardUserDefaults] setObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"newestSex"] forKey:@"dynamicSexual"];
+                    
+                    if (_name.length == 0 && _oldHeadUrl.length == 0) {
+                        
+                        //设置当前用户信息
+                        [RCIM sharedRCIM].currentUserInfo = [[RCUserInfo alloc] initWithUserId:[[NSUserDefaults standardUserDefaults]objectForKey:@"uid"] name:_oldName portrait:_oldUrl];
+                        
+                    }else if(_name.length == 0 && _oldHeadUrl.length != 0){
+                        
+                        //设置当前用户信息
+                        [RCIM sharedRCIM].currentUserInfo = [[RCUserInfo alloc] initWithUserId:[[NSUserDefaults standardUserDefaults]objectForKey:@"uid"] name:_oldName portrait:[NSString stringWithFormat:@"%@%@",PICHEADURL,_headUrl]];
+                        
+                    }else if (_name.length != 0 && _oldHeadUrl.length == 0){
+                        
+                        //设置当前用户信息
+                        [RCIM sharedRCIM].currentUserInfo = [[RCUserInfo alloc] initWithUserId:[[NSUserDefaults standardUserDefaults]objectForKey:@"uid"] name:_name portrait:_oldUrl];
+                        
+                    }else{
+                        
+                        //设置当前用户信息
+                        [RCIM sharedRCIM].currentUserInfo = [[RCUserInfo alloc] initWithUserId:[[NSUserDefaults standardUserDefaults]objectForKey:@"uid"] name:_name portrait:[NSString stringWithFormat:@"%@%@",PICHEADURL,_headUrl]];
+                    }
+                    
                 }
-                
+
                 [self.navigationController popViewControllerAnimated:YES];
             }
             
@@ -2236,10 +2242,7 @@
             }];
             
             [alert addAction:action];
-            
             [self presentViewController:alert animated:YES completion:nil];
-            
-            NSLog(@"%@",error);
         }];
 
     }
@@ -2254,9 +2257,7 @@
     [manager POST:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Api/delPicture"] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//        NSLog(@"%@",responseObject);
-        
+   
         if (integer == 2000) {
             
             NSLog(@"删除成功");
@@ -2269,19 +2270,73 @@
 }
 
 
+#pragma mark - 照片是否被推荐
+
+-(void)getphototIscanlookInfo
+{
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getSecretSit"];
+    NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+      
+       NSString *photo_rule = responseObj[@"data"][@"photo_rule"];
+        if ([photo_rule isEqualToString:@"0"]) {
+            self.isshowPhoto = NO;
+        }
+        else
+        {
+            self.isshowPhoto = YES;
+        }
+        
+        UIButton *btn0 = [self.tableView viewWithTag:101];
+        UIButton *btn1 = [self.tableView viewWithTag:102];
+        
+        if (self.isshowPhoto) {
+            [btn0 setImage:[UIImage imageNamed:@"照片认证空圈"] forState:normal];
+            [btn1 setImage:[UIImage imageNamed:@"照片认证实圈"] forState:normal];
+        }
+        else
+        {
+            [btn1 setImage:[UIImage imageNamed:@"照片认证空圈"] forState:normal];
+            [btn0 setImage:[UIImage imageNamed:@"照片认证实圈"] forState:normal];
+        }
+        
+    } failed:^(NSString *errorMsg) {
+        
+    }];
+}
+
+#pragma mark - 选择照片是否可见
+
+-(void)choosethephototIscanlook
+{
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/setSecretSit"];
+    NSString *photo_rule = [NSString new];
+    if (!self.isshowPhoto) {
+        photo_rule = @"0";
+    }
+    else
+    {
+        photo_rule = @"1";
+    }
+    NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"follow_list_switch":@"",@"group_list_switch":@"",@"login_time_switch":@"",@"photo_rule":photo_rule,@"dynamic_rule":@"",@"comment_rule":@""};
+    
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
+        if (integer != 2000) {
+            
+        }else{
+           
+        }
+    } failed:^(NSString *errorMsg) {
+        
+    }];
+}
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -148,7 +148,7 @@
     
     self.backView.backgroundColor = [UIColor colorWithHexString:@"#f5f5f5" alpha:1];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 250, 21)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 300, 21)];
     label.font = [UIFont systemFontOfSize:14];
     label.textColor = [UIColor lightGrayColor];
     label.text = @"参与话题(可选,正确分类将被优先被推荐)";

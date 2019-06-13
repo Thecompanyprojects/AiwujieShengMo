@@ -1954,7 +1954,7 @@
 			path = NetWorking;
 			sourceTree = "<group>";
 		};
-		53E8CDBD22A93DE5007E5073 /* 防骚扰 */ = {
+		53E8CDBD22A93DE5007E5073 /* 消息设置 */ = {
 			isa = PBXGroup;
 			children = (
 				53E8CDBE22A93E2D007E5073 /* LDharassmentVC.h */,
@@ -1962,7 +1962,7 @@
 				53E8CDC122A93EED007E5073 /* LDharassmentCell.h */,
 				53E8CDC222A93EED007E5073 /* LDharassmentCell.m */,
 			);
-			name = "防骚扰";
+			name = "消息设置";
 			sourceTree = "<group>";
 		};
 		A61CBB8DD0BA511459F60679 /* Frameworks */ = {
@@ -2944,7 +2944,7 @@
 				D268C99D1EF1238A009AC7D6 /* 通用设置 */,
 				D268C99A1EF1233F009AC7D6 /* 意见反馈 */,
 				D208A7351EDFD487000316D3 /* 帮助中心 */,
-				53E8CDBD22A93DE5007E5073 /* 防骚扰 */,
+				53E8CDBD22A93DE5007E5073 /* 消息设置 */,
 			);
 			name = "设置";
 			sourceTree = "<group>";

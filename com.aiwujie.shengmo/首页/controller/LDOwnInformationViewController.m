@@ -311,6 +311,10 @@
 @property (nonatomic,copy) NSString *photo_rule;
 @property (nonatomic,copy) NSString *dynamic_rule;
 @property (nonatomic,copy) NSString *comment_rule;
+
+
+//修改资料判断是否是admin用户修改
+@property (nonatomic,assign) BOOL isAdminchange;
 @end
 
 @implementation LDOwnInformationViewController
@@ -562,9 +566,7 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"ID"];
-    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     return cell;
 }
 
@@ -731,7 +733,7 @@
         
         _shareButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
         [_shareButton setImage:[UIImage imageNamed:@"编辑个人资料"] forState:UIControlStateNormal];
-        
+        self.isAdminchange = NO;
         [_shareButton addTarget:self action:@selector(shareButtonOnClick) forControlEvents:UIControlEventTouchUpInside];
         UIBarButtonItem* shareButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_shareButton];
 
@@ -748,7 +750,7 @@
             
             _shareButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
             [_shareButton setImage:[UIImage imageNamed:@"编辑个人资料"] forState:UIControlStateNormal];
-            
+            self.isAdminchange = YES;
             [_shareButton addTarget:self action:@selector(shareButtonOnClick) forControlEvents:UIControlEventTouchUpInside];
             UIBarButtonItem* shareButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_shareButton];
             
@@ -772,13 +774,18 @@
     }
 }
 
-//分享
+//修改资料
 -(void)shareButtonOnClick{
-
     LDEditViewController *evc = [[LDEditViewController alloc] init];
     
+    if (self.isAdminchange) {
+        evc.InActionType = ENUM_FROMADMIN_ActionType;
+    }
+    else
+    {
+        evc.InActionType = ENUM_FROMUSER_ActionType;
+    }
     evc.userID = self.userID;
-    
     [self.navigationController pushViewController:evc animated:YES];
 }
 
@@ -1450,8 +1457,6 @@
         
         if (integer == 2001) {
             
-      
-            
             self.tableView.scrollEnabled = NO;
             self.blackView.hidden = NO;
             self.blackLabel.layer.cornerRadius = 16;
@@ -1514,6 +1519,8 @@
             self.groupLabel.text = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"group_num"]];
             
             _picArray = responseObject[@"data"][@"photo"];
+            
+            _followState = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"follow_state"]];
             
             //创建个人主页个性签名
             [self createOwnInfoSign:responseObject];
@@ -1587,12 +1594,11 @@
                 self.secondW.constant = 24;
             }
             
-            _followState = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"follow_state"]];
+            
             
             if ([responseObject[@"data"][@"follow_state"] intValue] == 2) {
                 
                 [self.attentButton setBackgroundImage:[UIImage imageNamed:@"关注好友"] forState:UIControlStateNormal];
-                
                 _attentStatus = NO;
                 
             }else if([responseObject[@"data"][@"follow_state"] intValue] == 1){
@@ -1632,6 +1638,24 @@
             
                 self.dynamicNumLabel.text = [NSString stringWithFormat:@"发布的动态(%@)",responseObject[@"data"][@"dynamic_num"]];
                 
+                UILabel *messageLab = [UILabel new];
+                [self.totalNumView addSubview:messageLab];
+                [messageLab mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerY.equalTo(self.totalNumView);
+                    make.right.equalTo(self.totalNumView).with.offset(-30);
+                    
+                }];
+                messageLab.textColor = [UIColor lightGrayColor];
+                if ([self.dynamic_rule isEqualToString:@"0"]) {
+                    messageLab.text = @"更多";
+                }
+                else
+                {
+                    messageLab.text = @"好友/会员可见";
+                }
+                messageLab.font = [UIFont systemFontOfSize:14];
+                messageLab.textAlignment = NSTextAlignmentRight;
+                
             }
             
             if ([responseObject[@"data"][@"comment_num"] intValue] == 0) {
@@ -1649,6 +1673,23 @@
                 
                 self.dynamicCommentNumLabel.text = [NSString stringWithFormat:@"参与的评论(%@)",responseObject[@"data"][@"comment_num"]];
                 
+                UILabel *messageLab = [UILabel new];
+                [self.dynamicCommentNumView addSubview:messageLab];
+                [messageLab mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerY.equalTo(self.dynamicCommentNumView);
+                    make.right.equalTo(self.dynamicCommentNumView).with.offset(-30);
+                    
+                }];
+                messageLab.textColor = [UIColor lightGrayColor];
+                if ([self.comment_rule isEqualToString:@"0"]) {
+                     messageLab.text = @"更多";
+                }
+                else
+                {
+                     messageLab.text = @"好友/会员可见";
+                }
+                messageLab.font = [UIFont systemFontOfSize:14];
+                messageLab.textAlignment = NSTextAlignmentRight;
             }
         
             //获取礼物的接口
@@ -1749,11 +1790,8 @@
  * 被拉黑时的举报某人的按钮点击事件
  */
 - (void)reportButtonClick{
-    
     LDReportViewController *rvc = [[LDReportViewController alloc] init];
-    
     rvc.reportId = self.userID;
-    
     [self.navigationController pushViewController:rvc animated:YES];
 }
 
@@ -2368,7 +2406,23 @@
             
             _scrollView.contentSize = CGSizeMake(picScrollH * [responseObject[@"data"][@"photo"] count] + bothPicSpace * ([responseObject[@"data"][@"photo"] count] - 1), picScrollH);
             
-            [self createShowPicView:responseObject[@"data"][@"photo"] andPicScrollH:picScrollH andBothPicSpace:bothPicSpace andType:2];
+            if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue]==1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue]==1||[self.followState intValue] == 3) {
+                   [self createShowPicView:responseObject[@"data"][@"photo"] andPicScrollH:picScrollH andBothPicSpace:bothPicSpace andType:1];
+            }
+            else
+            {   //所有人可见
+                if ([self.photo_rule isEqualToString:@"0"]) {
+                    [self createShowPicView:responseObject[@"data"][@"photo"] andPicScrollH:picScrollH andBothPicSpace:bothPicSpace andType:1];
+                }
+                else
+                {
+                    
+                    [self createShowPicView:responseObject[@"data"][@"photo"] andPicScrollH:picScrollH andBothPicSpace:bothPicSpace andType:2];
+                }
+                
+            }
+         
+            
         }
     }
 }
@@ -2687,16 +2741,25 @@
  */
 - (IBAction)dynamicCommentButtonClick:(id)sender {
     
-    if ([self.comment_rule isEqualToString:@"0"]) {
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue] == 1 || [_followState intValue] == 3||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue] == 1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]==[self.userID intValue]) {
         LDOwnInfoDynamicCommentViewController *info = [[LDOwnInfoDynamicCommentViewController alloc] init];
         info.personUid = self.userID;
         info.attentStatus = _attentStatus;
         info.navigationItem.title = self.nameLabel.text;
         [self.navigationController pushViewController:info animated:YES];
-    }
-    else
+    }else
     {
-        [self toshowAlertwithtype:@"2"];
+        if ([self.comment_rule isEqualToString:@"0"]) {
+            LDOwnInfoDynamicCommentViewController *info = [[LDOwnInfoDynamicCommentViewController alloc] init];
+            info.personUid = self.userID;
+            info.attentStatus = _attentStatus;
+            info.navigationItem.title = self.nameLabel.text;
+            [self.navigationController pushViewController:info animated:YES];
+        }
+        else
+        {
+            [self toshowAlertwithtype:@"2"];
+        }
     }
 }
 /**
@@ -2704,22 +2767,29 @@
  */
 - (IBAction)ownInfoDynamicButtonClick:(id)sender {
     
-    if ([self.dynamic_rule isEqualToString:@"0"]) {
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue] == 1 || [_followState intValue] == 3||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue] == 1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]==[self.userID intValue]) {
         LDownInfoDynamicViewController *dvc = [[LDownInfoDynamicViewController alloc] init];
-        
         dvc.personUid = self.userID;
-        
         dvc.attentStatus = _attentStatus;
-        
         dvc.navigationItem.title = self.nameLabel.text;
-        
         [self.navigationController pushViewController:dvc animated:YES];
-        
-    }
-    else
+    }else
     {
-        [self toshowAlertwithtype:@"1"];
+        if ([self.dynamic_rule isEqualToString:@"0"]) {
+            LDownInfoDynamicViewController *dvc = [[LDownInfoDynamicViewController alloc] init];
+            dvc.personUid = self.userID;
+            dvc.attentStatus = _attentStatus;
+            dvc.navigationItem.title = self.nameLabel.text;
+            [self.navigationController pushViewController:dvc animated:YES];
+            
+        }
+        else
+        {
+            [self toshowAlertwithtype:@"1"];
+        }
     }
+    
+
 
 }
 
@@ -2960,7 +3030,7 @@
     }else{
     
         [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Restrict/getOpenChatRestrictAndInfo"];
+        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getOpenChatRestrictAndInfo];
         NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"otheruid":self.userID};
         AFHTTPSessionManager *manager = [LDAFManager sharedManager];
         [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
@@ -3430,9 +3500,7 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//                NSLog(@"%@",responseObject);
-        
+
         if (integer != 2000) {
             
             [_backgroundView removeFromSuperview];
@@ -3461,16 +3529,11 @@
             [self presentViewController:alert animated:YES completion:nil];
             
         }else{
-            
             [_backgroundView removeFromSuperview];
-            
             __weak typeof(self) weakSelf=self;
-            
             [ImageBrowserViewController show:self type:PhotoBroswerVCTypeModal index:button.tag - 10 imagesBlock:^NSArray *{
-                
                 return weakSelf.picArray;
             }];
-
         }
         
         
@@ -3512,7 +3575,7 @@
 
     }else{
         
-        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue] == 1 || [_followState intValue] == 3 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue] == 1) {
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue] == 1 || [_followState intValue] == 3||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue] == 1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]==[self.userID intValue]) {
             if ([_lock intValue] == 2) {
                 UIImageView *img = (UIImageView *)tap.view;
                 [self createPasswordView:img.tag];
@@ -3771,7 +3834,6 @@
     [btn1 setImage:[UIImage imageNamed:@"照片认证实圈"] forState:normal];
     [self.tableView reloadData];
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -46,7 +46,7 @@
 @property (nonatomic,copy) NSString *phoneNum;
 @property (nonatomic,copy) NSString *emailNum;
 @property (nonatomic,assign) BOOL isSvip;
-
+@property (nonatomic,assign) BOOL ischar_rule;
 @end
 
 @implementation LDSetViewController
@@ -163,13 +163,16 @@
     }
     
     if (self.isSvip) {
-          _dataArray = @[@[@"绑定手机",@"绑定邮箱",@"绑定第三方"],@[@"密码设置",@"手势密码"],@[@"声音设置",@"隐私",@"防骚扰",@"通用"],@[@"意见反馈",@"帮助中心",@"版本号"]];
+          _dataArray = @[@[@"绑定手机",@"绑定邮箱",@"绑定第三方"],@[@"密码设置",@"手势密码"],@[@"声音设置",@"隐私",@"消息设置",@"通用"],@[@"意见反馈",@"帮助中心",@"版本号"]];
     }
     else
     {
           _dataArray = @[@[@"绑定手机",@"绑定邮箱",@"绑定第三方"],@[@"密码设置",@"手势密码"],@[@"声音设置",@"隐私",@"通用"],@[@"意见反馈",@"帮助中心",@"版本号"]];
     }
     [self createTableView];
+    
+    [self getsvipSendMessage];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindWXOpendClick) name:@"绑定微信第三方" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindWBOpendClick) name:@"绑定微博第三方" object:nil];
 }
@@ -235,7 +238,7 @@
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
         cell.detailTextLabel.text = [NSString stringWithFormat:@"V%@", [[[NSBundle mainBundle]infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
         cell.imageView.image = [UIImage imageNamed:_dataArray[indexPath.section][indexPath.row]];
-        cell.detailTextLabel.font = [UIFont italicSystemFontOfSize:12];//设置字体为斜体
+        cell.detailTextLabel.font = [UIFont italicSystemFontOfSize:15];//设置字体为斜体
         cell.textLabel.text = _dataArray[indexPath.section][indexPath.row];
         cell.textLabel.font = [UIFont systemFontOfSize:15];
         cell.textLabel.textColor = TextCOLOR;
@@ -307,8 +310,19 @@
         }
         if (indexPath.section==2) {
             if (self.isSvip) {
+                if (indexPath.row==2) {
+                    if (self.ischar_rule) {
+                        cell.detailLabel.text = @"好友/邮票/SVIP";
+                    }
+                    else
+                    {
+                        cell.detailLabel.text = @"所有人";
+                    }
+                   
+                }
                 if (indexPath.row==3) {
                     cell.lineView.hidden = YES;
+                    
                 }
                 else
                 {
@@ -335,7 +349,7 @@
                 cell.lineView.hidden = NO;
             }
         }
-        cell.detailLabel.font = [UIFont italicSystemFontOfSize:12];//设置字体为斜体
+        cell.detailLabel.font = [UIFont italicSystemFontOfSize:15];//设置字体为斜体
         cell.nameLabel.text = _dataArray[indexPath.section][indexPath.row];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
@@ -558,6 +572,7 @@
 //            [self.navigationController pushViewController:pvc animated:YES];
             
             NewldprovacyVC *vc = [NewldprovacyVC new];
+            
             [self.navigationController pushViewController:vc animated:YES];
             
         }else if(indexPath.row == 2){
@@ -565,6 +580,11 @@
             if (self.isSvip)
             {
                 LDharassmentVC *vc = [LDharassmentVC new];
+                vc.isAll = !self.ischar_rule;
+                vc.returnValueBlock = ^(BOOL isAll) {
+                    self.ischar_rule = !isAll;
+                    [self.tableView reloadData];
+                };
                 [self.navigationController pushViewController:vc animated:YES];
             }else
             {
@@ -687,6 +707,31 @@
     AppDelegate *app = (AppDelegate *)[UIApplication sharedApplication].delegate;
     app.window.rootViewController = nav;
     
+}
+
+#pragma mark - 获取SVIP骚扰状态
+
+-(void)getsvipSendMessage
+{
+    NSString *url = [PICHEADURL stringByAppendingString:getVipSecretSit];
+    NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+    NSDictionary *parms = @{@"uid":uid?:@""};
+    [NetManager afPostRequest:url parms:parms finished:^(id responseObj) {
+        if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
+            NSDictionary *data = [responseObj objectForKey:@"data"];
+            NSString *char_rule = [NSString stringWithFormat:@"%@",[data objectForKey:@"char_rule"]];
+            if ([char_rule isEqualToString:@"1"]) {
+                self.ischar_rule = YES;
+            }
+            else
+            {
+                self.ischar_rule = NO;
+            }
+        }
+        [self.tableView reloadData];
+    } failed:^(NSString *errorMsg) {
+        
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -74,6 +74,9 @@
 //选中@的人的UID的拼接
 @property (copy, nonatomic)  NSString *selectUid;
 
+//是否推荐
+@property (nonatomic,assign) BOOL isrecommend;
+
 @end
 
 @implementation LDPublishDynamicViewController
@@ -107,21 +110,13 @@
     // Do any additional setup after loading the view from its nib.
     
     self.navigationItem.title = @"发布动态";
-    
     _selectedPhotos = [NSMutableArray array];
-    
     _selectedAssets = [NSMutableArray array];
-    
     _pictureArray = [NSMutableArray array];
-    
     _shuiyinArray = [NSMutableArray array];
-    
     _topicArray = [NSMutableArray array];
-    
     _state = @"0";
-    
     [self createScrollViewAndSubviews];
-    
     if (_topicString.length != 0) {
         
         self.textView.text = _topicString;
@@ -174,7 +169,7 @@
     
     self.backView.backgroundColor = [UIColor colorWithHexString:@"#f5f5f5" alpha:1];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 250, 21)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 300, 21)];
     label.font = [UIFont systemFontOfSize:14];
     label.textColor = [UIColor lightGrayColor];
     label.text = @"参与话题(可选,正确分类将被优先被推荐)";
@@ -284,10 +279,12 @@
     [swi addTarget:self action:@selector(changeColor:) forControlEvents:UIControlEventValueChanged];
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue] == 1 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue] == 1) {
         swi.on = YES;
+        self.isrecommend = YES;
     }
     else
     {
         swi.on = NO;
+        self.isrecommend = NO;
     }
     [_atView addSubview:swi];
     [self configCollectionView:_atView];
@@ -298,10 +295,12 @@
         
         if (swi.isOn) {
             swi.on = NO;
+            self.isrecommend = NO;
         }
         else
         {
             swi.on = YES;
+            self.isrecommend = YES;
         }
         
     }
@@ -1390,20 +1389,28 @@
         NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/sendDynamic"];
         
         NSDictionary *parameters;
+        NSString *recommend = [NSString new];
+        if (self.isrecommend) {
+            recommend = @"1";
+        }
+        else
+        {
+            recommend = @"0";
+        }
         
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
             
-            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"content":topic,@"pic":path,@"tid":tid,@"sypic":shuiyinPath,@"atuid":_selectUid};
+            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"content":topic,@"pic":path,@"tid":tid,@"sypic":shuiyinPath,@"atuid":_selectUid,@"recommend":recommend};
             
         }else{
             
-            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":@"",@"lng":@"",@"content":topic,@"pic":path,@"tid":tid,@"sypic":shuiyinPath,@"atuid":_selectUid};
+            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":@"",@"lng":@"",@"content":topic,@"pic":path,@"tid":tid,@"sypic":shuiyinPath,@"atuid":_selectUid,@"recommend":recommend};
         }
         
         [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
             NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-
+            
             if (integer != 2000) {
                 
                 button.userInteractionEnabled = YES;
@@ -1419,20 +1426,13 @@
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                 
                 [self.navigationController popViewControllerAnimated:YES];
-                
             }
-            
-            
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
             button.userInteractionEnabled = YES;
-            
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            
         }];
     }
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

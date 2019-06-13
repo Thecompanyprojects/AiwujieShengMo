@@ -1360,8 +1360,6 @@
 
         parameters = @{@"uid":self.personUid,@"lat":@"",@"lng":@"",@"type":@"3",@"page":[NSString stringWithFormat:@"%d",_page],@"loginuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     }
-    
-//    NSLog(@"%@",parameters);
 
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         

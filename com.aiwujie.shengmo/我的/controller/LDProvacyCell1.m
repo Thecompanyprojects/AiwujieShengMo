@@ -36,12 +36,13 @@
     }];
     [weakSelf.contentLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(weakSelf);
-        make.right.equalTo(weakSelf).with.offset(-26);
+        make.right.equalTo(weakSelf).with.offset(-30);
         make.width.mas_offset(200);
     }];
 }
 
 #pragma mark - getters
+
 -(UILabel *)leftLab
 {
     if(!_leftLab)

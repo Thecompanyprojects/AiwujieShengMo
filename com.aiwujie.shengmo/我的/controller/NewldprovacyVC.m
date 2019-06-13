@@ -13,7 +13,6 @@
 #import "LDBlackListViewController.h"
 #import "LDpermissionsVC.h"
 
-
 @interface NewldprovacyVC ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong) UITableView *table;
 @property (nonatomic,assign) BOOL isFocuson;// 允许关注
@@ -43,11 +42,8 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-
     self.title = @"隐私";
-    
     [self.view addSubview:self.table];
-
     [self addressManager];
     [self createStatusData];
 }
@@ -64,14 +60,13 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
 {
     if(!_table)
     {
-        _table = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+        _table = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX]) style:UITableViewStyleGrouped];
         _table.dataSource = self;
         _table.delegate = self;
         _table.tableFooterView = [UIView new];
     }
     return _table;
 }
-
 
 #pragma mark - getData
 
@@ -191,143 +186,184 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
 
 #pragma mark -UITableViewDataSource
 
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 4;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 9;
+    if (section==0) {
+        return 2;
+    }
+    if (section==1) {
+        return 2;
+    }
+    if (section==2) {
+        return 4;
+    }
+    if (section==3) {
+        return 1;
+    }
+    return 0;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    
+    return 0.1;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    
+    return 10.0;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
+    return [[UIView alloc] init];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row==0) {
-        LDProvacyCell0 *cell = [tableView dequeueReusableCellWithIdentifier:ldprovacyidentfity0];
-        cell = [[LDProvacyCell0 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ldprovacyidentfity0];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.leftLab.text = @"允许他人查看关注列表";
-        [cell.switchBtn addTarget:self action:@selector(changeFocuson:) forControlEvents:UIControlEventValueChanged];
-        if (self.isFocuson) {
-            cell.switchBtn.on = YES;
+    if (indexPath.section==0) {
+        if (indexPath.row==0) {
+            LDProvacyCell0 *cell = [tableView dequeueReusableCellWithIdentifier:ldprovacyidentfity0];
+            cell = [[LDProvacyCell0 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ldprovacyidentfity0];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.leftLab.text = @"允许他人查看关注列表";
+            [cell.switchBtn addTarget:self action:@selector(changeFocuson:) forControlEvents:UIControlEventValueChanged];
+            if (self.isFocuson) {
+                cell.switchBtn.on = YES;
+            }
+            else
+            {
+                cell.switchBtn.on = NO;
+            }
+            return cell;
         }
-        else
-        {
-            cell.switchBtn.on = NO;
+        if (indexPath.row==1) {
+            LDProvacyCell0 *cell = [tableView dequeueReusableCellWithIdentifier:ldprovacyidentfity1];
+            cell = [[LDProvacyCell0 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ldprovacyidentfity1];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.leftLab.text = @"允许他人查看群组列表";
+            [cell.switchBtn addTarget:self action:@selector(changeGroup:) forControlEvents:UIControlEventValueChanged];
+            if (self.isShowgroup) {
+                cell.switchBtn.on = YES;
+            }
+            else
+            {
+                cell.switchBtn.on = NO;
+            }
+            return cell;
         }
-        return cell;
     }
-    if (indexPath.row==1) {
-        LDProvacyCell0 *cell = [tableView dequeueReusableCellWithIdentifier:ldprovacyidentfity1];
-        cell = [[LDProvacyCell0 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ldprovacyidentfity1];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.leftLab.text = @"允许他人查看群组列表";
-        [cell.switchBtn addTarget:self action:@selector(changeGroup:) forControlEvents:UIControlEventValueChanged];
-        if (self.isShowgroup) {
-            cell.switchBtn.on = YES;
+    if (indexPath.section==1) {
+        if (indexPath.row==0) {
+            LDProvacyCell0 *cell = [tableView dequeueReusableCellWithIdentifier:ldprovacyidentfity2];
+            cell = [[LDProvacyCell0 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ldprovacyidentfity2];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.leftLab.text = @"地理位置";
+            [cell.switchBtn addTarget:self action:@selector(changePosition:) forControlEvents:UIControlEventValueChanged];
+            if (self.isPositioning) {
+                cell.switchBtn.on = YES;
+            }
+            else
+            {
+                cell.switchBtn.on = NO;
+            }
+            return cell;
         }
-        else
-        {
-            cell.switchBtn.on = NO;
+        if (indexPath.row==1) {
+            LDProvacyCell0 *cell = [tableView dequeueReusableCellWithIdentifier:ldprovacyidentfity3];
+            cell = [[LDProvacyCell0 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ldprovacyidentfity3];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.leftLab.text = @"登录时间";
+            [cell.switchBtn addTarget:self action:@selector(changeLogintime:) forControlEvents:UIControlEventValueChanged];
+            if (self.isLogintime) {
+                cell.switchBtn.on = YES;
+            }
+            else
+            {
+                cell.switchBtn.on = NO;
+            }
+            return cell;
         }
-        return cell;
     }
-    if (indexPath.row==2) {
-        LDProvacyCell0 *cell = [tableView dequeueReusableCellWithIdentifier:ldprovacyidentfity2];
-        cell = [[LDProvacyCell0 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ldprovacyidentfity2];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.leftLab.text = @"地理位置";
-        [cell.switchBtn addTarget:self action:@selector(changePosition:) forControlEvents:UIControlEventValueChanged];
-        if (self.isPositioning) {
-            cell.switchBtn.on = YES;
+    if (indexPath.section==2) {
+        if (indexPath.row==0) {
+            LDProvacyCell1 *cell = [tableView dequeueReusableCellWithIdentifier:ldprovacyidentfity4];
+            cell = [[LDProvacyCell1 alloc] initWithStyle:(UITableViewCellStyle)UITableViewCellStyleDefault reuseIdentifier:ldprovacyidentfity4];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.leftLab.text = @"隐私相册";
+            if (self.isshowPhoto) {
+                cell.contentLab.text = @"已开放";
+            }
+            else
+            {
+                cell.contentLab.text = @"未开放";
+            }
+            cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+            return cell;
         }
-        else
-        {
-            cell.switchBtn.on = NO;
+        if (indexPath.row==1) {
+            LDProvacyCell1 *cell = [tableView dequeueReusableCellWithIdentifier:ldprovacyidentfity5];
+            cell = [[LDProvacyCell1 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:  ldprovacyidentfity5];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.leftLab.text = @"相册查看权限";
+            if (!self.isshowalbum) {
+                cell.contentLab.text = @"所有人可见";
+            }
+            else
+            {
+                cell.contentLab.text = @"好友/会员可见";
+            }
+            cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+            return cell;
         }
-        return cell;
+        if (indexPath.row==2) {
+            LDProvacyCell1 *cell = [tableView dequeueReusableCellWithIdentifier:ldprovacyidentfity6];
+            cell = [[LDProvacyCell1 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:  ldprovacyidentfity6];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.leftLab.text = @"主页动态查看权限";
+            if (!self.isshowdynamic) {
+                cell.contentLab.text = @"所有人可见";
+            }
+            else
+            {
+                cell.contentLab.text = @"好友/会员可见";
+            }
+            cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+            return cell;
+        }
+        if (indexPath.row==3) {
+            LDProvacyCell1 *cell = [tableView dequeueReusableCellWithIdentifier:ldprovacyidentfity7];
+            cell = [[LDProvacyCell1 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:  ldprovacyidentfity7];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.leftLab.text = @"主页评论查看权限";
+            if (!self.isshowcomments) {
+                cell.contentLab.text = @"所有人可见";
+            }
+            else
+            {
+                cell.contentLab.text = @"好友/会员可见";
+            }
+            
+            cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+            return cell;
+        }
     }
-    if (indexPath.row==3) {
-        LDProvacyCell0 *cell = [tableView dequeueReusableCellWithIdentifier:ldprovacyidentfity3];
-        cell = [[LDProvacyCell0 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ldprovacyidentfity3];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.leftLab.text = @"登录时间";
-        [cell.switchBtn addTarget:self action:@selector(changeLogintime:) forControlEvents:UIControlEventValueChanged];
-        if (self.isLogintime) {
-            cell.switchBtn.on = YES;
+    if (indexPath.section==3) {
+        if (indexPath.row==0) {
+            LDProvacyCell1 *cell = [tableView dequeueReusableCellWithIdentifier:ldprovacyidentfity8];
+            cell = [[LDProvacyCell1 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:  ldprovacyidentfity8];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.leftLab.text = @"黑名单";
+            cell.contentLab.text = self.blackNumStr?:@"";
+            cell.contentLab.font = [UIFont systemFontOfSize:15];
+            cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+            return cell;
         }
-        else
-        {
-            cell.switchBtn.on = NO;
-        }
-        return cell;
     }
-    if (indexPath.row==4) {
-        LDProvacyCell1 *cell = [tableView dequeueReusableCellWithIdentifier:ldprovacyidentfity4];
-        cell = [[LDProvacyCell1 alloc] initWithStyle:(UITableViewCellStyle)UITableViewCellStyleDefault reuseIdentifier:ldprovacyidentfity4];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.leftLab.text = @"隐私相册";
-        if (self.isshowPhoto) {
-            cell.contentLab.text = @"已开放";
-        }
-        else
-        {
-            cell.contentLab.text = @"未开放";
-        }
-        cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
-        return cell;
-    }
-    if (indexPath.row==5) {
-        LDProvacyCell1 *cell = [tableView dequeueReusableCellWithIdentifier:ldprovacyidentfity5];
-        cell = [[LDProvacyCell1 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:  ldprovacyidentfity5];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.leftLab.text = @"相册查看权限";
-        if (!self.isshowalbum) {
-            cell.contentLab.text = @"所有人可见";
-        }
-        else
-        {
-            cell.contentLab.text = @"好友/会员可见";
-        }
-        cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
-        return cell;
-    }
-    if (indexPath.row==6) {
-        LDProvacyCell1 *cell = [tableView dequeueReusableCellWithIdentifier:ldprovacyidentfity6];
-        cell = [[LDProvacyCell1 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:  ldprovacyidentfity6];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.leftLab.text = @"主页动态查看权限";
-        if (!self.isshowdynamic) {
-            cell.contentLab.text = @"所有人可见";
-        }
-        else
-        {
-            cell.contentLab.text = @"好友/会员可见";
-        }
-        cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
-        return cell;
-    }
-    if (indexPath.row==7) {
-        LDProvacyCell1 *cell = [tableView dequeueReusableCellWithIdentifier:ldprovacyidentfity7];
-        cell = [[LDProvacyCell1 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:  ldprovacyidentfity7];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.leftLab.text = @"主页评论查看权限";
-        if (!self.isshowcomments) {
-            cell.contentLab.text = @"所有人可见";
-        }
-        else
-        {
-            cell.contentLab.text = @"好友/会员可见";
-        }
-        cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
-        return cell;
-    }
-    if (indexPath.row==8) {
-        LDProvacyCell1 *cell = [tableView dequeueReusableCellWithIdentifier:ldprovacyidentfity8];
-        cell = [[LDProvacyCell1 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:  ldprovacyidentfity8];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.leftLab.text = @"黑名单";
-        cell.contentLab.text = self.blackNumStr?:@"";
-        cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
-        return cell;
-    }
-    
     return [UITableViewCell new];
 }
 
@@ -375,42 +411,46 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
-    if (indexPath.row==4) {
-        [self privacyButtonClick];
+    if (indexPath.section==2) {
+        if (indexPath.row==0) {
+            [self privacyButtonClick];
+        }
+        if (indexPath.row==1) {
+            LDpermissionsVC *VC = [LDpermissionsVC new];
+            VC.InActionType = ENUM_PERMISSIONPHOTO_ActionType;
+            VC.isChoose = self.isshowalbum;
+            VC.returnValueBlock = ^(BOOL isChoose) {
+                self.isshowalbum = isChoose;
+                [self.table reloadData];
+            };
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+        if (indexPath.row==2) {
+            LDpermissionsVC *VC = [LDpermissionsVC new];
+            VC.InActionType = ENUM_PERMISSIONDYNAMIC_ActionType;
+            VC.isChoose = self.isshowdynamic;
+            VC.returnValueBlock = ^(BOOL isChoose) {
+                self.isshowdynamic = isChoose;
+                [self.table reloadData];
+            };
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+        if (indexPath.row==3) {
+            LDpermissionsVC *VC = [LDpermissionsVC new];
+            VC.InActionType = ENUM_PERMISSIONCOMMENTS_ActionType;
+            VC.isChoose = self.isshowcomments;
+            VC.returnValueBlock = ^(BOOL isChoose) {
+                self.isshowcomments = isChoose;
+                [self.table reloadData];
+            };
+            [self.navigationController pushViewController:VC animated:YES];
+        }
     }
-    if (indexPath.row==5) {
-        LDpermissionsVC *VC = [LDpermissionsVC new];
-        VC.InActionType = ENUM_PERMISSIONPHOTO_ActionType;
-        VC.isChoose = self.isshowalbum;
-        VC.returnValueBlock = ^(BOOL isChoose) {
-            self.isshowalbum = isChoose;
-            [self.table reloadData];
-        };
-        [self.navigationController pushViewController:VC animated:YES];
-    }
-    if (indexPath.row==6) {
-        LDpermissionsVC *VC = [LDpermissionsVC new];
-        VC.InActionType = ENUM_PERMISSIONDYNAMIC_ActionType;
-        VC.isChoose = self.isshowdynamic;
-        VC.returnValueBlock = ^(BOOL isChoose) {
-            self.isshowdynamic = isChoose;
-            [self.table reloadData];
-        };
-        [self.navigationController pushViewController:VC animated:YES];
-    }
-    if (indexPath.row==7) {
-        LDpermissionsVC *VC = [LDpermissionsVC new];
-        VC.InActionType = ENUM_PERMISSIONCOMMENTS_ActionType;
-        VC.isChoose = self.isshowcomments;
-        VC.returnValueBlock = ^(BOOL isChoose) {
-            self.isshowcomments = isChoose;
-            [self.table reloadData];
-        };
-        [self.navigationController pushViewController:VC animated:YES];
-    }
-    if (indexPath.row==8) {
-        LDBlackListViewController *bvc = [[LDBlackListViewController alloc] init];
-        [self.navigationController pushViewController:bvc animated:YES];
+    if (indexPath.section==3) {
+        if (indexPath.row==0) {
+            LDBlackListViewController *bvc = [[LDBlackListViewController alloc] init];
+            [self.navigationController pushViewController:bvc animated:YES];
+        }
     }
 }
 

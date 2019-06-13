@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
-@interface LDharassmentVC : UIViewController
-
+typedef void (^ReturnValueBlock) (BOOL isAll);
+@interface LDharassmentVC : LDBaseViewController
+@property(nonatomic, copy) ReturnValueBlock returnValueBlock;
+@property (nonatomic,assign) BOOL isAll; //true 所有人都可发消息 false 会员、邮票才可发消息
 @end
 
 NS_ASSUME_NONNULL_END
