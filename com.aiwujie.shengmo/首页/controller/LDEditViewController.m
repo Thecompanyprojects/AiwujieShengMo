@@ -131,7 +131,6 @@
 //头像是否改变
 @property (nonatomic,assign) BOOL headImgisChange;
 
-@property (nonatomic,assign) BOOL isChange;
 @end
 
 @implementation LDEditViewController
@@ -208,12 +207,14 @@
     [self createButton];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notice:) name:EditChangepost object:nil];
+    
 }
 
 -(void)notice:(id)sender{
     NSLog(@"%@",sender);
     [self.rightButton setTitle:@"提交" forState:UIControlStateNormal];
 }
+
 
 -(void)judgeVipData{
 
@@ -516,7 +517,7 @@
     [_picButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     _picButton.titleLabel.font = [UIFont systemFontOfSize:15];
     [_picBackView addSubview:_picButton];
-
+    
     
     UIButton *leftBtn = [UIButton new];
     UIButton *rightBtn = [UIButton new];
@@ -539,7 +540,6 @@
         make.height.mas_offset(20);
     }];
 
-    
     if (self.isshowPhoto) {
         [leftBtn setImage:[UIImage imageNamed:@"照片认证空圈"] forState:normal];
         [rightBtn setImage:[UIImage imageNamed:@"照片认证实圈"] forState:normal];
@@ -570,18 +570,26 @@
 
 -(void)chooseshowphotoLeftClick
 {
+    if (self.isshowPhoto) {
+        NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    }
     self.isshowPhoto = NO;
-    NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
-    [[NSNotificationCenter defaultCenter] postNotification:notification];
+
     UIButton *btn0 = [self.tableView viewWithTag:101];
     UIButton *btn1 = [self.tableView viewWithTag:102];
     [btn0 setImage:[UIImage imageNamed:@"照片认证实圈"] forState:normal];
     [btn1 setImage:[UIImage imageNamed:@"照片认证空圈"] forState:normal];
+    
     [self.tableView reloadData];
 }
 
 -(void)chooseshowphotoRightClick
 {
+    if (!self.isshowPhoto) {
+        NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    }
     self.isshowPhoto = YES;
     NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
@@ -817,10 +825,10 @@
 -(void)buttonClickOnCell:(UIButton *)button changeSelection:(NSMutableArray *)selectionArray{
     
     [self.view endEditing:YES];
-    NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
-    [[NSNotificationCenter defaultCenter] postNotification:notification];
-    if (button.tag < 1000){
+
     
+    if (button.tag < 1000){
+        //性取向  多选
         _selectionArray = selectionArray;
         
         if ([_selectionArray[button.tag%100] isEqualToString:@"yes"]) {
@@ -843,15 +851,21 @@
             
             button.layer.borderWidth = 1;
         }
-
+        
+        NSString *newsexual = [self.sexualArray componentsJoinedByString:@","];
+        if (![newsexual isEqualToString:self.infoModel.sexual]) {
+            NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        }
+        
     }else{
     
         if (button.tag/1000 - 7 == 2) {
-            
+            //程度  轻度-中度-重度
             _levelSelectionArray = selectionArray;
             
         }else if (button.tag/1000 - 7 == 3){
-            
+            //我想找 聊天-现实-结婚
             _wantSelectionArray = selectionArray;
         }
         
@@ -889,7 +903,18 @@
             
             button.layer.borderWidth = 1;
         }
-
+        
+        NSString *newwant = [self.wantArray componentsJoinedByString:@","];
+        if (![newwant isEqualToString:self.infoModel.want]) {
+            NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        }
+        NSString *newlevel = [self.levelArray componentsJoinedByString:@","];
+        if (![newlevel isEqualToString:self.infoModel.level]) {
+            NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        }
+        
     }
     
     
@@ -931,7 +956,11 @@
 
                 
                     [_otherArray replaceObjectAtIndex:4 withObject:_sex];
-                
+                    
+                    if (![self.sex isEqualToString:self.infoModel.sex]) {
+                        NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+                        [[NSNotificationCenter defaultCenter] postNotification:notification];
+                    }
                     
                     button.layer.borderWidth = 0;
                     
@@ -950,8 +979,6 @@
             for (int i = 0; i < 4;  i++) {
                 
                 UIButton *btn = (UIButton *)[cell.contentView viewWithTag:button.tag/100 * 100 + i];
-                
-                //NSLog(@"%ld",btn.tag);
                 
                 if (button.tag == btn.tag) {
                     
@@ -979,6 +1006,11 @@
                     }
                     
                     [_otherArray replaceObjectAtIndex:5 withObject:_role];
+                    
+                    if (![self.role isEqualToString:self.infoModel.role]) {
+                        NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+                        [[NSNotificationCenter defaultCenter] postNotification:notification];
+                    }
                     
                     button.layer.borderWidth = 0;
                     
@@ -1010,11 +1042,22 @@
                     
                     [_array replaceObjectAtIndex:button.tag/1000 - 7 withObject:_dataArray[button.tag/1000][button.tag%1000]];
                     
+                    if (![self.along isEqualToString:self.infoModel.along]) {
+                        NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+                        [[NSNotificationCenter defaultCenter] postNotification:notification];
+                    }
+                    
+                    
                 }else if (button.tag/1000 == 8){
                     
                     _experience = [NSString stringWithFormat:@"%ld",button.tag%1000 + 1];
                     
                     [_array replaceObjectAtIndex:button.tag/1000 - 7 withObject:_dataArray[button.tag/1000][button.tag%1000]];
+                    
+                    if (![self.experience isEqualToString:self.infoModel.experience]) {
+                        NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+                        [[NSNotificationCenter defaultCenter] postNotification:notification];
+                    }
                     
                 }else if (button.tag/1000 == 11){
                     
@@ -1022,11 +1065,21 @@
                     
                     [_array replaceObjectAtIndex:button.tag/1000 - 7 withObject:_dataArray[button.tag/1000][button.tag%1000]];
                     
+                    if (![self.culture isEqualToString:self.infoModel.culture]) {
+                        NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+                        [[NSNotificationCenter defaultCenter] postNotification:notification];
+                    }
+                    
                 }else if (button.tag/1000 == 12){
                     
                     _monthly = [NSString stringWithFormat:@"%ld",button.tag%1000 + 1];
                     
                     [_array replaceObjectAtIndex:button.tag/1000 - 7 withObject:_dataArray[button.tag/1000][button.tag%1000]];
+                    
+                    if (![self.monthly isEqualToString:self.infoModel.monthly]) {
+                        NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+                        [[NSNotificationCenter defaultCenter] postNotification:notification];
+                    }
                     
                 }
                 
@@ -1868,7 +1921,7 @@
             
             if (_selectedPhotos.count < 6) {
                 
-                self.backGroundView.frame = CGRectMake(0, 0, WIDTH, 149 + (_selectedPhotos.count/3 + 1) * _itemWH + (_selectedPhotos.count/3 + 1) * _margin);
+                self.backGroundView.frame = CGRectMake(0, 0, WIDTH, 149+40 + (_selectedPhotos.count/3 + 1) * _itemWH + (_selectedPhotos.count/3 + 1) * _margin);
                 
                 _picBackView.frame = CGRectMake(0, 104, WIDTH, 45 + (_selectedPhotos.count/3 + 1) * _itemWH + (_selectedPhotos.count/3 + 1) * _margin);
                 
@@ -1881,7 +1934,7 @@
             
             if (_selectedPhotos.count < 15) {
                 
-                self.backGroundView.frame = CGRectMake(0, 0, WIDTH, 149 + (_selectedPhotos.count/3 + 1) * _itemWH + (_selectedPhotos.count/3 + 1) * _margin);
+                self.backGroundView.frame = CGRectMake(0, 0, WIDTH, 149+40 + (_selectedPhotos.count/3 + 1) * _itemWH + (_selectedPhotos.count/3 + 1) * _margin);
                 
                 _picBackView.frame = CGRectMake(0, 104, WIDTH, 45 + (_selectedPhotos.count/3 + 1) * _itemWH + (_selectedPhotos.count/3 + 1) * _margin);
                 
@@ -1912,7 +1965,7 @@
     [[NSNotificationCenter defaultCenter] postNotification:notification];
     [_selectedPhotos removeObjectAtIndex:sender.tag];
     
-    self.backGroundView.frame = CGRectMake(0, 0, WIDTH, 149 + (_selectedPhotos.count/3 + 1) * _itemWH + (_selectedPhotos.count/3 + 1) * _margin);
+    self.backGroundView.frame = CGRectMake(0, 0, WIDTH, 189 + (_selectedPhotos.count/3 + 1) * _itemWH + (_selectedPhotos.count/3 + 1) * _margin);
     
     _picBackView.frame = CGRectMake(0, 104, WIDTH, 45 + (_selectedPhotos.count/3 + 1) * _itemWH + (_selectedPhotos.count/3 + 1) * _margin);
     
@@ -2352,6 +2405,7 @@
 }
 
 - (void)dealloc {
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:EditChangepost object:nil];
 }
 
