@@ -617,9 +617,10 @@
 }
 - (IBAction)QQclick:(id)sender {
     
-    QQViewController *qq = [[QQViewController alloc] init];
+//    QQViewController *qq = [[QQViewController alloc] init];
+//
+//    [self.navigationController pushViewController:qq animated:YES];
     
-    [self.navigationController pushViewController:qq animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

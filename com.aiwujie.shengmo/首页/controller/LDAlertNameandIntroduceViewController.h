@@ -11,11 +11,7 @@
 typedef void(^MyBlock)(NSString *content);
 
 @interface LDAlertNameandIntroduceViewController : UIViewController
-
 @property (nonatomic,strong) MyBlock block;
-
 @property (nonatomic,copy) NSString *content;
-
 @property (nonatomic,copy) NSString *type;
-
 @end

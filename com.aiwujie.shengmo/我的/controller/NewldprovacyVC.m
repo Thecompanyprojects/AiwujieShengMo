@@ -54,6 +54,14 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
     [self afterstaticData];
 }
 
+- (void)didMoveToParentViewController:(UIViewController*)parent{
+    [super didMoveToParentViewController:parent];
+    if(!parent){
+        NSLog(@"页面pop成功了");
+        [self backButtonOnClick];
+    }
+}
+
 #pragma mark - getters
 
 -(UITableView *)table
@@ -499,6 +507,13 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
 
 -(void)backButtonOnClick{
     
+    [self changeldprovacyClick];
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
+
+-(void)changeldprovacyClick
+{
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/setSecretSit"];
     NSString *attentString = [NSString new];
     if (self.isFocuson) {
@@ -562,9 +577,9 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
                 [self.navigationController popViewControllerAnimated:YES];
             }];
             [alert addAction:action];
-            [self presentViewController:alert animated:YES completion:nil];
+            //[self presentViewController:alert animated:YES completion:nil];
         }else{
-            [self.navigationController popViewControllerAnimated:YES];
+           // [self.navigationController popViewControllerAnimated:YES];
         }
     } failed:^(NSString *errorMsg) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"因网络等原因修改失败"    preferredStyle:UIAlertControllerStyleAlert];
@@ -572,9 +587,8 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
             [self.navigationController popViewControllerAnimated:YES];
         }];
         [alert addAction:action];
-        [self presentViewController:alert animated:YES completion:nil];
+        //[self presentViewController:alert animated:YES completion:nil];
     }];
-    
 }
 
 @end

@@ -23,6 +23,7 @@
 #import "LDPrivacyPhotoViewController.h"
 #import "LDAlertNameandIntroduceViewController.h"
 #import "UIButton+ImageTitleSpace.h"
+#import "EditinfoModel.h"
 
 @interface LDEditViewController ()<TZImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate,UINavigationControllerDelegate,UITextViewDelegate,UITableViewDataSource,UITableViewDelegate,RegisterNextCellDelegate,UIPickerViewDelegate,UIPickerViewDataSource,LDIamCellDelegate,UIImagePickerControllerDelegate>{
     
@@ -63,7 +64,7 @@
 @property (nonatomic,strong) NSMutableArray *wantArray;
 
 //数据源
-@property (nonatomic,strong) NSMutableDictionary *EditDict;
+@property (nonatomic,strong) EditinfoModel *infoModel;
 
 //传给cell的存储信息的数组
 @property (nonatomic,strong) NSMutableArray *array;
@@ -119,16 +120,23 @@
 
 @property (nonatomic,copy) NSString *vipString;
 @property (nonatomic,strong) UIButton *picButton;
-
-@property (nonatomic,copy) NSString *changeString;
-
 @property (nonatomic,strong) UIButton * rightButton;
 
 //是否显示图片
 @property (nonatomic,assign) BOOL isshowPhoto;
+@property (nonatomic,assign) BOOL oldisshowPhoto;
+
+//图片是否改变
+@property (nonatomic,assign) BOOL photoisChange;
+//头像是否改变
+@property (nonatomic,assign) BOOL headImgisChange;
+
+@property (nonatomic,assign) BOOL isChange;
 @end
 
 @implementation LDEditViewController
+
+#define EditChangepost @"EditChangepost" //修改过信息的通知
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -162,8 +170,6 @@
     _selectedPhotos = [NSMutableArray array];
     
     _selectedAssets = [NSMutableArray array];
-    
-    _EditDict = [NSMutableDictionary dictionary];
     
     _heightArray = [NSMutableArray array];
     
@@ -200,6 +206,13 @@
     [self judgeVipData];
     
     [self createButton];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(notice:) name:EditChangepost object:nil];
+}
+
+-(void)notice:(id)sender{
+    NSLog(@"%@",sender);
+    [self.rightButton setTitle:@"提交" forState:UIControlStateNormal];
 }
 
 -(void)judgeVipData{
@@ -218,43 +231,36 @@
 
 -(void)createEditData{
     
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSDictionary *parameters = @{@"uid":self.userID};
     
-    [manager POST:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getmineinfodetailnew"] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        if (integer != 2000) {
-            
+    [NetManager afPostRequest:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getmineinfodetailnew"] parms:parameters finished:^(id responseObj) {
+        if ([[responseObj objectForKey:@"retcode"] intValue]!=2000) {
             _rightButton.userInteractionEnabled = NO;
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-            
-        }else{
-            
+        }
+        else
+        {
             _rightButton.userInteractionEnabled = YES;
+            NSDictionary *dic = responseObj[@"data"];
+            self.infoModel = [EditinfoModel new];
+            self.infoModel = [EditinfoModel yy_modelWithDictionary:dic];
             
-            [_EditDict setValuesForKeysWithDictionary:responseObject[@"data"]];
+            _array = [NSMutableArray array];
             
-             _array = [NSMutableArray array];
+            NSArray *array = @[self.infoModel.along,self.infoModel.experience,self.infoModel.level,self.infoModel.level,self.infoModel.culture,self.infoModel.monthly];
             
-            _changeString = _EditDict[@"changeState"];
+            _along = self.infoModel.along;
             
-            NSArray *array = @[_EditDict[@"along"],_EditDict[@"experience"],_EditDict[@"level"],_EditDict[@"want"],_EditDict[@"culture"],_EditDict[@"monthly"]];
+            _experience = self.infoModel.experience;
             
-            _along = _EditDict[@"along"];
+            _culture = self.infoModel.culture;
             
-            _experience = _EditDict[@"experience"];
-            
-            _culture = _EditDict[@"culture"];
-            
-            _monthly = _EditDict[@"monthly"];
+            _monthly = self.infoModel.monthly;
             
             [_array addObjectsFromArray:array];
             
-            NSArray *levelArray = [_EditDict[@"level"]componentsSeparatedByString:@","];
+            NSArray *levelArray = [self.infoModel.level componentsSeparatedByString:@","];
             
             for (int i = 0; i < levelArray.count; i++) {
                 
@@ -278,7 +284,7 @@
                 }
             }
             
-            NSArray *wantArray = [_EditDict[@"want"]componentsSeparatedByString:@","];
+            NSArray *wantArray = [self.infoModel.want componentsSeparatedByString:@","];
             
             for (int i = 0; i < wantArray.count; i++) {
                 
@@ -304,35 +310,35 @@
             
             _otherArray = [NSMutableArray array];
             
-            if ([_EditDict[@"introduce"] length] == 0) {
+            if ([self.infoModel.introduce length] == 0) {
                 
-                _EditDict[@"introduce"] = @"";
+                self.infoModel.introduce = @"";
                 
             }
             
-            NSArray *otherArray = @[_EditDict[@"nickname"],_EditDict[@"introduce"],_EditDict[@"birthday"],[NSString stringWithFormat:@"%@cm-%@kg",_EditDict[@"tall"],_EditDict[@"weight"]],_EditDict[@"sex"],_EditDict[@"role"],_EditDict[@"sexual"]];
+            NSArray *otherArray = @[self.infoModel.nickname,self.infoModel.introduce,self.infoModel.birthday,[NSString stringWithFormat:@"%@cm-%@kg",self.infoModel.tall,self.infoModel.weight],self.infoModel.sex,self.infoModel.role,self.infoModel.sexual];
             
-            _oldName = _EditDict[@"nickname"];
+            _oldName = self.infoModel.nickname;
             
-            _name = _EditDict[@"nickname"];
+            _name = self.infoModel.nickname;
             
-            _sign = _EditDict[@"introduce"];
+            _sign = self.infoModel.introduce;
             
-            _oldSign = _EditDict[@"introduce"];
+            _oldSign = self.infoModel.introduce;
             
-            _oldbirthday = _EditDict[@"birthday"];
+            _oldbirthday = self.infoModel.birthday;
             
-            _birthday = _EditDict[@"birthday"];
+            _birthday = self.infoModel.birthday;
             
-            _height = _EditDict[@"tall"];
+            _height = self.infoModel.tall;
             
-            _weight = _EditDict[@"weight"];
+            _weight = self.infoModel.weight;
             
-            _sex = _EditDict[@"sex"];
+            _sex = self.infoModel.sex;
             
-            _role = _EditDict[@"role"];
+            _role = self.infoModel.role;
             
-            NSArray *sexualArray = [_EditDict[@"sexual"]componentsSeparatedByString:@","];
+            NSArray *sexualArray = [self.infoModel.sexual componentsSeparatedByString:@","];
             
             for (int i = 0; i < sexualArray.count; i++) {
                 
@@ -343,13 +349,13 @@
                     [_sexualArray replaceObjectAtIndex:0 withObject:@"1"];
                     
                 }else if ([sexualArray[i] isEqualToString:@"2"]){
-                
+                    
                     [_selectionArray replaceObjectAtIndex:1 withObject:@"yes"];
                     
                     [_sexualArray replaceObjectAtIndex:1 withObject:@"2"];
                     
                 }else if ([sexualArray[i] isEqualToString:@"3"]){
-                
+                    
                     [_selectionArray replaceObjectAtIndex:2 withObject:@"yes"];
                     
                     [_sexualArray replaceObjectAtIndex:2 withObject:@"3"];
@@ -358,39 +364,34 @@
             
             [_otherArray addObjectsFromArray:otherArray];
             
-            [_selectedPhotos addObjectsFromArray:responseObject[@"data"][@"photo"]];
-
-            if ([responseObject[@"data"][@"photo"] count] == 0) {
+            [_selectedPhotos addObjectsFromArray:responseObj[@"data"][@"photo"]];
+            
+            if ([responseObj[@"data"][@"photo"] count] == 0) {
                 
-               _photo = @"";
+                _photo = @"";
                 
-            }else if([responseObject[@"data"][@"photo"] count] == 1){
+            }else if([responseObj[@"data"][@"photo"] count] == 1){
                 
-                _photo = responseObject[@"data"][@"photo"][0];
+                _photo = responseObj[@"data"][@"photo"][0];
                 
             }else{
-            
-                _photo = responseObject[@"data"][@"photo"][0];
                 
-                for (int i = 1; i < [responseObject[@"data"][@"photo"] count]; i++) {
+                _photo = responseObj[@"data"][@"photo"][0];
+                
+                for (int i = 1; i < [responseObj[@"data"][@"photo"] count]; i++) {
                     
-                    _photo = [NSString stringWithFormat:@"%@,%@",_photo,responseObject[@"data"][@"photo"][i]];
+                    _photo = [NSString stringWithFormat:@"%@,%@",_photo,responseObj[@"data"][@"photo"][i]];
                 }
             }
-            
             _oldPhoto = _photo;
-            
-            [self createHeadView];
-            
-            [self createTableView];
-            
-        }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-    }];
-    
-}
 
+            [self createHeadView];
+            [self createTableView];
+        }
+    } failed:^(NSString *errorMsg) {
+        
+    }];
+}
 
 -(void)createHeadView{
     
@@ -431,13 +432,13 @@
     [self.backGroundView addSubview:headView];
     
     _headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(WIDTH - 86, 17, 60, 60)];
-    [_headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_EditDict[@"head_pic"]]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
+    [_headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",self.infoModel.head_pic]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
     _headImageView.layer.cornerRadius = 30;
     _headImageView.clipsToBounds = YES;
     [headView addSubview:_headImageView];
     
-    _oldHeadUrl = _EditDict[@"head_pic"];
-    _oldUrl = _EditDict[@"head_pic"];
+    _oldHeadUrl = self.infoModel.head_pic;
+    _oldUrl = self.infoModel.head_pic;
     
     UIImageView *headArrow = [[UIImageView alloc] initWithFrame:CGRectMake(WIDTH - 18, 42, 10, 15)];
     headArrow.image = [UIImage imageNamed:@"youjiantou"];
@@ -502,7 +503,7 @@
     _picButton = [[UIButton alloc] initWithFrame:CGRectMake(WIDTH - 138, 5, 112, 30)];
     _picButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     
-    if ([_EditDict[@"photo_lock"] intValue] == 2) {
+    if ([self.infoModel.photo_lock intValue] == 2) {
         
         [_picButton setTitle:@"未开放" forState:UIControlStateNormal];
         
@@ -570,6 +571,8 @@
 -(void)chooseshowphotoLeftClick
 {
     self.isshowPhoto = NO;
+    NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
     UIButton *btn0 = [self.tableView viewWithTag:101];
     UIButton *btn1 = [self.tableView viewWithTag:102];
     [btn0 setImage:[UIImage imageNamed:@"照片认证实圈"] forState:normal];
@@ -580,6 +583,8 @@
 -(void)chooseshowphotoRightClick
 {
     self.isshowPhoto = YES;
+    NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
     UIButton *btn0 = [self.tableView viewWithTag:101];
     UIButton *btn1 = [self.tableView viewWithTag:102];
     [btn1 setImage:[UIImage imageNamed:@"照片认证实圈"] forState:normal];
@@ -597,7 +602,7 @@
         
         LDPrivacyPhotoViewController *ppvc = [[LDPrivacyPhotoViewController alloc] init];
         
-        ppvc.privacyString = _EditDict[@"photo_lock"];
+        ppvc.privacyString = self.infoModel.photo_lock;
         
         ppvc.type = @"1";
         
@@ -607,13 +612,13 @@
                 
                 [_picButton setTitle:@"已开放" forState:UIControlStateNormal];
                 
-                _EditDict[@"photo_lock"] = @"1";
+                self.infoModel.photo_lock = @"1";
                 
             }else{
             
                 [_picButton setTitle:@"未开放" forState:UIControlStateNormal];
             
-                _EditDict[@"photo_lock"] = @"2";
+                self.infoModel.photo_lock = @"2";
             }
         
         };
@@ -649,7 +654,7 @@
         [self presentViewController:picker animated:YES completion:nil];//显示出来
     }];
     
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:^(UIAlertAction *action) {
         
     }];
     
@@ -812,7 +817,8 @@
 -(void)buttonClickOnCell:(UIButton *)button changeSelection:(NSMutableArray *)selectionArray{
     
     [self.view endEditing:YES];
-    
+    NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
     if (button.tag < 1000){
     
         _selectionArray = selectionArray;
@@ -892,7 +898,8 @@
 
 //cell上的按钮点击事件
 -(void)buttonClickOnCell:(UIButton *)button{
-    
+    NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
     if (button.tag < 1000) {
         
         RegisterNextCell *cell = (RegisterNextCell *)button.superview.superview;
@@ -902,8 +909,6 @@
             for (int i = 0; i < 3;  i++) {
                 
                 UIButton *btn = (UIButton *)[cell.contentView viewWithTag:button.tag/100 * 100 + i];
-                
-                //        NSLog(@"%ld",btn.tag);
                 
                 if (button.tag == btn.tag) {
                     
@@ -1066,7 +1071,8 @@
                 }else{
                     
                     _name = content;
-                    
+                    NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
                 }
                 
                 [_otherArray replaceObjectAtIndex:0 withObject:_name];
@@ -1078,7 +1084,7 @@
 
         }else{
         
-            if ([_changeString intValue] == 1) {
+            if ([self.infoModel.changeState intValue] == 1) {
                 
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                 
@@ -1103,7 +1109,8 @@
                     }else{
                         
                         _name = content;
-                        
+                        NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+                        [[NSNotificationCenter defaultCenter] postNotification:notification];
                     }
                     
                     [_otherArray replaceObjectAtIndex:0 withObject:_name];
@@ -1327,8 +1334,7 @@
         
     }else if(component == 2){
         
-        //        NSLog(@"222");
-        
+
         titleLabel.text = _weightArray[row];
         
         return titleLabel;
@@ -1365,7 +1371,8 @@
 -(void)sureButtonOnClick{
     
     _cell.showLabel.text = [NSString stringWithFormat:@"%@cm-%@kg",_height,_weight];
-    
+    NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
     [self.LVView removeFromSuperview];
 }
 
@@ -1378,7 +1385,8 @@
     _birthday = [dateFormatter stringFromDate:self.datePickerView.date];
     
     _birthdayCell.showLabel.text = _birthday;
-    
+    NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
     [self.dateView removeFromSuperview];
     
 }
@@ -1520,8 +1528,7 @@
 #pragma mark UICollectionView
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    
-//    NSLog(@"%d",_selectedPhotos.count);
+
     
     if ([_vipString isEqualToString:@"非会员"]) {
         
@@ -1726,7 +1733,7 @@
         NSString *fileName = [NSString stringWithFormat:@"%@.jpg", str];
         
         AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-        
+        self.headImgisChange = YES;
         [manager POST:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Api/fileUpload"] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
             
             // 上传图片，以文件流的格式
@@ -1821,18 +1828,9 @@
     // NSLog(@"cancel");
 }
 
-// The picker should dismiss itself; when it dismissed these handle will be called.
-// If isOriginalPhoto is YES, user picked the original photo.
-// You can get original photo with asset, by the method [[TZImageManager manager] getOriginalPhotoWithAsset:completion:].
-// The UIImage Object in photos default width is 828px, you can set it by photoWidth property.
-// 这个照片选择器会自己dismiss，当选择器dismiss的时候，会执行下面的代理方法
-// 如果isSelectOriginalPhoto为YES，表明用户选择了原图
-// 你可以通过一个asset获得原图，通过这个方法：[[TZImageManager manager] getOriginalPhotoWithAsset:completion:]
-// photos数组里的UIImage对象，默认是828像素宽，你可以通过设置photoWidth属性的值来改变它
+
 - (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingPhotos:(NSArray *)photos sourceAssets:(NSArray *)assets isSelectOriginalPhoto:(BOOL)isSelectOriginalPhoto {
-    
-//    NSLog(@"%@",photos);
-    
+
     [self thumbnaiWithImage:photos andAssets:assets];
 }
 ////上传图片
@@ -1841,6 +1839,10 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     _isSelectOriginalPhoto = NO;
+    self.photoisChange = YES;
+    
+    NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
     
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     
@@ -1859,9 +1861,7 @@
                                 mimeType:@"image/jpeg"];
         
     } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-//        NSLog(@"%@",responseObject);
-        
+
         [_selectedPhotos addObject:responseObject[@"data"]];
         
         if ([_vipString isEqualToString:@"非会员"]) {
@@ -1907,7 +1907,9 @@
 - (void)deleteBtnClik:(UIButton *)sender {
     
     [_selectedAssets addObject:_selectedPhotos[sender.tag]];
-    
+    self.photoisChange = YES;
+    NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
     [_selectedPhotos removeObjectAtIndex:sender.tag];
     
     self.backGroundView.frame = CGRectMake(0, 0, WIDTH, 149 + (_selectedPhotos.count/3 + 1) * _itemWH + (_selectedPhotos.count/3 + 1) * _margin);
@@ -1951,7 +1953,7 @@
     self.navigationItem.leftBarButtonItem = leftBarButtonItem;
     
     _rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 30)];
-    [_rightButton setTitle:@"提交" forState:UIControlStateNormal];
+    [_rightButton setTitle:@"" forState:UIControlStateNormal];
     [_rightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     _rightButton.titleLabel.font = [UIFont systemFontOfSize:15];
     [_rightButton addTarget:self action:@selector(commitButtonOnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -1960,68 +1962,99 @@
     
 }
 
--(void)backButtonOnClick{
+#pragma mark - 返回按钮方法
 
-    [self.navigationController popViewControllerAnimated:YES];
+-(void)backButtonOnClick{
+    
+    
+    [self finishingArrayClick];
+    
+    NSString *sexual0 = [NSString stringWithFormat:@"%@",self.sexual];
+    NSString *sexual1 = [NSString stringWithFormat:@"%@",self.infoModel.sexual];
+    
+    NSString *along0 = [NSString stringWithFormat:@"%@",self.along];
+    NSString *along1 = [NSString stringWithFormat:@"%@",self.infoModel.along];
+    
+    NSString *experience0 = [NSString stringWithFormat:@"%@",self.experience];
+    NSString *experience1 = [NSString stringWithFormat:@"%@",self.infoModel.experience];
+    
+    NSString *level0 = [NSString stringWithFormat:@"%@",self.level];
+    NSString *level1 = [NSString stringWithFormat:@"%@",self.infoModel.level];
+    
+    NSString *want0 = [NSString stringWithFormat:@"%@",self.want];
+    NSString *want1 = [NSString stringWithFormat:@"%@",self.infoModel.want];
+    
+    NSString *photo_rule0 = [NSString stringWithFormat:@"%d",self.isshowPhoto];
+    NSString *photo_rule1 = [NSString stringWithFormat:@"%d",self.oldisshowPhoto];
+    
+    NSString *photosstr0 = [NSString stringWithFormat:@"%d",self.photoisChange];
+    NSString *photosstr1 = [NSString stringWithFormat:@"%d",NO];
+    
+    NSString *headimgStr0 = [NSString stringWithFormat:@"%d",self.headImgisChange];
+    NSString *headimgStr1 = [NSString stringWithFormat:@"%d",NO];
+    
+    NSDictionary *dic0 = @{@"head_pic":self.oldHeadUrl?:@"",@"nickname":self.name?:@"",@"introduce":self.sign?:@"",@"birthday":self.birthday?:@"",@"tall":self.height?:@"",@"weight":self.weight?:@"",@"sex":self.sex?:@"",@"sexual":sexual0?:@"",@"along":along0?:@"",@"experience":experience0?:@"",@"level":level0?:@"",@"want":want0?:@"",@"culture":self.culture?:@"",@"monthly":self.monthly?:@"",@"photo_rule":photo_rule0?:@"",@"photo":photosstr0,@"headimg":headimgStr0};
+    
+    NSDictionary *dic1 = @{@"head_pic":self.infoModel.head_pic?:@"",@"nickname":self.infoModel.nickname?:@"",@"introduce":self.infoModel.introduce?:@"",@"birthday":self.infoModel.birthday?:@"",@"tall":self.infoModel.tall?:@"",@"weight":self.infoModel.weight?:@"",@"sex":self.infoModel.sex?:@"",@"sexual":sexual1?:@"",@"along":along1?:@"",@"experience":experience1?:@"",@"level":level1?:@"",@"want":want1?:@"",@"culture":self.infoModel.culture?:@"",@"monthly":self.infoModel.monthly?:@"",@"photo_rule":photo_rule1?:@"",@"photo":photosstr1,@"headimg":headimgStr1};
+
+    __block BOOL equal = YES;
+    [dic0 enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        id twoObj = [dic1 objectForKey:key];
+        if(!twoObj || twoObj != obj) {
+            equal = NO;
+            *stop = YES;
+        }
+    }];
+    
+    if (equal) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else
+    {
+        UIAlertController *control = [UIAlertController alertControllerWithTitle:nil message:@"修改的内容未提交哦" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"放弃" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            [self.navigationController popViewControllerAnimated:YES];
+        }];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"继续编辑" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+           
+        }];
+        [control addAction:action0];
+        [control addAction:action1];
+        [self presentViewController:control animated:YES completion:nil];
+        
+    }
 }
 
--(void)commitButtonOnClick{
-    
-    
-    [self choosethephototIscanlook];
-    
-    NSString *photo_charge_time;
-    
+-(void)finishingArrayClick
+{
     NSMutableArray *sexualArray = [[NSMutableArray alloc] init];
-    
     for (int i = 0; i < _sexualArray.count; i++) {
-        
         if ([_sexualArray[i] intValue] == 1 || [_sexualArray[i] intValue] == 2 || [_sexualArray[i] intValue] == 3) {
-            
             [sexualArray addObject:_sexualArray[i]];
         }
     }
-    
     if (sexualArray.count == 1) {
-        
         _sexual = sexualArray[0];
-        
     }else if (sexualArray.count == 2){
-        
         _sexual = [NSString stringWithFormat:@"%@,%@",sexualArray[0],sexualArray[1]];
         
     }else if(sexualArray.count == 3){
-        
         _sexual = [NSString stringWithFormat:@"%@,%@,%@",sexualArray[0],sexualArray[1],sexualArray[2]];
-        
     }else{
-        
         _sexual = @"";
     }
-    
-    
     NSMutableArray *levelArray = [[NSMutableArray alloc] init];
-    
     for (int i = 0; i < _levelArray.count; i++) {
-        
         if ([_levelArray[i] length] != 0) {
-            
             [_levelArray replaceObjectAtIndex:i withObject:[NSString stringWithFormat:@"%d", i + 1]];
-            
         }
     }
-    
     for (int i = 0; i < _levelArray.count; i++) {
-        
         if ([_levelArray[i] intValue] == 1 || [_levelArray[i] intValue] == 2 || [_levelArray[i] intValue] == 3) {
-            
             [levelArray addObject:_levelArray[i]];
-            
         }
     }
-    
     if (levelArray.count == 1) {
-        
         _level = levelArray[0];
         
     }else if (levelArray.count == 2){
@@ -2036,9 +2069,7 @@
         
         _level = @"";
     }
-    
     NSMutableArray *wantArray = [[NSMutableArray alloc] init];
-    
     for (int i = 0; i < _wantArray.count; i++) {
         
         if ([_wantArray[i] length] != 0) {
@@ -2046,16 +2077,11 @@
             [_wantArray replaceObjectAtIndex:i withObject:[NSString stringWithFormat:@"%d", i + 1]];
         }
     }
-    
     for (int i = 0; i < _wantArray.count; i++) {
-        
         if ([_wantArray[i] intValue] == 1 || [_wantArray[i] intValue] == 2 || [_wantArray[i] intValue] == 3) {
-            
             [wantArray addObject:_wantArray[i]];
-            
         }
     }
-    
     if (wantArray.count == 1) {
         
         _want = wantArray[0];
@@ -2073,6 +2099,16 @@
         _want = @"";
     }
 
+}
+
+#pragma mark - 提交数据
+
+-(void)commitButtonOnClick{
+    
+    NSString *photo_charge_time;
+
+    [self finishingArrayClick];
+    
     if (_want.length == 0 || _level.length == 0 || _sexual.length == 0) {
         
         [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"性取向或想找或程度必须选择,请选择后提交~"];
@@ -2170,7 +2206,16 @@
             
         }
         
-        NSDictionary *parameters = @{@"uid":self.userID,@"head_pic":_oldHeadUrl,@"nickname":_name,@"introduce":_sign,@"birthday":_birthday,@"tall":_height,@"weight":_weight,@"sex":_sex,@"role":_role,@"sexual":_sexual,@"along":_along,@"experience":_experience,@"level":_level,@"want":_want,@"culture":_culture,@"monthly":_monthly,@"photo":_photo,@"photo_charge_time":photo_charge_time,@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+        NSString *photo_rule = [NSString new];
+        if (!self.isshowPhoto) {
+            photo_rule = @"0";
+        }
+        else
+        {
+            photo_rule = @"1";
+        }
+        
+        NSDictionary *parameters = @{@"uid":self.userID,@"head_pic":self.oldHeadUrl,@"nickname":self.name,@"introduce":self.sign,@"birthday":self.birthday,@"tall":self.height,@"weight":self.weight,@"sex":self.sex,@"role":self.role,@"sexual":self.sexual,@"along":self.along,@"experience":self.experience,@"level":self.level,@"want":self.want,@"culture":self.culture,@"monthly":self.monthly,@"photo":self.photo,@"photo_charge_time":photo_charge_time,@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"photo_rule":photo_rule};
 
         [manager POST:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/editInfo"] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
@@ -2189,7 +2234,6 @@
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"修改了个人资料" object:nil];
                 
                 if (self.InActionType==ENUM_FROMUSER_ActionType) {
-                    
                     
                     [[NSUserDefaults standardUserDefaults] setObject:_sex forKey:@"newestSex"];
                     
@@ -2281,10 +2325,12 @@
        NSString *photo_rule = responseObj[@"data"][@"photo_rule"];
         if ([photo_rule isEqualToString:@"0"]) {
             self.isshowPhoto = NO;
+            self.oldisshowPhoto = NO;
         }
         else
         {
             self.isshowPhoto = YES;
+            self.oldisshowPhoto = YES;
         }
         
         UIButton *btn0 = [self.tableView viewWithTag:101];
@@ -2305,33 +2351,9 @@
     }];
 }
 
-#pragma mark - 选择照片是否可见
-
--(void)choosethephototIscanlook
-{
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/setSecretSit"];
-    NSString *photo_rule = [NSString new];
-    if (!self.isshowPhoto) {
-        photo_rule = @"0";
-    }
-    else
-    {
-        photo_rule = @"1";
-    }
-    NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"follow_list_switch":@"",@"group_list_switch":@"",@"login_time_switch":@"",@"photo_rule":photo_rule,@"dynamic_rule":@"",@"comment_rule":@""};
-    
-    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
-        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
-        if (integer != 2000) {
-            
-        }else{
-           
-        }
-    } failed:^(NSString *errorMsg) {
-        
-    }];
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:EditChangepost object:nil];
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

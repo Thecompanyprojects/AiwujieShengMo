@@ -230,7 +230,7 @@
                         <constraint firstAttribute="height" constant="23" id="AHs-3f-6Vf"/>
                     </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                    <state key="normal" title="苹果QQ无法登录请点此">
+                    <state key="normal">
                         <color key="titleColor" red="0.71683843089999999" green="0.22636065729999999" blue="0.79763487840000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                     <connections>

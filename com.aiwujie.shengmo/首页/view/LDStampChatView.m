@@ -22,20 +22,20 @@
 
     _data = data;
     
-    _currencyNumLabel.text = [NSString stringWithFormat:@"拥有 %@ 张通用邮票",data[@"wallet_stamp"]];
-    [self changeWordColorTitle:_currencyNumLabel.text andLoc:3 andLen:[[NSString stringWithFormat:@"%@",data[@"wallet_stamp"]] length] andLabel:_currencyNumLabel];
+    _currencyNumLabel.text = [NSString stringWithFormat:@"拥有 %@ 张通用邮票",data[@"wallet_stamp"]?:@"0"];
+    [self changeWordColorTitle:_currencyNumLabel.text andLoc:3 andLen:[[NSString stringWithFormat:@"%@",data[@"wallet_stamp"]?:@"0"] length] andLabel:_currencyNumLabel];
     
     UILabel *boyLabel = (UILabel *)[_backView viewWithTag:20];
-    boyLabel.text = [NSString stringWithFormat:@"男票 %@ 张",data[@"basicstampX"]];
-    [self changeWordColorTitle:boyLabel.text andLoc:3 andLen:[[NSString stringWithFormat:@"%@",data[@"basicstampX"]] length] andLabel:boyLabel];
+    boyLabel.text = [NSString stringWithFormat:@"男票 %@ 张",data[@"basicstampX"]?:@"0"];
+    [self changeWordColorTitle:boyLabel.text andLoc:3 andLen:[[NSString stringWithFormat:@"%@",data[@"basicstampX"]?:@"0"] length] andLabel:boyLabel];
     
     UILabel *girlLabel = (UILabel *)[_backView viewWithTag:21];
-    girlLabel.text = [NSString stringWithFormat:@"女票 %@ 张",data[@"basicstampY"]];
-    [self changeWordColorTitle:girlLabel.text andLoc:3 andLen:[[NSString stringWithFormat:@"%@",data[@"basicstampY"]] length] andLabel:girlLabel];
+    girlLabel.text = [NSString stringWithFormat:@"女票 %@ 张",data[@"basicstampY"]?:@"0"];
+    [self changeWordColorTitle:girlLabel.text andLoc:3 andLen:[[NSString stringWithFormat:@"%@",data[@"basicstampY"]?:@"0"] length] andLabel:girlLabel];
     
     UILabel *cdtsLabel = (UILabel *)[_backView viewWithTag:22];
-    cdtsLabel.text = [NSString stringWithFormat:@"CDTS票 %@ 张",data[@"basicstampZ"]];
-    [self changeWordColorTitle:cdtsLabel.text andLoc:6 andLen:[[NSString stringWithFormat:@"%@",data[@"basicstampZ"]] length] andLabel:cdtsLabel];
+    cdtsLabel.text = [NSString stringWithFormat:@"CDTS票 %@ 张",data[@"basicstampZ"]?:@"0"];
+    [self changeWordColorTitle:cdtsLabel.text andLoc:6 andLen:[[NSString stringWithFormat:@"%@",data[@"basicstampZ"]?:@"0"] length] andLabel:cdtsLabel];
 }
 
 //更改某个字体的颜色和字号

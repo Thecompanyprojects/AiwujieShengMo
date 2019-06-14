@@ -169,7 +169,7 @@
 -(void)createButton{
     
     UIButton * rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 30)];
-    [rightButton setTitle:@"提交" forState:UIControlStateNormal];
+    [rightButton setTitle:@"确定" forState:UIControlStateNormal];
     [rightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     rightButton.titleLabel.font = [UIFont systemFontOfSize:15];
     [rightButton addTarget:self action:@selector(backButtonOnClick:) forControlEvents:UIControlEventTouchUpInside];

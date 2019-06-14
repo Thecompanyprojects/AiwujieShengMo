@@ -37,6 +37,19 @@ static NSString *ldpermissidendfity = @"ldpermissidendfity";
     [self.view addSubview:self.table];
 }
 
+- (void)didMoveToParentViewController:(UIViewController*)parent{
+    [super didMoveToParentViewController:parent];
+    if(!parent){
+        NSLog(@"页面pop成功了");
+        
+        if (self.returnValueBlock) {
+            //将自己的值传出去，完成传值
+            self.returnValueBlock(self.isChoose);
+            
+        }
+    }
+}
+
 -(UITableView *)table
 {
     if(!_table)
