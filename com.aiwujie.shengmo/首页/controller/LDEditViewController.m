@@ -625,7 +625,7 @@
             }else{
             
                 [_picButton setTitle:@"未开放" forState:UIControlStateNormal];
-            
+                
                 self.infoModel.photo_lock = @"2";
             }
         
@@ -1922,31 +1922,21 @@
             if (_selectedPhotos.count < 6) {
                 
                 self.backGroundView.frame = CGRectMake(0, 0, WIDTH, 149+40 + (_selectedPhotos.count/3 + 1) * _itemWH + (_selectedPhotos.count/3 + 1) * _margin);
-                
                 _picBackView.frame = CGRectMake(0, 104, WIDTH, 45 + (_selectedPhotos.count/3 + 1) * _itemWH + (_selectedPhotos.count/3 + 1) * _margin);
-                
                 _collectionView.frame = CGRectMake(0, 40, WIDTH,(_selectedPhotos.count/3 + 1) * _itemWH + (_selectedPhotos.count/3 + 1) * _margin + 5);
-                
                 [self.tableView setTableHeaderView:self.backGroundView];
             }
             
         }else{
             
             if (_selectedPhotos.count < 15) {
-                
                 self.backGroundView.frame = CGRectMake(0, 0, WIDTH, 149+40 + (_selectedPhotos.count/3 + 1) * _itemWH + (_selectedPhotos.count/3 + 1) * _margin);
-                
                 _picBackView.frame = CGRectMake(0, 104, WIDTH, 45 + (_selectedPhotos.count/3 + 1) * _itemWH + (_selectedPhotos.count/3 + 1) * _margin);
-                
                 _collectionView.frame = CGRectMake(0, 40, WIDTH,(_selectedPhotos.count/3 + 1) * _itemWH + (_selectedPhotos.count/3 + 1) * _margin + 5);
-                
                 [self.tableView setTableHeaderView:self.backGroundView];
             }
-            
         }
-
         [_collectionView reloadData];
-        
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

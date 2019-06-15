@@ -39,7 +39,6 @@
 #define getVipSecretSit @"Api/users/getVipSecretSit"
 
 //获取动态列表
-
 #define getDynamicListNewFive @"Api/Dynamic/getDynamicListNewFive"
 
 //获取用户列表
@@ -47,4 +46,19 @@
 
 //地图找人
 #define  searchByMapNew @"Api/index/searchByMapNew"
+
+//获取昵称历史列表
+#define getEditnicknameList @"Api/Users/getEditnicknameList"
+
+//修改隐私相册设置
+#define setSecretSit @"Api/users/setSecretSit"
+
+//获取隐私相册情况
+#define getSecretSit @"Api/users/getSecretSit"
+
+//查看用户是否设置相册密码
+#define judgePhotoPwd  @"Api/users/judgePhotoPwd"
+
+//获取消息邮票信息
+#define  getStampPageInfo @"Api/Restrict/getStampPageInfo"
 #endif /* wangHeader_h */

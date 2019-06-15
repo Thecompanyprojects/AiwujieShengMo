@@ -24,7 +24,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.navigationItem.title = @"隐私相册";
     
     if ([_privacyString intValue] == 1) {
@@ -43,19 +42,40 @@
     [self createButton];
 }
 
+
+- (void)didMoveToParentViewController:(UIViewController*)parent{
+    [super didMoveToParentViewController:parent];
+    if(!parent){
+
+        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setSecretSit];
+        
+        NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"photo_lock":_privacyString};
+        [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+            NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
+            
+            if (integer != 2000) {
+                
+            }else{
+                if ([self.type intValue] == 1) {
+                    
+                    self.block(_privacyString);
+                }
+            }
+        } failed:^(NSString *errorMsg) {
+            
+        }];
+    }
+}
+
 -(void)createStatusData{
 
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/judgePhotoPwd"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,judgePhotoPwd];
     
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//                NSLog(@"%@",responseObject);
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         
         if (integer == 3000) {
             
@@ -135,13 +155,10 @@
             [alertView addSubview:cancelButton];
             
         }
+    } failed:^(NSString *errorMsg) {
         
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        NSLog(@"%@",error);
     }];
-
+    
 }
 
 //textfield的代理方法
@@ -211,9 +228,7 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//        NSLog(@"%@",responseObject);
-        
+
         if (integer != 2000) {
             
             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
@@ -431,23 +446,15 @@
 
 -(void)backButtonOnClick{
     
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/setSecretSit"];
-    
-//    NSLog(@"%@",_privacyString);
-    
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setSecretSit];
+
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"photo_lock":_privacyString};
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//        NSLog(@"%@",responseObject);
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         
         if (integer != 2000) {
             
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:[responseObject objectForKey:@"msg"]    preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:[responseObj objectForKey:@"msg"]    preferredStyle:UIAlertControllerStyleAlert];
             
             UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
                 
@@ -468,9 +475,7 @@
             
             [self.navigationController popViewControllerAnimated:YES];
         }
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failed:^(NSString *errorMsg) {
         
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"因网络等原因修改失败"    preferredStyle:UIAlertControllerStyleAlert];
         
@@ -492,15 +497,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

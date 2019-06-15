@@ -24,10 +24,9 @@ static float AD_height = 150;//头部高度
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"推顶卡";
+    self.title = @"动态推顶";
     [self.view addSubview:self.collectionView];
     [self createRightButton];
-    
 }
 
 -(void)createRightButton{
@@ -41,7 +40,6 @@ static float AD_height = 150;//头部高度
     UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
     self.navigationItem.rightBarButtonItem = rightBarButtonItem;
 }
-
 
 #pragma mark - 创建collectionView并设置代理
 

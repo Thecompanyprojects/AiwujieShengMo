@@ -35,6 +35,8 @@
 #import "LDLookGifListViewController.h"
 #import <Accelerate/Accelerate.h>
 #import "UIButton+ImageTitleSpace.h"
+#import "SSCopyLabel.h"
+#import "LDhistorynameViewController.h"
 
 @interface LDOwnInformationViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIScrollViewDelegate,StampChatDelete,YBAttributeTapActionDelegate>
 
@@ -97,7 +99,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *headImageButtonH;
 
 //个人主页姓名
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet SSCopyLabel *nameLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *nameW;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *nameY;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *nameX;
@@ -333,7 +335,7 @@
     [super viewDidLoad];
     
     self.navigationItem.title = @"个人主页";
-    
+    self.view.backgroundColor = [UIColor whiteColor];
     if (ISIPHONEPLUS) {
         
         self.giveGifW.constant = (self.giveGifButton.frame.size.width / 375) * WIDTH;
@@ -794,10 +796,16 @@
 
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
     
-    UIAlertAction * shareButton = [UIAlertAction actionWithTitle:@"分享" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *shareButton = [UIAlertAction actionWithTitle:@"分享" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
         
         [_shareView controlViewShowAndHide:nil];
         
+    }];
+    
+    UIAlertAction *nicknameButton = [UIAlertAction actionWithTitle:@"历史昵称" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        LDhistorynameViewController *VC = [LDhistorynameViewController new];
+        VC.uid = self.userID;
+        [self.navigationController pushViewController:VC animated:YES];
     }];
     
     UIAlertAction * cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
@@ -805,12 +813,14 @@
     if (PHONEVERSION.doubleValue >= 8.3) {
         
         [shareButton setValue:MainColor forKey:@"_titleTextColor"];
-        
+        [nicknameButton setValue:MainColor forKey:@"_titleTextColor"];
         [cancel setValue:MainColor forKey:@"_titleTextColor"];
     }
     [alert addAction:cancel];
     
     [alert addAction:shareButton];
+    
+    [alert addAction:nicknameButton];
     
     [self presentViewController:alert animated:YES completion:nil];
 }
@@ -853,9 +863,35 @@
         
     }];
     
+    UIAlertAction *nicknameButton = [UIAlertAction actionWithTitle:@"历史昵称" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue] == 1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue] == 1) {
+            LDhistorynameViewController *VC = [LDhistorynameViewController new];
+            VC.uid = self.userID;
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+        else
+        {
+            UIAlertController *control = [UIAlertController alertControllerWithTitle:@"提示" message:@"查看历史昵称限SVIP可用" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                
+            }];
+            UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"去开通" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
+                
+                [self.navigationController pushViewController:mvc animated:YES];
+                
+            }];
+            [control addAction:action0];
+            [control addAction:action1];
+            [self presentViewController:control animated:YES completion:nil];
+        }
+    }];
+    
     UIAlertAction * cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
     
+    
     [alert addAction:cancel];
+    
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue] == 1) {
         
@@ -872,8 +908,6 @@
             [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 
                 NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-                
-                //                NSLog(@"%@",responseObject);
                 
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                 
@@ -938,8 +972,6 @@
                 
                 NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
                 
-                //                NSLog(@"%@",responseObject);
-                
                 if (integer != 2000) {
                     
                     [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -1002,9 +1034,7 @@
             [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 
                 NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-                
-//                NSLog(@"%@",responseObject);
-                
+
                 if (integer == 2000) {
                     
                     [self createAdminOperationlertAction:responseObject[@"data"]];
@@ -1022,6 +1052,8 @@
             
         }];
         
+     
+        
         if (PHONEVERSION.doubleValue >= 8.3) {
             
             [titleAction setValue:MainColor forKey:@"_titleTextColor"];
@@ -1031,6 +1063,7 @@
             [delSignAction setValue:MainColor forKey:@"_titleTextColor"];
             [delPicAction setValue:MainColor forKey:@"_titleTextColor"];
             [titleDynamicAction setValue:MainColor forKey:@"_titleTextColor"];
+           
         }
         
         [alert addAction:titleAction];
@@ -1040,6 +1073,7 @@
         [alert addAction:delNickNameAction];
         [alert addAction:delSignAction];
         [alert addAction:titleDynamicAction];
+     
     }
     
     if (PHONEVERSION.doubleValue >= 8.3) {
@@ -1049,12 +1083,12 @@
         [report setValue:MainColor forKey:@"_titleTextColor"];
         
         [shareButton setValue:MainColor forKey:@"_titleTextColor"];
-        
+         [nicknameButton setValue:MainColor forKey:@"_titleTextColor"];
         [cancel setValue:MainColor forKey:@"_titleTextColor"];
     }
     
     [alert addAction:shareButton];
-    
+    [alert addAction:nicknameButton];
     [alert addAction:report];
     
     [alert addAction:action];
@@ -1197,8 +1231,7 @@
             
             NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
             
-//            NSLog(@"%@",responseObject);
-            
+
             if (integer != 2000) {
                 
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -2361,8 +2394,6 @@
         _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, picScrollY, WIDTH, picScrollH)];
         [_picBackView addSubview:_scrollView];
     }
-
-
     
     for (UIImageView *view in _scrollView.subviews) {
         if ([view isKindOfClass:[UIImageView class]]) {
@@ -2410,14 +2441,32 @@
                    [self createShowPicView:responseObject[@"data"][@"photo"] andPicScrollH:picScrollH andBothPicSpace:bothPicSpace andType:1];
             }
             else
-            {   //所有人可见
+            {
+                
+                //所有人可见
                 if ([self.photo_rule isEqualToString:@"0"]) {
-                    [self createShowPicView:responseObject[@"data"][@"photo"] andPicScrollH:picScrollH andBothPicSpace:bothPicSpace andType:1];
+                    //隐私相册
+                    if ([self.lock isEqualToString:@"2"]) {
+                        [self createShowPicView:responseObject[@"data"][@"photo"] andPicScrollH:picScrollH andBothPicSpace:bothPicSpace andType:2];
+                    }
+                    else
+                    {
+                        [self createShowPicView:responseObject[@"data"][@"photo"] andPicScrollH:picScrollH andBothPicSpace:bothPicSpace andType:1];
+                    }
+                    
                 }
                 else
                 {
+                    //好友会员可见
+                    //隐私相册
+                    if ([self.lock isEqualToString:@"2"]) {
+                        [self createShowPicView:responseObject[@"data"][@"photo"] andPicScrollH:picScrollH andBothPicSpace:bothPicSpace andType:2];
+                    }
+                    else
+                    {
+                        [self createShowPicView:responseObject[@"data"][@"photo"] andPicScrollH:picScrollH andBothPicSpace:bothPicSpace andType:1];
+                    }
                     
-                    [self createShowPicView:responseObject[@"data"][@"photo"] andPicScrollH:picScrollH andBothPicSpace:bothPicSpace andType:2];
                 }
                 
             }
@@ -3588,10 +3637,13 @@
             }
         }else{
             if ([self.photo_rule isEqualToString:@"1"]) {
+               
                 [self toshowAlertwithtype:@"0"];
+
             }
             else
             {
+                //需要密码
                 if ([_lock intValue] == 2) {
                     UIImageView *img = (UIImageView *)tap.view;
                     [self createPasswordView:img.tag];

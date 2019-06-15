@@ -77,12 +77,12 @@
         LDHomePageViewController *v1 = [[LDHomePageViewController alloc] init];
         LDHomePageViewController *v2 = [[LDHomePageViewController alloc] init];
         LDHomePageViewController *v3 = [[LDHomePageViewController alloc] init];
-        LDHomePageViewController *v4 = [[LDHomePageViewController alloc] init];
+        //LDHomePageViewController *v4 = [[LDHomePageViewController alloc] init];
         
         [arrayM addObject:v1];
         [arrayM addObject:v2];
         [arrayM addObject:v3];
-        [arrayM addObject:v4];
+       // [arrayM addObject:v4];
         
         _pageContentArray = [[NSArray alloc] initWithArray:arrayM];
         

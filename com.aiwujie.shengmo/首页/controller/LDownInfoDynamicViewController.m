@@ -22,6 +22,7 @@
 #import "DynamicCell.h"
 #import "DynamicModel.h"
 
+
 @interface LDownInfoDynamicViewController ()<UITableViewDelegate,UITableViewDataSource,DynamicDelegate,YBAttributeTapActionDelegate>
 
 @property (nonatomic,strong) UITableView *tableView;

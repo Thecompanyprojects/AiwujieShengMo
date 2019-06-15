@@ -93,7 +93,7 @@
 -(void)createData{
 
     
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Restrict/getStampPageInfo"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getStampPageInfo];
     NSDictionary *parameters;
     parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     
@@ -159,7 +159,8 @@
     
     _numArray = @[@"3",@"7",@"11",@"23",@"38",@"65",@"105",@"200",@"385"];
     
-    self.title = @"圣魔邮票";
+    self.title = @"消息邮票";
+    self.view.backgroundColor = [UIColor whiteColor];
     
     [self createRightButton];
     
@@ -167,7 +168,6 @@
     
     //有凭证未验证则再次验证
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"邮票凭证"] length] != 0) {
-        
         [self zaiciyanzhengpingzheng];
     }
     
@@ -228,7 +228,6 @@
     
     NSDictionary *parameters = @{@"receipt":[[NSUserDefaults standardUserDefaults] objectForKey:@"邮票凭证"],@"order_no":[[NSUserDefaults standardUserDefaults] objectForKey:@"邮票订单"],@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     
-    //    NSLog(@"%@",parameters);
     
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
