@@ -469,7 +469,8 @@
 
 -(void)timeBtnclick
 {
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue] == 1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue] == 1) {
+    NSString *newUid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue] == 1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue] == 1||[self.userID  isEqualToString:newUid]) {
         LDhistorynameViewController *VC = [LDhistorynameViewController new];
         VC.uid = self.userID;
         [self.navigationController pushViewController:VC animated:YES];
@@ -900,7 +901,8 @@
     }];
     
     UIAlertAction *nicknameButton = [UIAlertAction actionWithTitle:@"历史昵称" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue] == 1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue] == 1) {
+        
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue] == 1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue] == 1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue] == [self.userID intValue]) {
             LDhistorynameViewController *VC = [LDhistorynameViewController new];
             VC.uid = self.userID;
             [self.navigationController pushViewController:VC animated:YES];
