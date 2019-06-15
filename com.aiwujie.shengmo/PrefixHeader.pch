@@ -35,9 +35,11 @@
 
 //服务器的域名
 //#define URL  @"http://59.110.28.150:888/"
-
 //#define PICHEADURL  @"http://ceshi.shengmo.org/"
-////测试服务器
+
+
+
+//测试服务器
 #define PICHEADURL  @"http://cs.shengmo.org/"
 
 //正式服务器
