@@ -389,8 +389,6 @@
             
             NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
             
-            //        NSLog(@"%@",responseObject);
-            
             if (integer != 2000) {
                 
                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];

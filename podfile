@@ -16,4 +16,5 @@ pod 'Masonry', '~> 1.1.0'
 pod 'IQKeyboardManager'
 pod 'Bugly'
 pod 'YYModel'
+pod 'DZNEmptyDataSet'
 end

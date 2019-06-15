@@ -1164,7 +1164,6 @@
             
             NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
             
-            //        NSLog(@"%@",responseObject);
             
             if (integer != 2000) {
                 

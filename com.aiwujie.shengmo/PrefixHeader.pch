@@ -39,10 +39,10 @@
 
 
 ////测试服务器
-//#define PICHEADURL  @"http://cs.shengmo.org/"
+#define PICHEADURL  @"http://cs.shengmo.org/"
 
 //正式服务器
-#define PICHEADURL  @"http://hao.shengmo.org:888/"
+//#define PICHEADURL  @"http://hao.shengmo.org:888/"
 
 //微博的key和url
 #define kAppKey         @"2758008921"
@@ -100,4 +100,6 @@
 #import "wangHeader.h"
 #import "NSDictionary+safeLoad.h"
 #import "TimeManager.h"
+#import "UIScrollView+EmptyDataSet.h"
+#import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
 #endif /* PrefixHeader_pch */

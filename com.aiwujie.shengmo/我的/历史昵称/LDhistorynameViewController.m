@@ -9,7 +9,7 @@
 #import "LDhistorynameViewController.h"
 #import "LDhistorynameModel.h"
 
-@interface LDhistorynameViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface LDhistorynameViewController ()<UITableViewDataSource,UITableViewDelegate,DZNEmptyDataSetSource,DZNEmptyDataSetDelegate>
 @property (nonatomic,strong) NSMutableArray *dataSource;
 @property (nonatomic,strong) UITableView *table;
 @end
@@ -51,6 +51,8 @@
         _table.dataSource = self;
         _table.delegate = self;
         _table.tableFooterView = [UIView new];
+        _table.emptyDataSetSource = self;
+        _table.emptyDataSetDelegate = self;
     }
     return _table;
 }
@@ -82,5 +84,15 @@
 {
     return 50;
 }
+
+- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+    NSString *text = @"暂无历史昵称记录";
+    NSDictionary *attributes = @{
+                                 NSFontAttributeName:[UIFont boldSystemFontOfSize:15.0f],
+                                 NSForegroundColorAttributeName:[UIColor darkGrayColor]
+                                 };
+    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+}
+
 
 @end
