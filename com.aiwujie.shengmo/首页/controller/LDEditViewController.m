@@ -131,6 +131,7 @@
 //头像是否改变
 @property (nonatomic,assign) BOOL headImgisChange;
 
+@property (nonatomic,assign) BOOL isBacks;
 @end
 
 @implementation LDEditViewController
@@ -212,6 +213,7 @@
 
 -(void)notice:(id)sender{
     NSLog(@"%@",sender);
+    self.isBacks = YES;
     [self.rightButton setTitle:@"提交" forState:UIControlStateNormal];
 }
 
@@ -1124,8 +1126,11 @@
                 }else{
                     
                     _name = content;
-                    NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
-                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                    if (![content isEqualToString:self.infoModel.nickname]) {
+                        NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+                        [[NSNotificationCenter defaultCenter] postNotification:notification];
+                    }
+                 
                 }
                 
                 [_otherArray replaceObjectAtIndex:0 withObject:_name];
@@ -1162,8 +1167,12 @@
                     }else{
                         
                         _name = content;
-                        NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
-                        [[NSNotificationCenter defaultCenter] postNotification:notification];
+                        
+                        if (![content isEqualToString:self.infoModel.nickname]) {
+                            NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+                            [[NSNotificationCenter defaultCenter] postNotification:notification];
+                        }
+                        
                     }
                     
                     [_otherArray replaceObjectAtIndex:0 withObject:_name];
@@ -1192,8 +1201,12 @@
                 _sign = @"";
                 
             }else{
-            
+                
                  _sign = content;
+                if (![content isEqualToString:self.infoModel.introduce]) {
+                    NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+                    [[NSNotificationCenter defaultCenter] postNotification:notification];
+                }
             }
             
             [_otherArray replaceObjectAtIndex:1 withObject:_sign];
@@ -2008,48 +2021,8 @@
 #pragma mark - 返回按钮方法
 
 -(void)backButtonOnClick{
-    
-    
-    [self finishingArrayClick];
-    
-    NSString *sexual0 = [NSString stringWithFormat:@"%@",self.sexual];
-    NSString *sexual1 = [NSString stringWithFormat:@"%@",self.infoModel.sexual];
-    
-    NSString *along0 = [NSString stringWithFormat:@"%@",self.along];
-    NSString *along1 = [NSString stringWithFormat:@"%@",self.infoModel.along];
-    
-    NSString *experience0 = [NSString stringWithFormat:@"%@",self.experience];
-    NSString *experience1 = [NSString stringWithFormat:@"%@",self.infoModel.experience];
-    
-    NSString *level0 = [NSString stringWithFormat:@"%@",self.level];
-    NSString *level1 = [NSString stringWithFormat:@"%@",self.infoModel.level];
-    
-    NSString *want0 = [NSString stringWithFormat:@"%@",self.want];
-    NSString *want1 = [NSString stringWithFormat:@"%@",self.infoModel.want];
-    
-    NSString *photo_rule0 = [NSString stringWithFormat:@"%d",self.isshowPhoto];
-    NSString *photo_rule1 = [NSString stringWithFormat:@"%d",self.oldisshowPhoto];
-    
-    NSString *photosstr0 = [NSString stringWithFormat:@"%d",self.photoisChange];
-    NSString *photosstr1 = [NSString stringWithFormat:@"%d",NO];
-    
-    NSString *headimgStr0 = [NSString stringWithFormat:@"%d",self.headImgisChange];
-    NSString *headimgStr1 = [NSString stringWithFormat:@"%d",NO];
-    
-    NSDictionary *dic0 = @{@"head_pic":self.oldHeadUrl?:@"",@"nickname":self.name?:@"",@"introduce":self.sign?:@"",@"birthday":self.birthday?:@"",@"tall":self.height?:@"",@"weight":self.weight?:@"",@"sex":self.sex?:@"",@"sexual":sexual0?:@"",@"along":along0?:@"",@"experience":experience0?:@"",@"level":level0?:@"",@"want":want0?:@"",@"culture":self.culture?:@"",@"monthly":self.monthly?:@"",@"photo_rule":photo_rule0?:@"",@"photo":photosstr0,@"headimg":headimgStr0};
-    
-    NSDictionary *dic1 = @{@"head_pic":self.infoModel.head_pic?:@"",@"nickname":self.infoModel.nickname?:@"",@"introduce":self.infoModel.introduce?:@"",@"birthday":self.infoModel.birthday?:@"",@"tall":self.infoModel.tall?:@"",@"weight":self.infoModel.weight?:@"",@"sex":self.infoModel.sex?:@"",@"sexual":sexual1?:@"",@"along":along1?:@"",@"experience":experience1?:@"",@"level":level1?:@"",@"want":want1?:@"",@"culture":self.infoModel.culture?:@"",@"monthly":self.infoModel.monthly?:@"",@"photo_rule":photo_rule1?:@"",@"photo":photosstr1,@"headimg":headimgStr1};
 
-    __block BOOL equal = YES;
-    [dic0 enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        id twoObj = [dic1 objectForKey:key];
-        if(!twoObj || twoObj != obj) {
-            equal = NO;
-            *stop = YES;
-        }
-    }];
-    
-    if (equal) {
+    if (!self.isBacks) {
         [self.navigationController popViewControllerAnimated:YES];
     }
     else
@@ -2064,8 +2037,8 @@
         [control addAction:action0];
         [control addAction:action1];
         [self presentViewController:control animated:YES completion:nil];
-        
     }
+    
 }
 
 -(void)finishingArrayClick
