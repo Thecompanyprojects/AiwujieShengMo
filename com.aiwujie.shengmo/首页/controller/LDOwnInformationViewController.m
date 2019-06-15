@@ -454,6 +454,42 @@
 
     //监听绑定手机号成功
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindPhoneNumSuccess) name:@"绑定手机号码成功" object:nil];
+    
+    UIButton *timeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.headBackView addSubview:timeBtn];
+    [timeBtn setImage:[UIImage imageNamed:@"历史昵称"] forState:normal];
+    [timeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.onlineView.mas_right).with.offset(4);
+        make.centerY.equalTo(self.onlineView);
+        make.width.mas_offset(13);
+        make.height.mas_offset(13);
+    }];
+    [timeBtn addTarget:self action:@selector(timeBtnclick) forControlEvents:UIControlEventTouchUpInside];
+}
+
+-(void)timeBtnclick
+{
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue] == 1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue] == 1) {
+        LDhistorynameViewController *VC = [LDhistorynameViewController new];
+        VC.uid = self.userID;
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+    else
+    {
+        UIAlertController *control = [UIAlertController alertControllerWithTitle:@"提示" message:@"查看历史昵称限SVIP可用" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"去开通" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
+            
+            [self.navigationController pushViewController:mvc animated:YES];
+            
+        }];
+        [control addAction:action0];
+        [control addAction:action1];
+        [self presentViewController:control animated:YES completion:nil];
+    }
 }
 
 /**
@@ -2436,7 +2472,14 @@
             _scrollView.contentSize = CGSizeMake(picScrollH * [responseObject[@"data"][@"photo"] count] + bothPicSpace * ([responseObject[@"data"][@"photo"] count] - 1), picScrollH);
             
             if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue]==1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue]==1||[self.followState intValue] == 3) {
-                   [self createShowPicView:responseObject[@"data"][@"photo"] andPicScrollH:picScrollH andBothPicSpace:bothPicSpace andType:1];
+                if ([self.lock isEqualToString:@"2"]) {
+                       [self createShowPicView:responseObject[@"data"][@"photo"] andPicScrollH:picScrollH andBothPicSpace:bothPicSpace andType:2];
+                }
+                else
+                {
+                     [self createShowPicView:responseObject[@"data"][@"photo"] andPicScrollH:picScrollH andBothPicSpace:bothPicSpace andType:1];
+                }
+                
             }
             else
             {
