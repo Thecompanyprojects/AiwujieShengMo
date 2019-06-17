@@ -25,8 +25,7 @@
     [self createData];
     [self.view addSubview:self.table];
     
-//    historynameVC *vc = [historynameVC new];
-//    [self.navigationController pushViewController:vc animated:YES];
+
     
 }
 

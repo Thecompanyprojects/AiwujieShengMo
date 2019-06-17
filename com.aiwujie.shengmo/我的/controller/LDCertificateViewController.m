@@ -168,10 +168,7 @@
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
-//        NSLog(@"%@",error);
-        
     }];
-
 }
 
 - (IBAction)tapPic:(id)sender {
@@ -198,10 +195,10 @@
     [alertController addAction:cameraAction];
     [alertController addAction:cancelAction];
     [self presentViewController:alertController animated:YES completion:nil];
-
 }
 
 #pragma mark  imagePicker的代理方法
+
 -(void)imagePickerControllerDidCancel:(UIImagePickerController *)picker{
     
     [picker dismissViewControllerAnimated:YES completion:nil];

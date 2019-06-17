@@ -266,10 +266,6 @@
 		53E8CDC322A93EED007E5073 /* LDharassmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDC222A93EED007E5073 /* LDharassmentCell.m */; };
 		53F3B95222B73DC600F0EDF5 /* NullSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 53F3B95122B73DC600F0EDF5 /* NullSafe.m */; };
 		53F3B95522B74C1900F0EDF5 /* newsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3B95422B74C1900F0EDF5 /* newsManager.swift */; };
-		53F3B95722B773B700F0EDF5 /* historynameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3B95622B773B700F0EDF5 /* historynameVC.swift */; };
-		53F3B95C22B7939E00F0EDF5 /* historynameCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3B95B22B7939E00F0EDF5 /* historynameCell.swift */; };
-		53F3B95E22B793AB00F0EDF5 /* historynameModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3B95D22B793AB00F0EDF5 /* historynameModel.swift */; };
-		53F3B96022B793B600F0EDF5 /* historynameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3B95F22B793B600F0EDF5 /* historynameViewModel.swift */; };
 		D20016D01F46C4160045D0A2 /* TAAbstractDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D20016C31F46C4160045D0A2 /* TAAbstractDotView.m */; };
 		D20016D11F46C4160045D0A2 /* TAAnimatedDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D20016C51F46C4160045D0A2 /* TAAnimatedDotView.m */; };
 		D20016D21F46C4160045D0A2 /* TADotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D20016C71F46C4160045D0A2 /* TADotView.m */; };
@@ -906,11 +902,6 @@
 		53F3B95122B73DC600F0EDF5 /* NullSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NullSafe.m; sourceTree = "<group>"; };
 		53F3B95322B74C1900F0EDF5 /* 圣魔无界-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "圣魔无界-Bridging-Header.h"; sourceTree = "<group>"; };
 		53F3B95422B74C1900F0EDF5 /* newsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newsManager.swift; sourceTree = "<group>"; };
-		53F3B95622B773B700F0EDF5 /* historynameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = historynameVC.swift; sourceTree = "<group>"; };
-		53F3B95822B77BF300F0EDF5 /* SwiftHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftHeader.h; sourceTree = "<group>"; };
-		53F3B95B22B7939E00F0EDF5 /* historynameCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = historynameCell.swift; sourceTree = "<group>"; };
-		53F3B95D22B793AB00F0EDF5 /* historynameModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = historynameModel.swift; sourceTree = "<group>"; };
-		53F3B95F22B793B600F0EDF5 /* historynameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = historynameViewModel.swift; sourceTree = "<group>"; };
 		9A89452E2B9EA4A7089D17A7 /* Pods-圣魔无界.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-圣魔无界.debug.xcconfig"; path = "Pods/Target Support Files/Pods-圣魔无界/Pods-圣魔无界.debug.xcconfig"; sourceTree = "<group>"; };
 		CF0643EA17B0DA53D0932F1A /* libPods-圣魔无界.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-圣魔无界.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D20016C21F46C4160045D0A2 /* TAAbstractDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAbstractDotView.h; sourceTree = "<group>"; };
@@ -1931,7 +1922,6 @@
 			isa = PBXGroup;
 			children = (
 				531D739522AF37B500903BB4 /* wangHeader.h */,
-				53F3B95822B77BF300F0EDF5 /* SwiftHeader.h */,
 				53F3B95122B73DC600F0EDF5 /* NullSafe.m */,
 				53B7C12222B4A11800113F50 /* TimeManager.h */,
 				53B7C12322B4A11800113F50 /* TimeManager.m */,
@@ -2008,10 +1998,6 @@
 				53B7C11D22B4947400113F50 /* LDhistorynameViewController.m */,
 				53B7C11F22B49C1F00113F50 /* LDhistorynameModel.h */,
 				53B7C12022B49C1F00113F50 /* LDhistorynameModel.m */,
-				53F3B95622B773B700F0EDF5 /* historynameVC.swift */,
-				53F3B95B22B7939E00F0EDF5 /* historynameCell.swift */,
-				53F3B95D22B793AB00F0EDF5 /* historynameModel.swift */,
-				53F3B95F22B793B600F0EDF5 /* historynameViewModel.swift */,
 			);
 			path = "历史昵称";
 			sourceTree = "<group>";
@@ -3671,7 +3657,6 @@
 				D2FF92EF1EE6B75C00D96B3A /* LDInvitationMemberViewController.m in Sources */,
 				D2692A071E7A8D5200250A05 /* UITableView+FDTemplateLayoutCellDebug.m in Sources */,
 				D20E4B1E1F1F086200232E08 /* TopicCell.m in Sources */,
-				53F3B95722B773B700F0EDF5 /* historynameVC.swift in Sources */,
 				531D739D22AF7F5D00903BB4 /* LdtotopCell.m in Sources */,
 				0043DB4B1E2B6AD100577DE5 /* LDReportResonViewController.m in Sources */,
 				004B2C981E3393A200EDCCC1 /* DynamicModel.m in Sources */,
@@ -3760,10 +3745,8 @@
 				D232FA6D1E73C11C001D4018 /* WUGesturesUnlockIndicator.m in Sources */,
 				00181B5D1E097D6D007177E6 /* LDSearchUserViewController.m in Sources */,
 				D20016D41F46C4160045D0A2 /* SDCollectionViewCell.m in Sources */,
-				53F3B95C22B7939E00F0EDF5 /* historynameCell.swift in Sources */,
 				00EC29871E193A1D0066273A /* LDLookOrBeLookViewController.m in Sources */,
 				D21DA6C81EC5988200827A2E /* LDPopularityRankingViewController.m in Sources */,
-				53F3B96022B793B600F0EDF5 /* historynameViewModel.swift in Sources */,
 				D29AF6ED1FBD632C001098B3 /* HJTabViewControllerPlugin_HeaderScroll.m in Sources */,
 				D25BA6C71EFE5B6E003990A3 /* LDBillPageViewController.m in Sources */,
 				531D739422AE8CE700903BB4 /* LDtotopViewController.m in Sources */,
@@ -3791,7 +3774,6 @@
 				D268C9941EF10B78009AC7D6 /* LDShareView.m in Sources */,
 				00EEBC9F1E36566C00A175EB /* CommentCell.m in Sources */,
 				00EC297E1E18F2670066273A /* TZPhotoPreviewController.m in Sources */,
-				53F3B95E22B793AB00F0EDF5 /* historynameModel.swift in Sources */,
 				D2644CAC1F99A402004BC52E /* LDAlwaysQuestionH5ViewController.m in Sources */,
 				004D01461E373CEC00EF5135 /* LDSystemViewController.m in Sources */,
 				D203DEEE1F441C1D005D5160 /* MatchmakerCell.m in Sources */,
