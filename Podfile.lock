@@ -36,6 +36,7 @@ PODS:
   - RongCloudIM/IMLib (2.8.32)
   - RongCloudIM/Sticker (2.8.32):
     - RongCloudIM/IMKit
+  - RxSwift (5.0.0)
   - SDWebImage (3.8.3):
     - SDWebImage/Core (= 3.8.3)
   - SDWebImage/Core (3.8.3)
@@ -57,6 +58,7 @@ DEPENDENCIES:
   - RongCloudIM/IMKit
   - RongCloudIM/IMLib
   - RongCloudIM/Sticker
+  - RxSwift
   - SDWebImage (~> 3.8.2)
   - UMengAnalytics-NO-IDFA
   - YYModel
@@ -74,6 +76,7 @@ SPEC REPOS:
     - Masonry
     - MJRefresh
     - RongCloudIM
+    - RxSwift
     - SDWebImage
     - UMengAnalytics-NO-IDFA
     - YYModel
@@ -90,10 +93,11 @@ SPEC CHECKSUMS:
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJRefresh: ed450d6eb9d3346a2cb033ab7eb6de090aeef437
   RongCloudIM: 48bfc2fcb8d7cae8ce1e19cb5fb26d6d90616375
+  RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
   SDWebImage: a72e880a8fe0f7fc31efe15aaed443c074d2a80c
   UMengAnalytics-NO-IDFA: 16666e32edce5be44ae5b14aaaa7f3582e09d6ab
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: f011a6c9b002d4b70fbe9e474a9900e7aa0a4854
+PODFILE CHECKSUM: a87aafeead94d224f479ad749f2c48cd8fb5a0fc
 
 COCOAPODS: 1.7.1

@@ -265,6 +265,7 @@
 		53E8CDC022A93E2D007E5073 /* LDharassmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDBF22A93E2D007E5073 /* LDharassmentVC.m */; };
 		53E8CDC322A93EED007E5073 /* LDharassmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDC222A93EED007E5073 /* LDharassmentCell.m */; };
 		53F3B95222B73DC600F0EDF5 /* NullSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 53F3B95122B73DC600F0EDF5 /* NullSafe.m */; };
+		53F3B95522B74C1900F0EDF5 /* newsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3B95422B74C1900F0EDF5 /* newsManager.swift */; };
 		D20016D01F46C4160045D0A2 /* TAAbstractDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D20016C31F46C4160045D0A2 /* TAAbstractDotView.m */; };
 		D20016D11F46C4160045D0A2 /* TAAnimatedDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D20016C51F46C4160045D0A2 /* TAAnimatedDotView.m */; };
 		D20016D21F46C4160045D0A2 /* TADotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D20016C71F46C4160045D0A2 /* TADotView.m */; };
@@ -899,6 +900,8 @@
 		53E8CDC122A93EED007E5073 /* LDharassmentCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDharassmentCell.h; sourceTree = "<group>"; };
 		53E8CDC222A93EED007E5073 /* LDharassmentCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDharassmentCell.m; sourceTree = "<group>"; };
 		53F3B95122B73DC600F0EDF5 /* NullSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NullSafe.m; sourceTree = "<group>"; };
+		53F3B95322B74C1900F0EDF5 /* 圣魔无界-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "圣魔无界-Bridging-Header.h"; sourceTree = "<group>"; };
+		53F3B95422B74C1900F0EDF5 /* newsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newsManager.swift; sourceTree = "<group>"; };
 		9A89452E2B9EA4A7089D17A7 /* Pods-圣魔无界.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-圣魔无界.debug.xcconfig"; path = "Pods/Target Support Files/Pods-圣魔无界/Pods-圣魔无界.debug.xcconfig"; sourceTree = "<group>"; };
 		CF0643EA17B0DA53D0932F1A /* libPods-圣魔无界.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-圣魔无界.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D20016C21F46C4160045D0A2 /* TAAbstractDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAbstractDotView.h; sourceTree = "<group>"; };
@@ -2691,6 +2694,8 @@
 			children = (
 				D2F1B9F71F4E79E100FFCB31 /* LDAFManager.h */,
 				D2F1B9F81F4E79E100FFCB31 /* LDAFManager.m */,
+				53F3B95422B74C1900F0EDF5 /* newsManager.swift */,
+				53F3B95322B74C1900F0EDF5 /* 圣魔无界-Bridging-Header.h */,
 			);
 			name = "网络请求管理类";
 			sourceTree = "<group>";
@@ -3216,6 +3221,7 @@
 					00E85EA31E02BA6F004AB146 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 34KF672EP8;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -3705,6 +3711,7 @@
 				D281AAA01EEAB58C004ABF20 /* QQViewController.m in Sources */,
 				D25BA6BD1EFE24F9003990A3 /* StampCell.m in Sources */,
 				00EC8EF21E1D24E6001521D8 /* LDSetViewController.m in Sources */,
+				53F3B95522B74C1900F0EDF5 /* newsManager.swift in Sources */,
 				D2BB081A1EF7C2D700EB3080 /* GiveGifCell.m in Sources */,
 				0043DB411E2B50A400577DE5 /* LDLookOtherGroupInformationViewController.m in Sources */,
 				D201C3CB1EF37ECA004281BA /* LDSoundControlViewController.m in Sources */,
@@ -3884,6 +3891,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = com.aiwujie.shengmo/com.aiwujie.shengmo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -3950,6 +3958,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "com.aiwujie.shengmo/圣魔无界-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -3958,6 +3968,7 @@
 		000E776B1E2E268D00F2894B /* ad hoc distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = com.aiwujie.shengmoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -3970,6 +3981,7 @@
 		000E776C1E2E268D00F2894B /* ad hoc distribution */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = com.aiwujie.shengmoUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.longxiang.com-aiwujie-shengmoUITests";
@@ -4086,6 +4098,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = com.aiwujie.shengmo/com.aiwujie.shengmo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -4152,6 +4165,9 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "com.aiwujie.shengmo/圣魔无界-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -4164,6 +4180,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = com.aiwujie.shengmo/com.aiwujie.shengmo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -4230,6 +4247,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "com.aiwujie.shengmo/圣魔无界-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/**";
 			};
@@ -4238,6 +4257,7 @@
 		00E85ED51E02BA70004AB146 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = com.aiwujie.shengmoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -4250,6 +4270,7 @@
 		00E85ED61E02BA70004AB146 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = com.aiwujie.shengmoTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -4262,6 +4283,7 @@
 		00E85ED81E02BA70004AB146 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = com.aiwujie.shengmoUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.longxiang.com-aiwujie-shengmoUITests";
@@ -4273,6 +4295,7 @@
 		00E85ED91E02BA70004AB146 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				INFOPLIST_FILE = com.aiwujie.shengmoUITests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.longxiang.com-aiwujie-shengmoUITests";
