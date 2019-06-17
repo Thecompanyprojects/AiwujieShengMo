@@ -738,12 +738,13 @@
     layout.minimumLineSpacing = _margin;
     
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_warnLabel.frame) + 10, WIDTH - 20, _itemWH + 2 * _margin) collectionViewLayout:layout];
+    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     _collectionView.alwaysBounceVertical = YES;
     _collectionView.backgroundColor = [UIColor whiteColor];
     _collectionView.contentInset = UIEdgeInsetsMake(6, 4, 4, 4);
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
-    _collectionView.scrollEnabled = NO;
+    _collectionView.scrollEnabled = YES;
     _collectionView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     [self.scrollView addSubview:_collectionView];
     [_collectionView registerClass:[TZTestCell class] forCellWithReuseIdentifier:@"TZTestCell"];
@@ -767,34 +768,23 @@
    
     return _selectedPhotos.count + 1;
 }
-
+ 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     TZTestCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TZTestCell" forIndexPath:indexPath];
-    
     if (indexPath.row == _selectedPhotos.count) {
-        
         cell.imageView.image = [UIImage imageNamed:@"添加图片"];
-        
         cell.imageView.contentMode = UIViewContentModeScaleToFill;
-        
         cell.deleteBtn.hidden = YES;
-        
     } else {
         
         [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_selectedPhotos[indexPath.row]]] placeholderImage:[UIImage imageNamed:@"动态图片默认"]];
-        
         cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
-        
         cell.imageView.clipsToBounds = YES;
-        
         cell.deleteBtn.hidden = NO;
     }
-  
     cell.deleteBtn.tag = indexPath.row;
-    
     [cell.deleteBtn addTarget:self action:@selector(deleteBtnClik:) forControlEvents:UIControlEventTouchUpInside];
-    
     return cell;
 }
 
