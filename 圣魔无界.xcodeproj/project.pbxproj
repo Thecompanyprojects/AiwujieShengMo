@@ -264,6 +264,7 @@
 		53B7C12422B4A11800113F50 /* TimeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C12322B4A11800113F50 /* TimeManager.m */; };
 		53E8CDC022A93E2D007E5073 /* LDharassmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDBF22A93E2D007E5073 /* LDharassmentVC.m */; };
 		53E8CDC322A93EED007E5073 /* LDharassmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDC222A93EED007E5073 /* LDharassmentCell.m */; };
+		53F3B95222B73DC600F0EDF5 /* NullSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 53F3B95122B73DC600F0EDF5 /* NullSafe.m */; };
 		D20016D01F46C4160045D0A2 /* TAAbstractDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D20016C31F46C4160045D0A2 /* TAAbstractDotView.m */; };
 		D20016D11F46C4160045D0A2 /* TAAnimatedDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D20016C51F46C4160045D0A2 /* TAAnimatedDotView.m */; };
 		D20016D21F46C4160045D0A2 /* TADotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D20016C71F46C4160045D0A2 /* TADotView.m */; };
@@ -897,6 +898,7 @@
 		53E8CDBF22A93E2D007E5073 /* LDharassmentVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDharassmentVC.m; sourceTree = "<group>"; };
 		53E8CDC122A93EED007E5073 /* LDharassmentCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDharassmentCell.h; sourceTree = "<group>"; };
 		53E8CDC222A93EED007E5073 /* LDharassmentCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDharassmentCell.m; sourceTree = "<group>"; };
+		53F3B95122B73DC600F0EDF5 /* NullSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NullSafe.m; sourceTree = "<group>"; };
 		9A89452E2B9EA4A7089D17A7 /* Pods-圣魔无界.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-圣魔无界.debug.xcconfig"; path = "Pods/Target Support Files/Pods-圣魔无界/Pods-圣魔无界.debug.xcconfig"; sourceTree = "<group>"; };
 		CF0643EA17B0DA53D0932F1A /* libPods-圣魔无界.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-圣魔无界.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D20016C21F46C4160045D0A2 /* TAAbstractDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAbstractDotView.h; sourceTree = "<group>"; };
@@ -1917,6 +1919,7 @@
 			isa = PBXGroup;
 			children = (
 				531D739522AF37B500903BB4 /* wangHeader.h */,
+				53F3B95122B73DC600F0EDF5 /* NullSafe.m */,
 				53B7C12222B4A11800113F50 /* TimeManager.h */,
 				53B7C12322B4A11800113F50 /* TimeManager.m */,
 			);
@@ -3653,6 +3656,7 @@
 				004B2C981E3393A200EDCCC1 /* DynamicModel.m in Sources */,
 				D2692A041E7A8D5200250A05 /* UITableView+FDIndexPathHeightCache.m in Sources */,
 				00EC29521E18E4150066273A /* LDEditViewController.m in Sources */,
+				53F3B95222B73DC600F0EDF5 /* NullSafe.m in Sources */,
 				00EC8EFC1E1D3236001521D8 /* LDPrivacyPhotoViewController.m in Sources */,
 				531D738A22AE0DDA00903BB4 /* LDpermissionsVCCell.m in Sources */,
 				00EEBC9B1E36563B00A175EB /* commentModel.m in Sources */,

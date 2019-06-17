@@ -1715,16 +1715,21 @@
                     
                 }];
                 messageLab.textColor = [UIColor lightGrayColor];
-                if ([self.dynamic_rule isEqualToString:@"0"]) {
+                if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]==[self.userID intValue]) {
                     messageLab.text = @"更多";
                 }
                 else
                 {
-                    messageLab.text = @"好友/会员可见";
+                    if ([self.dynamic_rule isEqualToString:@"0"]) {
+                        messageLab.text = @"更多";
+                    }
+                    else
+                    {
+                        messageLab.text = @"好友/会员可见";
+                    }
                 }
                 messageLab.font = [UIFont systemFontOfSize:14];
                 messageLab.textAlignment = NSTextAlignmentRight;
-                
             }
             
             if ([responseObject[@"data"][@"comment_num"] intValue] == 0) {
@@ -1750,13 +1755,20 @@
                     
                 }];
                 messageLab.textColor = [UIColor lightGrayColor];
-                if ([self.comment_rule isEqualToString:@"0"]) {
-                     messageLab.text = @"更多";
+                if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]==[self.userID intValue]) {
+                    messageLab.text = @"更多";
                 }
                 else
                 {
-                     messageLab.text = @"好友/会员可见";
+                    if ([self.comment_rule isEqualToString:@"0"]) {
+                        messageLab.text = @"更多";
+                    }
+                    else
+                    {
+                        messageLab.text = @"好友/会员可见";
+                    }
                 }
+               
                 messageLab.font = [UIFont systemFontOfSize:14];
                 messageLab.textAlignment = NSTextAlignmentRight;
             }
@@ -2654,7 +2666,6 @@
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getMyPresent"];
     
     NSDictionary *parameters = @{@"uid":self.userID};
-    //NSLog(@"%@",parameters);
     
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
@@ -2732,7 +2743,7 @@
                 for (int i = 0; i < [result count]; i++) {
                     
                     UIImageView *gifImageView = (UIImageView *)[_gifView viewWithTag:1000 + i];
-                    
+                    gifImageView.contentMode = UIViewContentModeScaleAspectFill;
                     if (colorArray.count >= [result[i][@"type"] intValue]) {
                         
                         gifImageView.image = [UIImage imageNamed:colorArray[[result[i][@"type"] intValue] - 1]];
@@ -2741,20 +2752,14 @@
                         
                         gifImageView.image = [UIImage imageNamed:@"未知礼物"];
                     }
-                    
                 }
             }else{
-                
                 for (int i = 0; i < 4; i++) {
-                    
                     UIImageView *gifImageView = (UIImageView *)[_gifView viewWithTag:1000 + i];
-                    
+                    gifImageView.contentMode = UIViewContentModeScaleAspectFill;
                     if (colorArray.count >= [result[i][@"type"] intValue]) {
-                        
                         gifImageView.image = [UIImage imageNamed:colorArray[[result[i][@"type"] intValue] - 1]];
-                        
                     }else{
-                        
                         gifImageView.image = [UIImage imageNamed:@"未知礼物"];
                     }
                 }

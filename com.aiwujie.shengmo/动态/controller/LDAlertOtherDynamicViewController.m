@@ -255,7 +255,14 @@
             if ([responseObject[@"data"][@"content"] length] != 0) {
                 
                 self.contentStr =  responseObject[@"data"][@"content"];
-                self.topicStr = [NSString stringWithFormat:@"%@%@%@",@"#",responseObject[@"data"][@"topictitle"],@"#"];
+                NSString *newStr = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"topictitle"]];
+                if (newStr.length==0) {
+                    self.topicStr = @"";
+                }
+                else
+                {
+                    self.topicStr = [NSString stringWithFormat:@"%@%@%@",@"#",responseObject[@"data"][@"topictitle"],@"#"];
+                }
                 self.textView.text = [NSString stringWithFormat:@"%@%@",self.topicStr,self.contentStr];
                 
                 self.numberLabel.text = [NSString stringWithFormat:@"%ld/10000",(unsigned long)self.textView.text.length];
@@ -287,7 +294,7 @@
             //用于对比是否图片更改的原始数组
             [_pictureArray addObjectsFromArray:responseObject[@"data"][@"pic"]];
             [_shuiyinArray addObjectsFromArray:responseObject[@"data"][@"sypic"]];
-
+            
             [self.collectionView reloadData];
         
         }
@@ -738,8 +745,9 @@
     layout.minimumLineSpacing = _margin;
     
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_warnLabel.frame) + 10, WIDTH - 20, _itemWH + 2 * _margin) collectionViewLayout:layout];
-    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     _collectionView.alwaysBounceVertical = YES;
+    _collectionView.alwaysBounceHorizontal = YES;
     _collectionView.backgroundColor = [UIColor whiteColor];
     _collectionView.contentInset = UIEdgeInsetsMake(6, 4, 4, 4);
     _collectionView.dataSource = self;
@@ -757,18 +765,35 @@
     }
 }
 
+-(void)changeFrame:(NSArray *)imageArray{
+    
+    if (imageArray.count <= 2) {
+        
+        _collectionView.frame = CGRectMake(10, 275, WIDTH - 20, _itemWH + 2 * _margin);
+        
+    }else if(imageArray.count <= 5 && imageArray.count > 2){
+        
+        _collectionView.frame = CGRectMake(10, 275, WIDTH - 20, 2 * _itemWH + 3 * _margin);
+        
+        
+    }else if (imageArray.count <= 9 && imageArray.count > 5){
+        
+        _collectionView.frame = CGRectMake(10, 275, WIDTH - 20, 3 * _itemWH + 4 * _margin);
+        
+    }
+    
+    [self getDynamicHeight];
+}
+
 #pragma mark UICollectionView
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    
     if (_selectedPhotos.count == 9) {
-        
         return _selectedPhotos.count;
     }
-   
     return _selectedPhotos.count + 1;
 }
- 
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     TZTestCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TZTestCell" forIndexPath:indexPath];
@@ -777,7 +802,6 @@
         cell.imageView.contentMode = UIViewContentModeScaleToFill;
         cell.deleteBtn.hidden = YES;
     } else {
-        
         [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_selectedPhotos[indexPath.row]]] placeholderImage:[UIImage imageNamed:@"动态图片默认"]];
         cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
         cell.imageView.clipsToBounds = YES;
@@ -842,7 +866,7 @@
 #pragma mark - TZImagePickerController
 
 - (void)pushImagePickerController {
-    
+
     TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:1 columnNumber:3 delegate:self pushPhotoPickerVc:YES];
     
 #pragma mark - 四类个性化设置，这些参数都可以不传，此时会走默认设置
@@ -862,8 +886,7 @@
     imagePickerVc.circleCropRadius = 100;
     
     imagePickerVc.cropRect = CGRectMake(0, (HEIGHT - WIDTH)/2, WIDTH, WIDTH);
-    
-    //    imagePickerVc.maxImagesCount = 1;
+
     
     [self presentViewController:imagePickerVc animated:YES completion:nil];
 }
@@ -911,6 +934,8 @@
     
     if ([type isEqualToString:@"public.image"]) {
         
+
+        
         TZImagePickerController *tzImagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:1 delegate:self];
         tzImagePickerVc.sortAscendingByModificationDate = YES;
         [tzImagePickerVc showProgressHUD];
@@ -951,9 +976,8 @@
 - (void)refreshCollectionViewWithAddedAsset:(id)asset image:(UIImage *)image {
     
     NSArray *photos = @[image];
-    
     [self thumbnaiWithImage:photos andAssets:nil];
-    
+   
     [_collectionView reloadData];
 }
 
@@ -990,6 +1014,7 @@
 
 - (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingPhotos:(NSArray *)photos sourceAssets:(NSArray *)assets isSelectOriginalPhoto:(BOOL)isSelectOriginalPhoto {
     [self thumbnaiWithImage:photos andAssets:assets];
+
 }
 
 ////上传图片
@@ -1023,8 +1048,8 @@
         [_addArray addObject:[NSString stringWithFormat:@"%@%@",PICHEADURL,responseObject[@"data"][@"slimg"]]];
         [_addArray addObject:[NSString stringWithFormat:@"%@%@",PICHEADURL,responseObject[@"data"][@"syimg"]]];
 
+        [self changeFrame:_selectedPhotos];
         [_collectionView reloadData];
-
         [MBProgressHUD hideHUDForView:self.view animated:YES];
 
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -1046,7 +1071,7 @@
         [_deleteArray addObject:_selectedSyArray[sender.tag]];
         [_selectedSyArray removeObjectAtIndex:sender.tag];
     }
-    
+    [self changeFrame:_selectedPhotos];
     [_collectionView reloadData];
 }
 

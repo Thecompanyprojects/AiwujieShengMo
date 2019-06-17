@@ -18,7 +18,6 @@ static TimeManager *defaultTool = nil;
 
 +(TimeManager*)defaultTool{
     
-    
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (defaultTool == nil) {
