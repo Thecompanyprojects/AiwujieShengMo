@@ -14,6 +14,7 @@ PODS:
   - AFNetworking/Serialization (3.2.1)
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
+  - Alamofire (4.8.2)
   - AMap2DMap-NO-IDFA (5.6.1):
     - AMapFoundation-NO-IDFA (~> 1.4)
   - AMapFoundation-NO-IDFA (1.5.6)
@@ -22,10 +23,19 @@ PODS:
   - AMapSearch-NO-IDFA (6.9.0):
     - AMapFoundation-NO-IDFA (~> 1.4)
   - Bugly (2.5.0)
+  - Differentiator (4.0.1)
   - DZNEmptyDataSet (1.8.1)
+  - HandyJSON (5.0.0)
   - IQKeyboardManager (6.3.0)
+  - Kingfisher (4.10.1)
   - Masonry (1.1.0)
   - MJRefresh (3.2.0)
+  - Moya (13.0.1):
+    - Moya/Core (= 13.0.1)
+  - Moya/Core (13.0.1):
+    - Alamofire (~> 4.1)
+    - Result (~> 4.1)
+  - Result (4.1.0)
   - RongCloudIM/CallKit (2.8.32):
     - RongCloudIM/CallLib
     - RongCloudIM/IMKit
@@ -36,68 +46,105 @@ PODS:
   - RongCloudIM/IMLib (2.8.32)
   - RongCloudIM/Sticker (2.8.32):
     - RongCloudIM/IMKit
+  - RxCocoa (5.0.0):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxDataSources (4.0.1):
+    - Differentiator (~> 4.0)
+    - RxCocoa (~> 5.0)
+    - RxSwift (~> 5.0)
+  - RxRelay (5.0.0):
+    - RxSwift (~> 5)
   - RxSwift (5.0.0)
   - SDWebImage (3.8.3):
     - SDWebImage/Core (= 3.8.3)
   - SDWebImage/Core (3.8.3)
+  - SnapKit (4.2.0)
   - UMengAnalytics-NO-IDFA (4.2.5)
   - YYModel (1.0.4)
 
 DEPENDENCIES:
   - AFNetworking
+  - Alamofire
   - AMap2DMap-NO-IDFA
   - AMapLocation-NO-IDFA
   - AMapSearch-NO-IDFA
   - Bugly
   - DZNEmptyDataSet
+  - HandyJSON
   - IQKeyboardManager
+  - Kingfisher
   - Masonry (~> 1.1.0)
   - MJRefresh
+  - Moya
   - RongCloudIM/CallKit
   - RongCloudIM/CallLib
   - RongCloudIM/IMKit
   - RongCloudIM/IMLib
   - RongCloudIM/Sticker
+  - RxCocoa
+  - RxDataSources
   - RxSwift
   - SDWebImage (~> 3.8.2)
+  - SnapKit
   - UMengAnalytics-NO-IDFA
   - YYModel
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - AFNetworking
+    - Alamofire
     - AMap2DMap-NO-IDFA
     - AMapFoundation-NO-IDFA
     - AMapLocation-NO-IDFA
     - AMapSearch-NO-IDFA
     - Bugly
+    - Differentiator
     - DZNEmptyDataSet
+    - HandyJSON
     - IQKeyboardManager
+    - Kingfisher
     - Masonry
     - MJRefresh
+    - Moya
+    - Result
     - RongCloudIM
+    - RxCocoa
+    - RxDataSources
+    - RxRelay
     - RxSwift
     - SDWebImage
+    - SnapKit
     - UMengAnalytics-NO-IDFA
     - YYModel
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
   AMap2DMap-NO-IDFA: ccecb3e2a044c17e6badb9b91c950e709368be20
   AMapFoundation-NO-IDFA: 40d723b352992d0f95abe2976f0c0ecda3c3ffc3
   AMapLocation-NO-IDFA: d7792c8c516f415e186f1bc25946f1a58ca6a583
   AMapSearch-NO-IDFA: 264999e6c149383a8f164c2fe49b51513e93d674
   Bugly: 3ca9f255c01025582df26f9222893b383c7e4b4e
+  Differentiator: 886080237d9f87f322641dedbc5be257061b0602
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
+  HandyJSON: 992f2d661716d6a91de82d0056927bc7813b5770
   IQKeyboardManager: 2ca9d64893247556f53523dcd8d78641f0ba7c23
+  Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJRefresh: ed450d6eb9d3346a2cb033ab7eb6de090aeef437
+  Moya: f4a4b80ff2f8a4ffc208dfb31cd91636622fee6e
+  Result: bd966fac789cc6c1563440b348ab2598cc24d5c7
   RongCloudIM: 48bfc2fcb8d7cae8ce1e19cb5fb26d6d90616375
+  RxCocoa: fcf32050ac00d801f34a7f71d5e8e7f23026dcd8
+  RxDataSources: efee07fa4de48477eca0a4611e6d11e2da9c1114
+  RxRelay: 4f7409406a51a55cd88483f21ed898c234d60f18
   RxSwift: 8b0671caa829a763bbce7271095859121cbd895f
   SDWebImage: a72e880a8fe0f7fc31efe15aaed443c074d2a80c
+  SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   UMengAnalytics-NO-IDFA: 16666e32edce5be44ae5b14aaaa7f3582e09d6ab
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: a87aafeead94d224f479ad749f2c48cd8fb5a0fc
+PODFILE CHECKSUM: 8a9ee6c88f561ff24a7c17e2f11f1503be7d7383
 
 COCOAPODS: 1.7.1

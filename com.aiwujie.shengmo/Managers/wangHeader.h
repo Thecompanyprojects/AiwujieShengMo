@@ -9,6 +9,48 @@
 #ifndef wangHeader_h
 #define wangHeader_h
 
+#define WIDTH  [UIScreen mainScreen].bounds.size.width
+#define HEIGHT  [UIScreen mainScreen].bounds.size.height
+
+//16进制转rgb颜色的宏定义
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+////软件的版本号设置
+//#define VERSION @"V2.6.6"
+//获取设备的系统版本
+#define PHONEVERSION [[UIDevice currentDevice] systemVersion]
+//判断设备是否是iPhone X
+#define ISIPHONEX [UIScreen mainScreen].bounds.size.height == 812 ? 1 : 0
+//判断是否是iPhone p
+#define ISIPHONEPLUS [UIScreen mainScreen].bounds.size.height == 736 ? 1 : 0
+//iPhone X 顶部导航距离
+#define IPHONEXTOPH 88
+//iPhone X 底部触碰区距离
+#define IPHONEXBOTTOMH 34
+//融云客服的id
+#define SERVICE_ID @"KEFU148492045558421"
+
+////测试服务器
+//#define PICHEADURL  @"http://cs.shengmo.org/"
+
+//正式服务器
+#define PICHEADURL  @"http://hao.shengmo.org:888/"
+
+//微博的key和url
+#define kAppKey         @"2758008921"
+#define kRedirectURI    @"https://api.weibo.com/oauth2/default.html"
+//定义广告栏的比例
+#define ADVERTISEMENT [UIScreen mainScreen].bounds.size.width/3.2
+
+//定义附近和动态处上方的榜单高度
+#define DYANDNERHEIGHT [UIScreen mainScreen].bounds.size.width/4.2
+
+//宽度的比例与5相比
+#define WIDTHRADIO [UIScreen mainScreen].bounds.size.width/320
+
+//高度的比例与5相比
+#define HEIGHTRADIO [UIScreen mainScreen].bounds.size.height/568
+
+
 //男的图标背景颜色
 //#define BOYCOLOR [UIColor colorWithHexString:@"#51c3ff" alpha:1]
 #define BOYCOLOR [UIColor colorWithHexString:@"#96d6ff" alpha:1]
@@ -61,4 +103,5 @@
 
 //获取消息邮票信息
 #define  getStampPageInfo @"Api/Restrict/getStampPageInfo"
+
 #endif /* wangHeader_h */
