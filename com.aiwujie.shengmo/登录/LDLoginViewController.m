@@ -600,21 +600,17 @@
     [self.navigationController pushViewController:hvc animated:YES];
 }
 - (IBAction)phoneNumberRegesterClick:(id)sender {
-    
     [self.view endEditing:YES];
-    
     LDRegisterViewController *rvc = [[LDRegisterViewController alloc] init];
-    
     [self.navigationController pushViewController:rvc animated:YES];
 }
+
 - (IBAction)emailRegesterClick:(id)sender {
-    
     [self.view endEditing:YES];
-    
     LDEmailRegisterViewController *evc = [[LDEmailRegisterViewController alloc] init];
-    
     [self.navigationController pushViewController:evc animated:YES];
 }
+
 - (IBAction)QQclick:(id)sender {
     
 //    QQViewController *qq = [[QQViewController alloc] init];

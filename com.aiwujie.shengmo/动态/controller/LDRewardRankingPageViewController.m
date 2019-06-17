@@ -52,8 +52,6 @@
         [self createData:@"2"];
         
     }];
-    
-    
 }
 
 -(void)createData:(NSString *)str{
@@ -68,20 +66,20 @@
     
     if ([self.type isEqualToString:@"popularity"]) {
         
-        if ([self.content intValue] >2 && [self.content intValue] < 6) {
+        if ([self.content intValue] >3 && [self.content intValue] < 8) {
             
             url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getBeLaudedRankingList"];
             
             
-            type = [NSString stringWithFormat:@"%d",[self.content intValue] - 3];
+            type = [NSString stringWithFormat:@"%d",[self.content intValue] - 4];
             
             parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":type};
             
-        }else if ([self.content intValue] > 5 && [self.content intValue] < 9){
+        }else if ([self.content intValue] > 7 && [self.content intValue] < 12){
         
             url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getSendDynamicRandkingList"];
             
-            type = [NSString stringWithFormat:@"%d",[self.content intValue] - 6];
+            type = [NSString stringWithFormat:@"%d",[self.content intValue] - 8];
             
             parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":type,@"recommend":@"1"};
             
@@ -95,19 +93,19 @@
         
     }else if ([self.type isEqualToString:@"diligence"]){
     
-        if ([self.content intValue] >2 && [self.content intValue] < 6) {
+        if ([self.content intValue] >3 && [self.content intValue] < 8) {
             
             url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getCommentRankingList"];
             
-            type = [NSString stringWithFormat:@"%d",[self.content intValue] - 3];
+            type = [NSString stringWithFormat:@"%d",[self.content intValue] - 4];
             
             parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":type};
             
-        }else if ([self.content intValue] > 5 && [self.content intValue] < 9){
+        }else if ([self.content intValue] > 7 && [self.content intValue] < 12){
             
             url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getLaudRankingList"];
             
-            type = [NSString stringWithFormat:@"%d",[self.content intValue] - 6];
+            type = [NSString stringWithFormat:@"%d",[self.content intValue] - 8];
             
             parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":type};
             
