@@ -149,10 +149,7 @@
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.title = @"动态详情";
     [self.tableView addSubview:self.sendView];
-    if ([_clickState isEqualToString:@"comment"]) {
-        
-        [self.textView becomeFirstResponder];
-    }
+
     _dataArray = [NSMutableArray array];
     //点赞,评论,打赏状态
     _status = @"2";
@@ -195,7 +192,10 @@
     self.textView.clipsToBounds = YES;
     
     [self createButton];
-    
+    if ([_clickState isEqualToString:@"comment"]) {
+        [self.textView becomeFirstResponder];
+    }
+ 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewardSuccess) name:@"动态详情打赏成功" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindPhoneNumSuccess) name:@"绑定手机号码成功" object:nil];
@@ -206,6 +206,31 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardChangeFrame:) name:UIKeyboardWillHideNotification object:nil];
     
+ 
+}
+
+#pragma mark - 禁用IQKeyboardManager
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    IQKeyboardManager *keyboardManager =  [IQKeyboardManager sharedManager];
+    keyboardManager.enable = NO;
+    keyboardManager.enableAutoToolbar = NO;
+}
+
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    IQKeyboardManager *keyboardManager =  [IQKeyboardManager sharedManager];
+    keyboardManager.enable = YES;
+    keyboardManager.enableAutoToolbar = YES;
+    
+    if (_gif) {
+        
+        [_gif removeView];
+    }
 }
 
 /**
@@ -262,8 +287,6 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-        //        NSLog(@"%@",responseObject);
         
         if (integer == 4003) {
             
@@ -2488,16 +2511,7 @@
     }];
 }
 
--(void)viewWillDisappear:(BOOL)animated{
-    
-    [super viewWillDisappear:animated];
-    
-    if (_gif) {
-        
-        [_gif removeView];
-    }
- 
-}
+
 
 - (IBAction)imageButtonClick:(id)sender {
     

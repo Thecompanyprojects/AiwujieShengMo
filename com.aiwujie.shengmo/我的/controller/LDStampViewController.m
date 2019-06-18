@@ -560,7 +560,6 @@
             
     }
     
-    
 }
 
 -(void)warning:(SKPaymentTransaction *)transaction{
@@ -573,9 +572,7 @@
 //交易结束
 - (void)completeTransaction:(SKPaymentTransaction *)transaction{
     NSLog(@"交易结束");
-    
-    //[SVProgressHUD dismiss];
-    
+
     NSURL *receiptUrl=[[NSBundle mainBundle] appStoreReceiptURL];
     NSData *receiptData=[NSData dataWithContentsOfURL:receiptUrl];
     
@@ -586,14 +583,13 @@
         
         AFHTTPSessionManager *manager = [LDAFManager sharedManager];
         
-        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/stamp_ioshooks"];
+        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,stamp_ioshooks];
         NSDictionary *parameters = @{@"receipt":productIdentifier,@"order_no":transaction.transactionIdentifier,@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
         
         [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
             NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
             
-//            NSLog(@"%@",responseObject[@"data"]);
             
             if (integer != 2000) {
                 

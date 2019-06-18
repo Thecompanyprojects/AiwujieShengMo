@@ -46,11 +46,8 @@
     [self.tableView.mj_header beginRefreshing];
     
     self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        
         _page++;
-        
         [self createData:@"2"];
-        
     }];
 }
 

@@ -104,4 +104,16 @@
 //获取消息邮票信息
 #define  getStampPageInfo @"Api/Restrict/getStampPageInfo"
 
+//邮票购买验证
+#define stamp_ioshooks @"Api/Ping/stamp_ioshooks"
+
+//推顶卡购买验证
+#define topcard_ioshooks @"Api/Ping/topcard_ioshooks"
+
+//使用推顶卡-推顶动态
+#define useTopcard @"Api/power/useTopcard"
+
+//获取推顶卡信息
+#define getTopcardPaymentRs @"Api/Controller/getTopcardPaymentRs"
+
 #endif /* wangHeader_h */

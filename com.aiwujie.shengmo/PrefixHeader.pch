@@ -54,6 +54,7 @@
 #import "TimeManager.h"
 #import "UIScrollView+EmptyDataSet.h"
 #import <DZNEmptyDataSet/UIScrollView+EmptyDataSet.h>
+#import "IQKeyboardManager.h"
 
 //桥接文件
 #import "圣魔无界-Bridging-Header.h"

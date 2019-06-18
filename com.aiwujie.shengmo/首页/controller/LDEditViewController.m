@@ -1798,6 +1798,9 @@
         NSString *str = [formatter stringFromDate:[NSDate date]];
         NSString *fileName = [NSString stringWithFormat:@"%@.jpg", str];
         
+        NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+        
         AFHTTPSessionManager *manager = [LDAFManager sharedManager];
         self.headImgisChange = YES;
         [manager POST:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Api/fileUpload"] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
