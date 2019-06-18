@@ -576,13 +576,20 @@
     self.sexualLabel.layer.cornerRadius = 2;
     self.sexualLabel.clipsToBounds = YES;
     
-   
+    UIView *bottomView = [UIView new];
+    bottomView.backgroundColor = [UIColor whiteColor];
+    [self.contentView addSubview:bottomView];
+    [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.contentView).with.offset(-2);
+        make.height.mas_offset(38);
+        make.left.equalTo(self.contentView);
+        make.right.equalTo(self.contentView);
+    }];
+ 
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end

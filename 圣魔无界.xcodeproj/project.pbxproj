@@ -253,7 +253,7 @@
 		531D739422AE8CE700903BB4 /* LDtotopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D739322AE8CE700903BB4 /* LDtotopViewController.m */; };
 		531D739D22AF7F5D00903BB4 /* LdtotopCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D739C22AF7F5D00903BB4 /* LdtotopCell.m */; };
 		531D73A022AF80A600903BB4 /* LdtopHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D739F22AF80A600903BB4 /* LdtopHeaderView.m */; };
-		5323946622B8CE7C001BF94C /* NewdynamicCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5323946522B8CE7C001BF94C /* NewdynamicCell.m */; };
+		5323946922B90BDE001BF94C /* bottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5323946822B90BDE001BF94C /* bottomView.m */; };
 		5372254B22ABF8E30082472A /* NetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5372254922ABF8E30082472A /* NetManager.m */; };
 		53B7C0EC22B3418800113F50 /* EditinfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C0EB22B3418800113F50 /* EditinfoModel.m */; };
 		53B7C0EF22B3A4C100113F50 /* NSDictionary+safeLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C0EE22B3A4C100113F50 /* NSDictionary+safeLoad.m */; };
@@ -878,8 +878,8 @@
 		531D739C22AF7F5D00903BB4 /* LdtotopCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LdtotopCell.m; sourceTree = "<group>"; };
 		531D739E22AF80A600903BB4 /* LdtopHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LdtopHeaderView.h; sourceTree = "<group>"; };
 		531D739F22AF80A600903BB4 /* LdtopHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LdtopHeaderView.m; sourceTree = "<group>"; };
-		5323946422B8CE7C001BF94C /* NewdynamicCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewdynamicCell.h; sourceTree = "<group>"; };
-		5323946522B8CE7C001BF94C /* NewdynamicCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewdynamicCell.m; sourceTree = "<group>"; };
+		5323946722B90BDE001BF94C /* bottomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = bottomView.h; sourceTree = "<group>"; };
+		5323946822B90BDE001BF94C /* bottomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = bottomView.m; sourceTree = "<group>"; };
 		5372254922ABF8E30082472A /* NetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetManager.m; sourceTree = "<group>"; };
 		5372254A22ABF8E30082472A /* NetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetManager.h; sourceTree = "<group>"; };
 		53B7C0EA22B3418800113F50 /* EditinfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditinfoModel.h; sourceTree = "<group>"; };
@@ -1402,10 +1402,10 @@
 		003B9A581E06BE3C006BF162 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				5323946722B90BDE001BF94C /* bottomView.h */,
+				5323946822B90BDE001BF94C /* bottomView.m */,
 				004B2C991E33955600EDCCC1 /* DynamicCell.h */,
 				004B2C9A1E33955600EDCCC1 /* DynamicCell.m */,
-				5323946422B8CE7C001BF94C /* NewdynamicCell.h */,
-				5323946522B8CE7C001BF94C /* NewdynamicCell.m */,
 				D206656E1E7BB02300FA2DA8 /* DynamicCell.xib */,
 				00EEBC9C1E36566C00A175EB /* CommentCell.h */,
 				00EEBC9D1E36566C00A175EB /* CommentCell.m */,
@@ -3622,7 +3622,6 @@
 				D20016D61F46C4160045D0A2 /* UIView+SDExtension.m in Sources */,
 				00FC74941E15537B005A6137 /* PhotoView.m in Sources */,
 				D2FEB5C91EC4072F002A0886 /* LDGroupAtPersonViewController.m in Sources */,
-				5323946622B8CE7C001BF94C /* NewdynamicCell.m in Sources */,
 				000D93D81E0D770A0076931E /* CollectModel.m in Sources */,
 				53B7C0EF22B3A4C100113F50 /* NSDictionary+safeLoad.m in Sources */,
 				D24F1F281EB890B2008C296D /* LDSelectAtPersonViewController.m in Sources */,
@@ -3768,6 +3767,7 @@
 				D20016D01F46C4160045D0A2 /* TAAbstractDotView.m in Sources */,
 				003B9A6C1E06BF7C006BF162 /* LDHomeViewController.m in Sources */,
 				D20016D31F46C4160045D0A2 /* TAPageControl.m in Sources */,
+				5323946922B90BDE001BF94C /* bottomView.m in Sources */,
 				000528C11E26682F00CCBB1B /* LDGeneralViewController.m in Sources */,
 				D23A5FE71ED53C5C00FE4AD5 /* LDGetChangeBindingPhoneNumCodeViewController.m in Sources */,
 				D2692A051E7A8D5200250A05 /* UITableView+FDKeyedHeightCache.m in Sources */,

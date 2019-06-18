@@ -52,7 +52,7 @@ static float AD_height = 150;//头部高度
         flowLayout.headerReferenceSize = CGSizeMake(WIDTH, AD_height);//头部大小
         _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, naviBottom - 50) collectionViewLayout:flowLayout];
         _collectionView.scrollEnabled = YES;
-        flowLayout.itemSize = CGSizeMake(110, 80);
+        flowLayout.itemSize = CGSizeMake(110, 100);
         flowLayout.sectionInset = UIEdgeInsetsMake(12, 10, 2, 10);//上左下右
         //注册cell和ReusableView（相当于头部）
         [_collectionView registerClass:[LdtotopCell class] forCellWithReuseIdentifier:ldtopidentfid];
@@ -84,6 +84,7 @@ static float AD_height = 150;//头部高度
     cell.layer.masksToBounds = YES;
     cell.layer.borderWidth = 1;
     cell.layer.borderColor = [UIColor lightGrayColor].CGColor;
+    [cell setDatafromIndex:indexPath.item];
     return cell;
 }
 

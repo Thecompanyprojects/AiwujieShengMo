@@ -39,7 +39,7 @@
     [weakSelf.contentLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(weakSelf);
         make.left.equalTo(weakSelf).with.offset(14);
-        make.top.equalTo(weakSelf.topImg.mas_bottom).with.offset(30);
+        make.top.equalTo(weakSelf.topImg.mas_bottom).with.offset(24);
     }];
     
 }
@@ -62,8 +62,8 @@
     {
         _contentLab = [[UILabel alloc] init];
         _contentLab.textAlignment = NSTextAlignmentCenter;
-        _contentLab.font = [UIFont systemFontOfSize:12];
-        _contentLab.text = @"◆邮票启用后24小时内有效";
+        _contentLab.font = [UIFont systemFontOfSize:14];
+        _contentLab.text = @"剩余0张推顶卡";
         _contentLab.textColor = [UIColor colorWithHexString:@"AAAAAA" alpha:1];
     }
     return _contentLab;

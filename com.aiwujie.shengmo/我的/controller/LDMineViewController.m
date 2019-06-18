@@ -122,7 +122,7 @@
     
     [self createRightButton];
     
-    _dataArray = @[@[@"充值礼物",@"消息邮票",@"会员中心",@"红娘牵线"],@[@"自拍认证",@"分享APP"],@[@"设置"]];
+    _dataArray = @[@[@"充值礼物",@"消息邮票",@"推顶卡",@"会员中心",@"红娘牵线"],@[@"自拍认证",@"分享APP"],@[@"设置"]];
     
     [self createHeadData];
     
@@ -358,57 +358,32 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     ShowBadgeCell *cell = [[NSBundle mainBundle] loadNibNamed:@"ShowBadgeCell" owner:self options:nil].lastObject;
-    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     cell.headView.image = [UIImage imageNamed:_dataArray[indexPath.section][indexPath.row]];
-    
     cell.nameLabel.text = _dataArray[indexPath.section][indexPath.row];
-    
     if (indexPath.section == 0 && indexPath.row == 0) {
-        
         if (_lookBadge.length != 0) {
-            
             cell.badgeLabel.hidden = NO;
-            
             if ([_lookBadge intValue] > 99) {
-                
                 cell.badgeLabel.text = @"99+";
-                
             }else{
-                
                 cell.badgeLabel.text = _lookBadge;
-                
             }
-
         }else{
-        
             cell.badgeLabel.hidden = YES;
         }
-        
     }
     if (indexPath.section == 1 && indexPath.row == 1) {
-        
         cell.detailLabel.text = _status;
-        
         cell.detailLabel.font = [UIFont systemFontOfSize:15];
-        
     }
-
-    if (indexPath.section == 0 && indexPath.row == 3) {
-        
+    if (indexPath.section == 0 && indexPath.row == 4) {
         cell.lineView.hidden = YES;
-        
     }else if (indexPath.section == 1 && indexPath.row == 1){
-        
         cell.lineView.hidden = YES;
-        
     }else if (indexPath.section == 2 && indexPath.row == 0){
-        
         cell.lineView.hidden = YES;
-        
     }else{
-        
         cell.lineView.hidden = NO;
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -439,25 +414,25 @@
             LDStampViewController *svc = [[LDStampViewController alloc] init];
             [self.navigationController pushViewController:svc animated:YES];
         }
-//            else if (indexPath.row==2){
-//            LDtotopViewController *vc = [LDtotopViewController new];
-//            [self.navigationController pushViewController:vc animated:YES];
-//        }
-        else if (indexPath.row == 2) {
+            else if (indexPath.row==2){
+            LDtotopViewController *vc = [LDtotopViewController new];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        else if (indexPath.row == 3) {
             LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
             [self.navigationController pushViewController:mvc animated:YES];
             
-        }else if (indexPath.row == 3){
+        }else if (indexPath.row == 4){
             LDMatchmakerViewController *match = [[LDMatchmakerViewController alloc] init];
             [self.navigationController pushViewController:match animated:YES];
             
         }else if(indexPath.row == 5){
             
             
-        }else if (indexPath.row == 5){
+        }else if (indexPath.row == 6){
             
             
-        }else if(indexPath.row == 6){
+        }else if(indexPath.row == 7){
         
         } else {
             
