@@ -256,9 +256,9 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wwH-ra-FmC">
-                                <rect key="frame" x="7" y="113" width="84" height="29"/>
+                                <rect key="frame" x="7" y="113" width="79" height="29"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="84" id="EnT-0f-NTM"/>
+                                    <constraint firstAttribute="width" constant="79" id="EnT-0f-NTM"/>
                                 </constraints>
                                 <state key="normal" title="赞 0">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -268,9 +268,9 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3ci-gV-igb">
-                                <rect key="frame" x="95" y="113" width="77" height="29"/>
+                                <rect key="frame" x="90" y="113" width="80" height="29"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="77" id="H5V-Du-NLN"/>
+                                    <constraint firstAttribute="width" constant="80" id="H5V-Du-NLN"/>
                                 </constraints>
                                 <state key="normal" title="评论 0">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -280,9 +280,9 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G8O-K2-E7k">
-                                <rect key="frame" x="176" y="113" width="78" height="29"/>
+                                <rect key="frame" x="174" y="113" width="80" height="29"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="78" id="eRQ-RP-w2c"/>
+                                    <constraint firstAttribute="width" constant="80" id="eRQ-RP-w2c"/>
                                 </constraints>
                                 <state key="normal" title="打赏 0">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -313,6 +313,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LVv-3s-FiB">
+                                <rect key="frame" x="257" y="113" width="76" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="76" id="PPV-c1-4nL"/>
+                                </constraints>
+                                <state key="normal" title="推顶 0">
+                                    <color key="titleColor" red="0.18823529410000001" green="0.18823529410000001" blue="0.18823529410000001" alpha="0.79906892119999995" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -332,6 +341,7 @@
                             <constraint firstItem="KWT-fQ-eqL" firstAttribute="top" secondItem="goC-cs-hMq" secondAttribute="top" constant="15" id="KKE-LQ-Z5d"/>
                             <constraint firstAttribute="trailing" secondItem="56B-dg-eFw" secondAttribute="trailing" id="Lps-PO-zSV"/>
                             <constraint firstItem="v7E-Co-Exx" firstAttribute="leading" secondItem="goC-cs-hMq" secondAttribute="leading" constant="12" id="O8n-L0-kK9"/>
+                            <constraint firstItem="LVv-3s-FiB" firstAttribute="top" secondItem="R4O-n1-OGl" secondAttribute="bottom" constant="8" id="Ogs-Bt-xuT"/>
                             <constraint firstAttribute="bottom" secondItem="3ci-gV-igb" secondAttribute="bottom" constant="8" id="OtL-Rs-ngB"/>
                             <constraint firstAttribute="trailing" secondItem="4th-2H-WfR" secondAttribute="trailing" constant="12" id="Ous-ck-OKo"/>
                             <constraint firstItem="KWT-fQ-eqL" firstAttribute="leading" secondItem="RDq-PO-ie4" secondAttribute="trailing" constant="6" id="Oyb-UP-CZ9"/>
@@ -363,7 +373,9 @@
                             <constraint firstItem="3ci-gV-igb" firstAttribute="leading" secondItem="wwH-ra-FmC" secondAttribute="trailing" constant="4" id="pOE-OW-C7s"/>
                             <constraint firstItem="J6l-0D-fXr" firstAttribute="top" secondItem="goC-cs-hMq" secondAttribute="top" constant="34" id="rfR-ga-0bR"/>
                             <constraint firstItem="v7E-Co-Exx" firstAttribute="top" secondItem="goC-cs-hMq" secondAttribute="top" constant="12" id="s25-bJ-531"/>
+                            <constraint firstAttribute="bottom" secondItem="LVv-3s-FiB" secondAttribute="bottom" constant="8" id="s8t-2F-1d5"/>
                             <constraint firstItem="WO1-jg-CuO" firstAttribute="leading" secondItem="7bi-A2-QuI" secondAttribute="trailing" constant="5" id="tRZ-dL-8fW"/>
+                            <constraint firstItem="LVv-3s-FiB" firstAttribute="leading" secondItem="G8O-K2-E7k" secondAttribute="trailing" constant="3" id="tdB-wq-sA8"/>
                             <constraint firstItem="J6l-0D-fXr" firstAttribute="leading" secondItem="goC-cs-hMq" secondAttribute="leading" constant="34" id="weN-4g-yl6"/>
                         </constraints>
                     </view>
@@ -587,7 +599,7 @@
                 <constraint firstItem="LsN-F2-3es" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="zSi-CB-cDV"/>
                 <constraint firstAttribute="bottom" secondItem="snr-dp-tBR" secondAttribute="bottom" id="zxp-AB-xb6"/>
             </constraints>
-            <point key="canvasLocation" x="587" y="140"/>
+            <point key="canvasLocation" x="586.95652173913049" y="139.4021739130435"/>
         </view>
         <tapGestureRecognizer id="WCu-OM-8nV">
             <connections>
