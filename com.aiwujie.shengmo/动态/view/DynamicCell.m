@@ -8,6 +8,11 @@
 
 #import "DynamicCell.h"
 #import "LDOwnInformationViewController.h"
+#import "bottomView.h"
+
+@interface DynamicCell()
+@property (nonatomic,strong) bottomView *bottom;
+@end
 
 @implementation DynamicCell
 
@@ -40,13 +45,10 @@
     if ([_model.is_volunteer intValue] == 1) {
         
         self.vipView.hidden = NO;
-        
         self.vipView.image = [UIImage imageNamed:@"志愿者标识"];
-        
     }else if ([_model.is_admin intValue] == 1) {
         
         self.vipView.hidden = NO;
-        
         self.vipView.image = [UIImage imageNamed:@"官方认证"];
         
     }else{
@@ -308,6 +310,7 @@
     }
     
     self.zanLabel.text = [NSString stringWithFormat:@"%@",model.laudnum];
+    [self.bottom.zanBtn setTitle:[NSString stringWithFormat:@"%@",model.laudnum] forState:normal];
     
     if (model.pic.count != 0) {
         
@@ -379,37 +382,28 @@
         }
         
     }else{
-    
         self.picH.constant = 0;
-        
         self.picTopH.constant = 0;
     }
-
     if ([model.laudstate intValue] == 0) {
-        
         self.zanImageView.image = [UIImage imageNamed:@"赞灰"];
-        
+        [self.bottom.zanBtn setImage:[UIImage imageNamed:@"赞灰"] forState:normal];
     }else{
-        
         self.zanImageView.image = [UIImage imageNamed:@"赞紫"];
+        [self.bottom.zanBtn setImage:[UIImage imageNamed:@"赞紫"] forState:normal];
     }
-    
     if ([_model.role isEqualToString:@"S"]) {
         
         self.sexualLabel.text = @"斯";
-        
         self.sexualLabel.backgroundColor = BOYCOLOR;
-        
     }else if ([_model.role isEqualToString:@"M"]){
         
         self.sexualLabel.text = @"慕";
-        
         self.sexualLabel.backgroundColor = GIRLECOLOR;
         
     }else if ([_model.role isEqualToString:@"SM"]){
         
         self.sexualLabel.text = @"双";
-        
         self.sexualLabel.backgroundColor = DOUBLECOLOR;
     }else{
     
@@ -439,8 +433,10 @@
     self.ageLabel.text = [NSString stringWithFormat:@"%@",_model.age];
     
     self.contentLabel.text = [NSString stringWithFormat:@"%@",_model.comnum];
-
+    [self.bottom.commentBtn setTitle:[NSString stringWithFormat:@"%@",_model.comnum] forState:normal];
+    
     self.rewardLabel.text = [NSString stringWithFormat:@"%@",_model.rewardnum];
+    [self.bottom.replyBtn setTitle:[NSString stringWithFormat:@"%@",_model.rewardnum] forState:normal];
     
     [self getWealthAndCharmState:_wealthLabel andView:_wealthView andNSLayoutConstraint:_wealthW andType:@"财富"];
     
@@ -576,10 +572,10 @@
     self.sexualLabel.layer.cornerRadius = 2;
     self.sexualLabel.clipsToBounds = YES;
     
-    UIView *bottomView = [UIView new];
-    bottomView.backgroundColor = [UIColor whiteColor];
-    [self.contentView addSubview:bottomView];
-    [bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+    self.bottom = [bottomView new];
+     self.bottom.backgroundColor = [UIColor whiteColor];
+    [self.contentView addSubview: self.bottom];
+    [self.bottom mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.contentView).with.offset(-2);
         make.height.mas_offset(38);
         make.left.equalTo(self.contentView);
