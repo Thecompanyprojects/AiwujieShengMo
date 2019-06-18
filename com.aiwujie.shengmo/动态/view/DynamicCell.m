@@ -532,23 +532,17 @@
  * 文字自适应宽度
  */
 -(CGSize)fitLabelWidth:(NSString *)string{
-    
     CGSize size = [string sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:10.0]}];
     // ceilf()向上取整函数, 只要大于1就取整数2. floor()向下取整函数, 只要小于2就取整数1.
     CGSize labelSize = CGSizeMake(ceilf(size.width), ceilf(size.height));
-    
     return labelSize;
-    
 }
 
 #pragma 点击图片调用代理方法
 -(void)tap:(UITapGestureRecognizer *)tap{
-    
     if ([self.delegate respondsToSelector:@selector(tap:)]) {
-        
          [_delegate tap:tap];
     }
-
 }
 
 #pragma 点击话题调用代理方法
@@ -581,8 +575,9 @@
     
     self.sexualLabel.layer.cornerRadius = 2;
     self.sexualLabel.clipsToBounds = YES;
+    
+   
 }
-
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

@@ -54,13 +54,17 @@
 @property (weak, nonatomic) IBOutlet UILabel *zanLabel;
 @property (weak, nonatomic) IBOutlet UIView *zanView;
 @property (weak, nonatomic) IBOutlet UIButton *zanButton;
+
 @property (weak, nonatomic) IBOutlet UIButton *commentButton;
 @property (weak, nonatomic) IBOutlet UIButton *rewardButton;
 @property (weak, nonatomic) IBOutlet UIImageView *zanImageView;
 @property (weak, nonatomic) IBOutlet UILabel *contentLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *idViewW;
 @property (weak, nonatomic) IBOutlet UILabel *rewardLabel;
+
 @property (weak, nonatomic) IBOutlet UIImageView *recommendView;
+@property (weak, nonatomic) IBOutlet UIView *rewardView;
+@property (weak, nonatomic) IBOutlet UIView *commentView;
 
 //添加财富和魅力值的显示
 @property (weak, nonatomic) IBOutlet UIView *wealthView;
