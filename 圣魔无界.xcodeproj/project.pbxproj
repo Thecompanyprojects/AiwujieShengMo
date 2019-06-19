@@ -248,6 +248,7 @@
 		53157EB222B9E4B00041B582 /* NSString+category.m in Sources */ = {isa = PBXBuildFile; fileRef = 53157EAE22B9E4AF0041B582 /* NSString+category.m */; };
 		53157EB322B9E4B00041B582 /* NSDate+category.m in Sources */ = {isa = PBXBuildFile; fileRef = 53157EB122B9E4B00041B582 /* NSDate+category.m */; };
 		53157EB622B9FB2C0041B582 /* YQInAppPurchaseTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 53157EB522B9FB2C0041B582 /* YQInAppPurchaseTool.m */; };
+		53157EBA22BA1A350041B582 /* TopcardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53157EB922BA1A350041B582 /* TopcardView.m */; };
 		531D737922ADF2D100903BB4 /* NewldprovacyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D737822ADF2D100903BB4 /* NewldprovacyVC.m */; };
 		531D737F22ADF3C900903BB4 /* LDProvacyCell0.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D737E22ADF3C900903BB4 /* LDProvacyCell0.m */; };
 		531D738222ADF3D800903BB4 /* LDProvacyCell1.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D738122ADF3D800903BB4 /* LDProvacyCell1.m */; };
@@ -872,6 +873,8 @@
 		53157EB122B9E4B00041B582 /* NSDate+category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+category.m"; sourceTree = "<group>"; };
 		53157EB422B9FB2B0041B582 /* YQInAppPurchaseTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YQInAppPurchaseTool.h; sourceTree = "<group>"; };
 		53157EB522B9FB2C0041B582 /* YQInAppPurchaseTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YQInAppPurchaseTool.m; sourceTree = "<group>"; };
+		53157EB822BA1A350041B582 /* TopcardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TopcardView.h; sourceTree = "<group>"; };
+		53157EB922BA1A350041B582 /* TopcardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TopcardView.m; sourceTree = "<group>"; };
 		531D737722ADF2D100903BB4 /* NewldprovacyVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewldprovacyVC.h; sourceTree = "<group>"; };
 		531D737822ADF2D100903BB4 /* NewldprovacyVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewldprovacyVC.m; sourceTree = "<group>"; };
 		531D737D22ADF3C900903BB4 /* LDProvacyCell0.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDProvacyCell0.h; sourceTree = "<group>"; };
@@ -3176,6 +3179,8 @@
 			children = (
 				D2FF4C361EF8CB0900025448 /* GifView.h */,
 				D2FF4C371EF8CB0900025448 /* GifView.m */,
+				53157EB822BA1A350041B582 /* TopcardView.h */,
+				53157EB922BA1A350041B582 /* TopcardView.m */,
 			);
 			name = "礼物的view";
 			path = "动态/view";
@@ -3565,6 +3570,7 @@
 				D20E4B221F1F087D00232E08 /* TopicModel.m in Sources */,
 				004B2C8D1E33260000EDCCC1 /* LDPublishDynamicViewController.m in Sources */,
 				000BFA151E0410CA00E23998 /* LDIamCell.m in Sources */,
+				53157EBA22BA1A350041B582 /* TopcardView.m in Sources */,
 				003B9A7B1E06BFE5006BF162 /* LDDiscoverViewController.m in Sources */,
 				00EC29761E18F2670066273A /* TZAssetCell.m in Sources */,
 				53157EB622B9FB2C0041B582 /* YQInAppPurchaseTool.m in Sources */,

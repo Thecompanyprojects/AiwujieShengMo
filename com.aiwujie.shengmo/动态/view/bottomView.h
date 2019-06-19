@@ -15,6 +15,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) UIButton *commentBtn;
 @property (nonatomic,strong) UIButton *replyBtn;
 @property (nonatomic,strong) UIButton *topBtn;
+@property (nonatomic,strong) UIView *lineView0;
+@property (nonatomic,strong) UIView *lineView1;
+@property (nonatomic,strong) UIView *lineView2;
 @end
 
 NS_ASSUME_NONNULL_END

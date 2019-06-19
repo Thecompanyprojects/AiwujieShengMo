@@ -67,8 +67,10 @@
 @property (weak, nonatomic) IBOutlet UIButton *zanButton;
 @property (weak, nonatomic) IBOutlet UIButton *commentButton;
 @property (weak, nonatomic) IBOutlet UIButton *rewardButton;
+
 @property (weak, nonatomic) IBOutlet UIImageView *zanImageView;
 @property (weak, nonatomic) IBOutlet UILabel *zanLabel;
+
 @property (weak, nonatomic) IBOutlet UIButton *totopButton;
 
 //发送评论
@@ -141,6 +143,7 @@
 //动态数与推荐动态数
 @property (weak, nonatomic) IBOutlet UILabel *dyAndRdNumLabel;
 
+@property (nonatomic,strong) bottomView *bottom;
 @end
 
 @implementation LDDynamicDetailViewController
@@ -197,16 +200,7 @@
     if ([_clickState isEqualToString:@"comment"]) {
         [self.textView becomeFirstResponder];
     }
- 
-    bottomView *bottom = [bottomView new];
-    [self.view addSubview:bottom];
-    [bottom mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.view);
-        make.right.equalTo(self.view);
-        make.top.equalTo(self.tableView.mas_bottom);
-        make.bottom.equalTo(self.view).with.offset(-22);
-    }];
-    
+    [self createBottomView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewardSuccess) name:@"动态详情打赏成功" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindPhoneNumSuccess) name:@"绑定手机号码成功" object:nil];
@@ -218,6 +212,32 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardChangeFrame:) name:UIKeyboardWillHideNotification object:nil];
     
  
+}
+
+-(void)createBottomView
+{
+    self.bottom= [bottomView new];
+    [self.view addSubview:self.bottom];
+    [self.bottom mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.view);
+        make.top.equalTo(self.tableView.mas_bottom);
+        make.bottom.equalTo(self.view).with.offset(-22);
+    }];
+    [self.bottom.lineView0 setHidden:YES];
+    [self.bottom.lineView1 setHidden:YES];
+    [self.bottom.lineView2 setHidden:YES];
+    [self.bottom.zanBtn setTitleColor:[UIColor lightGrayColor] forState:normal];
+    [self.bottom.commentBtn setTitleColor:MainColor forState:normal];
+    [self.bottom.replyBtn setTitleColor:MainColor forState:normal];
+    [self.bottom.topBtn setTitleColor:MainColor forState:normal];
+    [self.bottom.commentBtn setImage:[UIImage imageNamed:@"评论紫"] forState:normal];
+    [self.bottom.replyBtn setImage:[UIImage imageNamed:@"打赏紫"] forState:normal];
+    [self.bottom.topBtn setImage:[UIImage imageNamed:@"打赏紫"] forState:normal];
+    [self.bottom.zanBtn addTarget:self action:@selector(dianzanClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.bottom.commentBtn addTarget:self action:@selector(commentClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.bottom.replyBtn addTarget:self action:@selector(replyClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.bottom.topBtn addTarget:self action:@selector(topcardClick) forControlEvents:UIControlEventTouchUpInside];
 }
 
 #pragma mark - 禁用IQKeyboardManager
@@ -525,15 +545,10 @@
 -(void)headButtonClick:(UIButton *)button{
 
     CommentCell *cell = (CommentCell *)button.superview.superview;
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
     commentModel *model = _dataArray[indexPath.section];
-
     LDOwnInformationViewController *ivc = [[LDOwnInformationViewController alloc] init];
-    
     ivc.userID = model.uid;
-    
     [self.navigationController pushViewController:ivc animated:YES];
 }
 
@@ -1127,13 +1142,18 @@
     
     if ([dic[@"laudstate"] intValue] == 0) {
         
-        self.zanImageView.image = [UIImage imageNamed:@"赞灰"];
-        self.zanLabel.textColor = [UIColor lightGrayColor];
+        [self.bottom.zanBtn setImage:[UIImage imageNamed:@"赞灰"] forState:normal];
+        [self.bottom.zanBtn setTitleColor:[UIColor lightGrayColor] forState:normal];
+        
+//        self.zanImageView.image = [UIImage imageNamed:@"赞灰"];
+//        self.zanLabel.textColor = [UIColor lightGrayColor];
         
     }else{
         
-        self.zanImageView.image = [UIImage imageNamed:@"赞紫"];
-        self.zanLabel.textColor = [UIColor colorWithHexString:@"#c450d6" alpha:1];
+        [self.bottom.zanBtn setImage:[UIImage imageNamed:@"赞紫"] forState:normal];
+        [self.bottom.zanBtn setTitleColor:[UIColor colorWithHexString:@"#c450d6" alpha:1] forState:normal];
+//        self.zanImageView.image = [UIImage imageNamed:@"赞紫"];
+//        self.zanLabel.textColor = [UIColor colorWithHexString:@"#c450d6" alpha:1];
     }
     
     _zanNum = dic[@"laudnum"];
@@ -1318,24 +1338,11 @@
     [self createData:@"1"];
 }
 
-/**
- 打赏功能
-
- @param sender 打赏功能
- */
-- (IBAction)rewardClick:(id)sender {
-    _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) :^{
-        LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
-        cvc.type = @"0";
-        [self.navigationController pushViewController:cvc animated:YES];
-    }];
-    [_gif getDynamicDid:self.did andIndexPath:nil andSign:@"动态详情" andUIViewController:self];
-    [self.tabBarController.view addSubview:_gif];
-}
 
 //动态详情页点赞
-- (IBAction)dianzanButtonClick:(id)sender {
-    
+
+-(void)dianzanClick
+{
     if ([_zanState intValue] == 0) {
         NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/laudDynamicNewrd"];
         NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":_did};
@@ -1344,10 +1351,14 @@
             if (integer != 2000) {
                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }else{
-                self.zanLabel.textColor = MainColor;
-                self.zanImageView.image = [UIImage imageNamed:@"赞紫"];
-                _zanState = @"1";
+                //                self.zanLabel.textColor = MainColor;
+                //                self.zanImageView.image = [UIImage imageNamed:@"赞紫"];
                 [self.zanButton setTitle:[NSString stringWithFormat:@"赞 %@",[NSString stringWithFormat:@"%d",[_zanNum intValue] + 1]] forState:UIControlStateNormal];
+                [self.bottom.zanBtn setTitleColor:MainColor forState:normal];
+                [self.bottom.zanBtn setImage:[UIImage imageNamed:@"赞紫"] forState:normal];
+                
+                _zanState = @"1";
+                
                 _zanNum = [NSString stringWithFormat:@"%@",[NSString stringWithFormat:@"%d",[_zanNum intValue] + 1]];
                 if (_block) {
                     self.block([NSString stringWithFormat:@"%@",[NSString stringWithFormat:@"%d",[_zanNum intValue]]],_zanState);
@@ -1358,11 +1369,51 @@
         }];
     }
 }
-
 //评论动态
-- (IBAction)commentDynamicClick:(id)sender {
-    
+
+-(void)commentClick
+{
     [self.textView becomeFirstResponder];
+}
+
+
+/**
+ 打赏功能
+
+ @param sender 打赏功能
+ */
+
+-(void)replyClick
+{
+
+    BOOL ismines = NO;
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]==[self.ownUid intValue]) {
+        ismines = YES;
+    }
+    _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) andisMine:ismines :^{
+        LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
+        cvc.type = @"0";
+        [self.navigationController pushViewController:cvc animated:YES];
+        
+    }];
+    [_gif getDynamicDid:self.did andIndexPath:nil andSign:@"动态详情" andUIViewController:self];
+    [self.tabBarController.view addSubview:_gif];
+}
+
+
+/**
+ 推顶功能
+ */
+-(void)topcardClick
+{
+    TopcardView *view = [TopcardView new];
+    [view withBuyClick:^(NSString * _Nonnull string) {
+        LDtotopViewController *VC = [LDtotopViewController new];
+        [self.navigationController pushViewController:VC animated:YES];
+    }];
+    [view withSureClick:^(NSString * _Nonnull string) {
+        //推顶操作
+    }];
 }
 
 - (IBAction)sendButtonClick:(id)sender {
@@ -1487,7 +1538,7 @@
 }
 
 #pragma mark - 监听事件
-- (void) keyboardWillChangeFrame:(NSNotification *) note {
+- (void)keyboardWillChangeFrame:(NSNotification *) note {
     
     // 1.取得弹出后的键盘frame
     CGRect keyboardFrame = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
@@ -1508,7 +1559,7 @@
     
 }
 
-- (void) keyboardChangeFrame:(NSNotification *) note {
+- (void)keyboardChangeFrame:(NSNotification *) note {
     
     // 1.取得弹出后的键盘frame
     //    CGRect keyboardFrame = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];

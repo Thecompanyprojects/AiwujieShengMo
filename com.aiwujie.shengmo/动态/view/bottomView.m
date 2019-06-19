@@ -9,9 +9,7 @@
 #import "bottomView.h"
 
 @interface bottomView()
-@property (nonatomic,strong) UIView *lineView0;
-@property (nonatomic,strong) UIView *lineView1;
-@property (nonatomic,strong) UIView *lineView2;
+
 @end
 
 @implementation bottomView

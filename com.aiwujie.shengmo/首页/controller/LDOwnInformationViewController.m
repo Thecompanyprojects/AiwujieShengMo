@@ -3851,17 +3851,16 @@
 }
 
 - (IBAction)giveGifButtonClick:(id)sender {
-    
-    _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) :^{
-        
+
+    BOOL ismines = NO;
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]==[self.userID intValue]) {
+        ismines = YES;
+    }
+    _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) andisMine:ismines :^{
         LDChargeCenterViewController *cvc = [[LDChargeCenterViewController alloc] init];
-        
         [self.navigationController pushViewController:cvc animated:YES];
-        
     }];
-    
     [_gif getPersonUid:self.userID andSign:@"赠送给某人"andUIViewController:self];
-    
     [self.tabBarController.view addSubview:_gif];
 
 }

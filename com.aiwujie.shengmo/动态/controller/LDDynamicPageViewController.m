@@ -1096,14 +1096,20 @@
 
 -(void)replyTabVClick:(UITableViewCell *)cell
 {
-     NSIndexPath *index = [self.tableView indexPathForCell:cell];
+    NSIndexPath *index = [self.tableView indexPathForCell:cell];
     DynamicModel *model = _dataArray[index.section];
     
-    _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) :^{
+    BOOL ismines = NO;
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]==[model.uid intValue]) {
+        ismines = YES;
+    }
+    _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) andisMine:ismines :^{
         LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
         cvc.type = @"0";
         [self.navigationController pushViewController:cvc animated:YES];
+
     }];
+    
     [_gif getDynamicDid:model.did andIndexPath:index andSign:@"动态" andUIViewController:self];
     [self.tabBarController.view addSubview:_gif];
 
@@ -1111,6 +1117,14 @@
 -(void)topTabVClick:(UITableViewCell *)cell
 {
      //NSIndexPath *index = [self.tableView indexPathForCell:cell];
+    TopcardView *view = [TopcardView new];
+    [view withBuyClick:^(NSString * _Nonnull string) {
+        LDtotopViewController *VC = [LDtotopViewController new];
+        [self.navigationController pushViewController:VC animated:YES];
+    }];
+    [view withSureClick:^(NSString * _Nonnull string) {
+        //推顶操作
+    }];
     
 }
 

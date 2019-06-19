@@ -390,14 +390,14 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f6L-sJ-gTz">
                             <rect key="frame" x="0.0" y="4" width="132.66666666666666" height="32"/>
                             <subviews>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="赞灰" translatesAutoresizingMaskIntoConstraints="NO" id="sLo-F7-Pph">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sLo-F7-Pph">
                                     <rect key="frame" x="34" y="7" width="16" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="16" id="2Dt-KS-Qg0"/>
                                         <constraint firstAttribute="height" constant="16" id="Xl8-ue-RO0"/>
                                     </constraints>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="赞" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1fL-vn-ZZW">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1fL-vn-ZZW">
                                     <rect key="frame" x="56" y="5" width="60.666666666666657" height="21"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="21" id="InY-Ms-Hw4"/>
@@ -433,7 +433,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rAZ-CH-x7T">
                             <rect key="frame" x="140.66666666666669" y="4" width="132.66666666666669" height="32"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="评论" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aJI-Zd-LSF">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aJI-Zd-LSF">
                                     <rect key="frame" x="52.000000000000007" y="5" width="80.666666666666686" height="21"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="21" id="IzY-Ai-PIy"/>
@@ -442,7 +442,7 @@
                                     <color key="textColor" red="0.71683843089999999" green="0.22636065729999999" blue="0.79763487840000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="评论紫" translatesAutoresizingMaskIntoConstraints="NO" id="vpk-yC-O8F">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vpk-yC-O8F">
                                     <rect key="frame" x="30" y="8" width="16" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="16" id="ER2-BB-97d"/>
@@ -476,7 +476,7 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dzO-ZU-sZF">
                             <rect key="frame" x="281.33333333333331" y="4" width="132.66666666666669" height="32"/>
                             <subviews>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="打赏" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DLJ-Zc-o69">
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DLJ-Zc-o69">
                                     <rect key="frame" x="54.000000000000007" y="5" width="70.666666666666686" height="21"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="21" id="ucK-A2-eMx"/>
@@ -485,7 +485,7 @@
                                     <color key="textColor" red="0.71683843089999999" green="0.22636065729999999" blue="0.79763487840000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <nil key="highlightedColor"/>
                                 </label>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="打赏紫" translatesAutoresizingMaskIntoConstraints="NO" id="7aA-bB-mUL">
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7aA-bB-mUL">
                                     <rect key="frame" x="32" y="8" width="16" height="16"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="16" id="KEg-7f-VYv"/>
@@ -612,12 +612,9 @@
         </tapGestureRecognizer>
     </objects>
     <resources>
-        <image name="打赏紫" width="17" height="17"/>
         <image name="推荐动态" width="50" height="50"/>
         <image name="认证" width="46" height="34"/>
-        <image name="评论紫" width="17" height="17"/>
         <image name="财" width="25.5" height="24"/>
-        <image name="赞灰" width="15" height="15"/>
         <image name="魅" width="22" height="20.5"/>
     </resources>
 </document>

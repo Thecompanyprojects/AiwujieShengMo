@@ -350,10 +350,16 @@
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     DynamicModel *model = _dataArray[indexPath.section];
-    _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) :^{
+
+    BOOL ismines = NO;
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]==[model.uid intValue]) {
+        ismines = YES;
+    }
+    _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) andisMine:ismines :^{
         LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
         cvc.type = @"0";
         [self.navigationController pushViewController:cvc animated:YES];
+        
     }];
     _gif.MyBlock = ^{
         
@@ -362,9 +368,17 @@
     [self.tabBarController.view addSubview:_gif];
 
 }
+
 -(void)topTabVClick:(UITableViewCell *)cell
 {
-    
+    TopcardView *view = [TopcardView new];
+    [view withBuyClick:^(NSString * _Nonnull string) {
+        LDtotopViewController *VC = [LDtotopViewController new];
+        [self.navigationController pushViewController:VC animated:YES];
+    }];
+    [view withSureClick:^(NSString * _Nonnull string) {
+        //推顶操作
+    }];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{

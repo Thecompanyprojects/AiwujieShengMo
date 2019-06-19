@@ -74,7 +74,7 @@
 
 @implementation GifView
 
--(instancetype)initWithFrame:(CGRect)frame :(void (^)(void))block{
+-(instancetype)initWithFrame:(CGRect)frame andisMine:(BOOL )ismine :(void (^)(void))block{
 
     _MyBlock = block;
     
@@ -90,15 +90,15 @@
         _amountArray = @[@[@"2",@"6",@"10",@"38",@"99",@"88",@"123",@"166",@"199"],@[@"520",@"666",@"250",@"777",@"888",@"999",@"1314",@"1666",@"1999"],@[@"666",@"999",@"1888",@"2899",@"3899",@"6888",@"9888",@"52000",@"99999"]];
         
         //获取我的系统礼物
-        [self createOwnSystemGifData:frame];
-
+        
+        [self createOwnSystemGifData:frame andismine:ismine];
+       
     }
-    
     return self;
 }
 
 //获取我的系统礼物
--(void)createOwnSystemGifData:(CGRect)frame{
+-(void)createOwnSystemGifData:(CGRect)frame andismine:(BOOL )ismine{
 
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     
@@ -122,8 +122,8 @@
             }   
         }
         
-        [self createUI:frame];
-        
+//        [self createUI:frame];
+        [self createUI:frame wihtismine:ismine];
         [self createData];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -194,7 +194,7 @@
 }
 
 
--(void)createUI:(CGRect)frame{
+-(void)createUI:(CGRect)frame wihtismine:(BOOL) ismine{
 
     self.backgroundColor = [UIColor clearColor];
     
@@ -229,6 +229,14 @@
     [_giveSystemGifButton addTarget:self action:@selector(giveSystemGifButtonClick) forControlEvents:UIControlEventTouchUpInside];
     _giveSystemGifButton.titleLabel.font = [UIFont systemFontOfSize:13];
     [_backView addSubview:_giveSystemGifButton];
+   
+    if (ismine) {
+        [self.giveSystemGifButton setHidden:YES];
+    }
+    else
+    {
+        [self.giveSystemGifButton setHidden:NO];
+    }
 
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 45, WIDTH - 10, WIDTH - 10)];
     _scrollView.contentSize = CGSizeMake(_grayArray.count * (WIDTH - 10), WIDTH - 20);
