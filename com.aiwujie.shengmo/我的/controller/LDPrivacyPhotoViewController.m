@@ -365,7 +365,7 @@
 -(void)aginSetButtonClick{
     
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,editPhotoPwd];
-    NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"oldpwd":_oldpwdField.text?:@"",@"newpwd":_passwordField.text?:@""};
+    NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"newpwd":_passwordField.text?:@""};
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {

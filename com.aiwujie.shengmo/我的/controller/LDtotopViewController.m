@@ -13,8 +13,13 @@
 #import "YQInAppPurchaseTool.h"
 
 @interface LDtotopViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,YQInAppPurchaseToolDelegate>
+{
+    MBProgressHUD *HUD;
+}
 @property (nonatomic,strong)  UICollectionView *collectionView;
 @property (nonatomic,strong) NSMutableArray *shopArray;
+@property (nonatomic,copy) NSString *numberStr;
+@property (nonatomic,strong) LdtopHeaderView *headView;
 @end
 
 static NSString *ldtopidentfid = @"ldtopidentfid";
@@ -38,6 +43,24 @@ static float AD_height = 150;//头部高度
     [IAPTool requestProductsWithProductArray:self.shopArray];
     [self.view addSubview:self.collectionView];
     [self createRightButton];
+    [self createData];
+}
+
+-(void)createData
+{
+    NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+    NSString *url = [PICHEADURL stringByAppendingString:getTopcardPageInfo];
+    NSDictionary *para = @{@"uid":uid?:@""};
+    [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
+        
+        if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
+            NSDictionary *data = [responseObj objectForKey:@"data"];
+            self.numberStr = [data objectForKey:@"wallet_topcard"];
+        }
+        self.headView.contentLab.text = [NSString stringWithFormat:@"%@%@%@",@"剩余",self.numberStr?:@"0",@"张推顶卡"];
+    } failed:^(NSString *errorMsg) {
+        
+    }];
 }
 
 -(void)createRightButton{
@@ -103,10 +126,10 @@ static float AD_height = 150;//头部高度
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
-    LdtopHeaderView *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:
+    self.headView = [collectionView dequeueReusableSupplementaryViewOfKind:
                                         UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView" forIndexPath:indexPath];
-    headerView.backgroundColor = [UIColor whiteColor];
-    return headerView;
+    self.headView.backgroundColor = [UIColor whiteColor];
+    return self.headView;
 }
 
 #pragma mark UICollectionView被选中时调用的方法
@@ -126,6 +149,10 @@ static float AD_height = 150;//头部高度
         NSString *shopId = [self.shopArray objectAtIndex:indexPath.item];
         
         [[YQInAppPurchaseTool defaultTool]buyProduct:shopId];
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+        hud.mode = MBProgressHUDModeIndeterminate;
+        hud.labelText = @"正在请求";
+
     }];
     [control addAction:action0];
     [control addAction:action1];
@@ -164,6 +191,9 @@ static float AD_height = 150;//头部高度
 -(void)IAPToolCanceldWithProductID:(NSString *)productID {
     NSLog(@"canceld:%@",productID);
 //    [SVProgressHUD showInfoWithStatus:@"购买失败"];
+    HUD.labelText = @"购买失败";
+    HUD.removeFromSuperViewOnHide = YES;
+    [HUD hide:YES afterDelay:3];
 }
 
 //支付成功了，并开始向苹果服务器进行验证（若CheckAfterPay为NO，则不会经过此步骤）
@@ -183,6 +213,39 @@ static float AD_height = 150;//头部高度
     NSLog(@"BoughtSuccessed:%@",productID);
     NSLog(@"successedInfo:%@",infoDic);
     
+    NSDictionary *receipt = [infoDic objectForKey:@"receipt"];
+    NSData *data = [NSJSONSerialization dataWithJSONObject:receipt options:NSJSONWritingPrettyPrinted error:nil];
+    NSLog(@"==%@",data);//转化成Data
+    NSString *getStr= [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
+    NSArray *in_app = [receipt objectForKey:@"in_app"];
+    NSDictionary *in_appdic = [in_app firstObject];
+    NSString *transaction_id = [in_appdic objectForKey:@"transaction_id"];
+    NSLog(@"%@",transaction_id);
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,topcard_ioshooks];
+    NSDictionary *parameters = @{@"receipt":getStr?:@"",@"order_no":transaction_id?:@"",@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
+        
+        if (integer != 2000) {
+            
+            HUD.labelText = @"购买失败";
+            HUD.removeFromSuperViewOnHide = YES;
+            [HUD hide:YES afterDelay:3];
+            
+        }else{
+
+            HUD.labelText = @"购买成功";
+            HUD.removeFromSuperViewOnHide = YES;
+            [HUD hide:YES afterDelay:3];
+            [self createData];
+        }
+    } failed:^(NSString *errorMsg) {
+        HUD.labelText = @"服务器验证失败";
+        HUD.removeFromSuperViewOnHide = YES;
+        [HUD hide:YES afterDelay:3];
+    }];
+    
 //    [SVProgressHUD showSuccessWithStatus:@"购买成功！(相关信息已打印)"];
 }
 //商品购买成功了，但向苹果服务器验证失败了
@@ -192,6 +255,9 @@ static float AD_height = 150;//头部高度
 -(void)IAPToolCheckFailedWithProductID:(NSString *)productID
                                andInfo:(NSData *)infoData {
     NSLog(@"CheckFailed:%@",productID);
+    HUD.labelText = @"服务器验证失败";
+    HUD.removeFromSuperViewOnHide = YES;
+    [HUD hide:YES afterDelay:3];
 
 }
 //恢复了已购买的商品（仅限永久有效商品）
@@ -202,7 +268,9 @@ static float AD_height = 150;//头部高度
 //内购系统错误了
 -(void)IAPToolSysWrong {
     NSLog(@"SysWrong");
-   
+    HUD.labelText = @"系统出错了";
+    HUD.removeFromSuperViewOnHide = YES;
+    [HUD hide:YES afterDelay:3];
 }
 
 @end

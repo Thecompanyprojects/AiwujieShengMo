@@ -149,15 +149,11 @@
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"recommendBadge"] integerValue] > 0) {
         
         _recommendDogLabel.text = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"recommendBadge"]];
-        
         _recommendDogLabel.hidden = NO;
-        
         [self.tabBarController.tabBar showBadgeOnItemIndex:3];
         
     }else{
-        
         _recommendDogLabel.hidden = YES;
-        
         [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
     }
     
@@ -920,7 +916,6 @@
         _searchLabel.textColor = [UIColor colorWithRed:100/255.0 green:100/255.0 blue:100/255.0 alpha:1];
     }
 }
-
 
 //生成翻页控制器
 -(void)createPageViewController{

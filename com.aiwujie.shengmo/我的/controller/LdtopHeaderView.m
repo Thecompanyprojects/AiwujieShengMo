@@ -10,7 +10,7 @@
 
 @interface LdtopHeaderView()
 @property (nonatomic,strong) UIImageView *topImg;
-@property (nonatomic,strong) UILabel *contentLab;
+
 @end
 
 @implementation LdtopHeaderView

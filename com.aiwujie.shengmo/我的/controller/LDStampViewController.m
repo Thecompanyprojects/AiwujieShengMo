@@ -170,7 +170,7 @@
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"邮票凭证"] length] != 0) {
         [self zaiciyanzhengpingzheng];
     }
-    
+
     [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
     
     for (int i = 0; i < 9; i++) {
@@ -224,7 +224,7 @@
     
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/stamp_ioshooks"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,stamp_ioshooks];
     
     NSDictionary *parameters = @{@"receipt":[[NSUserDefaults standardUserDefaults] objectForKey:@"邮票凭证"],@"order_no":[[NSUserDefaults standardUserDefaults] objectForKey:@"邮票订单"],@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     
@@ -246,9 +246,7 @@
             [hud hide:YES afterDelay:3];
             
             [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"邮票凭证"];
-            
             [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"邮票订单"];
-            
             [self createData];
             
         }
@@ -587,8 +585,7 @@
         [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
             NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-            
-            
+
             if (integer != 2000) {
                 
                 //验证失败,存储本次购买的订单
@@ -606,7 +603,6 @@
                 [HUD hide:YES afterDelay:3];
                 
                 [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"邮票凭证"];
-                
                 [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"邮票订单"];
                 
                 [self createData];
@@ -617,7 +613,6 @@
         
             NSLog(@"%@",error);
         }];
-        
     }
 }
 
@@ -626,18 +621,14 @@
     
     NSURL *receiptUrl=[[NSBundle mainBundle] appStoreReceiptURL];
     NSData *receiptData=[NSData dataWithContentsOfURL:receiptUrl];
-    
     NSString * productIdentifier = [receiptData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
-    
     [[NSUserDefaults standardUserDefaults] setObject:productIdentifier forKey:@"邮票凭证"];
-    
     [[NSUserDefaults standardUserDefaults] setObject:transaction.transactionIdentifier forKey:@"邮票订单"];
 }
 
 -(void)dealloc{
 
     [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
-    
 }
 
 -(void)createTableView{
