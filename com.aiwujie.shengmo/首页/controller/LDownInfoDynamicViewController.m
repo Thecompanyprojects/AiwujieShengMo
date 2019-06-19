@@ -588,26 +588,19 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     DynamicCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DynamicCell" forIndexPath:indexPath];
-    
     cell.delegate = self;
-    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     cell.integer = _integer;
-    
     cell.indexPath = indexPath;
-    
     [self configureCell:cell atIndexPath:indexPath];
-    
     [_sectionArray addObject:indexPath];
-    
-    [cell.zanButton addTarget:self action:@selector(zanButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [cell.rewardButton addTarget:self action:@selector(rewardButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [cell.commentButton addTarget:self action:@selector(commentButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [cell.headButton addTarget:self action:@selector(headButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+//    [cell.zanButton addTarget:self action:@selector(zanButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+//
+//    [cell.rewardButton addTarget:self action:@selector(rewardButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+//
+//    [cell.commentButton addTarget:self action:@selector(commentButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+//
+//    [cell.headButton addTarget:self action:@selector(headButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
 }
@@ -685,158 +678,67 @@
     
 }
 
--(void)commentButtonClick:(UIButton *)button{
-    
-    DynamicCell *cell = (DynamicCell *)button.superview.superview.superview;
-    
+-(void)zanTabVClick:(UITableViewCell *)cell
+{
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
-    DynamicModel *model = _dataArray[indexPath.section];
-    
-    LDDynamicDetailViewController *dvc = [[LDDynamicDetailViewController alloc] init];
-    
-    dvc.did = model.did;
-    
-    dvc.ownUid = model.uid;
-    
-    _indexPath = indexPath;
-    
-    dvc.clickState = @"comment";
-    
-    [self.navigationController pushViewController:dvc animated:YES];
-}
-
--(void)rewardButtonClick:(UIButton *)button{
-    
-    DynamicCell *cell = (DynamicCell *)button.superview.superview.superview;
-    
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
-    DynamicModel *model = _dataArray[indexPath.section];
-    
-    _cell = cell;
-    
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue] == [model.uid intValue]) {
-        
-        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"不能对自己打赏~"];
-        
-    }else{
-        
-        _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) :^{
-            
-            LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
-            
-            cvc.type = @"0";
-            
-            [self.navigationController pushViewController:cvc animated:YES];
-            
-        }];
-        
-        [_gif getDynamicDid:model.did andIndexPath:indexPath andSign:@"个人主页动态" andUIViewController:self];
-        
-        [self.tabBarController.view addSubview:_gif];
-    }
-}
-
--(void)zanButtonClick:(UIButton *)button{
-    
-    DynamicCell *cell = (DynamicCell *)button.superview.superview.superview;
-    
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
     DynamicModel *model = _dataArray[indexPath.section];
     
     if ([model.laudstate intValue] == 0) {
         
-        AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-        
-        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/laudDynamicNewrd"];
+        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,laudDynamicNewrd];
         
         NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":model.did};
-  
         
-        [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
-            NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-
-            
+        [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+            NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
             if (integer != 2000) {
                 
-                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-                
-                
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }else{
-                
-                cell.zanLabel.text = [NSString stringWithFormat:@"%d",[cell.zanLabel.text intValue] + 1];
-                
-                cell.zanImageView.image = [UIImage imageNamed:@"赞紫"];
-                
+                int oldstrs = [model.laudnum intValue]+1;
+                model.laudnum = [NSString stringWithFormat:@"%d",oldstrs].mutableCopy;
                 model.laudstate = @"1";
-                
-                model.laudnum = [NSString stringWithFormat:@"%d",[cell.zanLabel.text intValue]];
-                
+                [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
                 [_dataArray replaceObjectAtIndex:indexPath.section withObject:model];
-                
             }
-            
-            
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
-            
-        }];
-        
-    }
-    /*
-    else{
-        
-        AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-        
-        NSString *url = [NSString stringWithFormat:@"%@%@",URL,@"Api/Dynamic/cancelLaud"];
-        
-        NSDictionary *parameters = [NSDictionary dictionary];
-        
-        parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":model.did};
-        //    NSLog(@"%@",role);
-        
-        [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
-            NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-            
-            //        NSLog(@"%@",responseObject);
-            
-            if (integer != 2000) {
-                
-                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:[responseObject objectForKey:@"msg"]    preferredStyle:UIAlertControllerStyleAlert];
-                
-                UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault  handler:nil];
-                
-                [alert addAction:action];
-                
-                [self presentViewController:alert animated:YES completion:nil];
-                
-                
-            }else{
-                
-                cell.zanLabel.text = [NSString stringWithFormat:@"%d",[cell.zanLabel.text intValue] - 1];
-                
-                cell.zanImageView.image = [UIImage imageNamed:@"赞灰"];
-                
-                model.laudstate = @"0";
-                
-                model.laudnum = [NSString stringWithFormat:@"%d",[cell.zanLabel.text intValue]];
-                
-                [_dataArray replaceObjectAtIndex:indexPath.section withObject:model];
-                
-            }
-            
-            
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
+        } failed:^(NSString *errorMsg) {
             
         }];
     }
-     */
 }
+
+-(void)commentTabVClick:(UITableViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    DynamicModel *model = _dataArray[indexPath.section];
+    LDDynamicDetailViewController *dvc = [[LDDynamicDetailViewController alloc] init];
+    dvc.did = model.did;
+    dvc.ownUid = model.uid;
+    _indexPath = indexPath;
+    dvc.clickState = @"comment";
+    [self.navigationController pushViewController:dvc animated:YES];
+}
+
+-(void)replyTabVClick:(UITableViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    DynamicModel *model = _dataArray[indexPath.section];
+    _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) :^{
+        LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
+        cvc.type = @"0";
+        [self.navigationController pushViewController:cvc animated:YES];
+    }];
+    [_gif getDynamicDid:model.did andIndexPath:indexPath andSign:@"个人主页动态" andUIViewController:self];
+    [self.tabBarController.view addSubview:_gif];
+}
+
+-(void)topTabVClick:(UITableViewCell *)cell
+{
+    
+}
+
+
+
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     

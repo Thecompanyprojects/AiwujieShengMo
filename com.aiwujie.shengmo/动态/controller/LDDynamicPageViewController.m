@@ -70,21 +70,14 @@
 -(void)viewWillAppear:(BOOL)animated{
 
     [super viewWillAppear:animated];
-    
     if ([self.content intValue] == 0) {
-        
         //获取动态有几条未读消息
         [self createUnreadData];
-        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(recieveClick) name:@"消息接收" object:nil];
     }
-    
     if (_tableView.contentOffset.y == 0) {
-        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"隐藏置顶按钮" object:nil];
-        
     }else if(_tableView.contentOffset.y > 0){
-    
         [[NSNotificationCenter defaultCenter] postNotificationName:@"显示置顶按钮" object:nil];
     }
 }
@@ -416,12 +409,9 @@
             }
             
             for (NSDictionary *dic in responseObject[@"data"]) {
-                
                 [_topicArray addObject:dic];
-                
             }
         }
-        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];
@@ -431,15 +421,11 @@
 -(void)rewardSuccess:(NSNotification *)user{
     
     if (_dataArray.count >= [user.userInfo[@"section"] integerValue] + 1){
-    
         DynamicModel *model = _dataArray[[user.userInfo[@"section"] integerValue]];
-        
         model.rewardnum = [NSString stringWithFormat:@"%d",[model.rewardnum intValue] + 1];
-        
         [_dataArray replaceObjectAtIndex:[user.userInfo[@"section"] integerValue] withObject:model];
-        
         _cell.rewardLabel.text = [NSString stringWithFormat:@"%@",model.rewardnum];
-
+        [self.tableView reloadData];
     }
 }
 
@@ -477,7 +463,6 @@
         }
     }
 }
-
 
 //确定动态筛选的按钮
 -(void)dynamicScreenButtonClick{
@@ -535,9 +520,7 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//        NSLog(@"%@",responseObject);
-        
+
         if (integer != 2000) {
             
            [self createTableViewAndRefresh];
@@ -1076,18 +1059,14 @@
     DynamicModel *model = _dataArray[index.section];
     
     if ([model.laudstate intValue] == 0) {
-        
-        AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/laudDynamicNewrd"];
+        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,laudDynamicNewrd];
         NSDictionary *parameters;
         parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":model.did};
-        [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
-            NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-            
+        [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+            NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
             
             if (integer != 2000) {
-                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }else{
                 
                 int oldstrs = [model.laudnum intValue]+1;
@@ -1096,8 +1075,10 @@
                 [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:index,nil] withRowAnimation:UITableViewRowAnimationNone];
                 [_dataArray replaceObjectAtIndex:index.section withObject:model];
             }
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        } failed:^(NSString *errorMsg) {
+            
         }];
+        
     }
 }
 
@@ -1117,25 +1098,21 @@
 {
      NSIndexPath *index = [self.tableView indexPathForCell:cell];
     DynamicModel *model = _dataArray[index.section];
+    
+    _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) :^{
+        LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
+        cvc.type = @"0";
+        [self.navigationController pushViewController:cvc animated:YES];
+    }];
+    [_gif getDynamicDid:model.did andIndexPath:index andSign:@"动态" andUIViewController:self];
+    [self.tabBarController.view addSubview:_gif];
 
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue] == [model.uid intValue]) {
-        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"不能对自己打赏~"];
-    }else{
-        _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) :^{
-            LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
-            cvc.type = @"0";
-            [self.navigationController pushViewController:cvc animated:YES];
-        }];
-        [_gif getDynamicDid:model.did andIndexPath:index andSign:@"动态" andUIViewController:self];
-        [self.tabBarController.view addSubview:_gif];
-    }
 }
 -(void)topTabVClick:(UITableViewCell *)cell
 {
      //NSIndexPath *index = [self.tableView indexPathForCell:cell];
+    
 }
-
-
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     

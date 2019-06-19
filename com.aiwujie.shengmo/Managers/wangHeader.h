@@ -30,10 +30,10 @@
 #define SERVICE_ID @"KEFU148492045558421"
 
 ////测试服务器
-#define PICHEADURL  @"http://cs.shengmo.org/"
+//#define PICHEADURL  @"http://cs.shengmo.org/"
 
 //正式服务器
-//#define PICHEADURL  @"http://hao.shengmo.org:888/"
+#define PICHEADURL  @"http://hao.shengmo.org:888/"
 
 //微博的key和url
 #define kAppKey         @"2758008921"
@@ -70,6 +70,35 @@
 
 //textColor
 #define TextCOLOR [UIColor colorWithHexString:@"303030" alpha:0.8]
+
+
+//=====================单例==================
+// @interface
+#define singleton_interface(className) \
++ (className *)shared;
+
+// @implementation
+#define singleton_implementation(className) \
+static className *_instance; \
++ (id)allocWithZone:(NSZone *)zone \
+{ \
+static dispatch_once_t onceToken; \
+dispatch_once(&onceToken, ^{ \
+_instance = [super allocWithZone:zone]; \
+}); \
+return _instance; \
+} \
++ (className *)shared \
+{ \
+static dispatch_once_t onceToken; \
+dispatch_once(&onceToken, ^{ \
+_instance = [[self alloc] init]; \
+}); \
+return _instance; \
+}
+//========================end==================
+
+
 
 //发起聊天
 #define getOpenChatRestrictAndInfo  @"Api/Restrict/getOpenChatRestrictAndInfo"
@@ -122,5 +151,22 @@
 //推顶卡余额
 #define getTopcardPageInfo @"Api/users/getTopcardPageInfo"
 
+//使用推顶
+#define useTopcard  @"Api/power/useTopcard"
+
+//推顶卡购买记录
+#define buyTopcardPaymentRs  @"Api/users/getTopcardPaymentRs"
+
+//点赞记录
+#define getLaudListNew @"Api/Dynamic/getLaudListNew"
+
+//评论记录
+#define getCommentListNew @"Api/Dynamic/getCommentListNew"
+
+//礼物记录
+#define getRewardListNew @"Api/Dynamic/getRewardListNew"
+
+//动态点赞
+#define laudDynamicNewrd @"Api/Dynamic/laudDynamicNewrd"
 
 #endif /* wangHeader_h */

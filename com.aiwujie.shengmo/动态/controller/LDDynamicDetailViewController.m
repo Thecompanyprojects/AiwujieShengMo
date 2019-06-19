@@ -344,23 +344,20 @@
     NSString *url = [NSString string];
     NSDictionary *parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":_did};
     
-    if ([_status intValue] == 1) {
-        
-        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/getLaudListNew"];
-        
-    }else if ([_status intValue] == 2){
-    
-        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/getCommentListNew"];
-        
-    }else if ([_status intValue] == 3){
-    
-        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/getRewardListNew"];
+    if ([_status intValue] == 1)
+    {
+        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getLaudListNew];
+    }else if ([_status intValue] == 2)
+    {
+        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getCommentListNew];
+    }else if ([_status intValue] == 3)
+    {
+        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getRewardListNew];
     }
     else if ([_status intValue]==4)
     {
          url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getTopcardUsedRs];
     }
-    
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (integer != 2000) {
@@ -1299,7 +1296,6 @@
     [self createData:@"1"];
 }
 
-
 - (IBAction)topcardClick:(id)sender {
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     _status = @"4";
@@ -1314,84 +1310,49 @@
     [self createData:@"1"];
 }
 
-
 /**
  打赏功能
 
  @param sender 打赏功能
  */
 - (IBAction)rewardClick:(id)sender {
-    
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue] == [_ownUid intValue]) {
-        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"不能对自己打赏~"];
-    }else{
-        _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) :^{
-            LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
-            cvc.type = @"0";
-            [self.navigationController pushViewController:cvc animated:YES];
-        }];
-        [_gif getDynamicDid:self.did andIndexPath:nil andSign:@"动态详情" andUIViewController:self];
-        [self.tabBarController.view addSubview:_gif];
-    }
+    _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) :^{
+        LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
+        cvc.type = @"0";
+        [self.navigationController pushViewController:cvc animated:YES];
+    }];
+    [_gif getDynamicDid:self.did andIndexPath:nil andSign:@"动态详情" andUIViewController:self];
+    [self.tabBarController.view addSubview:_gif];
 }
 
 //动态详情页点赞
 - (IBAction)dianzanButtonClick:(id)sender {
     
     if ([_zanState intValue] == 0) {
-        
-        AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-        
         NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/laudDynamicNewrd"];
-        
         NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":_did};
-        //    NSLog(@"%@",role);
-        
-        [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
-            NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-            
-            //        NSLog(@"%@",responseObject);
-            
+        [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+            NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
             if (integer != 2000) {
-                
-                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-                
-                
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }else{
-                
                 self.zanLabel.textColor = MainColor;
-                
                 self.zanImageView.image = [UIImage imageNamed:@"赞紫"];
-                
                 _zanState = @"1";
-                
                 [self.zanButton setTitle:[NSString stringWithFormat:@"赞 %@",[NSString stringWithFormat:@"%d",[_zanNum intValue] + 1]] forState:UIControlStateNormal];
-                
                 _zanNum = [NSString stringWithFormat:@"%@",[NSString stringWithFormat:@"%d",[_zanNum intValue] + 1]];
-                
                 if (_block) {
-                    
                     self.block([NSString stringWithFormat:@"%@",[NSString stringWithFormat:@"%d",[_zanNum intValue]]],_zanState);
                 }
-  
             }
-            
-            
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
+        } failed:^(NSString *errorMsg) {
             
         }];
-        
     }
-
 }
 
 //评论动态
 - (IBAction)commentDynamicClick:(id)sender {
-    
-//    _replyUid = @"";
-    
     
     [self.textView becomeFirstResponder];
 }
@@ -1407,11 +1368,9 @@
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"立即绑定" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
             
             LDBindingPhoneNumViewController *bpnc = [[LDBindingPhoneNumViewController alloc] init];
-            
             [self.navigationController pushViewController:bpnc animated:YES];
             
         }];
-        
         
         UIAlertAction * cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
         
@@ -1513,13 +1472,12 @@
                 } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                     
                     [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"评论失败,请稍后重试~"];
-                    
                 }];
             }
         }
      }
-    
 }
+
 #pragma mark - 监听事件
 - (void) keyboardWillChangeFrame:(NSNotification *) note {
     

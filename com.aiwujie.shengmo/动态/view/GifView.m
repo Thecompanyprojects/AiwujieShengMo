@@ -74,7 +74,7 @@
 
 @implementation GifView
 
--(instancetype)initWithFrame:(CGRect)frame :(void (^)())block{
+-(instancetype)initWithFrame:(CGRect)frame :(void (^)(void))block{
 
     _MyBlock = block;
     
@@ -166,9 +166,7 @@
     
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getmywallet"];
     
-    
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    
     
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
@@ -461,7 +459,6 @@
         
         [postRequest setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
         
-        //    ViewController * __weak weakSelf = self;
         NSOperationQueue *queue = [[NSOperationQueue alloc] init];
         
         [NSURLConnection sendAsynchronousRequest:postRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
@@ -483,7 +480,7 @@
                         HUD.labelText = @"赠送成功";
                         HUD.removeFromSuperViewOnHide = YES;
                         [HUD hide:YES afterDelay:1];
-                    
+                        
                     }else{
                         
                         HUD.labelText = @"打赏成功";

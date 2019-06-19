@@ -243,6 +243,11 @@
 		00FC749A1E1554C5005A6137 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 00FC74961E1554C5005A6137 /* LICENSE */; };
 		00FC749B1E1554C5005A6137 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 00FC74981E1554C5005A6137 /* MBProgressHUD.m */; };
 		00FE865F1E38EF7B0056877E /* LDShengMoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00FE865E1E38EF7B0056877E /* LDShengMoViewController.m */; };
+		53157EAA22B9E2EF0041B582 /* SandBoxHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 53157EA922B9E2EF0041B582 /* SandBoxHelper.m */; };
+		53157EAD22B9E3B60041B582 /* IAPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 53157EAC22B9E3B60041B582 /* IAPManager.m */; };
+		53157EB222B9E4B00041B582 /* NSString+category.m in Sources */ = {isa = PBXBuildFile; fileRef = 53157EAE22B9E4AF0041B582 /* NSString+category.m */; };
+		53157EB322B9E4B00041B582 /* NSDate+category.m in Sources */ = {isa = PBXBuildFile; fileRef = 53157EB122B9E4B00041B582 /* NSDate+category.m */; };
+		53157EB622B9FB2C0041B582 /* YQInAppPurchaseTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 53157EB522B9FB2C0041B582 /* YQInAppPurchaseTool.m */; };
 		531D737922ADF2D100903BB4 /* NewldprovacyVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D737822ADF2D100903BB4 /* NewldprovacyVC.m */; };
 		531D737F22ADF3C900903BB4 /* LDProvacyCell0.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D737E22ADF3C900903BB4 /* LDProvacyCell0.m */; };
 		531D738222ADF3D800903BB4 /* LDProvacyCell1.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D738122ADF3D800903BB4 /* LDProvacyCell1.m */; };
@@ -857,6 +862,16 @@
 		00FE865E1E38EF7B0056877E /* LDShengMoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDShengMoViewController.m; sourceTree = "<group>"; };
 		3B852FF7576E22B2E72ABEDA /* Pods-圣魔无界.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-圣魔无界.release.xcconfig"; path = "Pods/Target Support Files/Pods-圣魔无界/Pods-圣魔无界.release.xcconfig"; sourceTree = "<group>"; };
 		465F08B408D1E0EFBA3B8754 /* Pods-圣魔无界.ad hoc distribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-圣魔无界.ad hoc distribution.xcconfig"; path = "Pods/Target Support Files/Pods-圣魔无界/Pods-圣魔无界.ad hoc distribution.xcconfig"; sourceTree = "<group>"; };
+		53157EA822B9E2EF0041B582 /* SandBoxHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SandBoxHelper.h; sourceTree = "<group>"; };
+		53157EA922B9E2EF0041B582 /* SandBoxHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SandBoxHelper.m; sourceTree = "<group>"; };
+		53157EAB22B9E3B60041B582 /* IAPManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IAPManager.h; sourceTree = "<group>"; };
+		53157EAC22B9E3B60041B582 /* IAPManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IAPManager.m; sourceTree = "<group>"; };
+		53157EAE22B9E4AF0041B582 /* NSString+category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+category.m"; sourceTree = "<group>"; };
+		53157EAF22B9E4AF0041B582 /* NSDate+category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+category.h"; sourceTree = "<group>"; };
+		53157EB022B9E4AF0041B582 /* NSString+category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+category.h"; sourceTree = "<group>"; };
+		53157EB122B9E4B00041B582 /* NSDate+category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+category.m"; sourceTree = "<group>"; };
+		53157EB422B9FB2B0041B582 /* YQInAppPurchaseTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YQInAppPurchaseTool.h; sourceTree = "<group>"; };
+		53157EB522B9FB2C0041B582 /* YQInAppPurchaseTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YQInAppPurchaseTool.m; sourceTree = "<group>"; };
 		531D737722ADF2D100903BB4 /* NewldprovacyVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewldprovacyVC.h; sourceTree = "<group>"; };
 		531D737822ADF2D100903BB4 /* NewldprovacyVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewldprovacyVC.m; sourceTree = "<group>"; };
 		531D737D22ADF3C900903BB4 /* LDProvacyCell0.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDProvacyCell0.h; sourceTree = "<group>"; };
@@ -1930,6 +1945,16 @@
 				53F3B95122B73DC600F0EDF5 /* NullSafe.m */,
 				53B7C12222B4A11800113F50 /* TimeManager.h */,
 				53B7C12322B4A11800113F50 /* TimeManager.m */,
+				53157EA822B9E2EF0041B582 /* SandBoxHelper.h */,
+				53157EA922B9E2EF0041B582 /* SandBoxHelper.m */,
+				53157EAB22B9E3B60041B582 /* IAPManager.h */,
+				53157EAC22B9E3B60041B582 /* IAPManager.m */,
+				53157EB422B9FB2B0041B582 /* YQInAppPurchaseTool.h */,
+				53157EB522B9FB2C0041B582 /* YQInAppPurchaseTool.m */,
+				53157EAF22B9E4AF0041B582 /* NSDate+category.h */,
+				53157EB122B9E4B00041B582 /* NSDate+category.m */,
+				53157EB022B9E4AF0041B582 /* NSString+category.h */,
+				53157EAE22B9E4AF0041B582 /* NSString+category.m */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -3542,6 +3567,7 @@
 				000BFA151E0410CA00E23998 /* LDIamCell.m in Sources */,
 				003B9A7B1E06BFE5006BF162 /* LDDiscoverViewController.m in Sources */,
 				00EC29761E18F2670066273A /* TZAssetCell.m in Sources */,
+				53157EB622B9FB2C0041B582 /* YQInAppPurchaseTool.m in Sources */,
 				D21249401FC3FB2F00936BA0 /* VIPMemberCell.m in Sources */,
 				D25212DF1FAD559500A8A3A4 /* AlertTool.m in Sources */,
 				D2FB6BC21EBB378400167FFA /* AtModel.m in Sources */,
@@ -3564,6 +3590,7 @@
 				000D93E41E0D79070076931E /* CollectCell.m in Sources */,
 				00EF77D91E3788CF00FDF998 /* LDGetListViewController.m in Sources */,
 				D20FD3AB1F95A563007E0A03 /* LDOwnInfoDynamicCommentViewController.m in Sources */,
+				53157EAD22B9E3B60041B582 /* IAPManager.m in Sources */,
 				00EF77E11E37963800FDF998 /* CommentedCell.m in Sources */,
 				531D737F22ADF3C900903BB4 /* LDProvacyCell0.m in Sources */,
 				00EC29811E18F2670066273A /* UIView+Layout.m in Sources */,
@@ -3579,6 +3606,7 @@
 				D29AF6EF1FBD632C001098B3 /* HJTabViewController+ViewController.m in Sources */,
 				00F79B9E1E27A674001C7593 /* BillModel.m in Sources */,
 				000516031E2E6041007C627C /* LDSearchViewController.m in Sources */,
+				53157EB322B9E4B00041B582 /* NSDate+category.m in Sources */,
 				00E9D2E11E2F99780004365D /* ApplyGroupCell.m in Sources */,
 				0013A8B31E29F731003647EE /* LDCreateGroupViewController.m in Sources */,
 				531D738722AE0A3600903BB4 /* LDpermissionsVC.m in Sources */,
@@ -3626,6 +3654,7 @@
 				53B7C0EF22B3A4C100113F50 /* NSDictionary+safeLoad.m in Sources */,
 				D24F1F281EB890B2008C296D /* LDSelectAtPersonViewController.m in Sources */,
 				D24809251E962ED5008A30BB /* UILabel+Copy.m in Sources */,
+				53157EAA22B9E2EF0041B582 /* SandBoxHelper.m in Sources */,
 				D2085A771F47E94700FE03BA /* ApplyMatchmakerCell.m in Sources */,
 				D2366F6B1F7C8F89009B7F4C /* FollowMessageCell.m in Sources */,
 				D2DAD05E1EFD0F2E0015793F /* MyWalletModel.m in Sources */,
@@ -3771,6 +3800,7 @@
 				000528C11E26682F00CCBB1B /* LDGeneralViewController.m in Sources */,
 				D23A5FE71ED53C5C00FE4AD5 /* LDGetChangeBindingPhoneNumCodeViewController.m in Sources */,
 				D2692A051E7A8D5200250A05 /* UITableView+FDKeyedHeightCache.m in Sources */,
+				53157EB222B9E4B00041B582 /* NSString+category.m in Sources */,
 				D23B273E1F42CA7800D78D30 /* LDMatchmakerPageViewController.m in Sources */,
 				D29AF6F21FBD632C001098B3 /* HJTabViewControllerPlugin_Base.m in Sources */,
 				D20E4B261F1F123E00232E08 /* LDMyTopicViewController.m in Sources */,

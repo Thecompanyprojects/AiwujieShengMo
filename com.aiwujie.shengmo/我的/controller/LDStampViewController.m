@@ -233,8 +233,6 @@
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
         
-//                NSLog(@"%@",responseObject[@"data"]);
-        
         if (integer != 2000) {
             
             hud.labelText = @"验证失败";
