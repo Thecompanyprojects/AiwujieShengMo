@@ -117,7 +117,6 @@
     return _contentLab;
 }
 
-
 -(UIButton *)topBtn
 {
     if(!_topBtn)
@@ -125,6 +124,7 @@
         _topBtn = [[UIButton alloc] init];
         [_topBtn setImage:[UIImage imageNamed:@"通用邮票"] forState:normal];
         [_topBtn addTarget:self action:@selector(singleTapAction) forControlEvents:UIControlEventTouchUpInside];
+        _topBtn.alpha = 1;
     }
     return _topBtn;
 }
@@ -142,7 +142,7 @@
         [_buyBtn setTitleColor:[UIColor whiteColor] forState:normal];
         [_buyBtn setTitleColor:[UIColor whiteColor] forState:normal];
         [_buyBtn addTarget:self action:@selector(buybtnClick) forControlEvents:UIControlEventTouchUpInside];
-        
+        _buyBtn.alpha = 1;
     }
     return _buyBtn;
 }
@@ -159,14 +159,38 @@
 
 -(void)singleTapAction
 {
-    if (self.sureClick) {
-        self.sureClick(self.numberStr);
+   
+    if ([self.numberStr isEqualToString:@"0"]||self.numberStr.length==0) {
+        if (self.alertClick) {
+            self.alertClick([NSString new]);
+        }
+    }
+    else
+    {
+        [self topcardclick];
     }
     [UIView animateWithDuration:0.3 animations:^{
         [self removeFromSuperview];
     }];
 }
 
+
+-(void)topcardclick
+{
+    NSString *url = [PICHEADURL stringByAppendingString:useTopcard];
+    NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+    NSDictionary *para = @{@"did":self.did?:@"",@"uid":uid?:@""};
+    [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
+        
+        if ([[responseObj objectForKey:@"retcord"] intValue]==2000) {
+            if (self.sureClick) {
+                self.sureClick(self.numberStr);
+            }
+        }
+    } failed:^(NSString *errorMsg) {
+        
+    }];
+}
 
 -(void)getData
 {
@@ -192,6 +216,11 @@
 -(void)withBuyClick:(buyBlock)block
 {
     _buyClick = block;
+}
+
+-(void)withAlertClick:(alertBlock)block
+{
+    _alertClick = block;
 }
 
 #pragma mark - getteres

@@ -30,10 +30,10 @@
 #define SERVICE_ID @"KEFU148492045558421"
 
 ////测试服务器
-#define PICHEADURL  @"http://cs.shengmo.org/"
+//#define PICHEADURL  @"http://cs.shengmo.org/"
 
 //正式服务器
-//#define PICHEADURL  @"http://hao.shengmo.org:888/"
+#define PICHEADURL  @"http://hao.shengmo.org:888/"
 
 //微博的key和url
 #define kAppKey         @"2758008921"
@@ -169,4 +169,7 @@ return _instance; \
 //动态点赞
 #define laudDynamicNewrd @"Api/Dynamic/laudDynamicNewrd"
 
+
+//修改隐私相册密码
+#define editPhotoPwd @"Api/users/editPhotoPwd"
 #endif /* wangHeader_h */

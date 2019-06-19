@@ -323,88 +323,58 @@
     [shadowView addGestureRecognizer:tap];
     [_backgroundView addSubview:shadowView];
     
-    UIView *alertView = [[UIView alloc] initWithFrame:CGRectMake(50, HEIGHT/2 - 100, WIDTH - 100, 155)];
+    UIView *alertView = [[UIView alloc] initWithFrame:CGRectMake(50, HEIGHT/2 - 100, WIDTH - 100, 135)];
     alertView.backgroundColor = [UIColor whiteColor];
     alertView.layer.cornerRadius = 2;
     alertView.clipsToBounds = YES;
     [_backgroundView addSubview:alertView];
     
-    _oldpwdField = [[UITextField alloc] initWithFrame:CGRectMake(10, 15, WIDTH - 120, 35)];
-    _oldpwdField.placeholder = @"请输入原密码(在1-16位之间)";
-    _oldpwdField.backgroundColor = [UIColor colorWithRed:221/255.0 green:221/255.0 blue:221/255.0 alpha:1];
-    _oldpwdField.secureTextEntry = YES;
-    _oldpwdField.font = [UIFont systemFontOfSize:14];
-    _oldpwdField.delegate = self;
+//    _oldpwdField = [[UITextField alloc] initWithFrame:CGRectMake(10, 15, WIDTH - 120, 35)];
+//    _oldpwdField.placeholder = @"请输入原密码(在1-16位之间)";
+//    _oldpwdField.backgroundColor = [UIColor colorWithRed:221/255.0 green:221/255.0 blue:221/255.0 alpha:1];
+//    _oldpwdField.secureTextEntry = YES;
+//    _oldpwdField.font = [UIFont systemFontOfSize:14];
+//    _oldpwdField.delegate = self;
+//
+//    [_oldpwdField addTarget:self action:@selector(textfieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+//
+//    [alertView addSubview:_oldpwdField];
     
-    [_oldpwdField addTarget:self action:@selector(textfieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-    
-    [alertView addSubview:_oldpwdField];
-    
-    _passwordField = [[UITextField alloc] initWithFrame:CGRectMake(10, 60, WIDTH - 120, 35)];
+    _passwordField = [[UITextField alloc] initWithFrame:CGRectMake(10, 30, WIDTH - 120, 35)];
     _passwordField.placeholder = @"请输入新密码(在1-16位之间)";
     _passwordField.backgroundColor = [UIColor colorWithRed:221/255.0 green:221/255.0 blue:221/255.0 alpha:1];
     _passwordField.font = [UIFont systemFontOfSize:14];
     _passwordField.delegate = self;
-    
     [_passwordField addTarget:self action:@selector(textfieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-    
     [alertView addSubview:_passwordField];
-    
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 110, WIDTH - 100, 1)];
-    
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 90, WIDTH - 100, 1)];
     lineView.backgroundColor = [UIColor colorWithRed:221/255.0 green:221/255.0 blue:221/255.0 alpha:1];
-    
     [alertView addSubview:lineView];
-    
-    UIButton *alertButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 115, (WIDTH - 100)/2, 35)];
-    
+    UIButton *alertButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 95, (WIDTH - 100)/2, 35)];
     [alertButton addTarget:self action:@selector(aginSetButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    
     [alertButton setTitle:@"重置" forState:UIControlStateNormal];
-    
     [alertButton setTitleColor:MainColor forState:UIControlStateNormal];
-    
     [alertView addSubview:alertButton];
-    
-    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake((WIDTH - 100)/2, 115, (WIDTH - 100)/2, 35)];
-    
+    UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake((WIDTH - 100)/2, 95, (WIDTH - 100)/2, 35)];
     [cancelButton addTarget:self action:@selector(cancelButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    
     [cancelButton setTitle:@"取消" forState:UIControlStateNormal];
-    
     [cancelButton setTitleColor:MainColor forState:UIControlStateNormal];
-    
     [alertView addSubview:cancelButton];
 }
 
 -(void)aginSetButtonClick{
-
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/editPhotoPwd"];
-    
-    
-    NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"oldpwd":_oldpwdField.text,@"newpwd":_passwordField.text};
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//        NSLog(@"%@",responseObject);
-        
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,editPhotoPwd];
+    NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"oldpwd":_oldpwdField.text?:@"",@"newpwd":_passwordField.text?:@""};
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-            
-            
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
         }else{
             
             [_backgroundView removeFromSuperview];
         }
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"因网络等原因修改失败"    preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {

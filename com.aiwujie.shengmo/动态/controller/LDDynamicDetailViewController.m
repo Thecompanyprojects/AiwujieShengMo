@@ -1411,39 +1411,29 @@
 -(void)topcardClick
 {
     TopcardView *view = [TopcardView new];
+    view.did = self.did;
     [view withBuyClick:^(NSString * _Nonnull string) {
         LDtotopViewController *VC = [LDtotopViewController new];
         [self.navigationController pushViewController:VC animated:YES];
     }];
+    [view withAlertClick:^(NSString * _Nonnull string) {
+        UIAlertController *control = [UIAlertController alertControllerWithTitle:@"提示" message:@"您的推顶卡不足，请购买" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"去购买" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            LDtotopViewController *VC = [LDtotopViewController new];
+            [self.navigationController pushViewController:VC animated:YES];
+        }];
+        [control addAction:action0];
+        [control addAction:action1];
+        [self presentViewController:control animated:YES completion:^{
+            
+        }];
+    }];
     [view withSureClick:^(NSString * _Nonnull string) {
-        //推顶操作
-        if ([string isEqualToString:@"0"]||string.length==0) {
-            UIAlertController *control = [UIAlertController alertControllerWithTitle:@"提示" message:@"您的推顶卡不足，请购买" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                
-            }];
-            UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"去购买" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                LDtotopViewController *VC = [LDtotopViewController new];
-                [self.navigationController pushViewController:VC animated:YES];
-            }];
-            [control addAction:action0];
-            [control addAction:action1];
-            [self presentViewController:control animated:YES completion:^{
-                
-            }];
-        }
-        else
-        {
-            NSString *url = [PICHEADURL stringByAppendingString:useTopcard];
-            NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
-            NSString *did = self.did;
-            NSDictionary *para = @{@"uid":uid?:@"",@"did":did?:@""};
-            [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
-                
-            } failed:^(NSString *errorMsg) {
-                
-            }];
-        }
+        //推顶操作成功
+        
     }];
 }
 

@@ -36,9 +36,8 @@
     self.window.backgroundColor = [UIColor whiteColor];
     
     //bugly
-     [Bugly startWithAppId:@"3fec6eff57"];
+    [Bugly startWithAppId:@"3fec6eff57"];
     
-
     //@{}代表Dictionary  设置title颜色
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1],NSFontAttributeName:[UIFont systemFontOfSize:17]}];
     

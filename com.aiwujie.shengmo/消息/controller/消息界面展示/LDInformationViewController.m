@@ -136,7 +136,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+     self.view.backgroundColor = [UIColor whiteColor];
     //设置需要显示哪些类型的会话
     [self setDisplayConversationTypes:@[@(ConversationType_PRIVATE),@(ConversationType_GROUP),@(ConversationType_SYSTEM),@(ConversationType_PUSHSERVICE),@(ConversationType_CUSTOMERSERVICE)]];
 //    //设置需要将哪些类型的会话在会话列表中聚合显示
