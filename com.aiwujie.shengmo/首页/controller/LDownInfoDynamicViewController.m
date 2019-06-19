@@ -489,9 +489,7 @@
     [manager POST:_url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //                NSLog(@"%@",responseObject);
-        
+
         if (integer != 2000) {
             
             hud.removeFromSuperViewOnHide = YES;
@@ -544,34 +542,21 @@
 
 
 -(void)createTableView{
-    
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX]) style:UITableViewStyleGrouped];
-    
     if (@available(iOS 11.0, *)) {
-        
         self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
-        
         self.tableView.estimatedRowHeight = 0;
         self.tableView.estimatedSectionHeaderHeight = 0;
         self.tableView.estimatedSectionFooterHeight = 0;
-        
     }else {
-        
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
     self.tableView.delegate = self;
-    
     self.tableView.dataSource = self;
-    
     self.tableView.fd_debugLogEnabled = YES;
-    
     [self.tableView registerNib:[UINib nibWithNibName:@"DynamicCell" bundle:nil] forCellReuseIdentifier:@"DynamicCell"];
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     self.tableView.showsHorizontalScrollIndicator = NO;
-    
     [self.view addSubview:self.tableView];
 }
 
@@ -594,14 +579,6 @@
     cell.indexPath = indexPath;
     [self configureCell:cell atIndexPath:indexPath];
     [_sectionArray addObject:indexPath];
-//    [cell.zanButton addTarget:self action:@selector(zanButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-//
-//    [cell.rewardButton addTarget:self action:@selector(rewardButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-//
-//    [cell.commentButton addTarget:self action:@selector(commentButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-//
-//    [cell.headButton addTarget:self action:@selector(headButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
     return cell;
 }
 
@@ -1280,12 +1257,8 @@
 
 -(void)createDataType:(NSString *)type{
 
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getDynamicListNewFive];
-
     NSDictionary *parameters;
-
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
 
         parameters = @{@"uid":self.personUid,@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"type":@"3",@"page":[NSString stringWithFormat:@"%d",_page],@"loginuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
@@ -1294,29 +1267,17 @@
 
         parameters = @{@"uid":self.personUid,@"lat":@"",@"lng":@"",@"type":@"3",@"page":[NSString stringWithFormat:@"%d",_page],@"loginuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     }
-
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        _integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-//        NSLog(@"%@",responseObject);
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        _integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (_integer != 2000 && _integer != 2001) {
-            
             if (_integer == 4001) {
-                
                 if ([type intValue] == 1) {
-                    
                     [_dataArray removeAllObjects];
-                    
                     [self.tableView reloadData];
-                    
-               }
-                
+                }
                 [self.tableView.mj_footer endRefreshingWithNoMoreData];
                 
             }else{
-                
                 if (_integer == 4344 || _integer == 4343) {
                     
                     [_dataArray removeAllObjects];
@@ -1331,44 +1292,30 @@
                     
                     [self.tableView.mj_footer endRefreshing];
                     
-                    [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
+                    [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
                 }
             }
             
         }else{
-            
             if ([type intValue] == 1) {
-                
                 [_dataArray removeAllObjects];
-                
             }
             
             if (_warnView != nil) {
-                
                 [_warnView removeFromSuperview];
             }
-            
-            for (NSDictionary *dic in responseObject[@"data"]) {
-                
-                DynamicModel *model = [[DynamicModel alloc] init];
-                
-                [model setValuesForKeysWithDictionary:dic];
-                
-                [_dataArray addObject:model];
-            }
-            
+            NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[DynamicModel class] json:responseObj[@"data"]]];
+            [self.dataArray addObjectsFromArray:data];
             [self.tableView reloadData];
-            
             [self.tableView.mj_footer endRefreshing];
-            
         }
         
         [self.tableView.mj_header endRefreshing];
+    } failed:^(NSString *errorMsg) {
         
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        NSLog(@"%@",error);
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
+
     }];
 }
 

@@ -192,7 +192,6 @@
         parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"0",@"pid":[NSString stringWithFormat:@"%d",[self.content intValue] - 3],@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     }
     
-    
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
@@ -614,15 +613,9 @@
 
 
 -(void)createDataType:(NSString *)type{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url;
-    
     url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getDynamicListNewFive];
-    
     NSDictionary *parameters;
-    
     if ([self.content intValue] == 1||[self.content intValue]==0) {
         
         //判定动态筛选是否开启
@@ -749,25 +742,16 @@
                 }else{
                     
                     parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":@"",@"lng":@"",@"type":[NSString stringWithFormat:@"%d",[self.content intValue]],@"page":[NSString stringWithFormat:@"%d",_page],@"loginuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"sex":[[NSUserDefaults standardUserDefaults] objectForKey:@"dynamicSex"],@"sexual":[[NSUserDefaults standardUserDefaults] objectForKey:@"dynamicSexual"]};
-                    
-                    
                 }
             }
         }
-        
     }else{
-        
         NSString *content;
-        
         if ([self.content intValue] == 0) {
-            
             content = @"0";
-            
         }else{
-            
             content = [NSString stringWithFormat:@"%d",[self.content intValue]];
         }
-        
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
             
             parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"type":content,@"page":[NSString stringWithFormat:@"%d",_page],@"loginuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
@@ -777,87 +761,51 @@
             parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":@"",@"lng":@"",@"type":content,@"page":[NSString stringWithFormat:@"%d",_page],@"loginuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
         }
     }
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        _integer = [[responseObject objectForKey:@"retcode"] intValue];
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        _integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (_integer != 2000 && _integer != 2001) {
-            
             if (_integer == 4001) {
-                
                 if ([type intValue] == 1) {
-                    
                     [_dataArray removeAllObjects];
-                    
                     [self.tableView reloadData];
-                    
                 }
-                
                 [self.tableView.mj_footer endRefreshingWithNoMoreData];
-
             }else{
                 
                 if ([self.content intValue] == 2 && (_integer == 4344 || _integer == 4343)) {
-                    
                     [_dataArray removeAllObjects];
-                    
                     [self.tableView reloadData];
-                    
                     [self.tableView.mj_header endRefreshing];
-                    
                     [self.tableView.mj_footer endRefreshingWithNoMoreData];
-                    
                     if (_friendNoLookView == nil) {
-                        
-                          [self createFriendNoDynamicView];
+                        [self createFriendNoDynamicView];
                     }
-
                 }else{
-                    
                     [self.tableView.mj_footer endRefreshing];
-                    
-                     [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
+                    [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
                 }
             }
-            
         }else{
-            
             if ([type intValue] == 1) {
-                
                 [_dataArray removeAllObjects];
             }
-            
             if (_friendNoLookView != nil) {
-                
                 [_friendNoLookView removeFromSuperview];
             }
-            
             if (_noLookView != nil) {
-                
                 [_noLookView removeFromSuperview];
             }
-            
-            for (NSDictionary *dic in responseObject[@"data"]) {
-                
-                DynamicModel *model = [[DynamicModel alloc] init];
-                
-                [model setValuesForKeysWithDictionary:dic];
-                
-                [_dataArray addObject:model];
-            }
-            
+            NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[DynamicModel class] json:responseObj[@"data"]]];
+            [self.dataArray addObjectsFromArray:data];
             [self.tableView reloadData];
-            
             [self.tableView.mj_footer endRefreshing];
         }
-        
         [self.tableView.mj_header endRefreshing];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
     }];
+
 }
 
 //当好友没有动态的时候创建

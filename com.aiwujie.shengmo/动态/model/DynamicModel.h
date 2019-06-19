@@ -94,5 +94,6 @@
 
 //推荐动态数
 @property (nonatomic,copy) NSString *rdynamic_num;
-
+//推顶数量
+@property (nonatomic,copy) NSString *topnum;
 @end

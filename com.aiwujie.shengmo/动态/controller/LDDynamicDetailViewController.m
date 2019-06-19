@@ -377,8 +377,15 @@
 -(void)createData:(NSString *)str{
 
     NSString *url = [NSString string];
-    NSDictionary *parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":_did};
-    
+    NSDictionary *parameters;
+    //查询推顶列表 不传UID
+    if (!([self.status intValue]==4)) {
+        parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":_did};
+    }
+    else
+    {
+        parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"uid":@"",@"did":_did};
+    }
     if ([_status intValue] == 1)
     {
         url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getLaudListNew];
@@ -1173,6 +1180,9 @@
     
     [self.rewardButton setTitle:[NSString stringWithFormat:@"打赏 %@",dic[@"rewardnum"]] forState:UIControlStateNormal];
     [self.rewardButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    
+    [self.totopButton setTitle:[NSString stringWithFormat:@"推顶 %@",dic[@"topnum"]] forState:normal];
+    [self.totopButton setTitleColor:[UIColor darkGrayColor] forState:normal];
     
     //获取展示的财富值和魅力值
     [self getWealthAndCharmState:_wealthLabel andView:_wealthView andText:dic[@"wealth_val"] andNSLayoutConstraint:_wealthW andType:@"财富"];

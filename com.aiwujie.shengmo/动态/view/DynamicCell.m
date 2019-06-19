@@ -437,6 +437,7 @@
     
     [self getWealthAndCharmState:_charmLabel andView:_charmView andNSLayoutConstraint:_charmW andType:@"魅力"];
     
+    [self.bottom.topBtn setTitle:model.topnum?:@"0" forState:normal];
 }
 
 /**
