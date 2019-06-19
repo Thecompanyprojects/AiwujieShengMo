@@ -244,7 +244,6 @@
 		00FC749B1E1554C5005A6137 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 00FC74981E1554C5005A6137 /* MBProgressHUD.m */; };
 		00FE865F1E38EF7B0056877E /* LDShengMoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00FE865E1E38EF7B0056877E /* LDShengMoViewController.m */; };
 		53157EAA22B9E2EF0041B582 /* SandBoxHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 53157EA922B9E2EF0041B582 /* SandBoxHelper.m */; };
-		53157EAD22B9E3B60041B582 /* IAPManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 53157EAC22B9E3B60041B582 /* IAPManager.m */; };
 		53157EB222B9E4B00041B582 /* NSString+category.m in Sources */ = {isa = PBXBuildFile; fileRef = 53157EAE22B9E4AF0041B582 /* NSString+category.m */; };
 		53157EB322B9E4B00041B582 /* NSDate+category.m in Sources */ = {isa = PBXBuildFile; fileRef = 53157EB122B9E4B00041B582 /* NSDate+category.m */; };
 		53157EB622B9FB2C0041B582 /* YQInAppPurchaseTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 53157EB522B9FB2C0041B582 /* YQInAppPurchaseTool.m */; };
@@ -865,8 +864,6 @@
 		465F08B408D1E0EFBA3B8754 /* Pods-圣魔无界.ad hoc distribution.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-圣魔无界.ad hoc distribution.xcconfig"; path = "Pods/Target Support Files/Pods-圣魔无界/Pods-圣魔无界.ad hoc distribution.xcconfig"; sourceTree = "<group>"; };
 		53157EA822B9E2EF0041B582 /* SandBoxHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SandBoxHelper.h; sourceTree = "<group>"; };
 		53157EA922B9E2EF0041B582 /* SandBoxHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SandBoxHelper.m; sourceTree = "<group>"; };
-		53157EAB22B9E3B60041B582 /* IAPManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IAPManager.h; sourceTree = "<group>"; };
-		53157EAC22B9E3B60041B582 /* IAPManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IAPManager.m; sourceTree = "<group>"; };
 		53157EAE22B9E4AF0041B582 /* NSString+category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+category.m"; sourceTree = "<group>"; };
 		53157EAF22B9E4AF0041B582 /* NSDate+category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+category.h"; sourceTree = "<group>"; };
 		53157EB022B9E4AF0041B582 /* NSString+category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+category.h"; sourceTree = "<group>"; };
@@ -1950,8 +1947,6 @@
 				53B7C12322B4A11800113F50 /* TimeManager.m */,
 				53157EA822B9E2EF0041B582 /* SandBoxHelper.h */,
 				53157EA922B9E2EF0041B582 /* SandBoxHelper.m */,
-				53157EAB22B9E3B60041B582 /* IAPManager.h */,
-				53157EAC22B9E3B60041B582 /* IAPManager.m */,
 				53157EB422B9FB2B0041B582 /* YQInAppPurchaseTool.h */,
 				53157EB522B9FB2C0041B582 /* YQInAppPurchaseTool.m */,
 				53157EAF22B9E4AF0041B582 /* NSDate+category.h */,
@@ -3596,7 +3591,6 @@
 				000D93E41E0D79070076931E /* CollectCell.m in Sources */,
 				00EF77D91E3788CF00FDF998 /* LDGetListViewController.m in Sources */,
 				D20FD3AB1F95A563007E0A03 /* LDOwnInfoDynamicCommentViewController.m in Sources */,
-				53157EAD22B9E3B60041B582 /* IAPManager.m in Sources */,
 				00EF77E11E37963800FDF998 /* CommentedCell.m in Sources */,
 				531D737F22ADF3C900903BB4 /* LDProvacyCell0.m in Sources */,
 				00EC29811E18F2670066273A /* UIView+Layout.m in Sources */,

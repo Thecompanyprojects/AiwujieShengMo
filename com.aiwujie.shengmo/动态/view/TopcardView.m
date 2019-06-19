@@ -11,9 +11,10 @@
 @interface TopcardView()
 @property (nonatomic,strong) UIView *alertView;
 @property (nonatomic,strong) UILabel *titleLab;
-@property (nonatomic,strong) UIImageView *img;
+@property (nonatomic,strong) UIButton *topBtn;
 @property (nonatomic,strong) UILabel *contentLab;
 @property (nonatomic,strong) UIButton *buyBtn;
+@property (nonatomic,copy) NSString *numberStr;
 @end
 
 
@@ -49,12 +50,12 @@
         self.alertView.userInteractionEnabled=YES;
         [self addSubview:self.alertView];
         [self showAnimationwith];
-        [self.alertView addSubview:self.img];
+        [self.alertView addSubview:self.topBtn];
         [self.alertView addSubview:self.contentLab];
         [self.alertView addSubview:self.titleLab];
         [self.alertView addSubview:self.buyBtn];
         [self setuplayout];
-        
+        [self getData];
     }
     return self;
 }
@@ -68,7 +69,7 @@
         make.top.equalTo(weakSelf.alertView).with.offset(20);
     }];
     
-    [weakSelf.img mas_makeConstraints:^(MASConstraintMaker *make) {
+    [weakSelf.topBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(weakSelf.alertView);
         make.top.equalTo(weakSelf.titleLab.mas_bottom).with.offset(25);
         make.width.mas_offset(100);
@@ -77,7 +78,7 @@
     
     [weakSelf.contentLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(weakSelf.alertView);
-        make.top.equalTo(weakSelf.img.mas_bottom).with.offset(25);
+        make.top.equalTo(weakSelf.topBtn.mas_bottom).with.offset(25);
         
     }];
     
@@ -108,7 +109,7 @@
     if(!_contentLab)
     {
         _contentLab = [[UILabel alloc] init];
-        _contentLab.text = @"剩余0张推顶卡";
+//        _contentLab.text = @"剩余0张推顶卡";
         _contentLab.font = [UIFont systemFontOfSize:18];
         _contentLab.textColor = [UIColor whiteColor];
         _contentLab.textAlignment = NSTextAlignmentCenter;
@@ -116,20 +117,18 @@
     return _contentLab;
 }
 
--(UIImageView *)img
+
+-(UIButton *)topBtn
 {
-    if(!_img)
+    if(!_topBtn)
     {
-        _img = [[UIImageView alloc] init];
-        _img.image = [UIImage imageNamed:@"通用邮票"];
-        _img.userInteractionEnabled = YES;//打开用户交互
-        //初始化一个手势
-        UIGestureRecognizer *singleTap =   [[UIGestureRecognizer alloc] initWithTarget:self action:@selector(singleTapAction:)];
-        //为图片添加手势
-        [_img addGestureRecognizer:singleTap];
+        _topBtn = [[UIButton alloc] init];
+        [_topBtn setImage:[UIImage imageNamed:@"通用邮票"] forState:normal];
+        [_topBtn addTarget:self action:@selector(singleTapAction) forControlEvents:UIControlEventTouchUpInside];
     }
-    return _img;
+    return _topBtn;
 }
+
 
 -(UIButton *)buyBtn
 {
@@ -158,17 +157,33 @@
     }
 }
 
--(void)singleTapAction:(UIGestureRecognizer *)ges
+-(void)singleTapAction
 {
+    if (self.sureClick) {
+        self.sureClick(self.numberStr);
+    }
     [UIView animateWithDuration:0.3 animations:^{
         [self removeFromSuperview];
     }];
-    if (self.sureClick) {
-        self.sureClick([NSString new]);
-    }
-    //具体的实现
 }
 
+
+-(void)getData
+{
+    NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+    NSString *url = [PICHEADURL stringByAppendingString:getTopcardPageInfo];
+    NSDictionary *para = @{@"uid":uid?:@""};
+    [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
+
+        if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
+            NSDictionary *data = [responseObj objectForKey:@"data"];
+            self.numberStr = [data objectForKey:@"wallet_topcard"];
+        }
+        self.contentLab.text = [NSString stringWithFormat:@"%@%@%@",@"共剩余",self.numberStr?:@"0",@"张推顶卡"];
+    } failed:^(NSString *errorMsg) {
+        
+    }];
+}
 
 -(void)withSureClick:(sureBlock)block{
     _sureClick = block;
@@ -189,7 +204,7 @@
 
     UITouch * touch = touches.anyObject;
     
-    if ([touch.view isMemberOfClass:[self.alertView class]]||[touch.view isMemberOfClass:[self.img class]]||[touch.view isMemberOfClass:[self.titleLab class]]) {
+    if ([touch.view isMemberOfClass:[self.alertView class]]||[touch.view isMemberOfClass:[self.titleLab class]]) {
         
     }
     else
@@ -199,9 +214,7 @@
         }];
 
     }
-
 }
-
 
 
 

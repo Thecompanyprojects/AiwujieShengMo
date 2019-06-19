@@ -211,7 +211,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardChangeFrame:) name:UIKeyboardWillHideNotification object:nil];
     
- 
+    [self createBottomView];
 }
 
 -(void)createBottomView
@@ -234,6 +234,10 @@
     [self.bottom.commentBtn setImage:[UIImage imageNamed:@"评论紫"] forState:normal];
     [self.bottom.replyBtn setImage:[UIImage imageNamed:@"打赏紫"] forState:normal];
     [self.bottom.topBtn setImage:[UIImage imageNamed:@"打赏紫"] forState:normal];
+    [self.bottom.zanBtn setTitle:@"赞" forState:normal];
+    [self.bottom.commentBtn setTitle:@"评论" forState:normal];
+    [self.bottom.replyBtn setTitle:@"打赏" forState:normal];
+    [self.bottom.topBtn setTitle:@"推顶" forState:normal];
     [self.bottom.zanBtn addTarget:self action:@selector(dianzanClick) forControlEvents:UIControlEventTouchUpInside];
     [self.bottom.commentBtn addTarget:self action:@selector(commentClick) forControlEvents:UIControlEventTouchUpInside];
     [self.bottom.replyBtn addTarget:self action:@selector(replyClick) forControlEvents:UIControlEventTouchUpInside];
@@ -1413,6 +1417,33 @@
     }];
     [view withSureClick:^(NSString * _Nonnull string) {
         //推顶操作
+        if ([string isEqualToString:@"0"]||string.length==0) {
+            UIAlertController *control = [UIAlertController alertControllerWithTitle:@"提示" message:@"您的推顶卡不足，请购买" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                
+            }];
+            UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"去购买" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                LDtotopViewController *VC = [LDtotopViewController new];
+                [self.navigationController pushViewController:VC animated:YES];
+            }];
+            [control addAction:action0];
+            [control addAction:action1];
+            [self presentViewController:control animated:YES completion:^{
+                
+            }];
+        }
+        else
+        {
+            NSString *url = [PICHEADURL stringByAppendingString:useTopcard];
+            NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+            NSString *did = self.did;
+            NSDictionary *para = @{@"uid":uid?:@"",@"did":did?:@""};
+            [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
+                
+            } failed:^(NSString *errorMsg) {
+                
+            }];
+        }
     }];
 }
 
