@@ -976,32 +976,15 @@
                 return array;
             }];
         };
-        
         return cell;
     }
-    
     DynamicCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DynamicCell" forIndexPath:indexPath];
-    
     cell.delegate = self;
-    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     cell.integer = _integer;
-    
     cell.indexPath = indexPath;
-    
     [_sectionArray addObject:indexPath];
-    
     [self configureCell:cell atIndexPath:indexPath];
-    
-    [cell.zanButton addTarget:self action:@selector(zanButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [cell.rewardButton addTarget:self action:@selector(rewardButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [cell.commentButton addTarget:self action:@selector(commentButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [cell.headButton addTarget:self action:@selector(headButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
     return cell;
 }
 
@@ -1084,113 +1067,75 @@
     
 }
 
-//点击动态评论按钮
--(void)commentButtonClick:(UIButton *)button{
-    
-    DynamicCell *cell = (DynamicCell *)button.superview.superview.superview;
-    
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
-    DynamicModel *model = _dataArray[indexPath.section];
-    
-    LDDynamicDetailViewController *dvc = [[LDDynamicDetailViewController alloc] init];
-    
-    dvc.did = model.did;
-    
-    dvc.ownUid = model.uid;
-    
-    _indexPath = indexPath;
-    
-    dvc.clickState = @"comment";
-    
-    [self.navigationController pushViewController:dvc animated:YES];
-}
+#pragma mark - 点赞-动态-评论-推顶
 
-//点击动态打赏按钮
--(void)rewardButtonClick:(UIButton *)button{
+-(void)zanTabVClick:(UITableViewCell *)cell
+{
+    NSIndexPath *index = [self.tableView indexPathForCell:cell];
     
-    DynamicCell *cell = (DynamicCell *)button.superview.superview.superview;
-    
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
-    DynamicModel *model = _dataArray[indexPath.section];
-    
-    _cell = cell;
-    
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue] == [model.uid intValue]) {
-        
-         [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"不能对自己打赏~"];
-        
-        
-    }else{
-        
-        _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) :^{
-        
-            LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
-            
-            cvc.type = @"0";
-            
-            [self.navigationController pushViewController:cvc animated:YES];
-        
-        }];
-        
-        [_gif getDynamicDid:model.did andIndexPath:indexPath andSign:@"动态" andUIViewController:self];
-        
-        [self.tabBarController.view addSubview:_gif];
-    }
-}
-
-//点击动态点赞按钮
--(void)zanButtonClick:(UIButton *)button{
-    
-    DynamicCell *cell = (DynamicCell *)button.superview.superview.superview;
-    
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
-    DynamicModel *model = _dataArray[indexPath.section];
+    DynamicModel *model = _dataArray[index.section];
     
     if ([model.laudstate intValue] == 0) {
         
         AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-        
         NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/laudDynamicNewrd"];
-        
         NSDictionary *parameters;
-        
         parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":model.did};
-        //    NSLog(@"%@",role);
-        
         [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
             NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
             
             
             if (integer != 2000) {
-                
                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-
             }else{
                 
-                cell.zanLabel.text = [NSString stringWithFormat:@"%d",[cell.zanLabel.text intValue] + 1];
-                
-                cell.zanImageView.image = [UIImage imageNamed:@"赞紫"];
-                
+                int oldstrs = [model.laudnum intValue]+1;
+                model.laudnum = [NSString stringWithFormat:@"%d",oldstrs].mutableCopy;
                 model.laudstate = @"1";
-                
-                model.laudnum = [NSString stringWithFormat:@"%d",[cell.zanLabel.text intValue]];
-                
-                [_dataArray replaceObjectAtIndex:indexPath.section withObject:model];
-                
+                [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:index,nil] withRowAnimation:UITableViewRowAnimationNone];
+                [_dataArray replaceObjectAtIndex:index.section withObject:model];
             }
-            
-            
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
-            
         }];
-        
     }
 }
+
+-(void)commentTabVClick:(UITableViewCell *)cell
+{
+    NSIndexPath *index = [self.tableView indexPathForCell:cell];
+    DynamicModel *model = _dataArray[index.section];
+    LDDynamicDetailViewController *dvc = [[LDDynamicDetailViewController alloc] init];
+    dvc.did = model.did;
+    dvc.ownUid = model.uid;
+    _indexPath = index;
+    dvc.clickState = @"comment";
+    [self.navigationController pushViewController:dvc animated:YES];
+}
+
+-(void)replyTabVClick:(UITableViewCell *)cell
+{
+     NSIndexPath *index = [self.tableView indexPathForCell:cell];
+    DynamicModel *model = _dataArray[index.section];
+
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue] == [model.uid intValue]) {
+        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"不能对自己打赏~"];
+    }else{
+        _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) :^{
+            LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
+            cvc.type = @"0";
+            [self.navigationController pushViewController:cvc animated:YES];
+        }];
+        [_gif getDynamicDid:model.did andIndexPath:index andSign:@"动态" andUIViewController:self];
+        [self.tabBarController.view addSubview:_gif];
+    }
+}
+-(void)topTabVClick:(UITableViewCell *)cell
+{
+     //NSIndexPath *index = [self.tableView indexPathForCell:cell];
+}
+
+
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     

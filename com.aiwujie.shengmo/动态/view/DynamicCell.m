@@ -8,11 +8,6 @@
 
 #import "DynamicCell.h"
 #import "LDOwnInformationViewController.h"
-#import "bottomView.h"
-
-@interface DynamicCell()
-@property (nonatomic,strong) bottomView *bottom;
-@end
 
 @implementation DynamicCell
 
@@ -543,15 +538,12 @@
 
 #pragma 点击话题调用代理方法
 -(void)topicButtonClick{
-    
     if (_model.topictitle.length != 0) {
-        
         if (self.delegate && [self.delegate respondsToSelector:@selector(transmitClickModel:)]) {
             
             [self.delegate transmitClickModel:_model];
         }
     }
-    
 }
 
 - (void)awakeFromNib {
@@ -573,7 +565,7 @@
     self.sexualLabel.clipsToBounds = YES;
     
     self.bottom = [bottomView new];
-     self.bottom.backgroundColor = [UIColor whiteColor];
+    self.bottom.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview: self.bottom];
     [self.bottom mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(self.contentView).with.offset(-2);
@@ -581,11 +573,35 @@
         make.left.equalTo(self.contentView);
         make.right.equalTo(self.contentView);
     }];
- 
+    [self.bottom.zanBtn addTarget:self action:@selector(zanbtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.bottom.commentBtn addTarget:self action:@selector(commentbtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.bottom.replyBtn addTarget:self action:@selector(replybtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.bottom.topBtn addTarget:self action:@selector(topbtnClick) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 }
 
+#pragma mark - delegate
+
+-(void)zanbtnClick
+{
+    [self.delegate zanTabVClick:self];
+}
+
+-(void)commentbtnClick
+{
+    [self.delegate commentTabVClick:self];
+}
+
+-(void)replybtnClick
+{
+    [self.delegate replyTabVClick:self];
+}
+
+-(void)topbtnClick
+{
+    [self.delegate topTabVClick:self];
+}
 @end

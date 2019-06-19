@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "DynamicModel.h"
-
+#import "bottomView.h"
 @protocol DynamicDelegate <NSObject>
 
 @optional
@@ -17,9 +17,17 @@
 
 -(void)transmitClickModel:(DynamicModel *)model;
 
+
+-(void)zanTabVClick:(UITableViewCell *)cell;
+-(void)commentTabVClick:(UITableViewCell *)cell;
+-(void)replyTabVClick:(UITableViewCell *)cell;
+-(void)topTabVClick:(UITableViewCell *)cell;
+
 @end
 
 @interface DynamicCell : UITableViewCell<YBAttributeTapActionDelegate>
+
+@property (nonatomic,strong) bottomView *bottom;
 
 @property (nonatomic,strong) DynamicModel *model;
 @property (nonatomic,strong) NSIndexPath *indexPath;
