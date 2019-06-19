@@ -1509,11 +1509,11 @@
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
         
-        parameters = @{@"uid":self.userID,@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+        parameters = @{@"uid":self.userID?:@"",@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
         
     }else{
         
-        parameters = @{@"uid":self.userID,@"lat":@"",@"lng":@"",@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+        parameters = @{@"uid":self.userID?:@"",@"lat":@"",@"lng":@"",@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     }
     
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
