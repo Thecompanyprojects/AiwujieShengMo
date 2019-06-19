@@ -22,6 +22,7 @@
 #import "LDShareView.h"
 #import "GifView.h"
 #import "LDChargeCenterViewController.h"
+#import "bottomView.h"
 
 @interface LDDynamicDetailViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,YBAttributeTapActionDelegate>
 
@@ -197,6 +198,15 @@
         [self.textView becomeFirstResponder];
     }
  
+    bottomView *bottom = [bottomView new];
+    [self.view addSubview:bottom];
+    [bottom mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.view);
+        make.top.equalTo(self.tableView.mas_bottom);
+        make.bottom.equalTo(self.view).with.offset(-22);
+    }];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewardSuccess) name:@"动态详情打赏成功" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindPhoneNumSuccess) name:@"绑定手机号码成功" object:nil];
@@ -260,6 +270,7 @@
     if (_rewordBlock) {
         self.rewordBlock([NSString stringWithFormat:@"%d",[_rewordNum intValue]]);
     }
+    
 }
 
 /**
@@ -634,14 +645,11 @@
     }
 }
 
-
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if ([_status intValue] == 2) {
-        
         return _cellH;
     }
-    
     return 88;
 }
 
