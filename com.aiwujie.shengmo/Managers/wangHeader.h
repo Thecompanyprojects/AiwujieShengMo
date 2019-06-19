@@ -118,4 +118,9 @@
 
 //推顶卡记录查询
 #define getTopcardUsedRs @"Api/users/getTopcardUsedRs"
+
+//推顶卡余额
+#define getTopcardPageInfo @"Api/users/getTopcardPageInfo"
+
+
 #endif /* wangHeader_h */

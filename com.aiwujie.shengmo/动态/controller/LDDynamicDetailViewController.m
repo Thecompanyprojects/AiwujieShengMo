@@ -152,7 +152,7 @@
     [self.tableView addSubview:self.sendView];
 
     _dataArray = [NSMutableArray array];
-    //点赞,评论,打赏状态
+    //点赞,评论,打赏 推顶状态
     _status = @"2";
     [self createTableView];
     _backView.hidden = YES;
@@ -227,9 +227,7 @@
     IQKeyboardManager *keyboardManager =  [IQKeyboardManager sharedManager];
     keyboardManager.enable = YES;
     keyboardManager.enableAutoToolbar = YES;
-    
     if (_gif) {
-        
         [_gif removeView];
     }
 }
@@ -258,13 +256,9 @@
 -(void)rewardSuccess{
     
     [self.rewardButton setTitle:[NSString stringWithFormat:@"打赏 %@",[NSString stringWithFormat:@"%d",[_rewordNum intValue] + 1]] forState:UIControlStateNormal];
-    
     _rewordNum = [NSString stringWithFormat:@"%d",[_rewordNum intValue] + 1];
-    
     if (_rewordBlock) {
-    
         self.rewordBlock([NSString stringWithFormat:@"%d",[_rewordNum intValue]]);
-        
     }
 }
 
@@ -340,14 +334,14 @@
     
 }
 
+/**
+ 请求赞，评论，打赏 推顶数据
 
-//请求赞，评论，打赏数据
+ @param str 接口
+ */
 -(void)createData:(NSString *)str{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
+
     NSString *url = [NSString string];
-    
     NSDictionary *parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":_did};
     
     if ([_status intValue] == 1) {
@@ -367,85 +361,46 @@
          url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getTopcardUsedRs];
     }
     
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (integer != 2000) {
-            
             if (integer == 4002) {
-                
                 if ([str intValue] == 1) {
-                    
                     [_dataArray removeAllObjects];
-                    
                     [self.tableView reloadData];
-                    
                     self.tableView.mj_footer.hidden = YES;
-                    
                 }else{
-                
                     [self.tableView.mj_footer endRefreshingWithNoMoreData];
-                    
                 }
-
             }else{
-                
                 [self.tableView.mj_footer endRefreshing];
-                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }
-            
         }else{
-            
             if ([str intValue] == 1) {
-                
                 [_dataArray removeAllObjects];
-                
             }
-            
             if ([_status intValue] == 2) {
                 
-                for (NSDictionary *dic in responseObject[@"data"]) {
-                    
-                    commentModel *model = [[commentModel alloc] init];
-                    
-                    [model setValuesForKeysWithDictionary:dic];
-                    
-                    [_dataArray addObject:model];
-                }
-
+                NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[commentModel class] json:responseObj[@"data"]]];
+                [self.dataArray addObjectsFromArray:data];
+                
             }else{
-            
-                for (NSDictionary *dic in responseObject[@"data"]) {
-                    
-                    TableModel *model = [[TableModel alloc] init];
-                    
-                    [model setValuesForKeysWithDictionary:dic];
-                    
-                    [_dataArray addObject:model];
-                }
+                NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[TableModel class] json:responseObj[@"data"]]];
+                [self.dataArray addObjectsFromArray:data];
+
             }
-            
             self.tableView.mj_footer.hidden = NO;
-            
             [self.tableView reloadData];
-            
             [self.tableView.mj_footer endRefreshing];
         }
-        
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
         [self.tableView.mj_header endRefreshing];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
-        
     }];
-    
-    
 }
 
 -(void)createTableView{
@@ -532,44 +487,28 @@
 -(void)deleteButtonClick:(UIButton *)button{
 
     CommentCell *cell = (CommentCell *)button.superview.superview;
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
     commentModel *model = _dataArray[indexPath.section];
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/delComment"];
     
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":_did,@"cmid":model.cmid};
     
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (integer != 2000) {
-            
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             
         }else{
-            
             [_dataArray removeObjectAtIndex:indexPath.section];
-        
             [self.commentButton setTitle:[NSString stringWithFormat:@"评论 %@",[NSString stringWithFormat:@"%d",[_commentNum intValue] - 1]] forState:UIControlStateNormal];
-            
             _commentNum = [NSString stringWithFormat:@"%d",[_commentNum intValue] - 1];
-            
             if (_commentBlock) {
-                
-                 self.commentBlock([NSString stringWithFormat:@"%d",[_commentNum intValue]]);
+                self.commentBlock([NSString stringWithFormat:@"%d",[_commentNum intValue]]);
             }
-            
             [self.tableView reloadData];
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         
     }];
 
