@@ -76,7 +76,8 @@
             
             [self startExchangeWithUrl:urlString parameters:parameters];
             
-        }else if ([viptype isEqualToString:@"SVIP"]){
+        }
+        if ([viptype isEqualToString:@"SVIP"]){
             
             urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/svip_beans"];
             
@@ -84,10 +85,11 @@
             
             [self startExchangeWithUrl:urlString parameters:parameters];
             
-        }else{
+        }
+        if ([viptype isEqualToString:@"兑换邮票"]){
             
             //兑换邮票
-            [AlertTool alertWithViewController:self type:@"充值魔豆" andAlertInputStampsNumber:^(NSString *stampNumbers, NSString *channel) {
+            [AlertTool alertWithViewController:self type:@"礼物魔豆" andAlertInputStampsNumber:^(NSString *stampNumbers, NSString *channel) {
                 
                 urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/stamp_baans"];
                 
@@ -96,6 +98,25 @@
                 [self startExchangeWithUrl:urlString parameters:parameters];
                 
             }];
+        }
+        if ([viptype isEqualToString:@"TOPCARD"])
+        {
+            //兑换推顶卡 channel 充值为0
+            NSString *urlString = [PICHEADURL stringByAppendingString:@"Api/Ping/topcard_baans"];
+            NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+            NSArray *array = @[@"3",@"10",@"30",@"50",@"100",@"308"];
+            __block NSString *numStr = @"";
+            
+            [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+
+                if (idx==index) {
+                    numStr=[array objectAtIndex:idx];
+                    *stop = YES;
+                }
+            }];
+            
+            NSDictionary *parameters = @{@"uid":uid,@"num":numStr,@"channel":@"0"};
+            [self startExchangeWithUrl:urlString parameters:parameters];
         }
     }];
 }

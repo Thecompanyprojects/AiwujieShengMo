@@ -92,7 +92,36 @@ static NSString *_stampNum;
         
         [controller presentViewController:VIPAlert animated:YES completion:nil];
     }];
+    
+    UIAlertAction *topcareAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换推顶卡"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
+        NSArray *TopcardArray = @[@"3张/450魔豆", @"10张/1500魔豆", @"30张/4500魔豆", @"50张/7500魔豆", @"100张/15000魔豆", @"308张/45000魔豆"];
+        
+        UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        for (int i = 0; i < TopcardArray.count; i++) {
+            
+            UIAlertAction *month = [UIAlertAction actionWithTitle:TopcardArray[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+                if (selectBlock) {
+                    
+                    selectBlock(i, @"TOPCARD");
+                }
+                
+            }];
+            
+            [VIPAlert addAction:month];
+            
+            if (PHONEVERSION.doubleValue >= 8.3) {
+                
+                [month setValue:MainColor forKey:@"_titleTextColor"];
+            }
+        }
+        
+        [self cancelActionWithAlert:VIPAlert];
+        [controller presentViewController:VIPAlert animated:YES completion:nil];
+    }];
+    
     UIAlertAction *chargeAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换邮票(30魔豆/张)"] style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
         
         if (selectBlock) {
@@ -105,6 +134,7 @@ static NSString *_stampNum;
     [alert addAction:VIPAction];
     [alert addAction:SVIPAction];
     [alert addAction:chargeAction];
+    [alert addAction:topcareAction];
     [self cancelActionWithAlert:alert];
     
     if (PHONEVERSION.doubleValue >= 8.3) {
@@ -112,6 +142,8 @@ static NSString *_stampNum;
         [SVIPAction setValue:MainColor forKey:@"_titleTextColor"];
         [VIPAction setValue:MainColor forKey:@"_titleTextColor"];
         [chargeAction setValue:MainColor forKey:@"_titleTextColor"];
+        [topcareAction setValue:MainColor forKey:@"_titleTextColor"];
+        
     }
     
     [controller presentViewController:alert animated:YES completion:nil];

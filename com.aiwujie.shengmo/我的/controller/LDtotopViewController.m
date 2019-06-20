@@ -95,9 +95,7 @@ static float AD_height = 150;//头部高度
         flowLayout.minimumLineSpacing = 20;
         //定义每个UICollectionView 横向的间距
         flowLayout.minimumInteritemSpacing = 10;
-        
         flowLayout.sectionInset = UIEdgeInsetsMake(12, 16*W_screen, 2, 16*W_screen);//上左下右
-        
         //注册cell和ReusableView（相当于头部）
         [_collectionView registerClass:[LdtotopCell class] forCellWithReuseIdentifier:ldtopidentfid];
         [_collectionView registerClass:[LdtopHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
