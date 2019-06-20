@@ -28,11 +28,11 @@
 
 -(void)setTextFromurl:(NSString *)number
 {
-    NSString *str0 = @"剩余";
-    NSString *str1 = @"张推顶卡";
+    NSString *str0 = @"共剩余 ";
+    NSString *str1 = @" 张推顶卡";
     NSString *newStr = [NSString stringWithFormat:@"%@%@%@",str0,number,str1];
     self.contentLab.text = newStr;
-    [self changeWordColorTitle:self.contentLab.text andLoc:2 andLen:number.length andLabel:self.contentLab];
+    [self changeWordColorTitle:self.contentLab.text andLoc:4 andLen:number.length andLabel:self.contentLab];
 }
 
 
@@ -45,7 +45,6 @@
  @param attributedLabel 显示label
  */
 -(void)changeWordColorTitle:(NSString *)str andLoc:(NSUInteger)loc andLen:(NSUInteger)len andLabel:(UILabel *)attributedLabel{
-    
     NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:str];
     [attributedStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:255/255.0 green:157/255.0 blue:0/255.0 alpha:1] range:NSMakeRange(loc,len)];
     attributedLabel.attributedText = attributedStr;
@@ -64,8 +63,9 @@
     [weakSelf.contentLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(weakSelf);
         make.left.equalTo(weakSelf).with.offset(14);
-        make.top.equalTo(weakSelf.topImg.mas_bottom).with.offset(24);
+        make.top.equalTo(weakSelf.topImg.mas_bottom).with.offset(20);
     }];
+    
 }
 
 #pragma mark - getters
@@ -86,7 +86,7 @@
     {
         _contentLab = [[UILabel alloc] init];
         _contentLab.textAlignment = NSTextAlignmentCenter;
-        _contentLab.font = [UIFont systemFontOfSize:14];
+        _contentLab.font = [UIFont systemFontOfSize:16];
         _contentLab.textColor = [UIColor blackColor];
     }
     return _contentLab;

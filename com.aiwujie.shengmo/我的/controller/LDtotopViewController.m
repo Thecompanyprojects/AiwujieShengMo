@@ -24,7 +24,7 @@
 
 static NSString *ldtopidentfid = @"ldtopidentfid";
 
-static float AD_height = 150;//头部高度
+static float AD_height = 180;//头部高度
 
 #define W_screen [UIScreen mainScreen].bounds.size.width/375.0
 
@@ -89,10 +89,9 @@ static float AD_height = 150;//头部高度
         flowLayout.headerReferenceSize = CGSizeMake(WIDTH, AD_height);//头部大小
         _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, naviBottom - 50) collectionViewLayout:flowLayout];
         _collectionView.scrollEnabled = YES;
-        flowLayout.itemSize = CGSizeMake(100*W_screen, 100*W_screen);
-        
+        flowLayout.itemSize = CGSizeMake(106*W_screen, 100*W_screen);
         //定义每个UICollectionView 纵向的间距
-        flowLayout.minimumLineSpacing = 20;
+        flowLayout.minimumLineSpacing = 14;
         //定义每个UICollectionView 横向的间距
         flowLayout.minimumInteritemSpacing = 10;
         flowLayout.sectionInset = UIEdgeInsetsMake(12, 16*W_screen, 2, 16*W_screen);//上左下右
@@ -106,7 +105,6 @@ static float AD_height = 150;//头部高度
         _collectionView.backgroundColor = [UIColor colorWithHexString:@"F5F5F5" alpha:1];
         //自适应大小
         _collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-
     }
     return _collectionView;
 }

@@ -297,7 +297,7 @@
     else if ([self.type isEqualToString:@"推顶购买记录"])
     {
         self.timeLabel.text = model.addtime_format;
-        self.beanLabel.text = [NSString stringWithFormat:@"+%@张邮票",model.num];
+        self.beanLabel.text = [NSString stringWithFormat:@"+%@张推顶卡",model.num];
         self.weekLabel.text = @"";
         if ([model.amount intValue] == 0) {
             
@@ -385,7 +385,6 @@
 
         }
     }
-    
 }
 
 -(UILabel *)ccomentLabel

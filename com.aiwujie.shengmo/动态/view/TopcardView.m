@@ -109,7 +109,7 @@
     if(!_contentLab)
     {
         _contentLab = [[UILabel alloc] init];
-//        _contentLab.text = @"剩余0张推顶卡";
+
         _contentLab.font = [UIFont systemFontOfSize:18];
         _contentLab.textColor = [UIColor whiteColor];
         _contentLab.textAlignment = NSTextAlignmentCenter;
@@ -203,11 +203,37 @@
             NSDictionary *data = [responseObj objectForKey:@"data"];
             self.numberStr = [data objectForKey:@"wallet_topcard"];
         }
-        self.contentLab.text = [NSString stringWithFormat:@"%@%@%@",@"共剩余",self.numberStr?:@"0",@"张推顶卡"];
+
+        [self setTextFromurl:self.numberStr];
     } failed:^(NSString *errorMsg) {
         
     }];
 }
+
+-(void)setTextFromurl:(NSString *)number
+{
+    NSString *str0 = @"剩余";
+    NSString *str1 = @"张推顶卡";
+    NSString *newStr = [NSString stringWithFormat:@"%@%@%@",str0,number,str1];
+    self.contentLab.text = newStr;
+    [self changeWordColorTitle:self.contentLab.text andLoc:2 andLen:number.length andLabel:self.contentLab];
+}
+
+/**
+ 更改字体颜色
+ 
+ @param str 传入字符串
+ @param loc 开始
+ @param len 长度
+ @param attributedLabel 显示label
+ */
+-(void)changeWordColorTitle:(NSString *)str andLoc:(NSUInteger)loc andLen:(NSUInteger)len andLabel:(UILabel *)attributedLabel{
+    
+    NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:str];
+    [attributedStr addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:255/255.0 green:157/255.0 blue:0/255.0 alpha:1] range:NSMakeRange(loc,len)];
+    attributedLabel.attributedText = attributedStr;
+}
+
 
 -(void)withSureClick:(sureBlock)block{
     _sureClick = block;
