@@ -893,7 +893,6 @@
         
     }];
     
-    
     UIAlertAction * shareButton = [UIAlertAction actionWithTitle:@"分享" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
         
         [_shareView controlViewShowAndHide:nil];
@@ -1799,12 +1798,18 @@
     NSString *url;
     
     if ([_blackState intValue] == 1) {
-        
+        //取消拉黑
         url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/cancelBlackState"];
         
     }else{
-        
+        //拉黑
         url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/setOneToBlacklist"];
+        if ([_vipTypeString isEqualToString:@"is_admin"]) {
+            [MBProgressHUD showMessage:@"黑V无法被拉黑"];
+            hud.removeFromSuperViewOnHide = YES;
+            [hud hide:YES];
+            return;
+        }
     }
 
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"fuid":self.userID};
@@ -1821,25 +1826,16 @@
             if ([_blackState intValue] == 1) {
                 
                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"取消拉黑失败,请重试~"];
-                
             }else{
-                
                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"拉黑失败,请重试~"];
             }
-            
         }else{
-            
             if ([_blackState intValue] == 1) {
-                
                 _blackState = @"0";
-                
                 if (_blackState != nil) {
-                    
                     [_blackButton setTitle:@"拉黑" forState:UIControlStateNormal];
                 }
-
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"weilahei" object:nil];
-                
             }else{
                 
                 _blackState = @"1";
