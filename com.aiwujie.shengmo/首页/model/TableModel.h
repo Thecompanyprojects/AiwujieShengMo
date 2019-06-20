@@ -79,4 +79,5 @@
 //动态被封
 @property (nonatomic,copy) NSString *dynamicstatus;
 
+@property (nonatomic,copy) NSString *addtime;
 @end

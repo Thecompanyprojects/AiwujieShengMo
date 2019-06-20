@@ -89,11 +89,8 @@
                 
                 self.vipView.hidden = YES;
             }
-
         }
-        
     }
-
     
     if ([_model.realname intValue] == 0) {
         
@@ -107,8 +104,6 @@
         
         self.idViewW.constant = 16;
     }
-    
-    //    NSLog(@"jjjjjjjjjjjjj%ld",_integer);
     
     if ([_model.role isEqualToString:@"S"]) {
         

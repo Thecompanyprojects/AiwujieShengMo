@@ -487,7 +487,11 @@
             cell.otherType = @"0";
             cell.model = model;
         }
-       [cell.attentButton addTarget:self action:@selector(attentButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        [cell.attentButton addTarget:self action:@selector(attentButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        if([_status intValue]==4)
+        {
+            cell.introduceLabel.text = [[TimeManager defaultTool] getDateFormatStrFromTimeStampWithSeconds:model.addtime];
+        }
         return cell;
 
     }else if([_status intValue] == 2){
