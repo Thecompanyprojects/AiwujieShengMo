@@ -500,13 +500,9 @@
 }
 
 - (void)imagePickerController:(UIImagePickerController*)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    
     [picker dismissViewControllerAnimated:YES completion:nil];
-    
     NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
-    
     if ([type isEqualToString:@"public.image"]) {
-        
         TZImagePickerController *tzImagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:1 delegate:self];
         tzImagePickerVc.sortAscendingByModificationDate = YES;
         [tzImagePickerVc showProgressHUD];
