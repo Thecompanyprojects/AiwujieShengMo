@@ -1790,11 +1790,7 @@
  * 被拉黑时的拉黑某人的按钮点击事件
  */
 - (void)blackButtonClick{
-    
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     NSString *url;
     
     if ([_blackState intValue] == 1) {
@@ -1806,25 +1802,17 @@
         url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/setOneToBlacklist"];
         if ([_vipTypeString isEqualToString:@"is_admin"]) {
             [MBProgressHUD showMessage:@"黑V无法被拉黑"];
-            hud.removeFromSuperViewOnHide = YES;
-            [hud hide:YES];
+            
             return;
         }
     }
-
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"fuid":self.userID};
     
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            
-            hud.removeFromSuperViewOnHide = YES;
-            [hud hide:YES];
-            
+            [MBProgressHUD hideHUDForView:self.view];
             if ([_blackState intValue] == 1) {
-                
                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"取消拉黑失败,请重试~"];
             }else{
                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"拉黑失败,请重试~"];
@@ -1837,29 +1825,17 @@
                 }
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"weilahei" object:nil];
             }else{
-                
                 _blackState = @"1";
-                
                 if (_blackState != nil) {
-                    
-                     [_blackButton setTitle:@"取消拉黑" forState:UIControlStateNormal];
+                    [_blackButton setTitle:@"取消拉黑" forState:UIControlStateNormal];
                 }
-
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"lahei" object:nil];
-                
             }
-            
-            hud.mode = MBProgressHUDModeText;
-            hud.labelText = [responseObject objectForKey:@"msg"];
-            hud.removeFromSuperViewOnHide = YES;
-            [hud hide:YES afterDelay:2];
+            [MBProgressHUD showMessage:[responseObj objectForKey:@"msg"]];
+            [MBProgressHUD hideHUDForView:self.view];
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        hud.removeFromSuperViewOnHide = YES;
-        [hud hide:YES];
-        
+    } failed:^(NSString *errorMsg) {
+         [MBProgressHUD hideHUDForView:self.view];
     }];
 }
 
