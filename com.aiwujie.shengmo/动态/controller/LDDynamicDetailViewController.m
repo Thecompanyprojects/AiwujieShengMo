@@ -156,7 +156,7 @@
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.title = @"动态详情";
     [self.tableView addSubview:self.sendView];
-
+    
     _dataArray = [NSMutableArray array];
     //点赞,评论,打赏 推顶状态
     _status = @"2";
@@ -219,12 +219,19 @@
 -(void)createBottomView
 {
     self.bottom= [bottomView new];
+    self.bottom.isfromDis = YES;
     [self.view addSubview:self.bottom];
     [self.bottom mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view);
         make.right.equalTo(self.view);
         make.top.equalTo(self.tableView.mas_bottom);
-        make.bottom.equalTo(self.view).with.offset(-22);
+        if (ISIPHONEX) {
+            make.bottom.equalTo(self.view).with.offset(-22);
+        }
+        else
+        {
+            make.bottom.equalTo(self.view).with.offset(-12);
+        }
     }];
     [self.bottom.lineView0 setHidden:YES];
     [self.bottom.lineView1 setHidden:YES];
@@ -410,7 +417,9 @@
                 }
             }else{
                 [self.tableView.mj_footer endRefreshing];
-                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
+                if (_page!=1) {
+                     [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
+                }
             }
         }else{
             if ([str intValue] == 1) {

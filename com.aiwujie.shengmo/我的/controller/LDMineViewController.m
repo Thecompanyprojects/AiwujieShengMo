@@ -122,7 +122,7 @@
     
     [self createRightButton];
     
-    _dataArray = @[@[@"充值礼物",@"消息邮票",@"动态推顶",@"会员中心",@"红娘牵线"],@[@"自拍认证",@"分享APP"],@[@"设置"]];
+    _dataArray = @[@[@"充值礼物",@"会员中心",@"动态推顶",@"消息邮票",@"红娘牵线"],@[@"自拍认证",@"分享APP"],@[@"设置"]];
     
     [self createHeadData];
     
@@ -411,16 +411,17 @@
             LDMyWalletPageViewController *mvc = [[LDMyWalletPageViewController alloc] init];
             [self.navigationController pushViewController:mvc animated:YES];
         }else if (indexPath.row == 1){
-            LDStampViewController *svc = [[LDStampViewController alloc] init];
-            [self.navigationController pushViewController:svc animated:YES];
+            LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
+            [self.navigationController pushViewController:mvc animated:YES];
         }
             else if (indexPath.row==2){
             LDtotopViewController *vc = [LDtotopViewController new];
             [self.navigationController pushViewController:vc animated:YES];
         }
         else if (indexPath.row == 3) {
-            LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
-            [self.navigationController pushViewController:mvc animated:YES];
+            LDStampViewController *svc = [[LDStampViewController alloc] init];
+            [self.navigationController pushViewController:svc animated:YES];
+         
             
         }else if (indexPath.row == 4){
             LDMatchmakerViewController *match = [[LDMatchmakerViewController alloc] init];

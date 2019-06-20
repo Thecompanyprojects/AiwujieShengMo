@@ -122,7 +122,7 @@
     if(!_topBtn)
     {
         _topBtn = [[UIButton alloc] init];
-        [_topBtn setImage:[UIImage imageNamed:@"推顶大火箭"] forState:normal];
+        [_topBtn setImage:[UIImage imageNamed:@"推顶火箭"] forState:normal];
         [_topBtn addTarget:self action:@selector(singleTapAction) forControlEvents:UIControlEventTouchUpInside];
         _topBtn.alpha = 1;
     }

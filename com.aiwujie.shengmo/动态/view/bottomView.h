@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,strong) UIView *lineView0;
 @property (nonatomic,strong) UIView *lineView1;
 @property (nonatomic,strong) UIView *lineView2;
+@property (nonatomic,assign) BOOL isfromDis;
 @end
 
 NS_ASSUME_NONNULL_END

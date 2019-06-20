@@ -26,9 +26,69 @@
         [self addSubview:self.lineView0];
         [self addSubview:self.lineView1];
         [self addSubview:self.lineView2];
-        [self setuplayout];
+        
+        if (self.isfromDis) {
+            [self setuplayout2];
+        }
+        else
+        {
+            [self setuplayout];
+        }
     }
     return self;
+}
+
+-(void)setuplayout2
+{
+    __weak typeof (self) weakSelf = self;
+    [weakSelf.zanBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(weakSelf);
+        make.bottom.equalTo(weakSelf);
+        make.top.equalTo(weakSelf).with.offset(12);
+        make.width.mas_offset(WIDTH/4);
+    }];
+    
+    [weakSelf.lineView0 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(weakSelf).with.offset(2);
+        make.bottom.equalTo(weakSelf).with.offset(-2);
+        make.width.mas_offset(1);
+        make.left.equalTo(weakSelf.zanBtn.mas_right);
+    }];
+    
+    [weakSelf.commentBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(weakSelf.lineView0.mas_right);
+        make.bottom.equalTo(weakSelf);
+        make.top.equalTo(weakSelf.zanBtn);
+        make.width.mas_offset(WIDTH/4);
+    }];
+    
+    [weakSelf.lineView1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(weakSelf).with.offset(2);
+        make.bottom.equalTo(weakSelf).with.offset(-2);
+        make.width.mas_offset(1);
+        make.left.equalTo(weakSelf.commentBtn.mas_right);
+    }];
+    
+    [weakSelf.replyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(weakSelf.lineView1.mas_right);
+        make.bottom.equalTo(weakSelf);
+        make.top.equalTo(weakSelf.zanBtn);
+        make.width.mas_offset(WIDTH/4);
+    }];
+    
+    [weakSelf.lineView2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(weakSelf).with.offset(2);
+        make.bottom.equalTo(weakSelf).with.offset(-2);
+        make.width.mas_offset(1);
+        make.left.equalTo(weakSelf.replyBtn.mas_right);
+    }];
+    
+    [weakSelf.topBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(weakSelf);
+        make.bottom.equalTo(weakSelf);
+        make.top.equalTo(weakSelf.zanBtn);
+        make.width.mas_offset(WIDTH/4);
+    }];
 }
 
 -(void)setuplayout
