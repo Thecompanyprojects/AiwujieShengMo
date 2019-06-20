@@ -949,8 +949,7 @@
     // 在页面上，显示UIPageViewController对象的View
     [self addChildViewController:_pageViewController];
     [self.view addSubview:_pageViewController.view];
-}
-
+} 
 /**
  * 创建第四页话题页
  */

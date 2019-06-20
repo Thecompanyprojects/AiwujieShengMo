@@ -235,7 +235,7 @@
     [self.bottom.topBtn setTitleColor:MainColor forState:normal];
     [self.bottom.commentBtn setImage:[UIImage imageNamed:@"评论紫"] forState:normal];
     [self.bottom.replyBtn setImage:[UIImage imageNamed:@"打赏紫"] forState:normal];
-    [self.bottom.topBtn setImage:[UIImage imageNamed:@"打赏紫"] forState:normal];
+    [self.bottom.topBtn setImage:[UIImage imageNamed:@"推顶紫"] forState:normal];
     [self.bottom.zanBtn setTitle:@"赞" forState:normal];
     [self.bottom.commentBtn setTitle:@"评论" forState:normal];
     [self.bottom.replyBtn setTitle:@"打赏" forState:normal];
@@ -381,13 +381,8 @@
     NSString *url = [NSString string];
     NSDictionary *parameters;
     //查询推顶列表 不传UID
-    if (!([self.status intValue]==4)) {
-        parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":_did};
-    }
-    else
-    {
-        parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"uid":@"",@"did":_did};
-    }
+
+    parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":_did};
     if ([_status intValue] == 1)
     {
         url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getLaudListNew];
@@ -493,9 +488,10 @@
         if([_status intValue]==4)
         {
             cell.introduceLabel.text = [[TimeManager defaultTool] getDateFormatStrFromTimeStampWithSeconds:model.addtime];
+            [cell.modouView setHidden:NO];
+            cell.modouView.image = [UIImage imageNamed:@"推顶火箭"];
         }
         return cell;
-
     }else if([_status intValue] == 2){
         CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Comment"];
         if (!cell) {

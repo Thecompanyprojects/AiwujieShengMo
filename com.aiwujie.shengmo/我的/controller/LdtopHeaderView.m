@@ -57,7 +57,7 @@
     [weakSelf.topImg mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(weakSelf).with.offset(24);
         make.width.mas_offset(93);
-        make.height.mas_offset(73);
+        make.height.mas_offset(93);
         make.centerX.equalTo(weakSelf);
     }];
     
@@ -75,7 +75,7 @@
     if(!_topImg)
     {
         _topImg = [[UIImageView alloc] init];
-        _topImg.image = [UIImage imageNamed:@"通用邮票"];
+        _topImg.image = [UIImage imageNamed:@"推顶大火箭"];
     }
     return _topImg;
 }

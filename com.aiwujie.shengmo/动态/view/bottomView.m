@@ -167,17 +167,11 @@
         _topBtn.titleLabel.font = [UIFont systemFontOfSize:14];
         [_topBtn setTitle:@"13" forState:normal];
         [_topBtn setTitleColor:[UIColor colorWithHexString:@"AAAAAA" alpha:1] forState:normal];
-        [_topBtn setImage:[UIImage imageNamed:@"打赏灰"] forState:normal];
+        [_topBtn setImage:[UIImage imageNamed:@"推顶灰"] forState:normal];
         [_topBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:5];
     }
     return _topBtn;
 }
-
-
-
-
-
-
 
 
 @end
