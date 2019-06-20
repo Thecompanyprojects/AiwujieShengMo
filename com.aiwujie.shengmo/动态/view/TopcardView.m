@@ -182,7 +182,7 @@
     NSDictionary *para = @{@"did":self.did?:@"",@"uid":uid?:@""};
     [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
         
-        if ([[responseObj objectForKey:@"retcord"] intValue]==2000) {
+        if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
             if (self.sureClick) {
                 self.sureClick(self.numberStr);
             }

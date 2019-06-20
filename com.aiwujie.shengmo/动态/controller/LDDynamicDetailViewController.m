@@ -144,6 +144,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *dyAndRdNumLabel;
 
 @property (nonatomic,strong) bottomView *bottom;
+
+@property (nonatomic,copy) NSString *topnumStr;
 @end
 
 @implementation LDDynamicDetailViewController
@@ -1185,7 +1187,8 @@
     [self.rewardButton setTitle:[NSString stringWithFormat:@"打赏 %@",dic[@"rewardnum"]] forState:UIControlStateNormal];
     [self.rewardButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     
-    [self.totopButton setTitle:[NSString stringWithFormat:@"推顶 %@",dic[@"topnum"]] forState:normal];
+    self.topnumStr = dic[@"topnum"];
+    [self.totopButton setTitle:[NSString stringWithFormat:@"推顶 %@",self.topnumStr] forState:normal];
     [self.totopButton setTitleColor:[UIColor darkGrayColor] forState:normal];
     
     //获取展示的财富值和魅力值
@@ -1447,7 +1450,11 @@
     }];
     [view withSureClick:^(NSString * _Nonnull string) {
         //推顶操作成功
-        
+        NSString *newStr = self.topnumStr;
+        newStr = [NSString stringWithFormat:@"%d",[newStr intValue]+1].copy;
+        self.topnumStr = newStr.copy;
+        [self.totopButton setTitle:[NSString stringWithFormat:@"推顶 %@",self.topnumStr] forState:normal];
+        [MBProgressHUD showMessage:@"推顶成功"];
     }];
 }
 

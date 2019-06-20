@@ -1033,6 +1033,7 @@
 -(void)commentTabVClick:(UITableViewCell *)cell
 {
     NSIndexPath *index = [self.tableView indexPathForCell:cell];
+   
     DynamicModel *model = _dataArray[index.section];
     LDDynamicDetailViewController *dvc = [[LDDynamicDetailViewController alloc] init];
     dvc.did = model.did;
@@ -1045,6 +1046,7 @@
 -(void)replyTabVClick:(UITableViewCell *)cell
 {
     NSIndexPath *index = [self.tableView indexPathForCell:cell];
+
     DynamicModel *model = _dataArray[index.section];
     
     BOOL ismines = NO;
@@ -1062,11 +1064,12 @@
     [self.tabBarController.view addSubview:_gif];
 
 }
+
 -(void)topTabVClick:(UITableViewCell *)cell
 {
-    
     NSIndexPath *index = [self.tableView indexPathForCell:cell];
-    DynamicModel *model = self.dataArray[index.row];
+
+    DynamicModel *model = self.dataArray[index.section];
     TopcardView *view = [TopcardView new];
     view.did = model.did;
     [view withBuyClick:^(NSString * _Nonnull string) {
@@ -1090,10 +1093,13 @@
     }];
     [view withSureClick:^(NSString * _Nonnull string) {
         //推顶操作成功
-        
+        NSString *newStr = model.topnum;
+        newStr = [NSString stringWithFormat:@"%d",[newStr intValue]+1].copy;
+        model.topnum = newStr.copy;
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:index,nil] withRowAnimation:UITableViewRowAnimationNone];
+        [self.dataArray replaceObjectAtIndex:index.section withObject:model];
+        [MBProgressHUD showMessage:@"推顶成功"];
     }];
-    
-    
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
