@@ -140,8 +140,13 @@ static YQInAppPurchaseTool *storeTool;
             }else{
                 //不需要向苹果服务器验证
                 //通知代理
+                //由后台进行验证，移动端不参与验证
+                NSString *receipe = [self getresetPruchaseWithID:transaction.payment.productIdentifier];
+                NSString *order = transaction.transactionIdentifier;
+                NSDictionary *infoDic = @{@"receipe":receipe?:@"",@"order":order?:@""};
                 [self.delegate IAPToolBoughtProductSuccessedWithProductID:transaction.payment.productIdentifier
-                                                                    andInfo:nil];
+                                                                    andInfo:infoDic];
+                
             }
             // 将交易从交易队列中删除
             [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
@@ -181,6 +186,31 @@ static YQInAppPurchaseTool *storeTool;
 {
     // 恢复已经完成的所有交易.（仅限永久有效商品）
     [[SKPaymentQueue defaultQueue] restoreCompletedTransactions];
+}
+
+
+/**
+ 获取需要验证的内容
+
+ @param ProductID 验证内容
+ */
+- (NSString  *)getresetPruchaseWithID:(NSString *)ProductID
+{
+    // 验证凭据，获取到苹果返回的交易凭据
+    // appStoreReceiptURL iOS7.0增加的，购买交易完成后，会将凭据存放在该地址
+    NSURL *receiptURL = [[NSBundle mainBundle] appStoreReceiptURL];
+    // 从沙盒中获取到购买凭据
+    NSData *receiptData = [NSData dataWithContentsOfURL:receiptURL];
+    
+    NSString *encodeStr = [receiptData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+    
+    NSString *payload = [NSString stringWithFormat:@"{\"receipt-data\" : \"%@\"}", encodeStr];
+    NSData *payloadData = [payload dataUsingEncoding:NSUTF8StringEncoding];
+    
+    NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:payloadData options:NSJSONReadingMutableLeaves error:nil];
+    
+    NSString *receipt = [jsonDict objectForKey:@"receipt-data"];
+    return receipt;
 }
 
 #pragma mark 验证购买凭据
@@ -253,7 +283,5 @@ static YQInAppPurchaseTool *storeTool;
                                                  andInfo:result];
     }
 }
-
-
 
 @end

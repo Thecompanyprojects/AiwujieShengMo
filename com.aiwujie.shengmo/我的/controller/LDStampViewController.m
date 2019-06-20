@@ -170,7 +170,7 @@
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"邮票凭证"] length] != 0) {
         [self zaiciyanzhengpingzheng];
     }
-
+    
     [[SKPaymentQueue defaultQueue] addTransactionObserver:self];
     
     for (int i = 0; i < 9; i++) {
@@ -585,7 +585,7 @@
         [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
             NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-
+            
             if (integer != 2000) {
                 
                 //验证失败,存储本次购买的订单

@@ -29,7 +29,7 @@
 //融云客服的id
 #define SERVICE_ID @"KEFU148492045558421"
 
-////测试服务器
+//测试服务器
 //#define PICHEADURL  @"http://cs.shengmo.org/"
 
 //正式服务器

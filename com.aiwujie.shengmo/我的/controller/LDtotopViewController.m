@@ -14,7 +14,7 @@
 
 @interface LDtotopViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,YQInAppPurchaseToolDelegate>
 {
-    MBProgressHUD *HUD;
+    MBProgressHUD *hud;
 }
 @property (nonatomic,strong)  UICollectionView *collectionView;
 @property (nonatomic,strong) NSMutableArray *shopArray;
@@ -25,6 +25,8 @@
 static NSString *ldtopidentfid = @"ldtopidentfid";
 
 static float AD_height = 150;//头部高度
+
+#define W_screen [UIScreen mainScreen].bounds.size.width/375.0
 
 @implementation LDtotopViewController
 
@@ -38,7 +40,7 @@ static float AD_height = 150;//头部高度
     //设置代理
     IAPTool.delegate = self;
     //购买后，向苹果服务器验证一下购买结果。默认为YES。不建议关闭
-    //IAPTool.CheckAfterPay = NO;
+    IAPTool.CheckAfterPay = NO;
     //向苹果询问哪些商品能够购买
     [IAPTool requestProductsWithProductArray:self.shopArray];
     [self.view addSubview:self.collectionView];
@@ -57,14 +59,15 @@ static float AD_height = 150;//头部高度
             NSDictionary *data = [responseObj objectForKey:@"data"];
             self.numberStr = [data objectForKey:@"wallet_topcard"];
         }
-        self.headView.contentLab.text = [NSString stringWithFormat:@"%@%@%@",@"剩余",self.numberStr?:@"0",@"张推顶卡"];
+        [self.headView setTextFromurl:self.numberStr?:@"0"];
+        [self.collectionView reloadData];
+ 
     } failed:^(NSString *errorMsg) {
         
     }];
 }
 
 -(void)createRightButton{
-    
     //右侧下拉列表
     UIButton *rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     [rightButton setTitle:@"明细" forState:UIControlStateNormal];
@@ -86,8 +89,15 @@ static float AD_height = 150;//头部高度
         flowLayout.headerReferenceSize = CGSizeMake(WIDTH, AD_height);//头部大小
         _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, naviBottom - 50) collectionViewLayout:flowLayout];
         _collectionView.scrollEnabled = YES;
-        flowLayout.itemSize = CGSizeMake(110, 100);
-        flowLayout.sectionInset = UIEdgeInsetsMake(12, 10, 2, 10);//上左下右
+        flowLayout.itemSize = CGSizeMake(100*W_screen, 100*W_screen);
+        
+        //定义每个UICollectionView 纵向的间距
+        flowLayout.minimumLineSpacing = 20;
+        //定义每个UICollectionView 横向的间距
+        flowLayout.minimumInteritemSpacing = 10;
+        
+        flowLayout.sectionInset = UIEdgeInsetsMake(12, 16*W_screen, 2, 16*W_screen);//上左下右
+        
         //注册cell和ReusableView（相当于头部）
         [_collectionView registerClass:[LdtotopCell class] forCellWithReuseIdentifier:ldtopidentfid];
         [_collectionView registerClass:[LdtopHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView"];
@@ -95,10 +105,9 @@ static float AD_height = 150;//头部高度
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         //背景颜色
-        _collectionView.backgroundColor = [UIColor whiteColor];
+        _collectionView.backgroundColor = [UIColor colorWithHexString:@"F5F5F5" alpha:1];
         //自适应大小
         _collectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-        
 
     }
     return _collectionView;
@@ -108,6 +117,17 @@ static float AD_height = 150;//头部高度
 {
     return 6;
 }
+
+//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+//{
+//    return 15;
+//}
+//
+
+//- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+//{
+//    return 18*W_screen;
+//}
 
 #pragma mark 每个UICollectionView展示的内容
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -128,7 +148,7 @@ static float AD_height = 150;//头部高度
 {
     self.headView = [collectionView dequeueReusableSupplementaryViewOfKind:
                                         UICollectionElementKindSectionHeader withReuseIdentifier:@"ReusableView" forIndexPath:indexPath];
-    self.headView.backgroundColor = [UIColor whiteColor];
+    self.headView.backgroundColor = [UIColor colorWithHexString:@"F5F5F5" alpha:1];
     return self.headView;
 }
 
@@ -149,10 +169,9 @@ static float AD_height = 150;//头部高度
         NSString *shopId = [self.shopArray objectAtIndex:indexPath.item];
         
         [[YQInAppPurchaseTool defaultTool]buyProduct:shopId];
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        hud.mode = MBProgressHUDModeIndeterminate;
-        hud.labelText = @"正在请求";
 
+        hud = [MBProgressHUD showActivityMessage:@"购买中..."];
+        
     }];
     [control addAction:action0];
     [control addAction:action1];
@@ -180,7 +199,6 @@ static float AD_height = 150;//头部高度
     [self.navigationController pushViewController:VC animated:YES];
 }
 
-
 #pragma mark --------YQInAppPurchaseToolDelegate
 //IAP工具已获得可购买的商品
 -(void)IAPToolGotProducts:(NSMutableArray *)products {
@@ -190,10 +208,9 @@ static float AD_height = 150;//头部高度
 //支付失败/取消
 -(void)IAPToolCanceldWithProductID:(NSString *)productID {
     NSLog(@"canceld:%@",productID);
-//    [SVProgressHUD showInfoWithStatus:@"购买失败"];
-    HUD.labelText = @"购买失败";
-    HUD.removeFromSuperViewOnHide = YES;
-    [HUD hide:YES afterDelay:3];
+
+  
+    [CCLoadingHUD dismiss];
 }
 
 //支付成功了，并开始向苹果服务器进行验证（若CheckAfterPay为NO，则不会经过此步骤）
@@ -201,6 +218,8 @@ static float AD_height = 150;//头部高度
     NSLog(@"BeginChecking:%@",productID);
     
     //[SVProgressHUD showWithStatus:@"购买成功，正在验证购买"];
+    
+    
 }
 //商品被重复验证了
 -(void)IAPToolCheckRedundantWithProductID:(NSString *)productID {
@@ -212,42 +231,28 @@ static float AD_height = 150;//头部高度
                                           andInfo:(NSDictionary *)infoDic {
     NSLog(@"BoughtSuccessed:%@",productID);
     NSLog(@"successedInfo:%@",infoDic);
-    
-    NSDictionary *receipt = [infoDic objectForKey:@"receipt"];
-    NSData *data = [NSJSONSerialization dataWithJSONObject:receipt options:NSJSONWritingPrettyPrinted error:nil];
-    NSLog(@"==%@",data);//转化成Data
-    NSString *getStr= [data base64EncodedStringWithOptions:NSDataBase64Encoding64CharacterLineLength];
-    NSArray *in_app = [receipt objectForKey:@"in_app"];
-    NSDictionary *in_appdic = [in_app firstObject];
-    NSString *transaction_id = [in_appdic objectForKey:@"transaction_id"];
-    NSLog(@"%@",transaction_id);
-    
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,topcard_ioshooks];
-    NSDictionary *parameters = @{@"receipt":getStr?:@"",@"order_no":transaction_id?:@"",@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+
+    NSString *receipt = [infoDic objectForKey:@"receipe"];
+    NSString *order = [infoDic objectForKey:@"order"];
+    NSString *url = [PICHEADURL stringByAppendingString:topcard_ioshooks];
+
+    NSDictionary *parameters = @{@"receipt":receipt?:@"",@"order_no":order?:@"",@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"isSandbox":@"1"};
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
-        
         if (integer != 2000) {
-            
-            HUD.labelText = @"购买失败";
-            HUD.removeFromSuperViewOnHide = YES;
-            [HUD hide:YES afterDelay:3];
-            
+            [hud hide:YES];
+            [MBProgressHUD showMessage:@"购买失败"];
         }else{
-
-            HUD.labelText = @"购买成功";
-            HUD.removeFromSuperViewOnHide = YES;
-            [HUD hide:YES afterDelay:3];
+            [hud hide:YES];
+            [MBProgressHUD showMessage:@"购买成功"];
             [self createData];
         }
     } failed:^(NSString *errorMsg) {
-        HUD.labelText = @"服务器验证失败";
-        HUD.removeFromSuperViewOnHide = YES;
-        [HUD hide:YES afterDelay:3];
+        [hud hide:YES];
+        [MBProgressHUD showMessage:@"服务器验证失败"];
     }];
-    
-//    [SVProgressHUD showSuccessWithStatus:@"购买成功！(相关信息已打印)"];
 }
+
 //商品购买成功了，但向苹果服务器验证失败了
 //2种可能：
 //1，设备越狱了，使用了插件，在虚假购买。
@@ -255,22 +260,22 @@ static float AD_height = 150;//头部高度
 -(void)IAPToolCheckFailedWithProductID:(NSString *)productID
                                andInfo:(NSData *)infoData {
     NSLog(@"CheckFailed:%@",productID);
-    HUD.labelText = @"服务器验证失败";
-    HUD.removeFromSuperViewOnHide = YES;
-    [HUD hide:YES afterDelay:3];
 
+    [hud hide:YES];
+    [MBProgressHUD showMessage:@"服务器验证失败"];
 }
+
 //恢复了已购买的商品（仅限永久有效商品）
 -(void)IAPToolRestoredProductID:(NSString *)productID {
     NSLog(@"Restored:%@",productID);
-    
 }
+
 //内购系统错误了
 -(void)IAPToolSysWrong {
     NSLog(@"SysWrong");
-    HUD.labelText = @"系统出错了";
-    HUD.removeFromSuperViewOnHide = YES;
-    [HUD hide:YES afterDelay:3];
+
+    [hud hide:YES];
+    [MBProgressHUD showMessage:@"系统出错了"];
 }
 
 @end

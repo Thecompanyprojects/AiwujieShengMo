@@ -268,6 +268,9 @@
 		53B7C11E22B4947400113F50 /* LDhistorynameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C11D22B4947400113F50 /* LDhistorynameViewController.m */; };
 		53B7C12122B49C1F00113F50 /* LDhistorynameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C12022B49C1F00113F50 /* LDhistorynameModel.m */; };
 		53B7C12422B4A11800113F50 /* TimeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C12322B4A11800113F50 /* TimeManager.m */; };
+		53C95C2122BB2D2B0075FF55 /* CCLodingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C95C1D22BB2D2B0075FF55 /* CCLodingView.m */; };
+		53C95C2222BB2D2B0075FF55 /* CCLoadingHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C95C2022BB2D2B0075FF55 /* CCLoadingHUD.m */; };
+		53C95C2822BB3B530075FF55 /* MBProgressHUD+JJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C95C2722BB3B530075FF55 /* MBProgressHUD+JJ.m */; };
 		53E8CDC022A93E2D007E5073 /* LDharassmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDBF22A93E2D007E5073 /* LDharassmentVC.m */; };
 		53E8CDC322A93EED007E5073 /* LDharassmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDC222A93EED007E5073 /* LDharassmentCell.m */; };
 		53F3B95222B73DC600F0EDF5 /* NullSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 53F3B95122B73DC600F0EDF5 /* NullSafe.m */; };
@@ -913,6 +916,12 @@
 		53B7C12022B49C1F00113F50 /* LDhistorynameModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDhistorynameModel.m; sourceTree = "<group>"; };
 		53B7C12222B4A11800113F50 /* TimeManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeManager.h; sourceTree = "<group>"; };
 		53B7C12322B4A11800113F50 /* TimeManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TimeManager.m; sourceTree = "<group>"; };
+		53C95C1D22BB2D2B0075FF55 /* CCLodingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCLodingView.m; sourceTree = "<group>"; };
+		53C95C1E22BB2D2B0075FF55 /* CCLoadingHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLoadingHUD.h; sourceTree = "<group>"; };
+		53C95C1F22BB2D2B0075FF55 /* CCLodingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLodingView.h; sourceTree = "<group>"; };
+		53C95C2022BB2D2B0075FF55 /* CCLoadingHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCLoadingHUD.m; sourceTree = "<group>"; };
+		53C95C2622BB3B530075FF55 /* MBProgressHUD+JJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+JJ.h"; sourceTree = "<group>"; };
+		53C95C2722BB3B530075FF55 /* MBProgressHUD+JJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+JJ.m"; sourceTree = "<group>"; };
 		53E8CDBE22A93E2D007E5073 /* LDharassmentVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDharassmentVC.h; sourceTree = "<group>"; };
 		53E8CDBF22A93E2D007E5073 /* LDharassmentVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDharassmentVC.m; sourceTree = "<group>"; };
 		53E8CDC122A93EED007E5073 /* LDharassmentCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDharassmentCell.h; sourceTree = "<group>"; };
@@ -2030,6 +2039,19 @@
 			path = "历史昵称";
 			sourceTree = "<group>";
 		};
+		53C95C1C22BB2D2B0075FF55 /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				53C95C2622BB3B530075FF55 /* MBProgressHUD+JJ.h */,
+				53C95C2722BB3B530075FF55 /* MBProgressHUD+JJ.m */,
+				53C95C1F22BB2D2B0075FF55 /* CCLodingView.h */,
+				53C95C1D22BB2D2B0075FF55 /* CCLodingView.m */,
+				53C95C1E22BB2D2B0075FF55 /* CCLoadingHUD.h */,
+				53C95C2022BB2D2B0075FF55 /* CCLoadingHUD.m */,
+			);
+			path = Loading;
+			sourceTree = "<group>";
+		};
 		53E8CDBD22A93DE5007E5073 /* 消息设置 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2113,6 +2135,7 @@
 		D200962E1F302D5D00673C40 /* tools */ = {
 			isa = PBXGroup;
 			children = (
+				53C95C1C22BB2D2B0075FF55 /* Loading */,
 				53F3B95322B74C1900F0EDF5 /* 圣魔无界-Bridging-Header.h */,
 				00E2F7BD1E02BEC800908B5B /* PrefixHeader.pch */,
 				531D737622ADEBB500903BB4 /* Managers */,
@@ -3580,6 +3603,7 @@
 				D2DAD05A1EFD0EC20015793F /* MyWalletCell.m in Sources */,
 				D2FEB5E11EC46D9D002A0886 /* RewardRankingModel.m in Sources */,
 				D2FB6BBE1EBB2D4800167FFA /* AtCell.m in Sources */,
+				53C95C2222BB2D2B0075FF55 /* CCLoadingHUD.m in Sources */,
 				00EC29751E18F2670066273A /* NSBundle+TZImagePicker.m in Sources */,
 				D23A5FF21ED5898F00FE4AD5 /* LDLookChangeBindingEmailViewController.m in Sources */,
 				D20250611F29E825008DF684 /* LDCollectionDynamicViewController.m in Sources */,
@@ -3636,6 +3660,7 @@
 				D29AF6F11FBD632C001098B3 /* HJTabViewControllerPlugin_BottomInset.m in Sources */,
 				53B7C0F822B3BB0200113F50 /* SSCopyLabel.m in Sources */,
 				D2374EA31EAEF05600020483 /* RCDGroupAnnouncementViewController.m in Sources */,
+				53C95C2122BB2D2B0075FF55 /* CCLodingView.m in Sources */,
 				D212E84E1FC53AB100D9B5D9 /* VIPMemberModel.m in Sources */,
 				00EC297C1E18F2670066273A /* TZPhotoPickerController.m in Sources */,
 				D201C3D41EF38AE8004281BA /* SoundControlModel.m in Sources */,
@@ -3768,6 +3793,7 @@
 				00F9BD5F1E224B3D00F5CD18 /* LDChargeCenterViewController.m in Sources */,
 				0030690D1E04F6C2000486C7 /* LDResigerNextViewController.m in Sources */,
 				53B7C0EC22B3418800113F50 /* EditinfoModel.m in Sources */,
+				53C95C2822BB3B530075FF55 /* MBProgressHUD+JJ.m in Sources */,
 				00EED5FE1E11429100ACD6FE /* LDBulletinViewController.m in Sources */,
 				D2FEB5DD1EC46D7C002A0886 /* RewardRankingCell.m in Sources */,
 				00F04B891E12979A00FF9524 /* LDOwnInformationViewController.m in Sources */,

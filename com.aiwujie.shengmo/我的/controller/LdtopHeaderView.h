@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface LdtopHeaderView : UICollectionReusableView
 @property (nonatomic,strong) UILabel *contentLab;
+-(void)setTextFromurl:(NSString *)number;
 @end
 
 NS_ASSUME_NONNULL_END
