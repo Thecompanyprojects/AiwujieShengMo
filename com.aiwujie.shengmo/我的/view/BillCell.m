@@ -8,6 +8,15 @@
 
 #import "BillCell.h"
 
+@interface BillCell()
+@property (nonatomic,strong) UILabel *ccomentLabel;
+@property (nonatomic,strong) UIImageView *iconImg;
+@property (nonatomic,strong) UILabel *nameLab;
+@property (nonatomic,strong) UILabel *newtimeLab;
+@property (nonatomic,strong) UILabel *contentLab;
+@property (nonatomic,strong) UIImageView *vipView;
+@end
+
 @implementation BillCell
 
 -(void)setModel:(BillModel *)model{
@@ -285,11 +294,227 @@
             self.beanLabel.text = [NSString stringWithFormat:@"-1张通用邮票"];
         }
     }
+    else if ([self.type isEqualToString:@"推顶购买记录"])
+    {
+        self.timeLabel.text = model.addtime_format;
+        self.beanLabel.text = [NSString stringWithFormat:@"+%@张邮票",model.num];
+        self.weekLabel.text = @"";
+        if ([model.amount intValue] == 0) {
+            
+            self.moneyLabel.text = [NSString stringWithFormat:@"用%@魔豆兑换",model.beans];
+            
+        }else{
+            
+            self.moneyLabel.text = [NSString stringWithFormat:@"充值%@元",model.amount];
+        }
+    }
+    else if ([self.type isEqualToString:@"推顶使用记录"])
+    {
+        self.timeLabel.text = [[TimeManager defaultTool]getDateFormatStrFromTimeStampWithSeconds:model.addtime];
+        self.weekLabel.text = @"";
+        if (model.content.length != 0) {
+            [self.ccomentLabel setHidden:NO];
+            self.ccomentLabel.text = model.content;
+        }
+    }
+    else if ([self.type isEqualToString:@"他人推顶记录"])
+    {
+
+        self.timeLabel.text = @"";
+        self.weekLabel.text = @"";
+        
+        [self.iconImg setHidden:NO];
+        [self.nameLab setHidden:NO];
+        [self.ccomentLabel setHidden:NO];
+        [self.contentLab setHidden:NO];
+        [self.newtimeLab setHidden:NO];
+        
+        self.nameLab.text = model.nickname;
+        self.ccomentLabel.text = model.content;
+        self.contentLab.text = model.content;
+        self.newtimeLab.text = [[TimeManager defaultTool] getDateFormatStrFromTimeStamp:model.addtime];
+        
+        [self.iconImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.head_pic]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
+        
+        if ([model.is_volunteer intValue] == 1) {
+
+            self.vipView.hidden = NO;
+
+            self.vipView.image = [UIImage imageNamed:@"志愿者标识"];
+
+        }else if ([_model.is_admin intValue] == 1) {
+
+            self.vipView.hidden = NO;
+
+            self.vipView.image = [UIImage imageNamed:@"官方认证"];
+
+        }else{
+
+            if ([model.svipannual intValue] == 1) {
+
+                self.vipView.hidden = NO;
+
+                self.vipView.image = [UIImage imageNamed:@"年svip标识"];
+
+            }else if ([model.svip intValue] == 1){
+
+                self.vipView.hidden = NO;
+
+                self.vipView.image = [UIImage imageNamed:@"svip标识"];
+
+            }else if ([model.vipannual intValue] == 1) {
+
+                self.vipView.hidden = NO;
+
+                self.vipView.image = [UIImage imageNamed:@"年费会员"];
+
+            }else{
+
+                if ([model.vip intValue] == 1) {
+
+                    self.vipView.hidden = NO;
+
+                    self.vipView.image = [UIImage imageNamed:@"高级紫"];
+
+                }else{
+
+                    self.vipView.hidden = YES;
+                }
+
+            }
+
+        }
+    }
+    
 }
+
+-(UILabel *)ccomentLabel
+{
+    if(!_ccomentLabel)
+    {
+        _ccomentLabel = [[UILabel alloc] init];
+        _ccomentLabel.font = [UIFont systemFontOfSize:12];
+        _ccomentLabel.backgroundColor = [UIColor colorWithHexString:@"F5F5F5" alpha:1];
+        _ccomentLabel.textAlignment = NSTextAlignmentCenter;
+        _ccomentLabel.textColor = TextCOLOR;
+        _ccomentLabel.numberOfLines = 0;
+        [_ccomentLabel setHidden:YES];
+    }
+    return _ccomentLabel;
+}
+
+
+-(UIImageView *)iconImg
+{
+    if(!_iconImg)
+    {
+        _iconImg = [[UIImageView alloc] init];
+        _iconImg.layer.masksToBounds = YES;
+        _iconImg.layer.cornerRadius = 20;
+    }
+    return _iconImg;
+}
+
+-(UILabel *)nameLab
+{
+    if(!_nameLab)
+    {
+        _nameLab = [[UILabel alloc] init];
+        _nameLab.textColor = MainColor;
+        _nameLab.font = [UIFont systemFontOfSize:14];
+        [_nameLab setHidden:YES];
+    }
+    return _nameLab;
+}
+
+
+
+-(UILabel *)newtimeLab
+{
+    if(!_newtimeLab)
+    {
+        _newtimeLab = [[UILabel alloc] init];
+        _newtimeLab.textColor = [UIColor colorWithHexString:@"686868" alpha:1];
+        _newtimeLab.font = [UIFont systemFontOfSize:11];
+        [_newtimeLab setHidden:YES];
+    }
+    return _newtimeLab;
+}
+
+-(UILabel *)contentLab
+{
+    if(!_contentLab)
+    {
+        _contentLab = [[UILabel alloc] init];
+        _contentLab.textColor = TextCOLOR;
+        _contentLab.font = [UIFont systemFontOfSize:12];
+        [_contentLab setHidden:YES];
+    }
+    return _contentLab;
+}
+
+-(UIImageView *)vipView
+{
+    if(!_vipView)
+    {
+        _vipView = [UIImageView new];
+        [_vipView setHidden:YES];
+    }
+    return _vipView;
+}
+
+
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    [self.contentView addSubview:self.ccomentLabel];
+    [self.contentView addSubview:self.iconImg];
+    [self.contentView addSubview:self.nameLab];
+    [self.contentView addSubview:self.vipView];
+    [self.contentView addSubview:self.nameLab];
+    [self.contentView addSubview:self.contentLab];
+    [self.contentView addSubview:self.newtimeLab];
+    [self setuplayout];
+}
+
+-(void)setuplayout
+{
+    __weak typeof (self) weakSelf = self;
+    [weakSelf.ccomentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(weakSelf);
+        make.right.equalTo(weakSelf).with.offset(-12);
+        make.width.mas_offset(56);
+        make.height.mas_offset(56);
+    }];
+    [weakSelf.iconImg mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(weakSelf).with.offset(14);
+        make.top.equalTo(weakSelf).with.offset(14);
+        make.width.mas_offset(40);
+        make.height.mas_offset(40);
+    }];
+    [weakSelf.nameLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(weakSelf.iconImg);
+        make.left.equalTo(weakSelf.iconImg.mas_right).with.offset(15);
+        
+    }];
+    [weakSelf.newtimeLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(weakSelf.nameLab.mas_bottom).with.offset(7);
+        make.left.equalTo(weakSelf.iconImg.mas_right).with.offset(15);
+        make.right.equalTo(weakSelf.ccomentLabel.mas_left).with.offset(-8);
+    }];
+    [weakSelf.contentLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(weakSelf.newtimeLab.mas_bottom).with.offset(7);
+        make.left.equalTo(weakSelf.iconImg.mas_right).with.offset(15);
+        make.right.equalTo(weakSelf.ccomentLabel.mas_left).with.offset(-8);
+    }];
+    [weakSelf.vipView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(weakSelf.iconImg);
+        make.bottom.equalTo(weakSelf.iconImg);
+        make.width.mas_offset(19);
+        make.height.mas_offset(19);
+    }];
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

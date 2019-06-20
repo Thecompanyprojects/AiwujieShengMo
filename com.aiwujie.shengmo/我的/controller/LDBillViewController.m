@@ -9,6 +9,7 @@
 #import "LDBillViewController.h"
 #import "BillCell.h"
 #import "BillModel.h"
+#import "LDDynamicDetailViewController.h"
 
 @interface LDBillViewController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -38,19 +39,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    if ([_index intValue] == 0 && [self.content intValue] == 1) {
-//        
-//        _chargeView.hidden = NO;
-//        
-//        _buttonState = @"1";
-//        
-//        
-//    }else if ([_index intValue] == 1 && [self.content intValue] == 2){
-//    
-//        _detailView.hidden = NO;
-//        
-        _buttonState = @"1";
-//    }
+    _buttonState = @"1";
+
     
     _dataArray = [NSMutableArray array];
     
@@ -76,11 +66,8 @@
 }
 
 -(void)createData:(NSString *)type{
-
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     
     NSString *url = [NSString string];
-    
     NSDictionary *parameters = [NSDictionary dictionary];
     
     if ([_index intValue] == 0) {
@@ -137,15 +124,11 @@
                 parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"1"};
                 
             }
-//            else if ([_buttonState intValue] == 3){
-            
-//                url = [NSString stringWithFormat:@"%@%@",URL,@"Api/Users/getWithdrawedRecord"];
-//
-//                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-//            }
+
         }
 
-    }else if([_index intValue] == 2){
+    }
+    if([_index intValue] == 2){
 
         if ([self.content intValue] == 0) {
             
@@ -166,12 +149,25 @@
             parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
         }
     }
+     if([_index intValue] == 3)
+     {
+         if ([self.content intValue] == 0) {
+            url = [PICHEADURL stringByAppendingString:@"Api/users/getTopcardPaymentRs"];
+            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+         }
+         if ([self.content intValue] == 1) {
+             url = [PICHEADURL stringByAppendingString:@"Api/users/getTopcardUsedRs"];
+             parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+         }
+         if ([self.content intValue] == 2) {
+             url = [PICHEADURL stringByAppendingString:@"Api/users/getTopcardUsedRs"];
+             parameters = @{@"fuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+         }
+         
+    }
     
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//        NSLog(@"%@",responseObject);
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         
         if (integer != 2000) {
             
@@ -183,7 +179,7 @@
                     
                     [self.tableView reloadData];
                     
-                     self.tableView.mj_footer.hidden = YES;
+                    self.tableView.mj_footer.hidden = YES;
                     
                 }else{
                     
@@ -192,7 +188,6 @@
             }else{
                 
                 [self.tableView.mj_footer endRefreshing];
-            
             }
             
         }else{
@@ -202,34 +197,20 @@
                 [_dataArray removeAllObjects];
             }
             
-            for (NSDictionary *dic in responseObject[@"data"]) {
-                
-                BillModel *model = [[BillModel alloc] init];
-                
-                [model setValuesForKeysWithDictionary:dic];
-                
-                [_dataArray addObject:model];
-            }
+            NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[BillModel class] json:responseObj[@"data"]]];
+            [self.dataArray addObjectsFromArray:data];
             
             self.tableView.mj_footer.hidden = NO;
-            
             [self.tableView reloadData];
-            
             [self.tableView.mj_footer endRefreshing];
-            
         }
-        
         [self.tableView.mj_header endRefreshing];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        NSLog(@"%@",error);
-        
+    } failed:^(NSString *errorMsg) {
         [self.tableView.mj_header endRefreshing];
-        
         [self.tableView.mj_footer endRefreshing];
-        
+
     }];
+    
 }
 
 -(void)createTableView{
@@ -266,6 +247,8 @@
     
 }
 
+#pragma mark - UITableViewDataSource
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 
     return _dataArray.count;
@@ -300,10 +283,6 @@
                 cell.type = @"礼物兑换记录";
                 
             }
-//            else if([_buttonState intValue] == 3){
-//
-//                cell.type = @"礼物提现记录";
-//            }
 
         }
         
@@ -339,13 +318,37 @@
         
             cell.type = @"邮票使用记录";
         }
-
     }
-    
+    else if ([_index intValue] == 3){
+        
+        if ([self.content intValue] == 0) {
+            
+            cell.type = @"推顶购买记录";
+            
+        }else if ([self.content intValue] == 1){
+            
+            cell.type = @"推顶使用记录";
+            
+        }else if([self.content intValue] == 2){
+            
+            cell.type = @"他人推顶记录";
+        }
+    }
     cell.model = model;
-    
     return cell;
-    
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([_index intValue] == 3) {
+        if ([self.content intValue] == 1||[self.content intValue] == 2) {
+            BillModel *model = self.dataArray[indexPath.row];
+            LDDynamicDetailViewController *vc = [LDDynamicDetailViewController new];
+            vc.did = model.did;
+            vc.ownUid = model.uid;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

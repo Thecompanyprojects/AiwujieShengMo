@@ -193,7 +193,7 @@ static float AD_height = 150;//头部高度
 -(void)rightButtonOnClic
 {
     LDDetailPageViewController *VC = [LDDetailPageViewController new];
-    VC.index = 1;
+    VC.index = 3;
     [self.navigationController pushViewController:VC animated:YES];
 }
 

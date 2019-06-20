@@ -61,10 +61,22 @@
         //创建兑换的按钮
         [self createButton];
             
-    }else{
+    }
+    if (_index == 2){
     
         self.navigationItem.title = @"邮票明细";
         NSArray *array = @[@"购买记录",@"系统赠送",@"使用记录"];
+        
+        for (int i = 100; i < 103; i++) {
+            
+            UIButton *button = (UIButton *)[self.view viewWithTag:i];
+            [button setTitle:array[i - 100] forState:UIControlStateNormal];
+        }
+    }
+    if (_index == 3){
+        
+        self.navigationItem.title = @"推顶明细";
+        NSArray *array = @[@"购买记录",@"使用记录",@"他人推顶"];
         
         for (int i = 100; i < 103; i++) {
             
