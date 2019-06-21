@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *numberLabel;
 @property (weak, nonatomic) IBOutlet UILabel *warnLabel;
 @property (weak, nonatomic) IBOutlet UILabel *introduceLabel;
+@property (weak, nonatomic) IBOutlet UIButton *spectifationBtn;
 
 @end
 
@@ -57,16 +58,32 @@
     {
         self.navigationItem.title = @"设置备注";
         [self.warnLabel setHidden:YES];
+        [self.spectifationBtn setHidden:YES];
         self.textView.text = self.content;
         self.numberLabel.text = @"0/10";
+        if (self.content.length == 0) {
+            self.numberLabel.text = @"0/10";
+            self.introduceLabel.hidden = NO;
+        }else{
+            self.numberLabel.text = [NSString stringWithFormat:@"%ld/1000",(unsigned long)self.textView.text.length];
+            self.introduceLabel.hidden = YES;
+        }
         self.textView.returnKeyType = UIReturnKeyDone;
     }
     if ([self.type intValue] == 4)
     {
-        self.navigationItem.title = @"管理员备注";
+        self.navigationItem.title = @"管理备注";
         self.textView.text = self.content;
+        [self.spectifationBtn setHidden:YES];
         [self.warnLabel setHidden:YES];
         self.numberLabel.text = @"0/1000";
+        if (self.content.length == 0) {
+            self.numberLabel.text = @"0/10";
+            self.introduceLabel.hidden = NO;
+        }else{
+            self.numberLabel.text = [NSString stringWithFormat:@"%ld/1000",(unsigned long)self.textView.text.length];
+            self.introduceLabel.hidden = YES;
+        }
     }
     [self createButton];
 }

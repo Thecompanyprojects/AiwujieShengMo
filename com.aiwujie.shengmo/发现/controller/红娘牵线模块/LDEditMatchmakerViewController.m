@@ -145,17 +145,10 @@
 }
 
 -(void)keyboardWillBeHidden:(NSNotification*)aNotification
-
 {
-    
-//    CGRect keyBoardFrame = [[[aNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    
     CGRect tableFrame = self.tableView.frame;
-    
     tableFrame.origin.y = 0;
-    
     self.tableView.frame = tableFrame;
-
 }
 
 /**

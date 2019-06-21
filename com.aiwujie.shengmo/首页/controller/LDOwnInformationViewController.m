@@ -825,7 +825,7 @@
     
     UIAlertAction *noteAction = [UIAlertAction actionWithTitle:@"设置备注(好友/VIP)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        if ([self.followState isEqualToString:@"3"]||[[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue]==1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"sip"] intValue]==1) {
+        if ([self.followState isEqualToString:@"3"]||[[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue]==1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue]==1) {
             //设置备注
             LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
             VC.type = @"3";
@@ -957,7 +957,7 @@
     UIAlertAction *noteAction = [UIAlertAction actionWithTitle:@"设置备注(好友/VIP)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         //设置备注
-        if ([self.followState isEqualToString:@"3"]||[[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue]==1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"sip"] intValue]==1) {
+        if ([self.followState isEqualToString:@"3"]||[[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue]==1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue]==1) {
             //设置备注
             LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
             VC.type = @"3";

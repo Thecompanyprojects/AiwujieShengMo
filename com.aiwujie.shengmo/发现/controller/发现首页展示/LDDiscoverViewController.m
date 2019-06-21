@@ -71,27 +71,16 @@
  * 判断视图顶部是否有广告栏
  */
 -(void)createHeadData{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Other/getSlideMore"];
-    
     NSDictionary *parameters = @{@"type":@"3"};
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer == 2000) {
-            
-            [_slideArray addObjectsFromArray:responseObject[@"data"]];
-            
+            [_slideArray addObjectsFromArray:responseObj[@"data"]];
         }
-        
         //获取客服的数据
         [self createServiceData];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failed:^(NSString *errorMsg) {
         //获取客服的数据
         [self createServiceData];
     }];
@@ -103,32 +92,18 @@
  * 获取客服的数据
  */
 -(void)createServiceData{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Index/getServiceInfo"];
-    
-    [manager POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
+    [NetManager afPostRequest:url parms:nil finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer == 2000) {
-            
-            [_serviceArray addObjectsFromArray:responseObject[@"data"]];
-            
+            [_serviceArray addObjectsFromArray:responseObj[@"data"]];
             [self createPublishGood];
-            
         }else{
-        
             [self createPublishGood];
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        [self createPublishGood];
-        
+    } failed:^(NSString *errorMsg) {
+         [self createPublishGood];
     }];
-    
 }
 
 /**

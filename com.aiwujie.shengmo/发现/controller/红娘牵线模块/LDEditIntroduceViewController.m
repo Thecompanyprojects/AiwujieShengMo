@@ -44,8 +44,6 @@
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url;
     
     NSDictionary *parameters;
@@ -63,38 +61,25 @@
         parameters = @{@"id":self.fid,@"login_uid": [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"remarks":self.editTextView.text};
     }
     
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//        NSLog(@"%@",responseObject);
-        
-         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
         if (integer == 2000) {
-            
             [self.navigationController popViewControllerAnimated:YES];
-            
             if (self.fid.length == 0) {
-                
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"红娘荐语编辑成功" object:nil];
-                
             }else{
-                
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"红娘展开介绍编辑成功" object:nil];
             }
-
         }else{
-            
             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"编辑资料失败~"];
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         
         [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"网络连接失败,请检查网络设置~"];
     }];
+
 }
 
 -(void)textViewDidChange:(UITextView *)textView{

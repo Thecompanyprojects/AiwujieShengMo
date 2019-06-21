@@ -313,28 +313,16 @@
  * 客服数据的请求获取
  */
 -(void)createServiceData{
-
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Matchmaker/getMatchmakerInfo"];
-    
-    [manager POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//                NSLog(@"%@",responseObject);
-        
+    [NetManager afPostRequest:url parms:nil finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer == 2000) {
-            
-            [_serviceArray addObjectsFromArray:responseObject[@"data"]];
-            
+            [_serviceArray addObjectsFromArray:responseObj[@"data"]];
             [self.tableView reloadData];
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failed:^(NSString *errorMsg) {
         
     }];
-
 }
 
 /**
