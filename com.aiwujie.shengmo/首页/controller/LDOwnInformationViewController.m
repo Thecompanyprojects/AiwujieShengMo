@@ -37,6 +37,7 @@
 #import "UIButton+ImageTitleSpace.h"
 #import "SSCopyLabel.h"
 #import "LDhistorynameViewController.h"
+#import "LDAlertNameandIntroduceViewController.h"
 
 @interface LDOwnInformationViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIScrollViewDelegate,StampChatDelete,YBAttributeTapActionDelegate>
 
@@ -411,6 +412,9 @@
         self.headImageView.clipsToBounds = YES;
     }*/
     
+    self.headImageView.layer.cornerRadius = 40;
+    self.headImageView.clipsToBounds = YES;
+    
     self.backView.layer.cornerRadius = 2;
     self.backView.clipsToBounds = YES;
     
@@ -428,25 +432,15 @@
     
     self.cityView.layer.cornerRadius = 2;
     self.cityView.clipsToBounds = YES;
-    
     [self createRightButton];
-    
     _dataArray = [[NSMutableArray alloc] init];
-    
     _picArray = [NSArray array];
-    
     _isRecord = NO;
-
     [self createTableView];
-    
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        
         [self createOwnInformationData];
-        
     }];
-    
     [self.tableView.mj_header beginRefreshing];
-    
     self.lastScrollOffset = 0;
     
     //监听修改了个人资料
@@ -803,12 +797,34 @@
         [self.navigationController pushViewController:VC animated:YES];
     }];
     
+    UIAlertAction *noteAction = [UIAlertAction actionWithTitle:@"设置备注(好友/VIP)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        //设置备注
+        LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
+        VC.type = @"3";
+        VC.block = ^(NSString *content) {
+            NSString *url = [PICHEADURL stringByAppendingString:markName];
+            NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+            NSString *fuid = self.userID;
+            NSString *markname = content;
+            NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"markname":markname?:@""};
+            [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
+                
+            } failed:^(NSString *errorMsg) {
+                
+            }];
+        };
+        [self.navigationController pushViewController:VC animated:YES];
+        
+    }];
+    
     UIAlertAction * cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
     
     if (PHONEVERSION.doubleValue >= 8.3) {
         
         [shareButton setValue:MainColor forKey:@"_titleTextColor"];
         [nicknameButton setValue:MainColor forKey:@"_titleTextColor"];
+        [noteAction setValue:MainColor forKey:@"_titleTextColor"];
         [cancel setValue:MainColor forKey:@"_titleTextColor"];
     }
     [alert addAction:cancel];
@@ -816,7 +832,9 @@
     [alert addAction:shareButton];
     
     [alert addAction:nicknameButton];
-    
+    if ([self.userID intValue]!=[[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]) {
+        [alert addAction:noteAction];
+    }
     [self presentViewController:alert animated:YES completion:nil];
 }
 
@@ -880,6 +898,37 @@
             [control addAction:action1];
             [self presentViewController:control animated:YES completion:nil];
         }
+    }];
+    
+    UIAlertAction *noteAction = [UIAlertAction actionWithTitle:@"设置备注(好友/VIP)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        //设置备注
+        LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
+        VC.type = @"3";
+        VC.block = ^(NSString *content) {
+            NSString *url = [PICHEADURL stringByAppendingString:markName];
+            NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+            NSString *fuid = self.userID;
+            NSString *markname = content;
+            NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"markname":markname?:@""};
+            [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
+                
+            } failed:^(NSString *errorMsg) {
+                
+            }];
+        };
+        [self.navigationController pushViewController:VC animated:YES];
+        
+    }];
+    
+    UIAlertAction *adminnoteAction = [UIAlertAction actionWithTitle:@"管理员备注" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        // admin设置备注
+        LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
+        VC.type = @"4";
+        VC.block = ^(NSString *content) {
+            
+        };
+        [self.navigationController pushViewController:VC animated:YES];
     }];
     
     UIAlertAction * cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
@@ -1066,26 +1115,27 @@
         [alert addAction:delNickNameAction];
         [alert addAction:delSignAction];
         [alert addAction:titleDynamicAction];
-     
+        
     }
-    
     if (PHONEVERSION.doubleValue >= 8.3) {
-        
         [action setValue:MainColor forKey:@"_titleTextColor"];
-        
         [report setValue:MainColor forKey:@"_titleTextColor"];
-        
         [shareButton setValue:MainColor forKey:@"_titleTextColor"];
-         [nicknameButton setValue:MainColor forKey:@"_titleTextColor"];
+        [nicknameButton setValue:MainColor forKey:@"_titleTextColor"];
+        [noteAction setValue:MainColor forKey:@"_titleTextColor"];
+        [adminnoteAction setValue:MainColor forKey:@"_titleTextColor"];
         [cancel setValue:MainColor forKey:@"_titleTextColor"];
     }
-    
     [alert addAction:shareButton];
     [alert addAction:nicknameButton];
+    if ([self.userID intValue]!=[[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]) {
+        [alert addAction:noteAction];
+    }
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"isadmin"] intValue]==1) {
+        [alert addAction:adminnoteAction];
+    }
     [alert addAction:report];
-    
     [alert addAction:action];
-    
     [self presentViewController:alert animated:YES completion:nil];
 }
 
