@@ -14,15 +14,11 @@
 -(void)setModel:(DynamicModel *)model{
 
     _model = model;
-    
     for (UIView *view in self.picView.subviews) {
-    
         if ([view isKindOfClass:[UIImageView class]]) {
-            
             [view removeFromSuperview];
         }
     }
-    
     for (UIView *view in self.contentView.subviews) {
         
         if ([view isKindOfClass:[UIButton class]] && view.frame.origin.y > self.headButton.frame.origin.y && view.frame.origin.y < self.picView.frame.origin.y) {

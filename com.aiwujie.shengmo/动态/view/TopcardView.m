@@ -10,11 +10,15 @@
 
 @interface TopcardView()
 @property (nonatomic,strong) UIView *alertView;
+
+
 @property (nonatomic,strong) UILabel *titleLab;
-@property (nonatomic,strong) UIButton *topBtn;
+@property (nonatomic,strong) UIImageView *topBtn;
 @property (nonatomic,strong) UILabel *contentLab;
 @property (nonatomic,strong) UIButton *buyBtn;
+@property (nonatomic,strong) UIView *bgView;
 @property (nonatomic,copy) NSString *numberStr;
+
 @end
 
 
@@ -39,21 +43,22 @@
         }
 
         self.frame = [UIScreen mainScreen].bounds;
-        self.alertView = [[UIView alloc]initWithFrame:CGRectMake(60, 160, WIDTH-120, 300)];
+        self.alertView = [[UIView alloc]initWithFrame:CGRectMake(80, HEIGHT/2-140, WIDTH-160, 280)];
         self.userInteractionEnabled = YES;
         self.alertView.backgroundColor = [UIColor blackColor];
         self.alertView.alpha = 0.75;
-        self.alertView.layer.cornerRadius = 4;
-        self.alertView.clipsToBounds = YES;
-        self.alertView.layer.cornerRadius=5.0;
+
+        self.alertView.layer.cornerRadius=8.0;
         self.alertView.layer.masksToBounds=YES;
         self.alertView.userInteractionEnabled=YES;
         [self addSubview:self.alertView];
         [self showAnimationwith];
-        [self.alertView addSubview:self.topBtn];
-        [self.alertView addSubview:self.contentLab];
-        [self.alertView addSubview:self.titleLab];
-        [self.alertView addSubview:self.buyBtn];
+
+        [self  addSubview:self.topBtn];
+        [self  addSubview:self.bgView];
+        [self  addSubview:self.contentLab];
+        [self  addSubview:self.titleLab];
+        [self  addSubview:self.buyBtn];
         [self setuplayout];
         [self getData];
     }
@@ -82,14 +87,21 @@
         
     }];
     
-    [weakSelf.buyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_offset(68);
+    [weakSelf.bgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_offset(95);
         make.centerX.equalTo(weakSelf.alertView);
-        make.top.equalTo(weakSelf.contentLab.mas_bottom).with.offset(25);
-        make.height.mas_offset(22);
+        make.top.equalTo(weakSelf.contentLab.mas_bottom).with.offset(23);
+        make.height.mas_offset(26);
         
     }];
+    [weakSelf.buyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_offset(95);
+        make.centerX.equalTo(weakSelf.alertView);
+        make.top.equalTo(weakSelf.contentLab.mas_bottom).with.offset(23);
+        make.height.mas_offset(26);
+    }];
 }
+
 
 -(UILabel *)titleLab
 {
@@ -109,7 +121,6 @@
     if(!_contentLab)
     {
         _contentLab = [[UILabel alloc] init];
-
         _contentLab.font = [UIFont systemFontOfSize:18];
         _contentLab.textColor = [UIColor whiteColor];
         _contentLab.textAlignment = NSTextAlignmentCenter;
@@ -117,14 +128,25 @@
     return _contentLab;
 }
 
--(UIButton *)topBtn
+-(UIView *)bgView
+{
+    if(!_bgView)
+    {
+        _bgView = [UIView new];
+        _bgView.backgroundColor = [UIColor colorWithRed:183/255.0 green:53/255.0 blue:208/255.0 alpha:1];
+        _bgView.layer.cornerRadius = 2;
+    }
+    return _bgView;
+}
+
+
+-(UIImageView *)topBtn
 {
     if(!_topBtn)
     {
-        _topBtn = [[UIButton alloc] init];
-        [_topBtn setImage:[UIImage imageNamed:@"推顶火箭"] forState:normal];
-        [_topBtn addTarget:self action:@selector(singleTapAction) forControlEvents:UIControlEventTouchUpInside];
-        _topBtn.alpha = 1;
+        _topBtn = [UIImageView new];
+        _topBtn.image = [UIImage imageNamed:@"推顶火箭"];
+        _topBtn.userInteractionEnabled = YES;
     }
     return _topBtn;
 }
@@ -136,7 +158,6 @@
     {
         _buyBtn = [[UIButton alloc] init];
         [_buyBtn setTitle:@"去购买" forState:normal];
-        [_buyBtn setBackgroundColor:[UIColor colorWithRed:183/255.0 green:53/255.0 blue:208/255.0 alpha:1]];
         _buyBtn.layer.cornerRadius = 2;
         _buyBtn.titleLabel.font = [UIFont systemFontOfSize:12];
         [_buyBtn setTitleColor:[UIColor whiteColor] forState:normal];
@@ -147,6 +168,7 @@
     return _buyBtn;
 }
 
+
 -(void)buybtnClick
 {
     [UIView animateWithDuration:0.3 animations:^{
@@ -156,6 +178,7 @@
         self.buyClick([NSString new]);
     }
 }
+
 
 -(void)singleTapAction
 {
@@ -181,7 +204,6 @@
     NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
     NSDictionary *para = @{@"did":self.did?:@"",@"uid":uid?:@""};
     [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
-        
         if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
             if (self.sureClick) {
                 self.sureClick(self.numberStr);
@@ -192,13 +214,13 @@
     }];
 }
 
+
 -(void)getData
 {
     NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
     NSString *url = [PICHEADURL stringByAppendingString:getTopcardPageInfo];
     NSDictionary *para = @{@"uid":uid?:@""};
     [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
-
         if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
             NSDictionary *data = [responseObj objectForKey:@"data"];
             self.numberStr = [data objectForKey:@"wallet_topcard"];
@@ -212,11 +234,11 @@
 
 -(void)setTextFromurl:(NSString *)number
 {
-    NSString *str0 = @"剩余";
-    NSString *str1 = @"张推顶卡";
+    NSString *str0 = @"剩余 ";
+    NSString *str1 = @" 张推顶卡";
     NSString *newStr = [NSString stringWithFormat:@"%@%@%@",str0,number,str1];
     self.contentLab.text = newStr;
-    [self changeWordColorTitle:self.contentLab.text andLoc:2 andLen:number.length andLabel:self.contentLab];
+    [self changeWordColorTitle:self.contentLab.text andLoc:3 andLen:number.length andLabel:self.contentLab];
 }
 
 /**
@@ -260,14 +282,18 @@
     UITouch * touch = touches.anyObject;
     
     if ([touch.view isMemberOfClass:[self.alertView class]]||[touch.view isMemberOfClass:[self.titleLab class]]) {
+       
         
+    }
+    else if ([touch.view isMemberOfClass:[self.topBtn class]]) {
+
+        [self singleTapAction];
     }
     else
     {
         [UIView animateWithDuration:0.3 animations:^{
             [self removeFromSuperview];
         }];
-
     }
 }
 

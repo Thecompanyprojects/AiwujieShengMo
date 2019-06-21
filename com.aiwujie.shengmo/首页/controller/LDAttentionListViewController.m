@@ -178,41 +178,25 @@
 }
 
 -(void)nearButtonClick{
-    
     self.type = @"0";
-    
     [self.tableView.mj_header beginRefreshing];
-    
     [_nearButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    
     _nearView.hidden = NO;
-    
     [_hotButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    
     _hotView.hidden = YES;
-    
     [_friendButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    
     _friendView.hidden = YES;
-    
 }
 
 -(void)hotButtonClick{
     
     self.type = @"1";
-    
     [self.tableView.mj_header beginRefreshing];
-    
     [_hotButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    
     _hotView.hidden = NO;
-    
     [_nearButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    
     _nearView.hidden = YES;
-    
     [_friendButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    
     _friendView.hidden = YES;
 }
 

@@ -22,7 +22,6 @@
 #import "TZAssetModel.h"
 #import "LDPrivacyPhotoViewController.h"
 #import "LDAlertNameandIntroduceViewController.h"
-
 #import "EditinfoModel.h"
 
 @interface LDEditViewController ()<TZImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate,UINavigationControllerDelegate,UITextViewDelegate,UITableViewDataSource,UITableViewDelegate,RegisterNextCellDelegate,UIPickerViewDelegate,UIPickerViewDataSource,LDIamCellDelegate,UIImagePickerControllerDelegate>{
