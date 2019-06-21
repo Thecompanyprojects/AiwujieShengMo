@@ -203,7 +203,9 @@
         _numLabel.text = [NSString stringWithFormat:@"共%@份",_num];
         
         _accountLabel.text = [NSString stringWithFormat:@"总价值%@魔豆(可用%@魔豆)",_amount,_useAmount];
-        
+        if (self.returnValueBlock) {
+            self.returnValueBlock(self.useAmount);
+        }
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:_numLabel.text];
         [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:255/255.0 green:157/255.0 blue:0/255.0 alpha:1] range:NSMakeRange(1,_num.length)];
         _numLabel.attributedText = str;

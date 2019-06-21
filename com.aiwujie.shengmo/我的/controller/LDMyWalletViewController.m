@@ -36,7 +36,7 @@
 
 -(void)createData{
 
-   AFHTTPSessionManager *manager = [LDAFManager sharedManager];
+    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getmywallet"];
     
@@ -47,8 +47,6 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//        NSLog(@"%@",responseObject);
         
         if (integer != 2000) {
             
@@ -101,10 +99,8 @@
 -(void)rightButtonOnClick{
     
     LDBillViewController *bvc = [[LDBillViewController alloc] init];
-    
     [self.navigationController pushViewController:bvc animated:YES];
 }
-
 
 - (IBAction)chargeButtonClick:(id)sender {
     
@@ -116,11 +112,8 @@
 - (IBAction)depositButtonClick:(id)sender {
     
     LDDepositViewController *dvc = [[LDDepositViewController alloc] init];
-    
     dvc.beanNumber = _balance;
-    
     dvc.scale = _scale;
-    
     [self.navigationController pushViewController:dvc animated:YES];
 }
 

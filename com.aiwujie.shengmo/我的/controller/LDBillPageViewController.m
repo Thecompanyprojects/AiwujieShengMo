@@ -63,28 +63,30 @@
 - (void)backButtonOnClick{
     
     //兑换VIP和SVIP
-    [AlertTool alertWithViewController:self type:@"充值魔豆" andAlertDidSelectItem:^(int index, NSString *viptype) {
-        
+    [AlertTool alertWithViewController:self type:@"充值魔豆" num:self.numStr andAlertDidSelectItem:^(int index, NSString *viptype) {
         __block NSString *urlString;
         __block NSDictionary *parameters;
         
         if ([viptype isEqualToString:@"VIP"]) {
             
-            urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/vip_beans"];
-            
-            parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"viptype":[NSString stringWithFormat:@"%d",index + 1], @"beanstype":@"0",@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-            
-            [self startExchangeWithUrl:urlString parameters:parameters];
+            if (index!=0) {
+                urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/vip_beans"];
+                
+                parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"viptype":[NSString stringWithFormat:@"%d",index], @"beanstype":@"0",@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+                
+                [self startExchangeWithUrl:urlString parameters:parameters];
+            }
+         
             
         }
         if ([viptype isEqualToString:@"SVIP"]){
-            
-            urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/svip_beans"];
-            
-            parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"subject":[NSString stringWithFormat:@"%d",index + 1], @"channel":@"1",@"vuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-            
-            [self startExchangeWithUrl:urlString parameters:parameters];
-            
+            if (index!=0) {
+                urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/svip_beans"];
+                
+                parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"subject":[NSString stringWithFormat:@"%d",index], @"channel":@"1",@"vuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+                
+                [self startExchangeWithUrl:urlString parameters:parameters];
+            }
         }
         if ([viptype isEqualToString:@"兑换邮票"]){
             
@@ -102,21 +104,21 @@
         if ([viptype isEqualToString:@"TOPCARD"])
         {
             //兑换推顶卡 channel 充值为0
-            NSString *urlString = [PICHEADURL stringByAppendingString:@"Api/Ping/topcard_baans"];
-            NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
-            NSArray *array = @[@"3",@"10",@"30",@"50",@"100",@"308"];
-            __block NSString *numStr = @"";
-            
-            [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-
-                if (idx==index) {
-                    numStr=[array objectAtIndex:idx];
-                    *stop = YES;
-                }
-            }];
-            
-            NSDictionary *parameters = @{@"uid":uid,@"num":numStr,@"channel":@"0"};
-            [self startExchangeWithUrl:urlString parameters:parameters];
+            if (index!=0) {
+                NSString *urlString = [PICHEADURL stringByAppendingString:@"Api/Ping/topcard_baans"];
+                NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+                NSArray *array = @[@"3",@"10",@"30",@"50",@"100",@"308"];
+                __block NSString *numStr = @"";
+                [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    
+                    if (idx==index) {
+                        numStr=[array objectAtIndex:idx+1];
+                        *stop = YES;
+                    }
+                }];
+                NSDictionary *parameters = @{@"uid":uid,@"num":numStr,@"channel":@"0"};
+                [self startExchangeWithUrl:urlString parameters:parameters];
+            }
         }
     }];
 }

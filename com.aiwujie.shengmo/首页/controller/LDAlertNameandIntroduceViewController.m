@@ -78,7 +78,7 @@
         [self.warnLabel setHidden:YES];
         self.numberLabel.text = @"0/1000";
         if (self.content.length == 0) {
-            self.numberLabel.text = @"0/10";
+            self.numberLabel.text = @"0/1000";
             self.introduceLabel.hidden = NO;
         }else{
             self.numberLabel.text = [NSString stringWithFormat:@"%ld/1000",(unsigned long)self.textView.text.length];

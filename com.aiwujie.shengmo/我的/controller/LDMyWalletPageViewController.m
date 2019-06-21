@@ -29,7 +29,8 @@
 
 @property (nonatomic,strong) UIButton *rightButton;
 @property (nonatomic,assign) int index;
-
+@property (nonatomic,copy) NSString *num0;
+@property (nonatomic,copy) NSString *num1;
 @end
 
 @implementation LDMyWalletPageViewController
@@ -42,12 +43,15 @@
         
         LDChargeCenterViewController *v1 = [[LDChargeCenterViewController alloc] init];
         LDMyReceiveGifViewController *v2 = [[LDMyReceiveGifViewController alloc] init];
-        
+        v1.returnValueBlock = ^(NSString *numStr) {
+            self.num0 = numStr;
+        };
+        v2.returnValueBlock = ^(NSString *numStr) {
+            self.num1 = numStr;
+        };
         [arrayM addObject:v1];
         [arrayM addObject:v2];
-        
         _pageContentArray = [[NSArray alloc] initWithArray:arrayM];
-        
     }
     return _pageContentArray;
 }
@@ -88,13 +92,13 @@
     if (_index == 0) {
         
         LDBillPageViewController *pvc = [[LDBillPageViewController alloc] init];
-        
+        pvc.numStr = self.num0;
         [self.navigationController pushViewController:pvc animated:YES];
         
     }else{
     
         LDDetailPageViewController *pvc = [[LDDetailPageViewController alloc] init];
-        
+        pvc.numStr = self.num1;
         pvc.index = _index;
         
         [self.navigationController pushViewController:pvc animated:YES];
@@ -136,8 +140,6 @@
         
         [_pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionReverse animated:NO completion:nil];
     }
-    
-    
     // 设置UIPageViewController 尺寸
     _pageViewController.view.frame = self.view.frame;
     

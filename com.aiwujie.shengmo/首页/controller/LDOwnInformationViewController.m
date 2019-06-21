@@ -823,7 +823,7 @@
         [self.navigationController pushViewController:VC animated:YES];
     }];
     
-    UIAlertAction *noteAction = [UIAlertAction actionWithTitle:@"设置备注(好友/VIP)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *noteAction = [UIAlertAction actionWithTitle:@"设置备注(好友/vip)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         if ([self.followState isEqualToString:@"3"]||[[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue]==1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue]==1) {
             //设置备注
@@ -954,7 +954,7 @@
         }
     }];
     
-    UIAlertAction *noteAction = [UIAlertAction actionWithTitle:@"设置备注(好友/VIP)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *noteAction = [UIAlertAction actionWithTitle:@"设置备注(好友/vip)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         //设置备注
         if ([self.followState isEqualToString:@"3"]||[[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue]==1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue]==1) {
