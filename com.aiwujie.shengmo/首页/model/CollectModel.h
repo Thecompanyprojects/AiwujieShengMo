@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface CollectModel : NSObject
+@interface CollectModel : NSObject<NSCoding,NSCopying>
 
 @property (nonatomic,copy) NSString *age;
 @property (nonatomic,copy) NSString *distance;

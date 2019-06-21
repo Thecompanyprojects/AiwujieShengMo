@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface TableModel : NSObject
+@interface TableModel : NSObject<NSCoding,NSCopying>
 
 @property (nonatomic,copy) NSString *age;
 @property (nonatomic,copy) NSString *distance;

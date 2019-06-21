@@ -336,7 +336,7 @@
     
     self.navigationItem.title = @"个人主页";
     self.view.backgroundColor = [UIColor whiteColor];
-    if (ISIPHONEPLUS) {
+   /* if (ISIPHONEPLUS) {
         
         self.giveGifW.constant = (self.giveGifButton.frame.size.width / 375) * WIDTH;
         self.giveGifH.constant = (self.giveGifButton.frame.size.height / 667) * HEIGHT;
@@ -351,8 +351,8 @@
         self.publishH.constant = (self.publishButton.frame.size.height / 667) * HEIGHT;
         
         //背景的高度改变
-        self.backAlhpaH.constant = 280;
-        self.backGroundViewH.constant = 280;
+        self.backAlhpaH.constant = 300;
+        self.backGroundViewH.constant = 300;
         
         //头像的x,y的改变
         self.headImageViewX.constant = 26;
@@ -409,7 +409,7 @@
         
         self.headImageView.layer.cornerRadius = 40;
         self.headImageView.clipsToBounds = YES;
-    }
+    }*/
     
     self.backView.layer.cornerRadius = 2;
     self.backView.clipsToBounds = YES;
@@ -566,29 +566,19 @@
 }
 
 -(void)createTableView{
-    
     if (ISIPHONEX) {
-        
         self.tableViewBottomY.constant = 34;
-        
     }else{
-        
         self.tableViewBottomY.constant = 0;
     }
-    
     if (@available(iOS 11.0, *)) {
-        
         self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
-        
         self.tableView.estimatedRowHeight = 0;
         self.tableView.estimatedSectionHeaderHeight = 0;
         self.tableView.estimatedSectionFooterHeight = 0;
-        
     }else {
-        
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -641,29 +631,17 @@
 }
 
 - (IBAction)fansButtonClick:(id)sender {
-    
     if ([self.userID intValue] == [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]) {
-        
         LDAttentionListViewController *avc = [[LDAttentionListViewController alloc] init];
-        
         avc.type = @"1";
-        
         avc.userID = self.userID;
-        
         [self.navigationController pushViewController:avc animated:YES];
-
-        
     }else if ([self.userID intValue] != [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]){
-        
         LDAttentOtherViewController *ovc = [[LDAttentOtherViewController alloc] init];
-        
         ovc.type = @"1";
-        
         ovc.userID = self.userID;
-        
         [self.navigationController pushViewController:ovc animated:YES];
     }
-    
 }
 
 /**
@@ -671,41 +649,21 @@
  */
 
 -(void)createPublishCommentData{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
-    [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
-    manager.requestSerializer.timeoutInterval = 10.f;
-    
-    [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/judgeDynamicNewrd"];
-    
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (integer == 4003  || integer == 4004) {
-            
-            _publishComment = [NSString stringWithFormat:@"%@",[responseObject objectForKey:@"retcode"]];
-            
+            _publishComment = [NSString stringWithFormat:@"%@",[responseObj objectForKey:@"retcode"]];
         }else  if(integer == 2000){
-            
             _publishComment = @"YES";
             
         }else if(integer == 3001){
-            
             _publishComment = @"";
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        _publishComment = @"NO";
-        
+    } failed:^(NSString *errorMsg) {
+         _publishComment = @"NO";
     }];
-    
 }
 
 
@@ -1386,36 +1344,20 @@
  */
 
 -(void)unenableUse:(NSString *)type andBlockingAlong:(NSString *)blockingalong{
-    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@%@",PICHEADURL,@"Api/Power/changeAllUserStatus/method/",type];
-    
     NSDictionary *parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"uid":self.userID,@"blockingalong":blockingalong};
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            
             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"操作失败"];
-            
         }else{
-            
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            
             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"操作成功"];
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
     }];
 }
 
@@ -1424,34 +1366,20 @@
  */
 
 -(void)enableUse:(NSString *)type{
-    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@%@",PICHEADURL,@"Api/Power/recoverAllUserStatus/method/",type];
-    
     NSDictionary *parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"uid":self.userID};
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            
             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"操作失败"];
-            
         }else{
-            
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            
             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"操作成功"];
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
+    } failed:^(NSString *errorMsg) {
+         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }];
 }
 
@@ -1461,34 +1389,19 @@
 -(void)deleteWeiGuiUser:(NSString *)type{
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@%@",PICHEADURL,@"Api/Power/delIllegallyUserInfo/type/",type];
-    
     NSDictionary *parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"uid":self.userID};
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            
-             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"操作失败"];
-            
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"操作失败"];
         }else{
-            
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            
-             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"操作成功"];
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"操作成功"];
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
     }];
 }
 
@@ -1501,9 +1414,7 @@
 -(void)createOwnInformationData{
 
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/getUserInfo"];
-    
     NSDictionary *parameters;
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
@@ -1887,11 +1798,8 @@
     _is_likeliar = [NSString stringWithFormat:@"%@",dic[@"is_likeliar"]];
     
     if ([dic[@"is_likeliar"] intValue] == 1) {
-        
         self.tableViewTopY.constant = 40;
-        
         if (_likeliarView == nil) {
-            
             _likeliarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 40)];
             _likeliarView.backgroundColor = [UIColor colorWithHexString:@"#ff3434" alpha:1];
             [self.view addSubview:_likeliarView];
@@ -1918,11 +1826,8 @@
             warnLabel.textAlignment = NSTextAlignmentCenter;
             warnLabel.textColor = [UIColor whiteColor];
             [_likeliarView addSubview:warnLabel];
-            
             [warnLabel yb_addAttributeTapActionWithStrings:@[@"【自拍认证】"] delegate:self];
-            
             warnLabel.enabledTapEffect = NO;
-            
         }
         
     }else{
@@ -1934,101 +1839,72 @@
         
         self.tableViewTopY.constant = 0;
     }
-    
-    
     //展示用户信息的view的设置
     _headUrl = dic[@"head_pic"];
-    
     [self.backGroundView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",dic[@"head_pic"]]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
-    
     [self.headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",dic[@"head_pic"]]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
-    
     self.backGroundView.contentMode = UIViewContentModeScaleAspectFill;
-    
     self.backGroundView.clipsToBounds = YES;
-    
     self.nameLabel.text = dic[@"nickname"];
-    
     CGSize size = [self.nameLabel.text sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:15.0]}];
     // ceilf()向上取整函数, 只要大于1就取整数2. floor()向下取整函数, 只要小于2就取整数1.
     CGSize labelSize = CGSizeMake(ceilf(size.width), ceilf(size.height));
-    
     self.nameW.constant = labelSize.width;;
     
+    self.backViewY.constant = 38;
+    UILabel *oldnameLab = [UILabel new];
+    [self.headBackView addSubview:oldnameLab];
+    oldnameLab.backgroundColor = [UIColor clearColor];
+    oldnameLab.text = @"(我是原来的昵称)";
+    oldnameLab.textColor = TextCOLOR;
+    oldnameLab.font = [UIFont systemFontOfSize:14];
+    [oldnameLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.nameLabel);
+        make.top.equalTo(self.nameLabel.mas_bottom).with.offset(6);
+        make.height.mas_offset(14);
+        make.width.mas_offset(150);
+    }];
+    
+    
     if ([dic[@"realname"] intValue] == 0) {
-        
         if ([self.userID intValue] == [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]){
-            
             self.idImageView.image = [UIImage imageNamed:@"认证灰"];
-            
             self.idImageView.hidden = NO;
-            
             self.idviewW.constant = 19;
-            
         }else{
-            
             self.idImageView.hidden = YES;
-            
             self.idviewW.constant = 0;
         }
-        
     }else{
-        
         self.idImageView.image = [UIImage imageNamed:@"认证"];
-        
         self.idImageView.hidden = NO;
-        
         self.idviewW.constant = 19;
     }
     
     if ([dic[@"role"] isEqualToString:@"S"]) {
-        
         self.sexualLabel.text = @"斯";
-        
         self.sexualLabel.backgroundColor = BOYCOLOR;
-        
     }else if ([dic[@"role"] isEqualToString:@"M"]){
-        
         self.sexualLabel.text = @"慕";
-        
         self.sexualLabel.backgroundColor = GIRLECOLOR;
-        
-        
     }else if ([dic[@"role"] isEqualToString:@"SM"]){
-        
         self.sexualLabel.text = @"双";
-        
         self.sexualLabel.backgroundColor = DOUBLECOLOR;
-        
     }else{
-        
         self.sexualLabel.text = @"~";
         self.sexualLabel.backgroundColor = GREENCOLORS;
     }
-    
-    
     if ([dic[@"sex"] intValue] == 1) {
-        
         self.sexImageView.image = [UIImage imageNamed:@"男"];
-        
         self.backView.backgroundColor = BOYCOLOR;
-        
         _signColor = BOYCOLOR;
-        
     }else if ([dic[@"sex"] intValue] == 2){
-        
         self.sexImageView.image = [UIImage imageNamed:@"女"];
-        
         self.backView.backgroundColor = GIRLECOLOR;
-        
         _signColor = GIRLECOLOR;
-        
     }else{
-        
         self.sexImageView.image = [UIImage imageNamed:@"双性"];
-        
         self.backView.backgroundColor = DOUBLECOLOR;
-        
         _signColor = DOUBLECOLOR;
     }
     
@@ -2036,36 +1912,22 @@
     
     //判断获取的时间是不是NSNull,如果是NSNull则显示隐身
     if ([dic[@"last_login_time"] isEqual:[NSNull null]]) {
-        
         _lastTime = @"隐身";
-        
     }else{
-        
         _lastTime = dic[@"last_login_time"];
     }
-    
     if ([dic[@"login_time_switch"] intValue] == 0) {
-        
         if ([dic[@"timePoorState"] intValue] == 1) {
-            
             self.timeLabel.text = _lastTime;
-            
         }else{
-            
             self.timeLabel.text = @"查看时间";
-            
             [_lookTimeButton addTarget:self action:@selector(lookTimeButtonClick) forControlEvents:UIControlEventTouchUpInside];
-            
         }
     }else{
-        
         self.timeLabel.text = @"隐身";
     }
-    
     self.timeW.constant = 18 + [self fitLabelWidth:self.timeLabel.text].width;
-    
     self.locationLabel.text = [NSString stringWithFormat:@"%@",dic[@"distance"]];
-    
     self.locationW.constant = 18 + [self fitLabelWidth:self.locationLabel.text].width;
     
     if (show == NO) {

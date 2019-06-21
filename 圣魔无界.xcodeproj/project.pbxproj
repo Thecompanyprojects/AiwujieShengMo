@@ -260,6 +260,7 @@
 		531D73A022AF80A600903BB4 /* LdtopHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D739F22AF80A600903BB4 /* LdtopHeaderView.m */; };
 		5323946922B90BDE001BF94C /* bottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5323946822B90BDE001BF94C /* bottomView.m */; };
 		5372254B22ABF8E30082472A /* NetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5372254922ABF8E30082472A /* NetManager.m */; };
+		53A2E6B622BC793700403D83 /* infoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A2E6B522BC793700403D83 /* infoModel.m */; };
 		53B7C0EC22B3418800113F50 /* EditinfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C0EB22B3418800113F50 /* EditinfoModel.m */; };
 		53B7C0EF22B3A4C100113F50 /* NSDictionary+safeLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C0EE22B3A4C100113F50 /* NSDictionary+safeLoad.m */; };
 		53B7C0F222B3A80600113F50 /* UIImage+Cut.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C0F122B3A80600113F50 /* UIImage+Cut.m */; };
@@ -900,6 +901,8 @@
 		5323946822B90BDE001BF94C /* bottomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = bottomView.m; sourceTree = "<group>"; };
 		5372254922ABF8E30082472A /* NetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetManager.m; sourceTree = "<group>"; };
 		5372254A22ABF8E30082472A /* NetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetManager.h; sourceTree = "<group>"; };
+		53A2E6B422BC793700403D83 /* infoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = infoModel.h; sourceTree = "<group>"; };
+		53A2E6B522BC793700403D83 /* infoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = infoModel.m; sourceTree = "<group>"; };
 		53B7C0EA22B3418800113F50 /* EditinfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditinfoModel.h; sourceTree = "<group>"; };
 		53B7C0EB22B3418800113F50 /* EditinfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EditinfoModel.m; sourceTree = "<group>"; };
 		53B7C0ED22B3A4C100113F50 /* NSDictionary+safeLoad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+safeLoad.h"; sourceTree = "<group>"; };
@@ -1520,6 +1523,7 @@
 		003B9A5D1E06BE3C006BF162 /* 身边 */ = {
 			isa = PBXGroup;
 			children = (
+				53A2E6B722BC7A4400403D83 /* viewModel */,
 				003B9A5E1E06BE3C006BF162 /* controller */,
 				003B9A5F1E06BE3C006BF162 /* model */,
 				003B9A601E06BE3C006BF162 /* view */,
@@ -1557,6 +1561,8 @@
 				000D93DA1E0D77200076931E /* TableModel.m */,
 				53B7C0EA22B3418800113F50 /* EditinfoModel.h */,
 				53B7C0EB22B3418800113F50 /* EditinfoModel.m */,
+				53A2E6B422BC793700403D83 /* infoModel.h */,
+				53A2E6B522BC793700403D83 /* infoModel.m */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -2026,6 +2032,13 @@
 				5372254922ABF8E30082472A /* NetManager.m */,
 			);
 			path = NetWorking;
+			sourceTree = "<group>";
+		};
+		53A2E6B722BC7A4400403D83 /* viewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = viewModel;
 			sourceTree = "<group>";
 		};
 		53B7C11B22B4943400113F50 /* 历史昵称 */ = {
@@ -3638,6 +3651,7 @@
 				D20E88F71F0624C0008D174C /* LDStampChatView.m in Sources */,
 				003B9A711E06BFA7006BF162 /* LDDynamicViewController.m in Sources */,
 				D2FEB5CE1EC416B6002A0886 /* GroupAtPersonCell.m in Sources */,
+				53A2E6B622BC793700403D83 /* infoModel.m in Sources */,
 				000E774D1E2E0A9E00F2894B /* GroupMemberListCell.m in Sources */,
 				00E85EAC1E02BA6F004AB146 /* AppDelegate.m in Sources */,
 				D2E1CEF51E83D8EF008D8BF0 /* ShowBadgeCell.m in Sources */,
