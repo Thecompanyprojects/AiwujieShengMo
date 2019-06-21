@@ -443,38 +443,22 @@
 -(void)attentButtonClickState:(BOOL)state{
     
     if (state) {
-        
         _url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/overfollow"];
-        
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否取消关注此人"    preferredStyle:UIAlertControllerStyleAlert];
-        
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
-            
             [self blackData];
         }];
-        
         UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault  handler:nil];
-        
         if (PHONEVERSION.doubleValue >= 8.3) {
-            
             [action setValue:MainColor forKey:@"_titleTextColor"];
-            
             [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
         }
-        
         [alert addAction:action];
-        
         [alert addAction:cancelAction];
-        
         [self presentViewController:alert animated:YES completion:nil];
-        
-        
     }else{
-        
         _url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/followOneBox"];
-        
         [self blackData];
-        
     }
 }
 

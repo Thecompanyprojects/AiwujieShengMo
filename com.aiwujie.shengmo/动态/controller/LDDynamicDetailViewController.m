@@ -407,7 +407,7 @@
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (integer != 2000) {
-            if (integer == 4002) {
+            if (integer == 4002||integer == 3000) {
                 if ([str intValue] == 1) {
                     [_dataArray removeAllObjects];
                     [self.tableView reloadData];
@@ -417,9 +417,7 @@
                 }
             }else{
                 [self.tableView.mj_footer endRefreshing];
-                if (_page!=1) {
-                     [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
-                }
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }
         }else{
             if ([str intValue] == 1) {

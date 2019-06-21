@@ -825,26 +825,50 @@
     
     UIAlertAction *noteAction = [UIAlertAction actionWithTitle:@"设置备注(好友/VIP)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        //设置备注
-        LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
-        VC.type = @"3";
-        VC.content = self.markname;
-        VC.block = ^(NSString *content) {
-            NSString *url = [PICHEADURL stringByAppendingString:markName];
-            NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
-            NSString *fuid = self.userID;
-            NSString *markname = content;
-            NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"markname":markname?:@""};
-            [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
-                if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
-                    [MBProgressHUD showSuccess:@"备注成功"];
-                    [self.tableView.mj_header beginRefreshing];
-                }
-            } failed:^(NSString *errorMsg) {
-                
+        if ([self.followState isEqualToString:@"3"]||[[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue]==1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"sip"] intValue]==1) {
+            //设置备注
+            LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
+            VC.type = @"3";
+            VC.content = self.markname;
+            VC.block = ^(NSString *content) {
+                NSString *url = [PICHEADURL stringByAppendingString:markName];
+                NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+                NSString *fuid = self.userID;
+                NSString *markname = content;
+                NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"markname":markname?:@""};
+                [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
+                    if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
+                        [MBProgressHUD showSuccess:@"备注成功"];
+                        [self.tableView.mj_header beginRefreshing];
+                    }
+                } failed:^(NSString *errorMsg) {
+                    
+                }];
+            };
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+        else
+        {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"仅限好友/VIP可用"    preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction * addFriendAction = [UIAlertAction actionWithTitle:@"加好友" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
+                [self attentButtonClickState:_attentStatus];
             }];
-        };
-        [self.navigationController pushViewController:VC animated:YES];
+            UIAlertAction * vipAction = [UIAlertAction actionWithTitle:@"开通VIP" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
+                LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
+                [self.navigationController pushViewController:mvc animated:YES];
+            }];
+            UIAlertAction * action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
+            if (PHONEVERSION.doubleValue >= 8.3) {
+                [action setValue:[UIColor lightGrayColor] forKey:@"_titleTextColor"];
+                [vipAction setValue:MainColor forKey:@"_titleTextColor"];
+                [addFriendAction setValue:MainColor forKey:@"_titleTextColor"];
+            }
+            [alert addAction:action];
+            [alert addAction:addFriendAction];
+            [alert addAction:vipAction];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+ 
         
     }];
     
@@ -933,25 +957,49 @@
     UIAlertAction *noteAction = [UIAlertAction actionWithTitle:@"设置备注(好友/VIP)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         //设置备注
-        LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
-        VC.type = @"3";
-        VC.content = self.markname;
-        VC.block = ^(NSString *content) {
-            NSString *url = [PICHEADURL stringByAppendingString:markName];
-            NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
-            NSString *fuid = self.userID;
-            NSString *markname = content;
-            NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"markname":markname?:@""};
-            [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
-                if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
-                    [MBProgressHUD showSuccess:@"备注成功"];
-                    [self.tableView.mj_header beginRefreshing];
-                }
-            } failed:^(NSString *errorMsg) {
-                
+        if ([self.followState isEqualToString:@"3"]||[[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue]==1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"sip"] intValue]==1) {
+            //设置备注
+            LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
+            VC.type = @"3";
+            VC.content = self.markname;
+            VC.block = ^(NSString *content) {
+                NSString *url = [PICHEADURL stringByAppendingString:markName];
+                NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+                NSString *fuid = self.userID;
+                NSString *markname = content;
+                NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"markname":markname?:@""};
+                [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
+                    if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
+                        [MBProgressHUD showSuccess:@"备注成功"];
+                        [self.tableView.mj_header beginRefreshing];
+                    }
+                } failed:^(NSString *errorMsg) {
+                    
+                }];
+            };
+            [self.navigationController pushViewController:VC animated:YES];
+        }
+        else
+        {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"仅限好友/VIP可用"    preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction * addFriendAction = [UIAlertAction actionWithTitle:@"加好友" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
+                [self attentButtonClickState:_attentStatus];
             }];
-        };
-        [self.navigationController pushViewController:VC animated:YES];
+            UIAlertAction * vipAction = [UIAlertAction actionWithTitle:@"开通VIP" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
+                LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
+                [self.navigationController pushViewController:mvc animated:YES];
+            }];
+            UIAlertAction * action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
+            if (PHONEVERSION.doubleValue >= 8.3) {
+                [action setValue:[UIColor lightGrayColor] forKey:@"_titleTextColor"];
+                [vipAction setValue:MainColor forKey:@"_titleTextColor"];
+                [addFriendAction setValue:MainColor forKey:@"_titleTextColor"];
+            }
+            [alert addAction:action];
+            [alert addAction:addFriendAction];
+            [alert addAction:vipAction];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
         
     }];
     
@@ -1898,8 +1946,6 @@
         font = [UIFont systemFontOfSize:13];
     }
     
-//    self.admin_mark = @"这个是管理员的备注信息，看看k能够展示多少呢，测试一下效果咋样吧这个是管理员的备注信息，看看k能够展示多少呢，测试一下效果咋样吧这个是管理员的备注信息，看看k能够展示多少呢，测试一下效果咋样吧这个是管理员的备注信息，看看k能够展示多少呢，测试一下效果咋样吧这个是管理员的备注信息，看看k能够展示多少呢，测试一下效果咋样吧";
-//   // self.admin_mark = @"";
     
     CGFloat admin_markhei = 0.00f;
     
@@ -1926,7 +1972,6 @@
         noteLabel.textAlignment = NSTextAlignmentLeft;
         noteLabel.textColor = [UIColor whiteColor];
         [self.adminnoteView addSubview:noteLabel];
-        
     }
     else
     {
@@ -1942,7 +1987,7 @@
     if ([dic[@"is_likeliar"] intValue] == 1) {
         self.tableViewTopY.constant = 40+admin_markhei;
         CGFloat tops = 0.00f;
-        if (self.admin_mark.length!=0) {
+        if (self.admin_mark.length!=0&&[[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue]==1) {
             tops = admin_markhei+8;
         }
         if (_likeliarView == nil) {
@@ -3365,127 +3410,77 @@
 -(void)attentButtonClickState:(BOOL)state{
 
     if (state) {
-        
         _url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/overfollow"];
-        
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否取消关注此人"    preferredStyle:UIAlertControllerStyleAlert];
-        
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
-            
             [self blackData];
         }];
-        
         UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
-        
         if (PHONEVERSION.doubleValue >= 8.3) {
-        
             [action setValue:MainColor forKey:@"_titleTextColor"];
-            
             [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
         }
-        
         [alert addAction:action];
-        
         [alert addAction:cancelAction];
-        
         [self presentViewController:alert animated:YES completion:nil];
-
-        
     }else{
-    
         _url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/followOneBox"];
-            
         [self blackData];
     }
 }
 
 //查看加入的群组
 - (IBAction)groupButtonClick:(id)sender {
-    
     LDGroupNumberViewController *nvc = [[LDGroupNumberViewController alloc] init];
     nvc.userId = self.userID;
     [self.navigationController pushViewController:nvc animated:YES];
-
 }
 
 -(void)blackData{
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"fuid":self.userID};
-    
-    [manager POST:_url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//       NSLog(@"%@",responseObject);
-        
+    [NetManager afPostRequest:_url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            
             hud.removeFromSuperViewOnHide = YES;
-            
             [hud hide:YES];
-            
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-            
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
         }else{
-            
             if (_attentStatus) {
-                
                 hud.mode = MBProgressHUDModeText;
-                hud.labelText = [responseObject objectForKey:@"msg"];
+                hud.labelText = [responseObj objectForKey:@"msg"];
                 hud.removeFromSuperViewOnHide = YES;
                 [hud hide:YES afterDelay:3];
-                
-                if ([responseObject[@"data"] intValue] == 0){
-                    
+                if ([responseObj[@"data"] intValue] == 0){
                     [self.attentButton setBackgroundImage:[UIImage imageNamed:@"关注好友"] forState:UIControlStateNormal];
-                    
                 }else{
-                    
                     [self.attentButton setBackgroundImage:[UIImage imageNamed:@"个人主页被关注"] forState:UIControlStateNormal];
                 }
-                
                 self.fansLabel.text = [NSString stringWithFormat:@"%d",[self.fansLabel.text intValue] - 1];
-                
                 _attentStatus = NO;
-                
             }else{
-                
-                if ([responseObject[@"data"] intValue] == 1) {
-                    
+                if ([responseObj[@"data"] intValue] == 1) {
                     hud.mode = MBProgressHUDModeText;
                     hud.labelText = @"已互为好友，可以免费无限畅聊了~";
                     hud.removeFromSuperViewOnHide = YES;
                     [hud hide:YES afterDelay:3];
-                    
+                    self.followState = @"3";
                     [self.attentButton setBackgroundImage:[UIImage imageNamed:@"互为好友"] forState:UIControlStateNormal];
-                    
                 }else{
-                
                     hud.mode = MBProgressHUDModeText;
                     hud.labelText = @"已关注成功！互为好友即可免费畅聊~";
                     hud.removeFromSuperViewOnHide = YES;
                     [hud hide:YES afterDelay:3];
-
                     [self.attentButton setBackgroundImage:[UIImage imageNamed:@"已关注"] forState:UIControlStateNormal];
                 }
-                
                 self.fansLabel.text = [NSString stringWithFormat:@"%d",[self.fansLabel.text intValue] + 1];
-                
                 _attentStatus = YES;
-                
-            }  
+            }
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         hud.removeFromSuperViewOnHide = YES;
-        
         [hud hide:YES];
-        
     }];
 }
 
