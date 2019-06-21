@@ -227,6 +227,9 @@
 //可疑用户上方展示的view
 @property (nonatomic,strong) UIView *likeliarView;
 
+//管理员备足展示view
+@property (nonatomic,strong) UIView *adminnoteView;
+
 @property (nonatomic,strong) UIButton * shareButton;
 @property (nonatomic,strong) UIButton *rightButton;
 @property (nonatomic,strong) UITextField *passwordField;
@@ -318,6 +321,13 @@
 
 //修改资料判断是否是admin用户修改
 @property (nonatomic,assign) BOOL isAdminchange;
+
+//备注
+@property (nonatomic,copy) NSString *markname;
+//管理员备注
+@property (nonatomic,copy) NSString *admin_mark;
+
+@property (nonatomic,strong) UILabel *oldnameLab;
 @end
 
 @implementation LDOwnInformationViewController
@@ -436,6 +446,7 @@
     _dataArray = [[NSMutableArray alloc] init];
     _picArray = [NSArray array];
     _isRecord = NO;
+    [self creageoldnameLab];
     [self createTableView];
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self createOwnInformationData];
@@ -459,6 +470,21 @@
         make.height.mas_offset(13);
     }];
     [timeBtn addTarget:self action:@selector(timeBtnclick) forControlEvents:UIControlEventTouchUpInside];
+}
+
+-(void)creageoldnameLab
+{
+    self.oldnameLab = [UILabel new];
+    [self.headBackView addSubview:self.oldnameLab];
+    self.oldnameLab.backgroundColor = [UIColor clearColor];
+    self.oldnameLab.textColor = TextCOLOR;
+    self.oldnameLab.font = [UIFont systemFontOfSize:14];
+    [self.oldnameLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.nameLabel);
+        make.top.equalTo(self.nameLabel.mas_bottom).with.offset(6);
+        make.height.mas_offset(18);
+        make.width.mas_offset(150);
+    }];
 }
 
 -(void)timeBtnclick
@@ -802,6 +828,7 @@
         //设置备注
         LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
         VC.type = @"3";
+        VC.content = self.markname;
         VC.block = ^(NSString *content) {
             NSString *url = [PICHEADURL stringByAppendingString:markName];
             NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
@@ -809,7 +836,10 @@
             NSString *markname = content;
             NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"markname":markname?:@""};
             [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
-                
+                if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
+                    [MBProgressHUD showSuccess:@"备注成功"];
+                    [self.tableView.mj_header beginRefreshing];
+                }
             } failed:^(NSString *errorMsg) {
                 
             }];
@@ -905,6 +935,7 @@
         //设置备注
         LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
         VC.type = @"3";
+        VC.content = self.markname;
         VC.block = ^(NSString *content) {
             NSString *url = [PICHEADURL stringByAppendingString:markName];
             NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
@@ -912,7 +943,10 @@
             NSString *markname = content;
             NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"markname":markname?:@""};
             [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
-                
+                if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
+                    [MBProgressHUD showSuccess:@"备注成功"];
+                    [self.tableView.mj_header beginRefreshing];
+                }
             } failed:^(NSString *errorMsg) {
                 
             }];
@@ -921,12 +955,25 @@
         
     }];
     
-    UIAlertAction *adminnoteAction = [UIAlertAction actionWithTitle:@"管理员备注" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *adminnoteAction = [UIAlertAction actionWithTitle:@"管理备注" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         // admin设置备注
         LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
         VC.type = @"4";
+        VC.content = self.admin_mark;
         VC.block = ^(NSString *content) {
-            
+            NSString *url = [PICHEADURL stringByAppendingString:editAdminmrak];
+            NSString *uid = self.userID;
+            NSString *loginid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+            NSString *contents = content;
+            NSDictionary *para = @{@"uid":uid?:@"",@"loginid":loginid?:@"",@"content":contents?:@""};
+            [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
+                if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
+                    [MBProgressHUD showSuccess:@"备注成功"];
+                    [self.tableView.mj_header beginRefreshing];
+                }
+            } failed:^(NSString *errorMsg) {
+                
+            }];
         };
         [self.navigationController pushViewController:VC animated:YES];
     }];
@@ -1114,8 +1161,10 @@
         [alert addAction:delPicAction];
         [alert addAction:delNickNameAction];
         [alert addAction:delSignAction];
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue]==1) {
+            [alert addAction:adminnoteAction];
+        }
         [alert addAction:titleDynamicAction];
-        
     }
     if (PHONEVERSION.doubleValue >= 8.3) {
         [action setValue:MainColor forKey:@"_titleTextColor"];
@@ -1130,9 +1179,6 @@
     [alert addAction:nicknameButton];
     if ([self.userID intValue]!=[[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]) {
         [alert addAction:noteAction];
-    }
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"isadmin"] intValue]==1) {
-        [alert addAction:adminnoteAction];
     }
     [alert addAction:report];
     [alert addAction:action];
@@ -1462,35 +1508,32 @@
  * 获取个人资料信息
  */
 -(void)createOwnInformationData{
-
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
+    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/getUserInfo"];
     NSDictionary *parameters;
-    
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
-        
         parameters = @{@"uid":self.userID?:@"",@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-        
     }else{
-        
         parameters = @{@"uid":self.userID?:@"",@"lat":@"",@"lng":@"",@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     }
     
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        self.photo_rule = [responseObject objectForKey:@"data"][@"photo_rule"];
-        self.dynamic_rule = [responseObject objectForKey:@"data"][@"dynamic_rule"];
-        self.comment_rule = [responseObject objectForKey:@"data"][@"comment_rule"];
-        
+        self.photo_rule = [responseObj objectForKey:@"data"][@"photo_rule"];
+        self.dynamic_rule = [responseObj objectForKey:@"data"][@"dynamic_rule"];
+        self.comment_rule = [responseObj objectForKey:@"data"][@"comment_rule"];
+        self.markname = @"";
+        self.admin_mark = @"";
         if (integer == 2001) {
             
             self.tableView.scrollEnabled = NO;
             self.blackView.hidden = NO;
             self.blackLabel.layer.cornerRadius = 16;
             self.blackLabel.clipsToBounds = YES;
-            [self showBasicData:responseObject[@"data"] andIsShow:YES];
+            self.markname = responseObj[@"data"][@"markname"]?:@"";
+            self.admin_mark = responseObj[@"data"][@"admin_mark"]?:@"";
+            [self showBasicData:responseObj[@"data"] andIsShow:YES];
             _headBackView.hidden = NO;
             [self.tableView.mj_header endRefreshing];
             UIView *showView = [[UIView alloc] initWithFrame:CGRectMake(0, self.backGroundViewH.constant, WIDTH, HEIGHT - self.backGroundViewH.constant)];
@@ -1518,19 +1561,21 @@
             }
             [_blackButton setTitleColor:MainColor forState:UIControlStateNormal];
             [showView addSubview:_blackButton];
-
+            
         }else if (integer == 2000){
             
             self.blackView.hidden = YES;
-            [self showBasicData:responseObject[@"data"] andIsShow:NO];
-            if ([responseObject[@"data"][@"realname"] intValue] == 0) {
+            self.markname = responseObj[@"data"][@"markname"]?:@"";
+            self.admin_mark = responseObj[@"data"][@"admin_mark"]?:@"";
+            [self showBasicData:responseObj[@"data"] andIsShow:NO];
+            if ([responseObj[@"data"][@"realname"] intValue] == 0) {
                 self.picPublicButton.hidden = YES;
             }else{
                 self.picPublicButton.hidden = NO;
             }
             
             //认证照的查看权限的设置
-            _realpicstate = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"realpicstate"]];
+            _realpicstate = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"realpicstate"]];
             
             if ([_realpicstate intValue] == 1) {
                 
@@ -1541,67 +1586,67 @@
                 [self.picPublicButton setBackgroundImage:[UIImage imageNamed:@"个人主页认证照未公开"] forState:UIControlStateNormal];
             }
             
-            self.attentionLabel.text = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"follow_num"]];
+            self.attentionLabel.text = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"follow_num"]];
             
-            self.fansLabel.text = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"fans_num"]];
+            self.fansLabel.text = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"fans_num"]];
             
-            self.groupLabel.text = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"group_num"]];
+            self.groupLabel.text = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"group_num"]];
             
-            _picArray = responseObject[@"data"][@"photo"];
+            _picArray = responseObj[@"data"][@"photo"];
             
-            _followState = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"follow_state"]];
+            _followState = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"follow_state"]];
             
             //创建个人主页个性签名
-            [self createOwnInfoSign:responseObject];
+            [self createOwnInfoSign:responseObj];
             
             //创建个人主页个人相册scroll
-            [self createOwnInfoPic:responseObject];
+            [self createOwnInfoPic:responseObj];
             
             //标签显示
-            [self createLabel:self.heightLabel andString:[NSString stringWithFormat:@" 身高: %@ ",responseObject[@"data"][@"tall"]]];
+            [self createLabel:self.heightLabel andString:[NSString stringWithFormat:@" 身高: %@ ",responseObj[@"data"][@"tall"]]];
             
-            [self createLabel:self.weightLabel andString:[NSString stringWithFormat:@" 体重: %@ ",responseObject[@"data"][@"weight"]]];
+            [self createLabel:self.weightLabel andString:[NSString stringWithFormat:@" 体重: %@ ",responseObj[@"data"][@"weight"]]];
             
-            [self createLabel:self.starLabel andString:[NSString stringWithFormat:@" 星座: %@ ",responseObject[@"data"][@"starchar"]]];
+            [self createLabel:self.starLabel andString:[NSString stringWithFormat:@" 星座: %@ ",responseObj[@"data"][@"starchar"]]];
             
-            [self createLabel:self.psexualLabel andString:[NSString stringWithFormat:@" 取向: %@ ",responseObject[@"data"][@"sexual"]]];
+            [self createLabel:self.psexualLabel andString:[NSString stringWithFormat:@" 取向: %@ ",responseObj[@"data"][@"sexual"]]];
             
-            [self createLabel:self.contactLabel andString:[NSString stringWithFormat:@" 接触: %@ ",responseObject[@"data"][@"along"]]];
+            [self createLabel:self.contactLabel andString:[NSString stringWithFormat:@" 接触: %@ ",responseObj[@"data"][@"along"]]];
             
-            [self createLabel:self.experenceLabel andString:[NSString stringWithFormat:@" 实践: %@ ",responseObject[@"data"][@"experience"]]];
-
-            [self createLabel:self.levelLabel andString:[NSString stringWithFormat:@" 程度: %@ ",responseObject[@"data"][@"level"]]];
+            [self createLabel:self.experenceLabel andString:[NSString stringWithFormat:@" 实践: %@ ",responseObj[@"data"][@"experience"]]];
             
-            [self createLabel:self.wantLabel andString:[NSString stringWithFormat:@" 想找: %@ ",responseObject[@"data"][@"want"]]];
-        
-            [self createLabel:self.cultureLabel andString:[NSString stringWithFormat:@" 学历: %@ ",responseObject[@"data"][@"culture"]]];
+            [self createLabel:self.levelLabel andString:[NSString stringWithFormat:@" 程度: %@ ",responseObj[@"data"][@"level"]]];
             
-            [self createLabel:self.monthLabel andString:[NSString stringWithFormat:@" 月薪: %@ ",responseObject[@"data"][@"monthly"]]];
-
+            [self createLabel:self.wantLabel andString:[NSString stringWithFormat:@" 想找: %@ ",responseObj[@"data"][@"want"]]];
             
-            _mediaStrng = responseObject[@"data"][@"media"];
+            [self createLabel:self.cultureLabel andString:[NSString stringWithFormat:@" 学历: %@ ",responseObj[@"data"][@"culture"]]];
             
-            if ([responseObject[@"data"][@"media"] length] == 0) {
+            [self createLabel:self.monthLabel andString:[NSString stringWithFormat:@" 月薪: %@ ",responseObj[@"data"][@"monthly"]]];
+            
+            
+            _mediaStrng = responseObj[@"data"][@"media"];
+            
+            if ([responseObj[@"data"][@"media"] length] == 0) {
                 
                 [self.playButton setBackgroundImage:[UIImage imageNamed:@"录音灰"] forState:UIControlStateNormal];
                 
                 self.playButton.userInteractionEnabled = NO;
                 
             }else{
-            
+                
                 [self.playButton setBackgroundImage:[UIImage imageNamed:@"录音"] forState:UIControlStateNormal];
                 
                 self.playButton.userInteractionEnabled = YES;
             }
             
-            if ([responseObject[@"data"][@"uid"] intValue] == [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]) {
+            if ([responseObj[@"data"][@"uid"] intValue] == [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]) {
                 
                 self.publishButton.hidden = NO;
                 
                 self.recordButton.hidden = NO;
                 
-            }else if ([responseObject[@"data"][@"uid"] intValue] != [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]){
-            
+            }else if ([responseObj[@"data"][@"uid"] intValue] != [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]){
+                
                 self.chatButton.hidden = NO;
                 
                 self.attentButton.hidden = NO;
@@ -1610,50 +1655,50 @@
                 
             }
             
-            if ([responseObject[@"data"][@"mediaalong"] intValue] == 0) {
+            if ([responseObj[@"data"][@"mediaalong"] intValue] == 0) {
                 
                 self.secondLabel.text = @"";
                 
                 self.secondW.constant = 0;
                 
             }else{
-            
-                self.secondLabel.text = [NSString stringWithFormat:@"\%@\"",responseObject[@"data"][@"mediaalong"]];
+                
+                self.secondLabel.text = [NSString stringWithFormat:@"\%@\"",responseObj[@"data"][@"mediaalong"]];
                 
                 self.secondW.constant = 24;
             }
             
             
             
-            if ([responseObject[@"data"][@"follow_state"] intValue] == 2) {
+            if ([responseObj[@"data"][@"follow_state"] intValue] == 2) {
                 
                 [self.attentButton setBackgroundImage:[UIImage imageNamed:@"关注好友"] forState:UIControlStateNormal];
                 _attentStatus = NO;
                 
-            }else if([responseObject[@"data"][@"follow_state"] intValue] == 1){
+            }else if([responseObj[@"data"][@"follow_state"] intValue] == 1){
                 
                 [self.attentButton setBackgroundImage:[UIImage imageNamed:@"已关注"] forState:UIControlStateNormal];
                 
                 _attentStatus = YES;
                 
-            }else if ([responseObject[@"data"][@"follow_state"] intValue] == 3){
+            }else if ([responseObj[@"data"][@"follow_state"] intValue] == 3){
                 
                 [self.attentButton setBackgroundImage:[UIImage imageNamed:@"互为好友"] forState:UIControlStateNormal];
                 
                 _attentStatus = YES;
                 
-            }else if ([responseObject[@"data"][@"follow_state"] intValue] == 4){
+            }else if ([responseObj[@"data"][@"follow_state"] intValue] == 4){
                 
                 [self.attentButton setBackgroundImage:[UIImage imageNamed:@"个人主页被关注"] forState:UIControlStateNormal];
                 
                 _attentStatus = NO;
             }
             
-            self.dateLabel.text = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"reg_time"]];
+            self.dateLabel.text = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"reg_time"]];
             
             [self.dateLabel sizeToFit];
             
-            if ([responseObject[@"data"][@"dynamic_num"] intValue] == 0) {
+            if ([responseObj[@"data"][@"dynamic_num"] intValue] == 0) {
                 
                 self.totalNumView.hidden = YES;
                 
@@ -1662,10 +1707,10 @@
             }else{
                 
                 self.totalNumView.hidden = NO;
-
+                
                 self.totalNumH.constant = 40;
-            
-                self.dynamicNumLabel.text = [NSString stringWithFormat:@"发布的动态(%@)",responseObject[@"data"][@"dynamic_num"]];
+                
+                self.dynamicNumLabel.text = [NSString stringWithFormat:@"发布的动态(%@)",responseObj[@"data"][@"dynamic_num"]];
                 
                 UILabel *messageLab = [UILabel new];
                 [self.totalNumView addSubview:messageLab];
@@ -1692,7 +1737,7 @@
                 messageLab.textAlignment = NSTextAlignmentRight;
             }
             
-            if ([responseObject[@"data"][@"comment_num"] intValue] == 0) {
+            if ([responseObj[@"data"][@"comment_num"] intValue] == 0) {
                 
                 self.dynamicCommentNumView.hidden = YES;
                 
@@ -1705,7 +1750,7 @@
                 
                 self.dynamicCommentNumH.constant = 40;
                 
-                self.dynamicCommentNumLabel.text = [NSString stringWithFormat:@"参与的评论(%@)",responseObject[@"data"][@"comment_num"]];
+                self.dynamicCommentNumLabel.text = [NSString stringWithFormat:@"参与的评论(%@)",responseObj[@"data"][@"comment_num"]];
                 
                 UILabel *messageLab = [UILabel new];
                 [self.dynamicCommentNumView addSubview:messageLab];
@@ -1728,11 +1773,13 @@
                         messageLab.text = @"好友/会员可见";
                     }
                 }
-               
+                
                 messageLab.font = [UIFont systemFontOfSize:14];
                 messageLab.textAlignment = NSTextAlignmentRight;
             }
-        
+            
+     
+            
             //获取礼物的接口
             [self getPersonReceiveGifData];
             
@@ -1740,11 +1787,9 @@
             
             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"请求发生错误~"];
         }
+    } failed:^(NSString *errorMsg) {
         
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-
     }];
-    
 }
 
 /**
@@ -1844,78 +1889,110 @@
     //存储拉黑时的状态
      _blackState = dic[@"black_state"];
     
+    //管理员备注展示
+    
+    UIFont *font;
+    if (WIDTH >= 375) {
+        font = [UIFont systemFontOfSize:15];
+    }else{
+        font = [UIFont systemFontOfSize:13];
+    }
+    
+//    self.admin_mark = @"这个是管理员的备注信息，看看k能够展示多少呢，测试一下效果咋样吧这个是管理员的备注信息，看看k能够展示多少呢，测试一下效果咋样吧这个是管理员的备注信息，看看k能够展示多少呢，测试一下效果咋样吧这个是管理员的备注信息，看看k能够展示多少呢，测试一下效果咋样吧这个是管理员的备注信息，看看k能够展示多少呢，测试一下效果咋样吧";
+//   // self.admin_mark = @"";
+    
+    CGFloat admin_markhei = 0.00f;
+    
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue]==1&&self.admin_mark.length!=0) {
+        admin_markhei = [self.admin_mark boundingRectWithSize:CGSizeMake(WIDTH-28, 0) options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : font} context:nil].size.height;
+        
+        self.tableViewTopY.constant = admin_markhei;
+        if (self.adminnoteView==nil) {
+            self.adminnoteView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, admin_markhei+8)];
+        }
+        self.adminnoteView.backgroundColor = MainColor;
+        [self.view addSubview:self.adminnoteView];
+        
+        // 调整行间距
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.admin_mark];
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        [paragraphStyle setLineSpacing:5];
+        [attributedString addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, [self.admin_mark length])];
+        UILabel *noteLabel = [[UILabel alloc] init];
+        noteLabel.numberOfLines = 0;
+        noteLabel.attributedText = attributedString;
+        [noteLabel sizeToFit];
+        noteLabel.frame = CGRectMake(14, 4, WIDTH-28, admin_markhei);
+        noteLabel.textAlignment = NSTextAlignmentLeft;
+        noteLabel.textColor = [UIColor whiteColor];
+        [self.adminnoteView addSubview:noteLabel];
+        
+    }
+    else
+    {
+        if (_adminnoteView != nil) {
+            [_adminnoteView removeFromSuperview];
+        }
+        self.tableViewTopY.constant = admin_markhei;
+    }
+    
     //可以用户的设置
     _is_likeliar = [NSString stringWithFormat:@"%@",dic[@"is_likeliar"]];
-    
+
     if ([dic[@"is_likeliar"] intValue] == 1) {
-        self.tableViewTopY.constant = 40;
-        if (_likeliarView == nil) {
-            _likeliarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 40)];
-            _likeliarView.backgroundColor = [UIColor colorWithHexString:@"#ff3434" alpha:1];
-            [self.view addSubview:_likeliarView];
-            
-            // 调整行间距
-            NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"可疑用户!【自拍认证】后此提醒消失"];
-            NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-            [paragraphStyle setLineSpacing:5];
-            UIFont *font;
-            if (WIDTH >= 375) {
-                
-                font = [UIFont systemFontOfSize:15];
-                
-            }else{
-                
-                font = [UIFont systemFontOfSize:13];
-            }
-            
-            [attributedString addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, [@"可疑用户!【自拍认证】后此提醒消失" length])];
-            UILabel *warnLabel = [[UILabel alloc] init];
-            warnLabel.attributedText = attributedString;
-            [warnLabel sizeToFit];
-            warnLabel.frame = CGRectMake((WIDTH -  warnLabel.frame.size.width)/2, 0, warnLabel.frame.size.width, 40);
-            warnLabel.textAlignment = NSTextAlignmentCenter;
-            warnLabel.textColor = [UIColor whiteColor];
-            [_likeliarView addSubview:warnLabel];
-            [warnLabel yb_addAttributeTapActionWithStrings:@[@"【自拍认证】"] delegate:self];
-            warnLabel.enabledTapEffect = NO;
+        self.tableViewTopY.constant = 40+admin_markhei;
+        CGFloat tops = 0.00f;
+        if (self.admin_mark.length!=0) {
+            tops = admin_markhei+8;
         }
+        if (_likeliarView == nil) {
+            _likeliarView = [[UIView alloc] initWithFrame:CGRectMake(0, tops, WIDTH, 40)];
+        }
+        
+        [self.view addSubview:_likeliarView];
+        _likeliarView.backgroundColor = [UIColor colorWithHexString:@"#ff3434" alpha:1];
+        // 调整行间距
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:@"可疑用户!【自拍认证】后此提醒消失"];
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        [paragraphStyle setLineSpacing:5];
+        
+        [attributedString addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, [@"可疑用户!【自拍认证】后此提醒消失" length])];
+        UILabel *warnLabel = [[UILabel alloc] init];
+        warnLabel.attributedText = attributedString;
+        [warnLabel sizeToFit];
+        warnLabel.frame = CGRectMake((WIDTH -  warnLabel.frame.size.width)/2, 0, warnLabel.frame.size.width, 40);
+        warnLabel.textAlignment = NSTextAlignmentCenter;
+        warnLabel.textColor = [UIColor whiteColor];
+        [_likeliarView addSubview:warnLabel];
+        [warnLabel yb_addAttributeTapActionWithStrings:@[@"【自拍认证】"] delegate:self];
+        warnLabel.enabledTapEffect = NO;
         
     }else{
-        
         if (_likeliarView != nil) {
-            
             [_likeliarView removeFromSuperview];
         }
-        
-        self.tableViewTopY.constant = 0;
+        self.tableViewTopY.constant = admin_markhei;
     }
+    
     //展示用户信息的view的设置
     _headUrl = dic[@"head_pic"];
     [self.backGroundView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",dic[@"head_pic"]]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
     [self.headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",dic[@"head_pic"]]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
     self.backGroundView.contentMode = UIViewContentModeScaleAspectFill;
     self.backGroundView.clipsToBounds = YES;
+    
     self.nameLabel.text = dic[@"nickname"];
     CGSize size = [self.nameLabel.text sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:15.0]}];
     // ceilf()向上取整函数, 只要大于1就取整数2. floor()向下取整函数, 只要小于2就取整数1.
     CGSize labelSize = CGSizeMake(ceilf(size.width), ceilf(size.height));
     self.nameW.constant = labelSize.width;;
     
-    self.backViewY.constant = 38;
-    UILabel *oldnameLab = [UILabel new];
-    [self.headBackView addSubview:oldnameLab];
-    oldnameLab.backgroundColor = [UIColor clearColor];
-    oldnameLab.text = @"(我是原来的昵称)";
-    oldnameLab.textColor = TextCOLOR;
-    oldnameLab.font = [UIFont systemFontOfSize:14];
-    [oldnameLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.nameLabel);
-        make.top.equalTo(self.nameLabel.mas_bottom).with.offset(6);
-        make.height.mas_offset(14);
-        make.width.mas_offset(150);
-    }];
-    
-    
+    if (self.markname.length!=0) {
+        self.backViewY.constant = 38;
+        self.nameLabel.text = self.markname;
+        self.oldnameLab.text = [NSString stringWithFormat:@"%@%@%@",@"(",dic[@"nickname"],@")"];
+    }
+
     if ([dic[@"realname"] intValue] == 0) {
         if ([self.userID intValue] == [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]){
             self.idImageView.image = [UIImage imageNamed:@"认证灰"];
@@ -1981,11 +2058,8 @@
     self.locationW.constant = 18 + [self fitLabelWidth:self.locationLabel.text].width;
     
     if (show == NO) {
-        
         if ([self.locationLabel.text isEqualToString:@"隐身"]) {
-            
             self.cityView.hidden = YES;
-            
         }else{
             
             if ([dic[@"city"] length] == 0) {

@@ -175,4 +175,7 @@ return _instance; \
 
 //设置备注
 #define markName  @"Api/users/markName"
+
+//管理员备注
+#define editAdminmrak @"Api/Power/editAdminmrak"
 #endif /* wangHeader_h */

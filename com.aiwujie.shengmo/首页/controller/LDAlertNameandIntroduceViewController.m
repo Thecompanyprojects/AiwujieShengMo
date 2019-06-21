@@ -57,12 +57,14 @@
     {
         self.navigationItem.title = @"设置备注";
         [self.warnLabel setHidden:YES];
+        self.textView.text = self.content;
         self.numberLabel.text = @"0/10";
         self.textView.returnKeyType = UIReturnKeyDone;
     }
     if ([self.type intValue] == 4)
     {
         self.navigationItem.title = @"管理员备注";
+        self.textView.text = self.content;
         [self.warnLabel setHidden:YES];
         self.numberLabel.text = @"0/1000";
     }
