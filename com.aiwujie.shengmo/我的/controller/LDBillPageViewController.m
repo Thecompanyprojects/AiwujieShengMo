@@ -88,18 +88,25 @@
                 [self startExchangeWithUrl:urlString parameters:parameters];
             }
         }
-        if ([viptype isEqualToString:@"兑换邮票"]){
+        if ([viptype isEqualToString:@"YOUPIAO"]){
             
             //兑换邮票
-            [AlertTool alertWithViewController:self type:@"礼物魔豆" andAlertInputStampsNumber:^(NSString *stampNumbers, NSString *channel) {
-                
+      
+            if (index!=0) {
+                NSArray *array = @[@"3",@"10",@"30",@"50",@"100",@"300"];
                 urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/stamp_baans"];
                 
-                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"num":stampNumbers, @"channel":channel};
-                
+                __block NSString *numStr = @"";
+                [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    
+                    if (idx==index) {
+                        numStr=[array objectAtIndex:idx+1];
+                        *stop = YES;
+                    }
+                }];
+                NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"num":numStr, @"channel":@"0"};
                 [self startExchangeWithUrl:urlString parameters:parameters];
-                
-            }];
+            }
         }
         if ([viptype isEqualToString:@"TOPCARD"])
         {

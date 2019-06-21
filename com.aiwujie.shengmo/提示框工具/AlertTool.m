@@ -110,20 +110,57 @@ static NSString *_stampNum;
             if (PHONEVERSION.doubleValue >= 8.3&&i!=0) {
                 [month setValue:MainColor forKey:@"_titleTextColor"];
             }
-            if (PHONEVERSION.doubleValue >= 8.3||i==0) {
+            if (i==0) {
                 [month setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
             }
+            
+//            if (PHONEVERSION.doubleValue >= 8.3&&i!=0) {
+//                [month setValue:MainColor forKey:@"_titleTextColor"];
+//            }
+//
+//            if (PHONEVERSION.doubleValue >= 8.3||i==0) {
+//                [month setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
+//            }
         }
         [self cancelActionWithAlert:VIPAlert];
         [controller presentViewController:VIPAlert animated:YES completion:nil];
     }];
     
-    UIAlertAction *chargeAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换邮票(30魔豆/张)"] style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
+
+    UIAlertAction *chargeAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换邮票"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        if (selectBlock) {
-            selectBlock(0, @"兑换邮票");
+        NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"魔豆)"],@"3张/90魔豆", @"10张/300魔豆", @"30张/900魔豆", @"50张/1500魔豆", @"100张/3000魔豆", @"308张/9000魔豆"];
+        
+        UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        for (int i = 0; i < TopcardArray.count; i++) {
+            UIAlertAction *month = [UIAlertAction actionWithTitle:TopcardArray[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                if (selectBlock) {
+                    selectBlock(i, @"YOUPIAO");
+                }
+            }];
+            [VIPAlert addAction:month];
+            
+//            if (PHONEVERSION.doubleValue >= 8.3&&i!=0) {
+//                [month setValue:MainColor forKey:@"_titleTextColor"];
+//            }
+//
+////            if (PHONEVERSION.doubleValue >= 8.3||i==0) {
+////                [month setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
+////            }
+            
+            if (PHONEVERSION.doubleValue >= 8.3&&i!=0) {
+                [month setValue:MainColor forKey:@"_titleTextColor"];
+            }
+            if (i==0) {
+                [month setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
+            }
         }
+        
+        [self cancelActionWithAlert:VIPAlert];
+        [controller presentViewController:VIPAlert animated:YES completion:nil];
     }];
+    
     
     [alert addAction:VIPAction];
     [alert addAction:SVIPAction];
