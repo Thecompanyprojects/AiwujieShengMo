@@ -31,67 +31,33 @@
     // Do any additional setup after loading the view from its nib.
     
     self.navigationItem.title = @"打赏过我的";
-    
     _dataArray = [NSMutableArray array];
-    
     [self createTableView];
-    
     _page = 0;
-    
     [self createCommentData];
-    
     self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        
         _page++;
-        
         [self createCommentData];
-        
     }];
-
 }
 
 -(void)createCommentData{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url;
-    
     NSDictionary *parameters;
-    
     parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-    
     url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/getRewardedList"];
     
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-//        NSLog(@"%@",responseObject);
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (integer == 2000){
-            
-            for (NSDictionary *dic in responseObject[@"data"]) {
-                
-                CommentedModel *model = [[CommentedModel alloc] init];
-                
-                [model setValuesForKeysWithDictionary:dic];
-                
-                [_dataArray addObject:model];
-            }
-            
+            NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[CommentedModel class] json:responseObj[@"data"]]];
+            [self.dataArray addObjectsFromArray:data];
             [self.tableView reloadData];
         }
-        
         [self.tableView.mj_footer endRefreshing];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        [self.tableView.mj_footer endRefreshing];
-        
-        NSLog(@"%@",error);
-        
+    } failed:^(NSString *errorMsg) {
+         [self.tableView.mj_footer endRefreshing];
     }];
-    
 }
 
 -(void)createTableView{

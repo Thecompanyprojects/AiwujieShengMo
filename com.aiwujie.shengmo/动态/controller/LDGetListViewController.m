@@ -16,11 +16,8 @@
 #import "LDAtViewController.h"
 
 @interface LDGetListViewController ()<UITableViewDelegate,UITableViewDataSource>
-
 @property (nonatomic,strong) UITableView *tableView;
-
 @property (nonatomic,strong) NSMutableArray *dataArray;
-
 @property (nonatomic,assign) int page;
 
 @property (nonatomic,assign) CGFloat cellH;
@@ -33,11 +30,9 @@
 @implementation LDGetListViewController
 
 -(void)viewWillAppear:(BOOL)animated{
-    
-    [super viewWillAppear:animated];
-    
-    self.atLabel.text = [NSString stringWithFormat:@"刚刚有%lu人@了你",[[[NSUserDefaults standardUserDefaults] objectForKey:@"atPerson"] count]];
 
+    [super viewWillAppear:animated];
+    self.atLabel.text = [NSString stringWithFormat:@"刚刚有%lu人@了你",[[[NSUserDefaults standardUserDefaults] objectForKey:@"atPerson"] count]];
 }
 
 - (void)viewDidLoad {
@@ -45,108 +40,56 @@
     // Do any additional setup after loading the view from its nib.
     
     self.navigationItem.title = @"动态信息";
-    
     _dataArray = [NSMutableArray array];
-    
     [self createButton];
-    
     [self createUnreadData];
-    
     [self createTableView];
-    
     _page = 0;
-    
     [self createCommentData];
-    
     self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        
         _page++;
-        
         [self createCommentData];
-        
     }];
-
 }
-
 
 -(void)createUnreadData{
     
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/getUnreadNum"];
-    
     NSDictionary *parameters;
-    
     parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"type":@"0"};
-    //    NSLog(@"%@",role);
     
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-        //NSLog(@"%@",responseObject);
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (integer == 2000){
-            
-            self.zanLabel.text = [NSString stringWithFormat:@"刚刚有%d人赞过我",[responseObject[@"data"][@"laudnum"] intValue]];
-            
-            self.rewardLabel.text = [NSString stringWithFormat:@"刚刚有%d人打赏我",[responseObject[@"data"][@"rewardnum"] intValue]];
+            self.zanLabel.text = [NSString stringWithFormat:@"刚刚有%d人赞过我",[responseObj[@"data"][@"laudnum"] intValue]];
+            self.rewardLabel.text = [NSString stringWithFormat:@"刚刚有%d人打赏我",[responseObj[@"data"][@"rewardnum"] intValue]];
         }
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failed:^(NSString *errorMsg) {
         
     }];
     
 }
 
 -(void)createCommentData{
-
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     
     NSString *url;
-    
     NSDictionary *parameters;
-    
     parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-    
     url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/getCommentedList"];
     
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-        //NSLog(@"%@",responseObject);
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (integer == 2000){
-            
-            for (NSDictionary *dic in responseObject[@"data"]) {
-                
-                CommentedModel *model = [[CommentedModel alloc] init];
-                
-                [model setValuesForKeysWithDictionary:dic];
-                
-                [_dataArray addObject:model];
-            }
-            
+            NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[CommentedModel class] json:responseObj[@"data"]]];
+            [self.dataArray addObjectsFromArray:data];
             self.tableView.mj_footer.hidden = NO;
-            
             [self.tableView reloadData];
-            
             [self.tableView.mj_footer endRefreshing];
-            
         }else if (integer == 4002){
-        
-           self.tableView.mj_footer.hidden = YES;
-        
+            self.tableView.mj_footer.hidden = YES;
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        [self.tableView.mj_footer endRefreshing];
-        
-        NSLog(@"%@",error);
-        
+    } failed:^(NSString *errorMsg) {
+         [self.tableView.mj_footer endRefreshing];
     }];
 
 }

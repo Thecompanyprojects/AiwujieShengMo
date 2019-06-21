@@ -496,6 +496,7 @@
         {
             cell.introduceLabel.text = [[TimeManager defaultTool] getDateFormatStrFromTimeStampWithSeconds:model.addtime];
             [cell.modouView setHidden:NO];
+            cell.numLabel.text = @"";
             cell.modouView.image = [UIImage imageNamed:@"推顶火箭"];
         }
         return cell;

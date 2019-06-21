@@ -48,8 +48,6 @@
     
     _dataArray = [NSMutableArray array];
     
-//    self.type = @"0";
-    
     [self createTableView];
     
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{

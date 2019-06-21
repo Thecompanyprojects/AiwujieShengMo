@@ -139,10 +139,7 @@
 
 -(void)createDataType:(NSString *)type{
     
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getDynamicListNewFive];
-    
     NSDictionary *parameters;
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
@@ -170,69 +167,41 @@
         }
         
     }
-    //    NSLog(@"%@",role);
     
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        _integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-        //NSLog(@"%@",responseObject);
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        _integer = [[responseObj objectForKey:@"retcode"] intValue];
         
         if (_integer != 2000 && _integer != 2001) {
-            
             if (_integer == 4001 || _integer == 4344) {
-                
                 if ([type intValue] == 1) {
-                    
                     [_dataArray removeAllObjects];
-                    
                     [self.tableView reloadData];
-                    
                     self.tableView.mj_footer.hidden = YES;
                     
                 }else{
-                    
                     [self.tableView.mj_footer endRefreshingWithNoMoreData];
-                    
                 }
-                
             }else{
-                
                 [self.tableView.mj_footer endRefreshing];
-                
-                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-                
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }
-            
         }else{
             
             if ([type intValue] == 1) {
                 
                 [_dataArray removeAllObjects];
             }
-            
-            for (NSDictionary *dic in responseObject[@"data"]) {
-                
-                DynamicModel *model = [[DynamicModel alloc] init];
-                
-                [model setValuesForKeysWithDictionary:dic];
-                
-                [_dataArray addObject:model];
-            }
-            
+            NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[DynamicModel class] json:responseObj[@"data"]]];
+            [self.dataArray addObjectsFromArray:data];
             self.tableView.mj_footer.hidden = NO;
-            
             [self.tableView reloadData];
-            
             [self.tableView.mj_footer endRefreshing];
             
         }
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        [self.tableView.mj_footer endRefreshing];
+    } failed:^(NSString *errorMsg) {
+         [self.tableView.mj_footer endRefreshing];
     }];
+
 }
 
 -(void)createTableView{

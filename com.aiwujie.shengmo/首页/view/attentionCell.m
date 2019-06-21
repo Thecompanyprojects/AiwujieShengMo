@@ -173,26 +173,26 @@
             
             if (_model.city.length == 0) {
                 
-                if (giftArray.count >= [_model.psid intValue]) {
-                    
-                    self.introduceLabel.text = [NSString stringWithFormat:@"%@ 打赏礼物%@",_model.sendtime,giftArray[[_model.psid intValue] - 1]];
-                    
-                }else{
-                
-                    self.introduceLabel.text = [NSString stringWithFormat:@"%@ 打赏%@魔豆礼物",_model.sendtime,_model.amount];
-                }
+//                if (giftArray.count >= [_model.psid intValue]) {
+//
+//                    self.introduceLabel.text = [NSString stringWithFormat:@"%@ 打赏礼物%@",_model.sendtime,giftArray[[_model.psid intValue] - 1]];
+//
+//                }else{
+//
+//                    self.introduceLabel.text = [NSString stringWithFormat:@"%@ 打赏%@魔豆礼物",_model.sendtime,_model.amount];
+//                }
 
             }else{
                 
-                if (giftArray.count >= [_model.psid intValue]) {
-                
-                     self.introduceLabel.text = [NSString stringWithFormat:@"%@ %@ 打赏礼物%@",_model.city,_model.sendtime,giftArray[[_model.psid intValue] - 1]];
-                    
-                }else{
-                
-                    self.introduceLabel.text = [NSString stringWithFormat:@"%@ %@ 打赏%@魔豆礼物",_model.city,_model.sendtime,_model.amount];
-                }
- 
+//                if (giftArray.count >= [_model.psid intValue]) {
+//                
+//                     self.introduceLabel.text = [NSString stringWithFormat:@"%@ %@ 打赏礼物%@",_model.city,_model.sendtime,giftArray[[_model.psid intValue] - 1]];
+//                    
+//                }else{
+//                
+//                    self.introduceLabel.text = [NSString stringWithFormat:@"%@ %@ 打赏%@魔豆礼物",_model.city,_model.sendtime,_model.amount];
+//                }
+// 
             }
 
         }else{

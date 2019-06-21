@@ -174,78 +174,39 @@
 
 -(void)createDataType:(NSString *)type{
     
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getCommentedListOnUserInfo"];
-    
     NSDictionary *parameters;
-        
     parameters = @{@"uid":self.personUid,@"page":[NSString stringWithFormat:@"%d",_page],@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (integer != 2000) {
-            
             if (integer == 4002) {
-                
                 if ([type intValue] == 1) {
-                    
                     [_dataArray removeAllObjects];
-                    
                     [self.tableView reloadData];
-                    
                     self.tableView.mj_footer.hidden = YES;
-                    
                 }else{
-                    
                     [self.tableView.mj_footer endRefreshingWithNoMoreData];
-                    
                 }
-                
             }else{
-                    
                 [self.tableView.mj_footer endRefreshing];
-                
                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"请求发生错误~"];
-
             }
-            
         }else{
-            
             if ([type intValue] == 1) {
-                
                 [_dataArray removeAllObjects];
-                
             }
-            
             if (_warnView != nil) {
-                
                 [_warnView removeFromSuperview];
             }
-            
-            for (NSDictionary *dic in responseObject[@"data"]) {
-                
-                CommentedModel *model = [[CommentedModel alloc] init];
-                
-                [model setValuesForKeysWithDictionary:dic];
-                
-                [_dataArray addObject:model];
-            }
-            
+            NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[CommentedModel class] json:responseObj[@"data"]]];
+            [self.dataArray addObject:data];
             self.tableView.mj_footer.hidden = NO;
-            
             [self.tableView reloadData];
-            
             [self.tableView.mj_footer endRefreshing];
-            
         }
-        
         [self.tableView.mj_header endRefreshing];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
     }];

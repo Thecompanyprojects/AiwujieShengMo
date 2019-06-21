@@ -200,9 +200,7 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-//        NSLog(@"%@",responseObject);
-        
+
         if (integer != 2000) {
             
             if (integer == 4001 || integer == 4002) {

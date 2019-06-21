@@ -104,19 +104,14 @@
 - (UIViewController *)pageViewController:(UIPageViewController *)pageViewController viewControllerAfterViewController:(UIViewController *)viewController {
     
     NSUInteger index = [self indexOfViewController:(LDWarnPersonPageViewController *)viewController];
-    
     if (index == NSNotFound) {
         
         return nil;
     }
-    
     index++;
-    
     if (index == [self.pageContentArray count]) {
-        
         return nil;
     }
-    
     return [self viewControllerAtIndex:index];
     
 }

@@ -111,8 +111,6 @@
         
         NSLog(@"登陆成功。当前登录的用户ID：%@", userId);
         
-        //                [self createData:userId];
-        
         [[NSUserDefaults standardUserDefaults] setObject:userId forKey:@"userId"];
         
         UITabBarItem * item=[mvc.tabBar.items objectAtIndex:2];

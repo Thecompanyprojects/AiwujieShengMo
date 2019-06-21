@@ -60,47 +60,12 @@
 
 @implementation LDHomePageViewController
 
--(void)viewWillAppear:(BOOL)animated{
-
-    [super viewWillAppear:animated];
-    
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"] intValue] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"] length] == 0){
-        
-        if (_collectionView.contentOffset.y == 0) {
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"隐藏置顶附近按钮" object:nil];
-            
-        }else if(_collectionView.contentOffset.y > 0){
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"显示置顶附近按钮" object:nil];
-        }
-
-        
-    }else{
-        
-        if (_tableView.contentOffset.y == 0) {
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"隐藏置顶附近按钮" object:nil];
-            
-        }else if(_tableView.contentOffset.y > 0){
-            
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"显示置顶附近按钮" object:nil];
-        }
-        
-    }
-
-}
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
     _collectArray = [NSMutableArray array];
-    
     _dataArray = [NSMutableArray array];
-    
     _array = [NSMutableArray array];
-    
     _slideArray = [NSMutableArray array];
     
     if ([self.content intValue] == 0) {
@@ -124,6 +89,23 @@
     
     //置顶按钮点击监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(topButtonClick:) name:@"置顶附近" object:nil];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"] intValue] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"] length] == 0){
+        if (_collectionView.contentOffset.y == 0) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"隐藏置顶附近按钮" object:nil];
+        }else if(_collectionView.contentOffset.y > 0){
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"显示置顶附近按钮" object:nil];
+        }
+    }else{
+        if (_tableView.contentOffset.y == 0) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"隐藏置顶附近按钮" object:nil];
+        }else if(_tableView.contentOffset.y > 0){
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"显示置顶附近按钮" object:nil];
+        }
+    }
 }
 
 /**
@@ -237,12 +219,12 @@
         
     }];
      
-     [self.collectionView.mj_header beginRefreshing];
-     self.collectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+    [self.collectionView.mj_header beginRefreshing];
+    self.collectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         _collectPage++;
         [self createData:_collectPage type:@"2"];
-     }];
-     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+    }];
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
          
          if ([self.content intValue] == 3) {
              
@@ -258,7 +240,7 @@
     }];
      
      [self.tableView.mj_header beginRefreshing];
-     
+    
      self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         
         _tablePage++;
@@ -289,8 +271,6 @@
  * 请求首页数据源
  */
 -(void)createData:(int)page type:(NSString *)type{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,userListNewth];
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"] length] == 0) {
@@ -522,78 +502,44 @@
                     }else if (roleOtherArray.count == 3){
                         
                         role = [NSString stringWithFormat:@"%@,%@,%@",roleOtherArray[0],roleOtherArray[1],roleOtherArray[2]];
-                        
                     }else if (roleOtherArray.count == 4){
-                        
                         role = [NSString stringWithFormat:@"%@,%@,%@,%@",roleOtherArray[0],roleOtherArray[1],roleOtherArray[2],roleOtherArray[3]];
-                        
                     }
                 }
-                
                 if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hight"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hight"] integerValue] == 0) {
-                    
                     education = @"";
-                    
                     month = @"";
-                    
                     real = @"";
-                    
                     online = @"";
-                    
                     age = @"";
-                    
                 }else{
-                    
                     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"screenEducation"] length] == 0) {
-                        
                         education = @"";
-                        
                     }else if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"screenEducation"] length] != 0){
-                        
                         education = [[NSUserDefaults standardUserDefaults] objectForKey:@"educationRow"];
-                        
                     }
-                    
                     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"screenMonth"] length] == 0) {
-                        
                         month = @"";
-                        
                     }else if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"screenMonth"] length] != 0){
-                        
                         month = [[NSUserDefaults standardUserDefaults] objectForKey:@"monthRow"];
-                        
                     }
-                    
                     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"authen"] length] == 0) {
-                        
                         real = @"";
-                        
                     }else if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"authen"] length] != 0){
-                        
                         real = [[NSUserDefaults standardUserDefaults] objectForKey:@"authen"];
                     }
-                    
                     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"online"] length]== 0) {
-                        
                         online = @"";
-                        
                     }else{
-                        
                         online = [[NSUserDefaults standardUserDefaults] objectForKey:@"online"];
                     }
-                    
                     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"screenAge"] length] != 0) {
-                        
                         age = [NSString stringWithFormat:@"%@,%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"minAge"],[[NSUserDefaults standardUserDefaults] objectForKey:@"maxAge"]];
-                        
                     }else{
-                        
                         age = @"";
                     }
                 }
-                
             }else{
-            
                 age = @"";
                 sex = @"";
                 sexual = @"";
@@ -602,139 +548,78 @@
                 month = @"";
                 online = @"";
                 real = @"";
-                
             }
         }
     }
-    
     NSDictionary *parameters;
-    
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
-        
         if ([self.content intValue] == 0) {
-            
             [_searchTextField resignFirstResponder];
-            
             NSString *content;
-            
             if (_selectButtonState.length == 0) {
-                
                 content = @"0";
-                
             }else{
-            
                 content = _selectButtonState;
             }
-            
-            parameters = @{@"page":[NSString stringWithFormat:@"%d",page],@"layout":[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"],@"type":content,@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"onlinestate":online,@"realname":real,@"age":age,@"sex":sex,@"sexual":sexual,@"role":role,@"culture":education,@"monthly":month};
-            
+            parameters = @{@"page":[NSString stringWithFormat:@"%d",page],@"layout":[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"],@"type":content,@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"onlinestate":online,@"realname":real,@"age":age,@"sex":sex,@"sexual":sexual,@"role":role,@"culture":education,@"monthly":month,@"loginid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]?:@""};
         }else{
-        
-            parameters = @{@"page":[NSString stringWithFormat:@"%d",page],@"layout":[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"],@"type":self.content,@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"onlinestate":online,@"realname":real,@"age":age,@"sex":sex,@"sexual":sexual,@"role":role,@"culture":education,@"monthly":month};
+            parameters = @{@"page":[NSString stringWithFormat:@"%d",page],@"layout":[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"],@"type":self.content,@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"onlinestate":online,@"realname":real,@"age":age,@"sex":sex,@"sexual":sexual,@"role":role,@"culture":education,@"monthly":month,@"loginid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]?:@""};
         }
-        
-        
     }else{
-        
         if ([self.content intValue] == 0) {
-            
             [_searchTextField resignFirstResponder];
-            
             NSString *content;
-            
             if (_selectButtonState.length == 0) {
-                
                 content = @"0";
-                
             }else{
-                
                 content = _selectButtonState;
             }
-
-             parameters = @{@"page":[NSString stringWithFormat:@"%d",page],@"layout":[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"],@"type":content,@"lat":@"",@"lng":@"",@"onlinestate":online,@"realname":real,@"age":age,@"sex":sex,@"sexual":sexual,@"role":role,@"culture":education,@"monthly":month};
+             parameters = @{@"page":[NSString stringWithFormat:@"%d",page],@"layout":[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"],@"type":content,@"lat":@"",@"lng":@"",@"onlinestate":online,@"realname":real,@"age":age,@"sex":sex,@"sexual":sexual,@"role":role,@"culture":education,@"monthly":month,@"loginid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]?:@""};
             
         }else{
         
-             parameters = @{@"page":[NSString stringWithFormat:@"%d",page],@"layout":[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"],@"type":self.content,@"lat":@"",@"lng":@"",@"onlinestate":online,@"realname":real,@"age":age,@"sex":sex,@"sexual":sexual,@"role":role,@"culture":education,@"monthly":month};
+             parameters = @{@"page":[NSString stringWithFormat:@"%d",page],@"layout":[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"],@"type":self.content,@"lat":@"",@"lng":@"",@"onlinestate":online,@"realname":real,@"age":age,@"sex":sex,@"sexual":sexual,@"role":role,@"culture":education,@"monthly":month,@"loginid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]?:@""};
         }
- 
     }
-
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         
-        _integer = [[responseObject objectForKey:@"retcode"] integerValue];
-
+        _integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (_integer != 2000 && _integer != 2001) {
-            
             if ([type intValue] == 1 && _integer == 4001) {
-                
                 if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"] intValue] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"] length] == 0) {
-                    
                     [_collectArray removeAllObjects];
-                    
                     [_array removeAllObjects];
-                    
                     [_collectionView reloadData];
-                    
                 }else{
-                    
                     [_dataArray removeAllObjects];
-                    
                     [_tableView reloadData];
                 }
-
-                
             }else{
-            
-                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }
-            
         }else{
-            
             if ([type intValue] == 1) {
                 
                 if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"] intValue] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"] length] == 0) {
-                    
                     [_collectArray removeAllObjects];
-                    
                     [_array removeAllObjects];
-                    
-                    
                 }else{
-                    
                     [_dataArray removeAllObjects];
                 }
-                
             }
-            
             if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"] intValue] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"] length] == 0) {
-                
-                for (NSDictionary *dic in responseObject[@"data"]) {
-                    
-                    CollectModel *model = [[CollectModel alloc] init];
-                    
-                    [model setValuesForKeysWithDictionary:dic];
-                    
-                    [_array addObject:model];
-                }
+
+                NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[CollectModel class] json:responseObj[@"data"]]];
+                [self.array addObjectsFromArray:data];
                 
                 [_collectArray removeAllObjects];
-                
                 [_collectArray addObject:_array];
-                
                 [self.collectionView reloadData];
                 
             }else{
-                
-                for (NSDictionary *dic in responseObject[@"data"]) {
-                    
-                    TableModel *model = [[TableModel alloc] init];
-                    
-                    [model setValuesForKeysWithDictionary:dic];
-                    
-                    [_dataArray addObject:model];
-                }
-                
+                NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[TableModel class] json:responseObj[@"data"]]];
+                [self.dataArray addObjectsFromArray:data];
                 [self.tableView reloadData];
             }
         }
@@ -744,16 +629,13 @@
         
         [self.collectionView.mj_header endRefreshing];
         [self.collectionView.mj_footer endRefreshing];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
         
         [self.collectionView.mj_header endRefreshing];
         [self.collectionView.mj_footer endRefreshing];
     }];
-    
 }
 
 -(void)createCollectionView{

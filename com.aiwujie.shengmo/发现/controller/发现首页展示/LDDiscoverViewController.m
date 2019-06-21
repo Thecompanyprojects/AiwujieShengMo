@@ -112,7 +112,6 @@
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
         
-        
         if (integer == 2000) {
             
             [_serviceArray addObjectsFromArray:responseObject[@"data"]];

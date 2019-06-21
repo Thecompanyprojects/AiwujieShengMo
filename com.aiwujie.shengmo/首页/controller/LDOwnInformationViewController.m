@@ -1956,7 +1956,7 @@
         if (self.adminnoteView==nil) {
             self.adminnoteView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, admin_markhei+8)];
         }
-        self.adminnoteView.backgroundColor = MainColor;
+        self.adminnoteView.backgroundColor = [UIColor colorWithHexString:@"A6A9B5" alpha:1];
         [self.view addSubview:self.adminnoteView];
         
         // 调整行间距

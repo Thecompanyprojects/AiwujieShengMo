@@ -55,83 +55,46 @@
 
 -(void)createDatatype:(NSString *)type{
     
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
+    //AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getPresentMsg"];
-    
     NSDictionary *parameters = @{@"page":[NSString stringWithFormat:@"%d",_tablePage],@"type":self.content};
-
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000 && integer != 2001) {
-            
             if (integer == 4000) {
-                
                 if ([type intValue] == 1) {
-                    
                     [_dataArray removeAllObjects];
-                    
                     [_tableView reloadData];
-                    
                     self.tableView.mj_footer.hidden = YES;
-                    
                 }else{
-                
                     [self.tableView.mj_footer endRefreshingWithNoMoreData];
-                    
                 }
-
             }else{
-                
-                 [self.tableView.mj_footer endRefreshing];
-                
-                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
+                [self.tableView.mj_footer endRefreshing];
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }
-            
         }else{
-            
             if ([type intValue] == 1) {
-                
                 [_dataArray removeAllObjects];
             }
-            
-            for (NSDictionary *dic in responseObject[@"data"]) {
-                
-                GiveGifModel *model = [[GiveGifModel alloc] init];
-                
-                [model setValuesForKeysWithDictionary:dic];
-                
-                [_dataArray addObject:model];
-            }
+            NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[GiveGifModel class] json:responseObj[@"data"]]];
+            [self.dataArray addObjectsFromArray:data];
             
             self.tableView.mj_footer.hidden = NO;
-            
             [self.tableView reloadData];
-            
             [self.tableView.mj_footer endRefreshing];
-            
         }
-        
         [self.tableView.mj_header endRefreshing];
-       
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
-        
     }];
-    
 }
 
 -(void)createTableView{
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX] - 44) style:UITableViewStylePlain];
-    
     self.tableView.backgroundColor = [UIColor blackColor];
-    
     if (@available(iOS 11.0, *)) {
         
         self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
@@ -167,25 +130,16 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     GiveGifCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GiveGif"];
-    
     if (!cell) {
-        
         cell = [[NSBundle mainBundle] loadNibNamed:@"GiveGifCell" owner:self options:nil].lastObject;
     }
-    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     if (_dataArray.count > 0) {
-        
         GiveGifModel *model = _dataArray[indexPath.row];
-        
         cell.model = model;
     }
-    
     [cell.giveButton addTarget:self action:@selector(giveButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
     [cell.givenButton addTarget:self action:@selector(givenButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
     return cell;
 }
 
