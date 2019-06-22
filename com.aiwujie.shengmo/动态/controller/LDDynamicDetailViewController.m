@@ -199,8 +199,9 @@
     self.textView.clipsToBounds = YES;
     
     [self createButton];
+    
     if ([_clickState isEqualToString:@"comment"]) {
-        [self.textView becomeFirstResponder];
+        //[self.textView becomeFirstResponder];
     }
     [self createBottomView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewardSuccess) name:@"动态详情打赏成功" object:nil];
@@ -1362,7 +1363,6 @@
 {
     [self.textView becomeFirstResponder];
 }
-
 
 /**
  打赏功能
