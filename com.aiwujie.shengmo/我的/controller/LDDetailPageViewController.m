@@ -8,6 +8,7 @@
 
 #import "LDDetailPageViewController.h"
 #import "LDBillViewController.h"
+#import "changeAlertView.h"
 
 @interface LDDetailPageViewController ()<UIPageViewControllerDelegate,UIPageViewControllerDataSource>
 
@@ -106,6 +107,36 @@
         [AlertTool alertWithViewController:self type:@"礼物魔豆" num:self.numStr andAlertDidSelectItem:^(int index, NSString *viptype) {
             __block NSString *urlString;
             __block NSDictionary *parameters;
+            
+            //礼物魔豆兑换充值魔豆
+            if ([viptype isEqualToString:@"CHANGEMODOU"]) {
+                changeAlertView *alert = [[changeAlertView alloc] init];
+                [alert withReturnClick:^(NSDictionary * _Nonnull dic) {
+                    
+                    int Nums = [self.numStr intValue];
+                    if (Nums<100) {
+                        [MBProgressHUD showMessage:@"您的魔豆不足"];
+                        return ;
+                    }
+                    
+                    NSString *url = [PICHEADURL stringByAppendingString:changeexBeans];
+                    NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+                    NSMutableDictionary *para = [NSMutableDictionary new];
+                    [para setDictionary:dic];
+                    [para setValue:uid forKey:@"uid"];
+                    
+                    [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
+                        
+                        
+                    } failed:^(NSString *errorMsg) {
+                        
+                        
+                    }];
+                    
+                }];
+  
+                
+            }
             
             if ([viptype isEqualToString:@"VIP"]) {
                 

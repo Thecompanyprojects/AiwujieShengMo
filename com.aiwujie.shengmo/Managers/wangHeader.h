@@ -30,10 +30,10 @@
 #define SERVICE_ID @"KEFU148492045558421"
 
 //测试服务器
-#define PICHEADURL  @"http://cs.shengmo.org/"
+//#define PICHEADURL  @"http://cs.shengmo.org/"
 
 //正式服务器
-//#define PICHEADURL  @"http://hao.shengmo.org:888/"
+#define PICHEADURL  @"http://hao.shengmo.org:888/"
 
 //微博的key和url
 #define kAppKey         @"2758008921"
@@ -71,6 +71,8 @@
 //textColor
 #define TextCOLOR [UIColor colorWithHexString:@"303030" alpha:0.8]
 
+//orange
+#define  MYORANGE [UIColor colorWithRed:255/255.0 green:157/255.0 blue:0/255.0 alpha:1]
 
 //=====================单例==================
 // @interface
@@ -188,4 +190,10 @@ return _instance; \
 
 //删除评论
 #define delComment @"Api/Dynamic/delComment"
+
+//充值魔豆兑换礼物魔豆
+#define  changeexBeans @"Api/Ping/exBeans"
+
+
+
 #endif /* wangHeader_h */

@@ -261,6 +261,7 @@
 		5323946922B90BDE001BF94C /* bottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5323946822B90BDE001BF94C /* bottomView.m */; };
 		5372254B22ABF8E30082472A /* NetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5372254922ABF8E30082472A /* NetManager.m */; };
 		53A2E6B622BC793700403D83 /* infoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A2E6B522BC793700403D83 /* infoModel.m */; };
+		53A7138A22BDD4F9009839E6 /* changeAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A7138922BDD4F9009839E6 /* changeAlertView.m */; };
 		53B7C0EC22B3418800113F50 /* EditinfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C0EB22B3418800113F50 /* EditinfoModel.m */; };
 		53B7C0EF22B3A4C100113F50 /* NSDictionary+safeLoad.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C0EE22B3A4C100113F50 /* NSDictionary+safeLoad.m */; };
 		53B7C0F222B3A80600113F50 /* UIImage+Cut.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C0F122B3A80600113F50 /* UIImage+Cut.m */; };
@@ -831,12 +832,12 @@
 		00F4F3471E2CEE5C0017D0EC /* GroupSqureModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GroupSqureModel.h; sourceTree = "<group>"; };
 		00F4F3481E2CEE5C0017D0EC /* GroupSqureModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GroupSqureModel.m; sourceTree = "<group>"; };
 		00F79B971E27A476001C7593 /* LDBillViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDBillViewController.h; sourceTree = "<group>"; };
-		00F79B981E27A476001C7593 /* LDBillViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDBillViewController.m; sourceTree = "<group>"; };
+		00F79B981E27A476001C7593 /* LDBillViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDBillViewController.m; sourceTree = "<group>"; wrapsLines = 0; };
 		00F79B991E27A476001C7593 /* LDBillViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LDBillViewController.xib; sourceTree = "<group>"; };
 		00F79B9C1E27A674001C7593 /* BillModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BillModel.h; sourceTree = "<group>"; };
 		00F79B9D1E27A674001C7593 /* BillModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BillModel.m; sourceTree = "<group>"; };
 		00F79B9F1E27A6A7001C7593 /* BillCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BillCell.h; sourceTree = "<group>"; };
-		00F79BA01E27A6A7001C7593 /* BillCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BillCell.m; sourceTree = "<group>"; };
+		00F79BA01E27A6A7001C7593 /* BillCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BillCell.m; sourceTree = "<group>"; wrapsLines = 0; };
 		00F79BA11E27A6A7001C7593 /* BillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BillCell.xib; sourceTree = "<group>"; };
 		00F9BD571E2242FA00F5CD18 /* LDMyWalletViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDMyWalletViewController.h; sourceTree = "<group>"; };
 		00F9BD581E2242FA00F5CD18 /* LDMyWalletViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDMyWalletViewController.m; sourceTree = "<group>"; };
@@ -903,6 +904,8 @@
 		5372254A22ABF8E30082472A /* NetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetManager.h; sourceTree = "<group>"; };
 		53A2E6B422BC793700403D83 /* infoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = infoModel.h; sourceTree = "<group>"; };
 		53A2E6B522BC793700403D83 /* infoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = infoModel.m; sourceTree = "<group>"; };
+		53A7138822BDD4F9009839E6 /* changeAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = changeAlertView.h; sourceTree = "<group>"; };
+		53A7138922BDD4F9009839E6 /* changeAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = changeAlertView.m; sourceTree = "<group>"; };
 		53B7C0EA22B3418800113F50 /* EditinfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditinfoModel.h; sourceTree = "<group>"; };
 		53B7C0EB22B3418800113F50 /* EditinfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EditinfoModel.m; sourceTree = "<group>"; };
 		53B7C0ED22B3A4C100113F50 /* NSDictionary+safeLoad.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+safeLoad.h"; sourceTree = "<group>"; };
@@ -1658,6 +1661,8 @@
 				D212493F1FC3FB2F00936BA0 /* VIPMemberCell.xib */,
 				53B7C0F622B3BB0200113F50 /* SSCopyLabel.h */,
 				53B7C0F722B3BB0200113F50 /* SSCopyLabel.m */,
+				53A7138822BDD4F9009839E6 /* changeAlertView.h */,
+				53A7138922BDD4F9009839E6 /* changeAlertView.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -3734,6 +3739,7 @@
 				0043DB4B1E2B6AD100577DE5 /* LDReportResonViewController.m in Sources */,
 				004B2C981E3393A200EDCCC1 /* DynamicModel.m in Sources */,
 				D2692A041E7A8D5200250A05 /* UITableView+FDIndexPathHeightCache.m in Sources */,
+				53A7138A22BDD4F9009839E6 /* changeAlertView.m in Sources */,
 				00EC29521E18E4150066273A /* LDEditViewController.m in Sources */,
 				53F3B95222B73DC600F0EDF5 /* NullSafe.m in Sources */,
 				00EC8EFC1E1D3236001521D8 /* LDPrivacyPhotoViewController.m in Sources */,

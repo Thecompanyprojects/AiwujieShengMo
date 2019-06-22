@@ -689,11 +689,11 @@
     
     if (_isSelect) {
         
-        _giveAllNumLabel.text = [NSString stringWithFormat:@"总价值: %@魔豆",_amountArray[button.tag/1000 - 1][button.tag%1000]];
+        _giveAllNumLabel.text = [NSString stringWithFormat:@"总价值:  %@ 魔豆",_amountArray[button.tag/1000 - 1][button.tag%1000]];
         
     }else{
         
-        _giveAllNumLabel.text = [NSString stringWithFormat:@"总价值: %@魔豆",_systemAmountArray[[_systemGifArray[button.tag%1000][@"type"] intValue] - 37]];
+        _giveAllNumLabel.text = [NSString stringWithFormat:@"总价值:  %@ 魔豆",_systemAmountArray[[_systemGifArray[button.tag%1000][@"type"] intValue] - 37]];
     }
     
     [_giveView addSubview:_giveAllNumLabel];
@@ -730,11 +730,11 @@
 
     if (_buyField.text.length != 0 && [_buyField.text intValue] > 0) {
         
-        _giveAllNumLabel.text = [NSString stringWithFormat:@"总价值: %d魔豆",[_buyField.text intValue] * [_money intValue]];
+        _giveAllNumLabel.text = [NSString stringWithFormat:@"总价值:  %d 魔豆",[_buyField.text intValue] * [_money intValue]];
         
     }else{
     
-        _giveAllNumLabel.text = [NSString stringWithFormat:@"总价值: %d魔豆",[_money intValue]];
+        _giveAllNumLabel.text = [NSString stringWithFormat:@"总价值:  %d 魔豆",[_money intValue]];
     }
 
 }

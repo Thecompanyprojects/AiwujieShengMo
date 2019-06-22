@@ -33,6 +33,13 @@ static NSString *_stampNum;
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
     
+    //礼物魔豆兑换充值魔豆
+    UIAlertAction *ChangeAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换充值魔豆"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if (selectBlock) {
+            selectBlock(1, @"CHANGEMODOU");
+        }
+    }];
+    
     UIAlertAction *SVIPAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换SVIP"] style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
         
         NSArray *SVIPArray = @[@"1个月/1920魔豆", @"3个月/5220魔豆", @"8个月/13470魔豆", @"12个月/19470魔豆"];
@@ -145,12 +152,18 @@ static NSString *_stampNum;
         [self cancelActionWithAlert:VIPAlert];
         [controller presentViewController:VIPAlert animated:YES completion:nil];
     }];
+    
+//    if ([type isEqualToString:@"礼物魔豆"]) {
+//        [alert addAction:ChangeAction];
+//    }
+    
     [alert addAction:VIPAction];
     [alert addAction:SVIPAction];
     [alert addAction:chargeAction];
     [alert addAction:topcareAction];
     [self cancelActionWithAlert:alert];
     if (PHONEVERSION.doubleValue >= 8.3) {
+        [ChangeAction setValue:MainColor forKey:@"_titleTextColor"];
         [SVIPAction setValue:MainColor forKey:@"_titleTextColor"];
         [VIPAction setValue:MainColor forKey:@"_titleTextColor"];
         [chargeAction setValue:MainColor forKey:@"_titleTextColor"];

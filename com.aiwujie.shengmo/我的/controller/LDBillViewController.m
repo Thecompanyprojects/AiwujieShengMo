@@ -40,26 +40,18 @@
     [super viewDidLoad];
     
     _buttonState = @"1";
-
     
     _dataArray = [NSMutableArray array];
-    
     [self createTableView];
     
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        
         _page = 0;
-        
         [self createData:@"1"];
-        
     }];
     
     [self.tableView.mj_header beginRefreshing];
-    
     self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        
         _page++;
-        
         [self createData:@"2"];
     }];
 
@@ -89,9 +81,23 @@
 
         }else if ([self.content intValue] == 0){
         
-            url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getWalletRecord"];
-            
-            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+//            //充值记录  购买
+//            if ([_buttonState intValue] == 1)
+//            {
+//
+                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getWalletRecord"];
+                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+
+//            }
+//            else
+//            {
+//                //充值记录 礼物魔豆兑换
+//                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getWalletRecord"];
+//                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+//
+//
+//            }
+       
         }
         
     }else if ([self.index intValue] == 1) {
@@ -170,33 +176,22 @@
         NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         
         if (integer != 2000) {
-            
             if (integer == 4001 || integer == 3000) {
-                
                 if ([type intValue] == 1) {
-                    
                     [_dataArray removeAllObjects];
-                    
                     [self.tableView reloadData];
-                    
                     self.tableView.mj_footer.hidden = YES;
-                    
                 }else{
-                    
                     [self.tableView.mj_footer endRefreshingWithNoMoreData];
                 }
             }else{
                 
                 [self.tableView.mj_footer endRefreshing];
             }
-            
         }else{
-            
             if ([type intValue] == 1) {
-                
                 [_dataArray removeAllObjects];
             }
-            
             NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[BillModel class] json:responseObj[@"data"]]];
             [self.dataArray addObjectsFromArray:data];
             
@@ -215,15 +210,23 @@
 
 -(void)createTableView{
     
-    if (([_index intValue] == 0 && [self.content intValue] == 1) || ([_index intValue] == 1 && [self.content intValue] == 2) ) {
+//    if (([_index intValue] == 0 && [self.content intValue] == 1) || ([_index intValue] == 1 && [self.content intValue] == 2) ||([self.content intValue]==0&&[self.index intValue]!=1)) {
+//
+//        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 41, WIDTH, [self getIsIphoneX:ISIPHONEX] - 52 - 41) style:UITableViewStylePlain];
+//
+//    }
+    if (([_index intValue] == 0 && [self.content intValue] == 1) || ([_index intValue] == 1 && [self.content intValue] == 2)) {
         
         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 41, WIDTH, [self getIsIphoneX:ISIPHONEX] - 52 - 41) style:UITableViewStylePlain];
         
-    }else{
+    }
+    else{
     
         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX] - 52) style:UITableViewStylePlain];
     }
-    
+    if ([self.content intValue]==0&&[self.index intValue]!=1) {
+        [self.chargeGiveButton setTitle:@"购买" forState:normal];
+    }
     if (@available(iOS 11.0, *)) {
         
         self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
@@ -236,15 +239,10 @@
         
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
     self.tableView.delegate = self;
-    
     self.tableView.dataSource = self;
-    
     self.tableView.tableFooterView = [[UIView alloc] init];
-    
     [self.view addSubview:self.tableView];
-    
 }
 
 #pragma mark - UITableViewDataSource
@@ -265,7 +263,7 @@
     if ([_index intValue] == 1) {
         
         if ([self.content intValue] == 0) {
-            
+
             cell.type = @"收到的礼物";
             
         }else if ([self.content intValue] == 1){
