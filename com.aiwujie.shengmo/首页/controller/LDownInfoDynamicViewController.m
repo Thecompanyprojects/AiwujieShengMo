@@ -550,6 +550,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.integer = _integer;
     cell.indexPath = indexPath;
+    [cell.headButton addTarget:self action:@selector(headButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [self configureCell:cell atIndexPath:indexPath];
     [_sectionArray addObject:indexPath];
     return cell;

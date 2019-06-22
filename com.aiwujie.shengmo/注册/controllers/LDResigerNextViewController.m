@@ -310,16 +310,11 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     RegisterNextCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RegisterNext"];
-
     if (!cell) {
-       
         cell = [[NSBundle mainBundle] loadNibNamed:@"RegisterNextCell" owner:self options:nil][0];
     }
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     cell.delegate = self;
-
     [cell addoptionWithArray:_dataArray andIndexpath:indexPath andSelectionArray:_selectionArray];
     
     if (indexPath.row == 0) {

@@ -373,7 +373,7 @@
             cell.badgeLabel.hidden = YES;
         }
     }
-    if (indexPath.section == 1 && indexPath.row == 1) {
+    if (indexPath.section == 1 && indexPath.row == 0) {
         cell.detailLabel.text = _status;
         cell.detailLabel.font = [UIFont systemFontOfSize:15];
     }

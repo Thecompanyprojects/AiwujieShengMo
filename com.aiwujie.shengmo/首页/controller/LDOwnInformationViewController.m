@@ -347,7 +347,7 @@
     
     self.navigationItem.title = @"个人主页";
     self.view.backgroundColor = [UIColor whiteColor];
-   /* if (ISIPHONEPLUS) {
+    if (ISIPHONEPLUS) {
         
         self.giveGifW.constant = (self.giveGifButton.frame.size.width / 375) * WIDTH;
         self.giveGifH.constant = (self.giveGifButton.frame.size.height / 667) * HEIGHT;
@@ -415,15 +415,14 @@
         self.fansViewH.constant = 60;
         self.groupViewH.constant = 60;
         
-            
+        
     }else{
         
         self.headImageView.layer.cornerRadius = 40;
         self.headImageView.clipsToBounds = YES;
-    }*/
+    }
     
-    self.headImageView.layer.cornerRadius = 40;
-    self.headImageView.clipsToBounds = YES;
+
     
     self.backView.layer.cornerRadius = 2;
     self.backView.clipsToBounds = YES;

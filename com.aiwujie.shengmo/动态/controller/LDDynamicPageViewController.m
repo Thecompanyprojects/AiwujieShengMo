@@ -911,15 +911,10 @@
     return cell;
 }
 
-
 - (void)configureCell:(DynamicCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    
     cell.fd_enforceFrameLayout = NO; // Enable to use "-sizeThatFits:"
-        
     DynamicModel *model = _dataArray[indexPath.section];
-        
     cell.model = model;
-
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
