@@ -532,17 +532,21 @@
     
 }
 
-//删除评论
+
+/**
+ 删除评论
+
+ @param button 删除评论Button
+ */
 -(void)deleteButtonClick:(UIButton *)button{
 
     CommentCell *cell = (CommentCell *)button.superview.superview;
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     commentModel *model = _dataArray[indexPath.section];
     
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/delComment"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,delComment];
     
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":_did,@"cmid":model.cmid};
-    
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (integer != 2000) {
@@ -599,7 +603,6 @@
         } failed:^(NSString *errorMsg) {
             
         }];
-
     }
     else if([model.state intValue] == 1 || [model.state intValue] == 3){
         

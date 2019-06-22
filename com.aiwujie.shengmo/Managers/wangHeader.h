@@ -116,7 +116,8 @@ return _instance; \
 #define userListNewth   @"Api/index/userListNewth"
 
 //地图找人
-#define  searchByMapNew @"Api/index/searchByMapNew"
+//#define  searchByMapNew @"Api/index/searchByMapNew"
+#define  searchByMapNew @"Api/index/userListNewth"
 
 //获取昵称历史列表
 #define getEditnicknameList @"Api/Users/getEditnicknameList"
@@ -184,4 +185,7 @@ return _instance; \
 
 //取消关注用户
 #define setoverfollow @"Api/friend/overfollow"
+
+//删除评论
+#define delComment @"Api/Dynamic/delComment"
 #endif /* wangHeader_h */
