@@ -384,7 +384,7 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue] == 0) {
         
-        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"您现在还不是会员,不能设置相册的开启~"];
+        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"您现在还不是会员,不能设置相册密码~"];
         
     }else if([[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue] == 1){
         

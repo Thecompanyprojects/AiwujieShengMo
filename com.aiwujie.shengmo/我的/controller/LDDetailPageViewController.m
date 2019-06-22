@@ -77,7 +77,7 @@
     if (_index == 3){
         
         self.navigationItem.title = @"推顶明细";
-        NSArray *array = @[@"购买记录",@"使用记录",@"他人推顶"];
+        NSArray *array = @[@"购买记录",@"使用记录",@"被推记录"];
         
         for (int i = 100; i < 103; i++) {
             

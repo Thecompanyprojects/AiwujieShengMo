@@ -885,25 +885,16 @@
     if ([self.content intValue] >= 3) {
         
         TopicCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Topic"];
-        
         if (!cell) {
-            
             cell = [[NSBundle mainBundle] loadNibNamed:@"TopicCell" owner:self options:nil].lastObject;
         }
-        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
         TopicModel *model = _dataArray[indexPath.section];
-        
         cell.indexPath = indexPath;
-        
         cell.model = model;
-        
         cell.topicBlock = ^(UIImage *topicImage) {
-            
             [ImageBrowserViewController show:self type:PhotoBroswerVCTypeModal index:0 imagesBlock:^NSArray *{
                 NSArray *array = [NSArray arrayWithObject:topicImage];
-                
                 return array;
             }];
         };
@@ -915,6 +906,7 @@
     cell.integer = _integer;
     cell.indexPath = indexPath;
     [_sectionArray addObject:indexPath];
+    [cell.headButton addTarget:self action:@selector(headButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [self configureCell:cell atIndexPath:indexPath];
     return cell;
 }
@@ -953,11 +945,8 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     
     DynamicModel *model = _dataArray[indexPath.section];
-    
     LDOwnInformationViewController *ivc = [[LDOwnInformationViewController alloc] init];
-    
     ivc.userID = model.uid;
-    
     [self.navigationController pushViewController:ivc animated:YES];
 }
 
