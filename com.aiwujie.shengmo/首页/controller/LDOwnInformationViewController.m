@@ -3428,6 +3428,7 @@
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"fuid":self.userID};
+    
     [NetManager afPostRequest:_url parms:parameters finished:^(id responseObj) {
         NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {

@@ -267,44 +267,29 @@
 
 
     }];
-
     [picker dismissViewControllerAnimated:YES completion:nil];
-
 }
-
 
 -(void)createTableView{
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX]) style:UITableViewStylePlain];
-    
     if (@available(iOS 11.0, *)) {
-        
         self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
         
         self.tableView.estimatedRowHeight = 0;
         self.tableView.estimatedSectionHeaderHeight = 0;
         self.tableView.estimatedSectionFooterHeight = 0;
-        
     }else {
-        
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
     self.tableView.delegate = self;
-    
     self.tableView.dataSource = self;
-    
     self.tableView.tableHeaderView = self.backView;
-    
     [self.view addSubview:self.tableView];
-    
 }
 
-
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
     return _dataArray.count;
-    
 }
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -784,67 +769,35 @@
 #pragma mark - 该方法的返回值决定该控件指定列包含多少个列表项
 -(NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
     
-//    NSLog(@"%@",_heightArray);
-    
     if (component == 0) {
-        
         return _heightArray.count;
-        
     }else if (component == 1){
-    
         NSArray * array = @[@"cm"];
-        
         return array.count;
-        
     }else if (component == 2){
-    
         return _weightArray.count;
-        
     }
-    
     NSArray * array = @[@"kg"];
-    
     return array.count;
-    
 }
 
 - (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
- 
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, WIDTH / 4 - 20 , 50)];
-    
     titleLabel.textAlignment = NSTextAlignmentRight;
-    
     UILabel *unitLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, WIDTH / 4, 50)];
-    
     unitLabel.textAlignment = NSTextAlignmentCenter;
-    
     if (component == 0) {
-        
         titleLabel.text = _heightArray[row];
-        
         return titleLabel;
-        
     }else if (component == 1){
-    
         unitLabel.text = @"cm";
-        
         return unitLabel;
-        
     }else if(component == 2){
-        
-//        NSLog(@"222");
-    
         titleLabel.text = _weightArray[row];
-        
         return titleLabel;
-        
     }
-    
         unitLabel.text = @"kg";
-        
         return unitLabel;
-    
-
 }
 #pragma mark - 当用户选中UIPickerViewDataSource中指定列和列表项时激发该方法
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component

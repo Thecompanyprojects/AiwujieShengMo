@@ -183,7 +183,7 @@ return _instance; \
 #define editAdminmrak @"Api/Power/editAdminmrak"
 
 //关注用户
-#define setfollowOne @"Api/friend/followOne"
+#define setfollowOne @"Api/friend/followOneBox"
 
 //取消关注用户
 #define setoverfollow @"Api/friend/overfollow"

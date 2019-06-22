@@ -584,7 +584,7 @@
     
     if ([model.state intValue] == 0 || [model.state intValue] == 2) {
         NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setfollowOne];
-        NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"fuid":model.uid};
+        NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]?:@"",@"fuid":model.uid?:@""};
         [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
             NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
             if (integer != 2000) {
