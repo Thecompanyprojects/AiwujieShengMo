@@ -200,7 +200,7 @@
                 [_warnView removeFromSuperview];
             }
             NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[CommentedModel class] json:responseObj[@"data"]]];
-            [self.dataArray addObject:data];
+            [self.dataArray addObjectsFromArray:data];
             self.tableView.mj_footer.hidden = NO;
             [self.tableView reloadData];
             [self.tableView.mj_footer endRefreshing];
@@ -225,22 +225,14 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     CommentedCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Commented"];
-    
     if (!cell) {
-        
         cell = [[NSBundle mainBundle] loadNibNamed:@"CommentedCell" owner:self options:nil].lastObject;
     }
-    
     CommentedModel *model = _dataArray[indexPath.section];
-    
     cell.type = @"1";
-    
     cell.model = model;
-    
     _cellH = cell.contentView.frame.size.height;
-    
     [cell.headButton addTarget:self action:@selector(headButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
     [cell.lookDynamicButton addTarget:self action:@selector(lookDynamicButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;

@@ -13,23 +13,14 @@
 -(void)setModel:(CommentedModel *)model{
 
     _model = model;
-    
     self.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     [self.headView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.head_pic]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
-    
     if ([_model.is_volunteer intValue] == 1) {
-        
         self.vipView.hidden = NO;
-        
         self.vipView.image = [UIImage imageNamed:@"志愿者标识"];
-        
     }else if ([_model.is_admin intValue] == 1) {
-        
         self.vipView.hidden = NO;
-        
         self.vipView.image = [UIImage imageNamed:@"官方认证"];
-        
     }else{
         
         if ([_model.svipannual intValue] == 1) {

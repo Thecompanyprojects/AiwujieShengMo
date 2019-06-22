@@ -443,7 +443,7 @@
 -(void)attentButtonClickState:(BOOL)state{
     
     if (state) {
-        _url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/overfollow"];
+        _url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setoverfollow];
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否取消关注此人"    preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
             [self blackData];
@@ -457,45 +457,40 @@
         [alert addAction:cancelAction];
         [self presentViewController:alert animated:YES completion:nil];
     }else{
-        _url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/followOneBox"];
+        _url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setfollowOne];
         [self blackData];
     }
 }
 
+/**
+ 关注好友 / 取消关注好友
+ */
 -(void)blackData{
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"fuid":self.personUid};
     
-    [manager POST:_url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-
+    [NetManager afPostRequest:_url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
             
             hud.removeFromSuperViewOnHide = YES;
-            
             [hud hide:YES];
-            
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             
         }else{
-            
             if (_attentStatus) {
                 
                 hud.mode = MBProgressHUDModeText;
-                hud.labelText = [responseObject objectForKey:@"msg"];
+                hud.labelText = [responseObj objectForKey:@"msg"];
                 hud.removeFromSuperViewOnHide = YES;
                 [hud hide:YES afterDelay:3];
                 
                 _attentStatus = NO;
                 
             }else{
-                
-                if ([responseObject[@"data"] intValue] == 1) {
+                if ([responseObj[@"data"] intValue] == 1) {
                     
                     hud.mode = MBProgressHUDModeText;
                     hud.labelText = @"已互为好友，可以免费无限畅聊了~";
@@ -509,18 +504,12 @@
                     hud.removeFromSuperViewOnHide = YES;
                     [hud hide:YES afterDelay:3];
                 }
-                
                 _attentStatus = YES;
-                
             }
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         hud.removeFromSuperViewOnHide = YES;
-        
         [hud hide:YES];
-        
     }];
 }
 

@@ -53,7 +53,7 @@ static NSString *_stampNum;
             if (PHONEVERSION.doubleValue >= 8.3&&i!=0) {
                 [month setValue:MainColor forKey:@"_titleTextColor"];
             }
-            if (i==0) {
+            if (PHONEVERSION.doubleValue >= 8.3&&i==0) {
                 [month setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
             }
         }
@@ -110,17 +110,10 @@ static NSString *_stampNum;
             if (PHONEVERSION.doubleValue >= 8.3&&i!=0) {
                 [month setValue:MainColor forKey:@"_titleTextColor"];
             }
-            if (i==0) {
+            if (PHONEVERSION.doubleValue >= 8.3&&i==0) {
                 [month setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
             }
-            
-//            if (PHONEVERSION.doubleValue >= 8.3&&i!=0) {
-//                [month setValue:MainColor forKey:@"_titleTextColor"];
-//            }
-//
-//            if (PHONEVERSION.doubleValue >= 8.3||i==0) {
-//                [month setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
-//            }
+
         }
         [self cancelActionWithAlert:VIPAlert];
         [controller presentViewController:VIPAlert animated:YES completion:nil];
@@ -141,18 +134,10 @@ static NSString *_stampNum;
             }];
             [VIPAlert addAction:month];
             
-//            if (PHONEVERSION.doubleValue >= 8.3&&i!=0) {
-//                [month setValue:MainColor forKey:@"_titleTextColor"];
-//            }
-//
-////            if (PHONEVERSION.doubleValue >= 8.3||i==0) {
-////                [month setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
-////            }
-            
             if (PHONEVERSION.doubleValue >= 8.3&&i!=0) {
                 [month setValue:MainColor forKey:@"_titleTextColor"];
             }
-            if (i==0) {
+            if (PHONEVERSION.doubleValue >= 8.3&&i==0) {
                 [month setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
             }
         }
@@ -160,8 +145,6 @@ static NSString *_stampNum;
         [self cancelActionWithAlert:VIPAlert];
         [controller presentViewController:VIPAlert animated:YES completion:nil];
     }];
-    
-    
     [alert addAction:VIPAction];
     [alert addAction:SVIPAction];
     [alert addAction:chargeAction];

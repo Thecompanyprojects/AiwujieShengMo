@@ -2813,24 +2813,17 @@
         }
         
     }else{
-        
-        AFHTTPSessionManager *manager = [LDAFManager sharedManager];
         NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/friend/writeVisitRecord"];
         NSDictionary *parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"uid":self.userID};
-        [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
+        [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+            NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
             if (integer == 2000) {
-                
                 NSDate *date = [NSDate date];
-                
                 NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                
                 [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-                
                 [[NSUserDefaults standardUserDefaults] setObject:[formatter stringFromDate:date] forKey:@"writeVisitRecord"];
             }
-            
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        } failed:^(NSString *errorMsg) {
             
         }];
     }
@@ -3310,19 +3303,14 @@
 
 -(void)didSelectAttentButton:(UIView *)backView andButton:(UIButton *)button{
 
-    _url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/followOneBox"];
+    _url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setfollowOne];
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:backView animated:YES];
     
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"fuid":self.userID};
     
-    [manager POST:_url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //NSLog(@"%@",responseObject);
+    [NetManager afPostRequest:_url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         
         if (integer != 2000) {
             
@@ -3335,10 +3323,10 @@
             if (integer == 4787 || integer == 4002) {
                 
                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"已关注对方,请不要重复操作~"];
-
+                
             }else{
                 
-                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }
             
         }else{
@@ -3346,11 +3334,11 @@
             if (_attentStatus) {
                 
                 hud.mode = MBProgressHUDModeText;
-                hud.labelText = [responseObject objectForKey:@"msg"];
+                hud.labelText = [responseObj objectForKey:@"msg"];
                 hud.removeFromSuperViewOnHide = YES;
                 [hud hide:YES afterDelay:3];
                 
-                if ([responseObject[@"data"] intValue] == 0){
+                if ([responseObj[@"data"] intValue] == 0){
                     
                     [self.attentButton setBackgroundImage:[UIImage imageNamed:@"关注好友"] forState:UIControlStateNormal];
                     
@@ -3358,14 +3346,14 @@
                     
                     [self.attentButton setBackgroundImage:[UIImage imageNamed:@"个人主页被关注"] forState:UIControlStateNormal];
                 }
-
+                
                 self.fansLabel.text = [NSString stringWithFormat:@"%d",[self.fansLabel.text intValue] - 1];
                 
                 _attentStatus = NO;
                 
             }else{
                 
-                if ([responseObject[@"data"] intValue] == 1) {
+                if ([responseObj[@"data"] intValue] == 1) {
                     
                     hud.mode = MBProgressHUDModeText;
                     hud.labelText = @"已互为好友，可以免费无限畅聊了~";
@@ -3389,9 +3377,7 @@
                 button.userInteractionEnabled = NO;
             }
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         button.userInteractionEnabled = NO;
         hud.removeFromSuperViewOnHide = YES;
         [hud hide:YES];
@@ -3410,7 +3396,7 @@
 -(void)attentButtonClickState:(BOOL)state{
 
     if (state) {
-        _url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/overfollow"];
+        _url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setoverfollow];
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否取消关注此人"    preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
             [self blackData];
@@ -3424,7 +3410,7 @@
         [alert addAction:cancelAction];
         [self presentViewController:alert animated:YES completion:nil];
     }else{
-        _url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/followOneBox"];
+        _url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setfollowOne];
         [self blackData];
     }
 }
@@ -3436,6 +3422,9 @@
     [self.navigationController pushViewController:nvc animated:YES];
 }
 
+/**
+ 关注好友 / 取消关注好友
+ */
 -(void)blackData{
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];

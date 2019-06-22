@@ -519,63 +519,38 @@
 -(void)didSelectAttentButton:(UIView *)backView andButton:(UIButton *)button{
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:backView animated:YES];
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"fuid":_model.targetId};
-    
-    [manager POST:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/followOneBox"] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
+    [NetManager afPostRequest:[PICHEADURL stringByAppendingString:setfollowOne] parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            
             hud.removeFromSuperViewOnHide = YES;
-            
             [hud hide:YES];
-            
             button.userInteractionEnabled = NO;
-            
             if (integer == 4787 || integer == 4002) {
-                
                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"已关注对方,请不要重复操作~"];
             }else{
-            
-                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }
         }else{
-            
-            if ([responseObject[@"data"] intValue] == 1) {
-                
+            if ([responseObj[@"data"] intValue] == 1) {
                 hud.mode = MBProgressHUDModeText;
                 hud.labelText = @"已互为好友，可以免费无限畅聊了~";
                 hud.removeFromSuperViewOnHide = YES;
                 [hud hide:YES afterDelay:3];
-                
             }else{
-                
                 hud.mode = MBProgressHUDModeText;
                 hud.labelText = @"已关注成功！互为好友即可免费畅聊~";
                 hud.removeFromSuperViewOnHide = YES;
                 [hud hide:YES afterDelay:3];
             }
-            
             [button setTitle:@"已关注" forState:UIControlStateNormal];
-            
             button.userInteractionEnabled = NO;
-            
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         button.userInteractionEnabled = NO;
-        
         hud.removeFromSuperViewOnHide = YES;
-        
         [hud hide:YES];
- 
     }];
-    
 }
 
 //点击去开通按钮跳转到会员页面

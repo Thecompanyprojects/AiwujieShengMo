@@ -12,20 +12,15 @@
 #import "LDGroupInformationViewController.h"
 
 @interface PersonChatViewController ()
-
 @property (strong, nonatomic) UIView *upView;
-
 @end
 
 @implementation PersonChatViewController
 
 -(void)viewWillAppear:(BOOL)animated{
-    
     [super viewWillAppear:animated];
-    
     self.navigationController.navigationBar.hidden = NO;
-    
-//    self.tabBarController.tabBar.hidden = YES;
+
 }
 
 - (void)viewDidLoad {
@@ -186,14 +181,11 @@
         NSDictionary *parameters;
         
         parameters = @{@"gid":gid,@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-        //    NSLog(@"%@",role);
-        
+
         [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
             NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-            
-//            NSLog(@"%@",responseObject);
-            
+
             if (integer != 2000) {
                 
                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
@@ -247,36 +239,19 @@
 -(void)attentButtonClick{
 
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"fuid":self.mobile};
-    
-    [manager POST:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/followOneBox"] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //        NSLog(@"%@",responseObject);
-        
+    [NetManager afPostRequest:[PICHEADURL stringByAppendingString:setfollowOne] parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-            
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
         }else{
-                
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            
             [self deleteButtonClick];
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
     }];
-    
 }
 
 //删除上方view

@@ -178,4 +178,10 @@ return _instance; \
 
 //管理员备注
 #define editAdminmrak @"Api/Power/editAdminmrak"
+
+//关注用户
+#define setfollowOne @"Api/friend/followOne"
+
+//取消关注用户
+#define setoverfollow @"Api/friend/overfollow"
 #endif /* wangHeader_h */
