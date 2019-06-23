@@ -749,38 +749,7 @@
             }
             
         }
-//        else if (indexPath.row == 1){
-//
-//            if ([_commentdynamic intValue] >= 5) {
-//
-//                [self didComplete:cell andTitle:@"已完成"];
-//
-//                cell.completeLabel.text = [NSString stringWithFormat:@"5/5"];
-//
-//            }else{
-//
-//               [self goComplete:cell andTitle:@"去完成"];
-//
-//                cell.completeLabel.text = [NSString stringWithFormat:@"%@/5",_commentdynamic];
-//            }
-//
-//        }else if (indexPath.row == 2){
-//
-//            if ([_senddynamic intValue] >= 2) {
-//
-//                [self didComplete:cell andTitle:@"已完成"];
-//
-//                cell.completeLabel.text = [NSString stringWithFormat:@"2/2"];
-//
-//
-//            }else{
-//
-//                [self goComplete:cell andTitle:@"去完成"];
-//
-//                cell.completeLabel.text = [NSString stringWithFormat:@"%@/2",_senddynamic];
-//            }
-//
-//        }
+
         else if (indexPath.row == 1){
             
             if ([_shareapp intValue] >= 1) {

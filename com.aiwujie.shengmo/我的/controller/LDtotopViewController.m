@@ -201,12 +201,13 @@ static float AD_height = 180;//头部高度
     NSLog(@"GotProducts:%@",products);
     
 }
+
 //支付失败/取消
 -(void)IAPToolCanceldWithProductID:(NSString *)productID {
     NSLog(@"canceld:%@",productID);
-
-  
-    [CCLoadingHUD dismiss];
+    [hud hide:YES];
+    [MBProgressHUD showMessage:@"取消购买"];
+   
 }
 
 //支付成功了，并开始向苹果服务器进行验证（若CheckAfterPay为NO，则不会经过此步骤）

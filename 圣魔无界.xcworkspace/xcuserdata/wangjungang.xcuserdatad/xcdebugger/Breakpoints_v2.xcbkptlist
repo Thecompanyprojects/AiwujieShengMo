@@ -27,38 +27,6 @@
             endingLineNumber = "128"
             landmarkName = "-backButtonOnClick"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__47-[LDDetailPageViewController backButtonOnClick]_block_invoke.74"
-                  moduleName = "&#x5723;&#x9b54;&#x65e0;&#x754c;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/wangjungang/Desktop/%E6%9C%AA%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6%E5%A4%B9%208/AiwujieShengMo/com.aiwujie.shengmo/%E6%88%91%E7%9A%84/controller/LDDetailPageViewController.m"
-                  timestampString = "582901781.617082"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "128"
-                  endingLineNumber = "128"
-                  offsetFromSymbolStart = "427">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__47-[LDDetailPageViewController backButtonOnClick]_block_invoke_2"
-                  moduleName = "&#x5723;&#x9b54;&#x65e0;&#x754c;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/wangjungang/Desktop/%E6%9C%AA%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6%E5%A4%B9%208/AiwujieShengMo/com.aiwujie.shengmo/%E6%88%91%E7%9A%84/controller/LDDetailPageViewController.m"
-                  timestampString = "582901781.619813"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "131"
-                  endingLineNumber = "131"
-                  offsetFromSymbolStart = "48">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -180,12 +148,12 @@
                   moduleName = "&#x5723;&#x9b54;&#x65e0;&#x754c;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/wangjungang/Desktop/%E6%9C%AA%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6%E5%A4%B9%208/AiwujieShengMo/com.aiwujie.shengmo/%E9%A6%96%E9%A1%B5/controller/LDOwnInformationViewController.m"
-                  timestampString = "582901781.68203"
+                  timestampString = "582952794.6523809"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "3311"
                   endingLineNumber = "3311"
-                  offsetFromSymbolStart = "533">
+                  offsetFromSymbolStart = "400">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -195,12 +163,12 @@
                   moduleName = "&#x5723;&#x9b54;&#x65e0;&#x754c;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/wangjungang/Desktop/%E6%9C%AA%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6%E5%A4%B9%208/AiwujieShengMo/com.aiwujie.shengmo/%E9%A6%96%E9%A1%B5/controller/LDOwnInformationViewController.m"
-                  timestampString = "582901781.685987"
+                  timestampString = "582952794.6552939"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "3312"
                   endingLineNumber = "3312"
-                  offsetFromSymbolStart = "54">
+                  offsetFromSymbolStart = "44">
                </Location>
             </Locations>
          </BreakpointContent>
