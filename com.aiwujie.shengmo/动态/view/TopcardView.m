@@ -10,8 +10,6 @@
 
 @interface TopcardView()
 @property (nonatomic,strong) UIView *alertView;
-
-
 @property (nonatomic,strong) UILabel *titleLab;
 @property (nonatomic,strong) UIImageView *topBtn;
 @property (nonatomic,strong) UILabel *contentLab;
