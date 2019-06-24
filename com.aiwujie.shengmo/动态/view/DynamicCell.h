@@ -28,7 +28,6 @@
 @interface DynamicCell : UITableViewCell<YBAttributeTapActionDelegate>
 
 @property (nonatomic,strong) bottomView *bottom;
-
 @property (nonatomic,strong) DynamicModel *model;
 @property (nonatomic,strong) NSIndexPath *indexPath;
 @property (nonatomic,assign) NSInteger integer;

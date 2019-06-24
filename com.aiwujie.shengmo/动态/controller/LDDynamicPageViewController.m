@@ -25,6 +25,7 @@
 #import "LDPopularityRankingViewController.h"
 #import "HeaderTabViewController.h"
 #import "LDStandardViewController.h"
+#import "ThinkVerb.h"
 
 #define DYNAMICWARNH 23
 
@@ -63,6 +64,7 @@
 //礼物界面
 @property (nonatomic,strong) GifView *gif;
 
+@property (nonatomic,strong) UIImageView *demoView;
 @end
 
 @implementation LDDynamicPageViewController
@@ -115,7 +117,6 @@
     } failed:^(NSString *errorMsg) {
         
     }];
- 
 }
 
 //消息接受监听
@@ -170,6 +171,7 @@
         //请求数据
         [self compeleteDataRepuest];
     }
+
 }
 
 /**
@@ -566,29 +568,9 @@
         }
         
         if ([self.content intValue] == 1||[self.content intValue]==0) {
-            
-            // 判断广场是否是VIP
-//            if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue] == 1) {
-            
                 _page = 0;
                 
                 [self createDataType:@"1"];
-            
-//            }else{
-//
-//                [_dataArray removeAllObjects];
-//
-//                [self.tableView reloadData];
-//
-//                [self.tableView.mj_header endRefreshing];
-//
-//                [self.tableView.mj_footer endRefreshingWithNoMoreData];
-//
-//                if (_noLookView == nil) {
-//
-//                    [self createVipAndRealnameView];
-//                }
-//            }
 
         }else{
         
@@ -1048,11 +1030,53 @@
     [self.tabBarController.view addSubview:_gif];
 
 }
+// 移动
+- (void)move
+{
+    // 位置移动
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+    // 1秒后执行
+    animation.beginTime = CACurrentMediaTime();
+    // 持续时间
+    animation.duration = 1;
+    // 重复次数
+    animation.repeatCount = 0;
+    // 起始位置
+    animation.fromValue = [NSValue valueWithCGPoint:self.demoView.layer.position];
+    // 终止位置
+    animation.toValue = [NSValue valueWithCGPoint:CGPointMake(self.demoView.layer.position.x, self.demoView.layer.position.y-HEIGHT)];
+    // 添加动画
+    [self.demoView.layer addAnimation:animation forKey:@"move"];
+}
+
+// 弹簧
+- (void)spring
+{
+    // 位置移动
+    CASpringAnimation *animation = [CASpringAnimation animationWithKeyPath:@"position"];
+    // 1秒后执行
+    animation.beginTime = CACurrentMediaTime();
+    // 阻尼系数（此值越大弹框效果越不明显）
+    animation.damping = 2;
+    // 刚度系数（此值越大弹框效果越明显）
+    animation.stiffness = 50;
+    // 质量大小（越大惯性越大）
+    animation.mass = 1;
+    // 初始速度
+    animation.initialVelocity = 10;
+    // 开始位置
+    [animation setFromValue:[NSValue valueWithCGPoint:self.demoView.layer.position]];
+    // 终止位置
+    [animation setToValue:[NSValue valueWithCGPoint:CGPointMake(self.demoView.layer.position.x, self.demoView.layer.position.y + 50)]];
+    // 持续时间
+    animation.duration = animation.settlingDuration;
+    // 添加动画
+    [self.demoView.layer addAnimation:animation forKey:@"spring"];
+}
 
 -(void)topTabVClick:(UITableViewCell *)cell
 {
     NSIndexPath *index = [self.tableView indexPathForCell:cell];
-
     DynamicModel *model = self.dataArray[index.section];
     TopcardView *view = [TopcardView new];
     view.did = model.did;
@@ -1082,8 +1106,20 @@
         model.topnum = newStr.copy;
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:index,nil] withRowAnimation:UITableViewRowAnimationNone];
         [self.dataArray replaceObjectAtIndex:index.section withObject:model];
-        [MBProgressHUD showMessage:@"推顶成功"];
+        
+        self.demoView = [UIImageView new];
+        self.demoView.frame = CGRectMake(WIDTH/2-150, HEIGHT-450, 300, 300);
+        self.demoView.image = [UIImage imageNamed:@"推顶火箭"];
+        [self.view addSubview:self.demoView];
+        [self spring];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self move];
+        });
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.demoView removeFromSuperview];
+        });
     }];
+    
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{

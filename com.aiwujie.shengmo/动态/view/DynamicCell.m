@@ -8,21 +8,22 @@
 
 #import "DynamicCell.h"
 #import "LDOwnInformationViewController.h"
+#import "UIImage+Cut.h"
 
 @implementation DynamicCell
 
 -(void)setModel:(DynamicModel *)model{
 
     _model = model;
-    for (UIView *view in self.picView.subviews) {
+    for (UIView *view in self.picView.subviews)
+    {
         if ([view isKindOfClass:[UIImageView class]]) {
             [view removeFromSuperview];
         }
     }
-    for (UIView *view in self.contentView.subviews) {
-        
+    for (UIView *view in self.contentView.subviews)
+    {
         if ([view isKindOfClass:[UIButton class]] && view.frame.origin.y > self.headButton.frame.origin.y && view.frame.origin.y < self.picView.frame.origin.y) {
-            
             [view removeFromSuperview];
         }
     }
@@ -231,7 +232,6 @@
         
         self.idViewW.constant = 0;
     }
-    
     
     if (self.integer == 2001){
         
@@ -544,6 +544,7 @@
     }
 }
 
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
@@ -552,6 +553,7 @@
     
     self.headView.layer.cornerRadius = 20;
     self.headView.clipsToBounds = YES;
+
     
     self.onlineLabel.layer.cornerRadius = 4;
     self.onlineLabel.clipsToBounds = YES;
