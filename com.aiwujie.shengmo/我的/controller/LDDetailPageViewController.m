@@ -124,7 +124,7 @@
                     }
                     else
                     {
-                        [MBProgressHUD showMessage:[responseObj objectForKey:@"兑换成功"]];
+                        [MBProgressHUD showMessage:[responseObj objectForKey:@"兑换失败"]];
                     }
                 } failed:^(NSString *errorMsg) {
                     

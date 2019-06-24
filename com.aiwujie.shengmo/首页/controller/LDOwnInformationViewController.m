@@ -328,19 +328,13 @@
 @property (nonatomic,copy) NSString *admin_mark;
 
 @property (nonatomic,strong) UILabel *oldnameLab;
+//用户描述
+@property (nonatomic,strong) UILabel *describeLab;
 @end
 
 @implementation LDOwnInformationViewController
 
--(void)viewWillAppear:(BOOL)animated{
 
-    [super viewWillAppear:animated];
-    
-    if ([self.userID intValue] == [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]) {
-        //获取判断是否可以发布动态的状态
-        [self createPublishCommentData];
-    }
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -415,30 +409,21 @@
         self.fansViewH.constant = 60;
         self.groupViewH.constant = 60;
         
-        
     }else{
         
         self.headImageView.layer.cornerRadius = 40;
         self.headImageView.clipsToBounds = YES;
     }
-    
-
-    
     self.backView.layer.cornerRadius = 2;
     self.backView.clipsToBounds = YES;
-    
     self.sexualLabel.layer.cornerRadius = 2;
     self.sexualLabel.clipsToBounds = YES;
-    
     self.onlineView.layer.cornerRadius = 4;
     self.onlineView.clipsToBounds = YES;
-    
     self.timeView.layer.cornerRadius = 2;
     self.timeView.clipsToBounds = YES;
-    
     self.locationView.layer.cornerRadius = 2;
     self.locationView.clipsToBounds = YES;
-    
     self.cityView.layer.cornerRadius = 2;
     self.cityView.clipsToBounds = YES;
     [self createRightButton];
@@ -461,7 +446,7 @@
     
     UIButton *timeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.headBackView addSubview:timeBtn];
-    [timeBtn setImage:[UIImage imageNamed:@"历史昵称"] forState:normal];
+    [timeBtn setImage:[UIImage imageNamed:@"历史昵称(svip)"] forState:normal];
     [timeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.onlineView.mas_right).with.offset(4);
         make.centerY.equalTo(self.onlineView);
@@ -469,6 +454,14 @@
         make.height.mas_offset(13);
     }];
     [timeBtn addTarget:self action:@selector(timeBtnclick) forControlEvents:UIControlEventTouchUpInside];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if ([self.userID intValue] == [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]) {
+        //获取判断是否可以发布动态的状态
+        [self createPublishCommentData];
+    }
 }
 
 -(void)creageoldnameLab
@@ -542,44 +535,27 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
     if (scrollView == self.tableView) {
-        
         if (scrollView.contentOffset.y > 0 && scrollView.contentOffset.y + HEIGHT < self.tableView.contentSize.height) {
-
             CGFloat y = scrollView.contentOffset.y;
-        
             if (y >= self.lastScrollOffset) {
                 //用户往上拖动，也就是屏幕内容向下滚动
-                
                 if ([self.userID intValue] == [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]) {
-                    
                     _publishButton.hidden = YES;
-                    
                 }else{
-                    
                     self.chatButton.hidden = YES;
-                    
                     self.attentButton.hidden = YES;
-                    
                     self.giveGifButton.hidden = YES;
                 }
-                
             } else if(y < self.lastScrollOffset){
                 //用户往下拖动，也就是屏幕内容向上滚动
-                
                 if ([self.userID intValue] == [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]) {
-                    
                     _publishButton.hidden = NO;
-                    
                 }else{
-                    
                     self.chatButton.hidden = NO;
-                    
                     self.attentButton.hidden = NO;
-                    
                     self.giveGifButton.hidden = NO;
                 }
             }
-            
         }
     }
 }
@@ -626,27 +602,16 @@
 - (IBAction)attentionButtonClick:(id)sender {
     
     if ([self.userID intValue] == [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]) {
-        
         LDAttentionListViewController *avc = [[LDAttentionListViewController alloc] init];
-        
         avc.type = @"0";
-        
         avc.userID = self.userID;
-        
         [self.navigationController pushViewController:avc animated:YES];
-        
     }else if ([self.userID intValue] != [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]){
-    
         LDAttentOtherViewController *ovc = [[LDAttentOtherViewController alloc] init];
-        
         ovc.type = @"0";
-        
         ovc.userID = self.userID;
-        
         [self.navigationController pushViewController:ovc animated:YES];
     }
-    
-    
 }
 
 - (IBAction)fansButtonClick:(id)sender {
@@ -693,52 +658,30 @@
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"根据国家网信部《互联网跟帖评论服务管理规定》要求，需要绑定手机号后才可以发布动态~"    preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"立即绑定" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
-            
             LDBindingPhoneNumViewController *bpnc = [[LDBindingPhoneNumViewController alloc] init];
-            
             [self.navigationController pushViewController:bpnc animated:YES];
-            
         }];
-        
-        
         UIAlertAction * cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
-        
         if (PHONEVERSION.doubleValue >= 8.3) {
-            
             [action setValue:MainColor forKey:@"_titleTextColor"];
-            
             [cancel setValue:MainColor forKey:@"_titleTextColor"];
         }
-        
         [alert addAction:cancel];
-        
         [alert addAction:action];
-        
         [self presentViewController:alert animated:YES completion:nil];
-        
-        
     }else{
         
         if ([_publishComment intValue] == 4003) {
-            
             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"您好,您因违规暂时不能发布动态,具体解封时间请查看系统通知或与客服联系~"];
-            
         }else if ([_publishComment intValue] == 4004) {
-            
             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"您好,普通用户每日发布动态限10条,VIP会员每日发布动态限30条~"];
-            
         }else if ([_publishComment isEqualToString:@"YES"]){
-          
             LDPublishDynamicViewController *dvc = [[LDPublishDynamicViewController alloc] init];
-            
             [self.navigationController pushViewController:dvc animated:YES];
-
         }else{
-            
             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"发生错误,请退出软件后重试~"];
         }
     }
-
 }
 
 #pragma mark - RightBtn
@@ -777,7 +720,6 @@
             
             self.navigationItem.rightBarButtonItems = @[rightBarButtonItem,shareButtonItem];
             
-          
         }else{
         
             _rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
@@ -809,14 +751,11 @@
 -(void)rightButtonShareButtonClick{
 
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
-    
     UIAlertAction *shareButton = [UIAlertAction actionWithTitle:@"分享" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
-        
         [_shareView controlViewShowAndHide:nil];
-        
     }];
     
-    UIAlertAction *nicknameButton = [UIAlertAction actionWithTitle:@"历史昵称" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *nicknameButton = [UIAlertAction actionWithTitle:@"历史昵称(svip)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         LDhistorynameViewController *VC = [LDhistorynameViewController new];
         VC.uid = self.userID;
         [self.navigationController pushViewController:VC animated:YES];
@@ -868,7 +807,12 @@
             [self presentViewController:alert animated:YES completion:nil];
         }
  
-        
+    }];
+    
+    UIAlertAction *describeAction = [UIAlertAction actionWithTitle:@"详细描述(好友/svip)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
+        VC.type = @"5";
+        [self.navigationController pushViewController:VC animated:YES];
     }];
     
     UIAlertAction * cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
@@ -879,14 +823,14 @@
         [nicknameButton setValue:MainColor forKey:@"_titleTextColor"];
         [noteAction setValue:MainColor forKey:@"_titleTextColor"];
         [cancel setValue:MainColor forKey:@"_titleTextColor"];
+        [describeAction setValue:MainColor forKey:@"_titleTextColor"];
     }
     [alert addAction:cancel];
-    
     [alert addAction:shareButton];
-    
     [alert addAction:nicknameButton];
     if ([self.userID intValue]!=[[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]) {
         [alert addAction:noteAction];
+        [alert addAction:describeAction];
     }
     [self presentViewController:alert animated:YES completion:nil];
 }
@@ -928,7 +872,7 @@
         
     }];
     
-    UIAlertAction *nicknameButton = [UIAlertAction actionWithTitle:@"历史昵称" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *nicknameButton = [UIAlertAction actionWithTitle:@"历史昵称(svip)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue] == 1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue] == 1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue] == [self.userID intValue]) {
             LDhistorynameViewController *VC = [LDhistorynameViewController new];
@@ -1000,6 +944,12 @@
             [self presentViewController:alert animated:YES completion:nil];
         }
         
+    }];
+    
+    UIAlertAction *describeAction = [UIAlertAction actionWithTitle:@"详细描述(好友/svip)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
+        VC.type = @"5";
+        [self.navigationController pushViewController:VC animated:YES];
     }];
     
     UIAlertAction *adminnoteAction = [UIAlertAction actionWithTitle:@"管理备注" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -1199,7 +1149,7 @@
             [delSignAction setValue:MainColor forKey:@"_titleTextColor"];
             [delPicAction setValue:MainColor forKey:@"_titleTextColor"];
             [titleDynamicAction setValue:MainColor forKey:@"_titleTextColor"];
-           
+            
         }
         
         [alert addAction:titleAction];
@@ -1219,6 +1169,7 @@
         [shareButton setValue:MainColor forKey:@"_titleTextColor"];
         [nicknameButton setValue:MainColor forKey:@"_titleTextColor"];
         [noteAction setValue:MainColor forKey:@"_titleTextColor"];
+        [describeAction setValue:MainColor forKey:@"_titleTextColor"];
         [adminnoteAction setValue:MainColor forKey:@"_titleTextColor"];
         [cancel setValue:MainColor forKey:@"_titleTextColor"];
     }
@@ -1227,6 +1178,7 @@
     if ([self.userID intValue]!=[[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]) {
         [alert addAction:noteAction];
     }
+    [alert addAction:describeAction];
     [alert addAction:report];
     [alert addAction:action];
     [self presentViewController:alert animated:YES completion:nil];

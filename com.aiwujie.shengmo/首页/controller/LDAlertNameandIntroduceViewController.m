@@ -85,6 +85,21 @@
             self.introduceLabel.hidden = YES;
         }
     }
+    if ([self.type intValue] == 5)
+    {
+        self.navigationItem.title = @"详细描述";
+        self.textView.text = self.content;
+        [self.spectifationBtn setHidden:YES];
+        [self.warnLabel setHidden:YES];
+        self.numberLabel.text = @"0/256";
+        if (self.content.length == 0) {
+            self.numberLabel.text = @"0/256";
+            self.introduceLabel.hidden = NO;
+        }else{
+            self.numberLabel.text = [NSString stringWithFormat:@"%ld/256",(unsigned long)self.textView.text.length];
+            self.introduceLabel.hidden = YES;
+        }
+    }
     [self createButton];
 }
 
@@ -131,15 +146,29 @@
          UITextPosition *position = [textView positionFromPosition:selectedRange.start offset:0];
          // 没有高亮选择的字，则对已输入的文字进行字数统计和限制
          if (!position) {
-             if (textView.text.length >= 256) {
-                 textView.text = [textView.text substringToIndex:256];
+             if (textView.text.length >= 1000) {
+                 textView.text = [textView.text substringToIndex:1000];
                  self.numberLabel.text = @"1000/1000";
              }else{
                  self.numberLabel.text = [NSString stringWithFormat:@"%ld/1000",(unsigned long)self.textView.text.length];
              }
          }
      }
-    
+    if ([self.type intValue] == 5)
+    {
+        UITextRange *selectedRange = [textView markedTextRange];
+        //获取高亮部分
+        UITextPosition *position = [textView positionFromPosition:selectedRange.start offset:0];
+        // 没有高亮选择的字，则对已输入的文字进行字数统计和限制
+        if (!position) {
+            if (textView.text.length >= 256) {
+                textView.text = [textView.text substringToIndex:256];
+                self.numberLabel.text = @"256/256";
+            }else{
+                self.numberLabel.text = [NSString stringWithFormat:@"%ld/256",(unsigned long)self.textView.text.length];
+            }
+        }
+    }
 }
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{

@@ -51,55 +51,28 @@
 }
 
 -(void)createData:(NSString *)type{
-    
     NSString *url = [NSString string];
     NSDictionary *parameters = [NSDictionary dictionary];
-    
     if ([_index intValue] == 0) {
-        
         if ([self.content intValue] == 1) {
-            
-//            if ([_buttonState intValue] == 1) {
-            
-                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getGivePsRerond"];
+                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getExchangeRecord"];
                 parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"0"};
-                
-//            }else{
-//
-//                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getExchangeRecord"];
-//
-//                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"0"};
-//            }
-
+                //parameters = @{@"uid":@"402624",@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"0"};
         }else if ([self.content intValue] == 0){
-            //充值记录  购买
-            if ([_buttonState intValue] == 1)
-            {
+            //充值记录
                 url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getWalletRecord"];
                 parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-            }
-            else
-            {
-                //充值记录 礼物魔豆兑换
-                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getWalletRecord"];
-                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-            }
+                //parameters = @{@"uid":@"402624",@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"0"};
         }
     }else if ([self.index intValue] == 1) {
-        
         if ([self.content intValue] == 0) {
             
             url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getReceivePresent"];
-            
             parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-            
-            
         }else if([self.content intValue] == 1){
-        
+            
             url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getBasicGiveRecord"];
-            
             parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-            
         }else if ([self.content intValue] == 2){
         
 //            if ([_buttonState intValue] == 1) {
@@ -114,28 +87,17 @@
 //                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"1"};
 //
 //            }
-
         }
-
     }
     if([_index intValue] == 2){
-
         if ([self.content intValue] == 0) {
-            
             url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getStampPaymentRs"];
-            
             parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-            
         }else if([self.content intValue] == 1){
-        
             url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getBasicStampGiveRs"];
-            
             parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-            
         }else if ([self.content intValue] == 2){
-        
             url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getStampUsedRs"];
-            
             parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
         }
     }
