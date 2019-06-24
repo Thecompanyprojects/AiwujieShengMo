@@ -19,86 +19,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "com.aiwujie.shengmo/&#x6211;&#x7684;/controller/LDDetailPageViewController.m"
-            timestampString = "583036235.870145"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
-            landmarkName = "-backButtonOnClick"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__47-[LDDetailPageViewController backButtonOnClick]_block_invoke.74"
-                  moduleName = "&#x5723;&#x9b54;&#x65e0;&#x754c;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/wangjungang/Desktop/AiwujieShengMo/com.aiwujie.shengmo/%E6%88%91%E7%9A%84/controller/LDDetailPageViewController.m"
-                  timestampString = "583049912.5788029"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "128"
-                  endingLineNumber = "128"
-                  offsetFromSymbolStart = "512">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__47-[LDDetailPageViewController backButtonOnClick]_block_invoke_2"
-                  moduleName = "&#x5723;&#x9b54;&#x65e0;&#x754c;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/wangjungang/Desktop/AiwujieShengMo/com.aiwujie.shengmo/%E6%88%91%E7%9A%84/controller/LDDetailPageViewController.m"
-                  timestampString = "583049912.5813299"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "131"
-                  endingLineNumber = "131"
-                  offsetFromSymbolStart = "48">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "com.aiwujie.shengmo/&#x6211;&#x7684;/controller/LDDetailPageViewController.m"
-            timestampString = "583036235.8705389"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
-            landmarkName = "-backButtonOnClick"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "com.aiwujie.shengmo/&#x6211;&#x7684;/controller/LDDetailPageViewController.m"
-            timestampString = "583036235.870805"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
-            landmarkName = "-backButtonOnClick"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "com.aiwujie.shengmo/&#x9996;&#x9875;/controller/LDOwnInformationViewController.m"
             timestampString = "582894753.4358881"
             startingColumnNumber = "9223372036854775807"
@@ -132,7 +52,7 @@
                   moduleName = "&#x5723;&#x9b54;&#x65e0;&#x754c;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/wangjungang/Desktop/AiwujieShengMo/com.aiwujie.shengmo/%E9%A6%96%E9%A1%B5/controller/LDOwnInformationViewController.m"
-                  timestampString = "583049912.6034189"
+                  timestampString = "583052405.435964"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "3311"
@@ -147,7 +67,7 @@
                   moduleName = "&#x5723;&#x9b54;&#x65e0;&#x754c;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/wangjungang/Desktop/AiwujieShengMo/com.aiwujie.shengmo/%E9%A6%96%E9%A1%B5/controller/LDOwnInformationViewController.m"
-                  timestampString = "583049912.6058429"
+                  timestampString = "583052405.439764"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "3312"
@@ -164,7 +84,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "com.aiwujie.shengmo/&#x6211;&#x7684;/controller/LDBillViewController.m"
-            timestampString = "583049912.072852"
+            timestampString = "583052404.960007"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "85"
@@ -180,7 +100,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "com.aiwujie.shengmo/&#x6211;&#x7684;/controller/LDBillViewController.m"
-            timestampString = "583049912.073266"
+            timestampString = "583052404.9600739"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "93"

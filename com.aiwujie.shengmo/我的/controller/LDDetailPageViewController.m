@@ -126,8 +126,13 @@
                     [para setValue:uid forKey:@"uid"];
                     
                     [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
-                        
-                        
+                        if ([[responseObj objectForKey:@"retcode"] intValue]==1000) {
+                            [MBProgressHUD showMessage:[responseObj objectForKey:@"兑换成功"]];
+                        }
+                        else
+                        {
+                            [MBProgressHUD showMessage:[responseObj objectForKey:@"兑换成功"]];
+                        }
                     } failed:^(NSString *errorMsg) {
                         
                         
@@ -142,25 +147,17 @@
                 
                 if (index!=0) {
                     urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/vip_beans"];
-                    
                     parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"viptype":[NSString stringWithFormat:@"%d",index], @"beanstype":@"1",@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-                    
                     [self startExchangeWithUrl:urlString parameters:parameters];
                 }
-               
-                
             }
             if ([viptype isEqualToString:@"SVIP"]){
                 
                 if (index!=0) {
                     urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/svip_beans"];
-                    
                     parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"subject":[NSString stringWithFormat:@"%d",index], @"channel":@"2",@"vuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-                    
                     [self startExchangeWithUrl:urlString parameters:parameters];
                 }
-                
-                
             }
             if ([viptype isEqualToString:@"YOUPIAO"]){
                 

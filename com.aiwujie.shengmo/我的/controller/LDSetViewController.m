@@ -145,8 +145,6 @@
     
     self.tabBarController.tabBar.hidden = YES;
 
-//    _dataArray = @[@[@"绑定手机"],@[@"绑定邮箱"],@[@"绑定第三方"],@[@"密码设置"],@[@"手势密码"],@[@"声音设置"],@[@"消息设置"],@[@"隐私"],@[@"通用"],@[@"意见反馈"],@[@"帮助中心"],@[@"关于圣魔APP"]];
-    
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue] == 1 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue] == 1) {
         self.isSvip = YES;
     }

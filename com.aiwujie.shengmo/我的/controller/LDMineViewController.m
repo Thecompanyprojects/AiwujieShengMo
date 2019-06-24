@@ -119,18 +119,12 @@
     self.headImageView.clipsToBounds = YES;
     
     _slideArray = [NSMutableArray array];
-    
     [self createRightButton];
-    
     _dataArray = @[@[@"充值礼物",@"会员中心",@"动态推顶",@"消息邮票",@"红娘牵线"],@[@"自拍认证",@"分享APP"],@[@"设置"]];
-    
     [self createHeadData];
-    
     _shareView = [[LDShareView alloc] init];
-    
     //分享视图
     [self.tabBarController.view addSubview:[_shareView createBottomView:@"Mine" andNickName:nil andPicture:nil andId:nil]];
-    
     //监听谁看过我
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(lookFangBadge) name:@"lookBadge" object:nil];
 }
@@ -141,11 +135,8 @@
 -(void)lookFangBadge{
     
     _lookBadge = [[NSUserDefaults standardUserDefaults] objectForKey:@"lookBadge"];
-    
     dispatch_async(dispatch_get_main_queue(), ^{
-        
         [self.tableView reloadData];
-        
     });
  
 }

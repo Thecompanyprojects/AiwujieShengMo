@@ -102,15 +102,10 @@
             NSInteger badge = [responseObj[@"data"][@"allnum"] integerValue] + [[[NSUserDefaults standardUserDefaults] objectForKey:@"atPerson"] count];
             
             dispatch_async(dispatch_get_main_queue(), ^{
-                
                 if (badge <= 0) {
-                    
                     self.unreadLabel.hidden = YES;
-                    
                 }else{
-                    
                     self.unreadLabel.hidden = NO;
-                    
                 }
             });
         }
@@ -135,39 +130,24 @@
     _slideArray = [NSMutableArray array];
     
     if ([self.content intValue] == 0) {
-        
         [self createTopicData];
-        
     }
     
     if ([self.content intValue] >= 3) {
-        
         [self createTableView];
-        
         self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-            
             _page = 0;
-            
             [self createDatatype:@"1"];
-            
         }];
-        
         [self.tableView.mj_header beginRefreshing];
         
         self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-            
             _page++;
-            
             [self createDatatype:@"2"];
-            
         }];
-        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(topButtonClick:) name:@"置顶动态" object:nil];
-        
         self.lastScrollOffset = 0;
-        
     }else{
-        
         //请求数据
         [self compeleteDataRepuest];
     }
@@ -245,99 +225,61 @@
     warnLabel.layer.cornerRadius = 15;
     warnLabel.clipsToBounds = YES;
      [_noLookView addSubview:warnLabel];
-    
     [warnLabel yb_addAttributeTapActionWithStrings:@[@"VIP会员"] delegate:self];
-    
     warnLabel.enabledTapEffect = NO;
-    
 }
 
 //点击文字跳转的代理
 - (void)yb_attributeTapReturnString:(NSString *)string range:(NSRange)range index:(NSInteger)index
 {
-
     if ([string isEqualToString:@"认证会员"]) {
         
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"realname"] intValue] == 1) {
-            
             LDCertificateViewController *cvc = [[LDCertificateViewController alloc] init];
-            
             cvc.type = @"2";
-            
             [self.navigationController pushViewController:cvc animated:YES];
             
         }else{
-            
-            AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-            
             NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Other/getidstate"];
-            
             NSDictionary *parameters;
-            
             parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-            
-            [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                
-                NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-                
-                //        NSLog(@"%@",responseObject);
-                
+            [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+                NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
                 if (integer == 2000) {
-                    
                     LDCertificateViewController *cvc = [[LDCertificateViewController alloc] init];
-                    
                     cvc.type = @"2";
-                    
                     [self.navigationController pushViewController:cvc animated:YES];
                     
                 }else if(integer == 2001){
-                    
-                     [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"正在审核,请耐心等待~"];
-                    
-                    
+                    [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"正在审核,请耐心等待~"];
                 }else if (integer == 2002){
-                    
                     LDCertificateViewController *cvc = [[LDCertificateViewController alloc] init];
-                    
                     cvc.where = @"4";
-                    
                     [self.navigationController pushViewController:cvc animated:YES];
                 }
-                
-            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            } failed:^(NSString *errorMsg) {
                 
             }];
         }
     }else if([string isEqualToString:@"VIP会员"]){
-    
         LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
-        
         [self.navigationController pushViewController:mvc animated:YES];
     }
-    
 }
 
 //用于请求数据,添加监听
 -(void)compeleteDataRepuest{
     
     if ([self.content intValue] == 0) {
-        
         [self createHeaderViewData];
-        
     }else{
-        
         [self createTableViewAndRefresh];
     }
-
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(topButtonClick:) name:@"置顶动态" object:nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dynamicScreenButtonClick) name:@"确定动态筛选" object:nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewardSuccess:) name:@"打赏成功" object:nil];
-    
     //起始偏移量为0
     self.lastScrollOffset = 0;
-    
 }
 
 /**
@@ -380,30 +322,19 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
     if (scrollView == self.tableView) {
-        
         if (scrollView.contentOffset.y > 0 && scrollView.contentOffset.y + HEIGHT < self.tableView.contentSize.height) {
-            
             CGFloat y = scrollView.contentOffset.y;
-            
             if (y >= self.lastScrollOffset) {
                 //用户往上拖动，也就是屏幕内容向下滚动
-                
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"发布动态按钮隐藏" object:nil];
-                
             } else if(y < self.lastScrollOffset){
                 //用户往下拖动，也就是屏幕内容向上滚动
-            
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"发布动态按钮显示" object:nil];
             }
-            
         }else{
-            
             if (self.lastScrollOffset == 0) {
-                
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"发布动态按钮显示" object:nil];
-                
             }
         }
     }

@@ -179,13 +179,9 @@
     }
     
     index++;
-    
     if (index == [self.pageContentArray count]) {
-        
         return nil;
     }
-    
-    
     return [self viewControllerAtIndex:index];
     
 }
