@@ -18,11 +18,8 @@
 @property (weak, nonatomic) IBOutlet UIButton *depositButton;
 
 @property (nonatomic,copy) NSString *account;
-
 @property (nonatomic,copy) NSString *balance;
-
 @property (nonatomic,copy) NSString *scale;
-
 @end
 
 @implementation LDMyWalletViewController
