@@ -65,6 +65,7 @@
 
 //提示的view
 @property (nonatomic,strong) UIView *warnView;
+@property (nonatomic,strong) UIImageView *rocketsView;
 
 @end
 
@@ -722,11 +723,47 @@
         model.topnum = newStr.copy;
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:index,nil] withRowAnimation:UITableViewRowAnimationNone];
         [self.dataArray replaceObjectAtIndex:index.section withObject:model];
-        [MBProgressHUD showMessage:@"推顶成功"];
+        self.rocketsView = [UIImageView new];
+        self.rocketsView.frame = CGRectMake(WIDTH/2-150, HEIGHT-450, 300, 300);
+        self.rocketsView.image = [UIImage imageNamed:@"推顶火箭"];
+        [self.view addSubview:self.rocketsView];
+        [self spring];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self move];
+        });
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.rocketsView removeFromSuperview];
+        });
     }];
 }
 
 
+// 移动
+- (void)move
+{
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+    animation.beginTime = CACurrentMediaTime();
+    animation.duration = 1;
+    animation.repeatCount = 0;
+    animation.fromValue = [NSValue valueWithCGPoint:self.rocketsView.layer.position];
+    animation.toValue = [NSValue valueWithCGPoint:CGPointMake(self.rocketsView.layer.position.x, self.rocketsView.layer.position.y-HEIGHT)];
+    [self.rocketsView.layer addAnimation:animation forKey:@"move"];
+}
+
+// 弹簧
+- (void)spring
+{
+    CASpringAnimation *animation = [CASpringAnimation animationWithKeyPath:@"position"];
+    animation.beginTime = CACurrentMediaTime();
+    animation.damping = 2;
+    animation.stiffness = 50;
+    animation.mass = 1;
+    animation.initialVelocity = 10;
+    [animation setFromValue:[NSValue valueWithCGPoint:self.rocketsView.layer.position]];
+    [animation setToValue:[NSValue valueWithCGPoint:CGPointMake(self.rocketsView.layer.position.x, self.rocketsView.layer.position.y + 50)]];
+    animation.duration = animation.settlingDuration;
+    [self.rocketsView.layer addAnimation:animation forKey:@"spring"];
+}
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{

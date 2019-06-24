@@ -146,6 +146,7 @@
 @property (nonatomic,strong) bottomView *bottom;
 
 @property (nonatomic,copy) NSString *topnumStr;
+@property (nonatomic,strong) UIImageView *demoView;
 @end
 
 @implementation LDDynamicDetailViewController
@@ -1369,7 +1370,6 @@
 
  @param sender 打赏功能
  */
-
 -(void)replyClick
 {
 
@@ -1420,8 +1420,63 @@
         newStr = [NSString stringWithFormat:@"%d",[newStr intValue]+1].copy;
         self.topnumStr = newStr.copy;
         [self.totopButton setTitle:[NSString stringWithFormat:@"推顶 %@",self.topnumStr] forState:normal];
-        [MBProgressHUD showMessage:@"推顶成功"];
+        
+        self.demoView = [UIImageView new];
+        self.demoView.frame = CGRectMake(WIDTH/2-150, HEIGHT-450, 300, 300);
+        self.demoView.image = [UIImage imageNamed:@"推顶火箭"];
+        [self.view addSubview:self.demoView];
+        [self spring];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self move];
+        });
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.demoView removeFromSuperview];
+        });
     }];
+}
+
+// 移动
+- (void)move
+{
+    // 位置移动
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+    // 1秒后执行
+    animation.beginTime = CACurrentMediaTime();
+    // 持续时间
+    animation.duration = 1;
+    // 重复次数
+    animation.repeatCount = 0;
+    // 起始位置
+    animation.fromValue = [NSValue valueWithCGPoint:self.demoView.layer.position];
+    // 终止位置
+    animation.toValue = [NSValue valueWithCGPoint:CGPointMake(self.demoView.layer.position.x, self.demoView.layer.position.y-HEIGHT)];
+    // 添加动画
+    [self.demoView.layer addAnimation:animation forKey:@"move"];
+}
+
+// 弹簧
+- (void)spring
+{
+    // 位置移动
+    CASpringAnimation *animation = [CASpringAnimation animationWithKeyPath:@"position"];
+    // 1秒后执行
+    animation.beginTime = CACurrentMediaTime();
+    // 阻尼系数（此值越大弹框效果越不明显）
+    animation.damping = 2;
+    // 刚度系数（此值越大弹框效果越明显）
+    animation.stiffness = 50;
+    // 质量大小（越大惯性越大）
+    animation.mass = 1;
+    // 初始速度
+    animation.initialVelocity = 10;
+    // 开始位置
+    [animation setFromValue:[NSValue valueWithCGPoint:self.demoView.layer.position]];
+    // 终止位置
+    [animation setToValue:[NSValue valueWithCGPoint:CGPointMake(self.demoView.layer.position.x, self.demoView.layer.position.y + 50)]];
+    // 持续时间
+    animation.duration = animation.settlingDuration;
+    // 添加动画
+    [self.demoView.layer addAnimation:animation forKey:@"spring"];
 }
 
 - (IBAction)sendButtonClick:(id)sender {
@@ -1442,9 +1497,7 @@
         UIAlertAction * cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
         
         if (PHONEVERSION.doubleValue >= 8.3) {
-            
             [action setValue:MainColor forKey:@"_titleTextColor"];
-            
             [cancel setValue:MainColor forKey:@"_titleTextColor"];
         }
         

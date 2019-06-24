@@ -21,7 +21,6 @@
 #import "UITableView+FDTemplateLayoutCell.h"
 
 @interface LDCollectionDynamicViewController ()<UITableViewDelegate,UITableViewDataSource,DynamicDelegate>
-
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *dataArray;
 
@@ -38,6 +37,7 @@
 //礼物界面
 @property (nonatomic,strong) GifView *gif;
 
+@property (nonatomic,strong) UIImageView *rocketsView;
 @end
 
 @implementation LDCollectionDynamicViewController
@@ -53,38 +53,26 @@
     [self createTableView];
     
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        
         _page = 0;
-        
         [self createDataType:@"1"];
-        
     }];
     
     [self.tableView.mj_header beginRefreshing];
     
     self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        
         _page++;
-        
         [self createDataType:@"2"];
-        
     }];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewardSuccess:) name:@"收藏动态打赏成功" object:nil];
 }
 
 -(void)rewardSuccess:(NSNotification *)user{
-    
     if (_dataArray.count >= [user.userInfo[@"section"] integerValue] + 1){
-        
         DynamicModel *model = _dataArray[[user.userInfo[@"section"] integerValue]];
-        
         model.rewardnum = [NSString stringWithFormat:@"%d",[model.rewardnum intValue] + 1];
-        
         [_dataArray replaceObjectAtIndex:[user.userInfo[@"section"] integerValue] withObject:model];
-        
         _cell.rewardLabel.text = [NSString stringWithFormat:@"%@",model.rewardnum];
-        
     }
 }
 
@@ -94,86 +82,41 @@
 }
 
 -(void)createDataType:(NSString *)type{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getCollectDynamicList"];
-    
-    NSDictionary *parameters;
-    
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
-            
-            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"page":[NSString stringWithFormat:@"%d",_page],@"loginuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-            
-        
-        
-    }else{
-        
-            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":@"",@"lng":@"",@"page":[NSString stringWithFormat:@"%d",_page],@"loginuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-        
-    }
-    //    NSLog(@"%@",role);
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        _integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-        //        NSLog(@"%@",responseObject);
-        
-        if (_integer != 2000 && _integer != 2001) {
-            
-            if (_integer == 4001) {
-                
-                if ([type intValue] == 1) {
-                    
-                    [_dataArray removeAllObjects];
-                    
-                    [self.tableView reloadData];
-                    
-                    self.tableView.mj_footer.hidden = YES;
-                    
-                }else{
-                    
-                    [self.tableView.mj_footer endRefreshingWithNoMoreData];
-                    
-                }
 
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getCollectDynamicList"];
+    NSDictionary *parameters;
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
+            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"page":[NSString stringWithFormat:@"%d",_page],@"loginuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+    }else{
+            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":@"",@"lng":@"",@"page":[NSString stringWithFormat:@"%d",_page],@"loginuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+    }
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        _integer = [[responseObj objectForKey:@"retcode"] intValue];
+        if (_integer != 2000 && _integer != 2001) {
+            if (_integer == 4001) {
+                if ([type intValue] == 1) {
+                    [_dataArray removeAllObjects];
+                    [self.tableView reloadData];
+                    self.tableView.mj_footer.hidden = YES;
+                }else{
+                    [self.tableView.mj_footer endRefreshingWithNoMoreData];
+                }
             }else{
-                
                 [self.tableView.mj_footer endRefreshing];
-                
                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"获取失败~"];
-                
             }
-            
         }else{
-            
             if ([type intValue] == 1) {
-                
                 [_dataArray removeAllObjects];
             }
-            
-            for (NSDictionary *dic in responseObject[@"data"]) {
-                
-                DynamicModel *model = [[DynamicModel alloc] init];
-                
-                [model setValuesForKeysWithDictionary:dic];
-                
-                [_dataArray addObject:model];
-            }
-            
+            NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[DynamicModel class] json:responseObj[@"data"]]];
+            [self.dataArray addObjectsFromArray:data];
             self.tableView.mj_footer.hidden = NO;
-            
             [self.tableView reloadData];
-            
             [self.tableView.mj_footer endRefreshing];
-            
         }
-        
         [self.tableView.mj_header endRefreshing];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
     }];
@@ -182,28 +125,18 @@
 -(void)createTableView{
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX]) style:UITableViewStyleGrouped];
-    
     if (@available(iOS 11.0, *)) {
-        
         self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
-        
         self.tableView.estimatedRowHeight = 0;
         self.tableView.estimatedSectionHeaderHeight = 0;
         self.tableView.estimatedSectionFooterHeight = 0;
-        
     }else {
-        
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
     self.tableView.delegate = self;
-    
     self.tableView.dataSource = self;
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     [self.tableView registerNib:[UINib nibWithNibName:@"DynamicCell" bundle:nil] forCellReuseIdentifier:@"DynamicCell"];
-    
     [self.view addSubview:self.tableView];
 }
 
@@ -226,33 +159,22 @@
     cell.indexPath = indexPath;
     [_sectionArray addObject:indexPath];
     [self configureCell:cell atIndexPath:indexPath];
-
     [cell.headButton addTarget:self action:@selector(headButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
     return cell;
 }
 
 - (void)configureCell:(DynamicCell *)cell atIndexPath:(NSIndexPath *)indexPath {
-    
     cell.fd_enforceFrameLayout = NO; // Enable to use "-sizeThatFits:"
-    
     DynamicModel *model = _dataArray[indexPath.section];
-    
     cell.model = model;
 }
 
 -(void)headButtonClick:(UIButton *)button{
-    
     DynamicCell *cell = (DynamicCell *)button.superview.superview;
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
     DynamicModel *model = _dataArray[indexPath.section];
-    
     LDOwnInformationViewController *ivc = [[LDOwnInformationViewController alloc] init];
-    
     ivc.userID = model.uid;
-    
     [self.navigationController pushViewController:ivc animated:YES];
 }
 
@@ -267,34 +189,22 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     return [tableView fd_heightForCellWithIdentifier:@"DynamicCell" cacheByIndexPath:indexPath configuration:^(DynamicCell *cell) {
-        
         [self configureCell:cell atIndexPath:indexPath];
-        
     }];
 }
 
 
 -(void)tap:(UITapGestureRecognizer *)tap{
-    
     UIImageView *img = (UIImageView *)tap.view;
-    
     __weak typeof(self) weakSelf=self;
-    
     [ImageBrowserViewController show:self type:PhotoBroswerVCTypeModal index:img.tag - img.tag/100 * 100 imagesBlock:^NSArray *{
-        
         DynamicModel *model = _dataArray[img.tag/100];
-        
         if (model.sypic.count == 0) {
-            
             _picArray = model.pic;
-            
         }else{
-            
             _picArray = model.sypic;
         }
-        
         return weakSelf.picArray;
     }];
 }
@@ -344,7 +254,6 @@
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     DynamicModel *model = _dataArray[indexPath.section];
-
     BOOL ismines = NO;
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]==[model.uid intValue]) {
         ismines = YES;
@@ -353,7 +262,6 @@
         LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
         cvc.type = @"0";
         [self.navigationController pushViewController:cvc animated:YES];
-        
     }];
     _gif.MyBlock = ^{
         
@@ -396,17 +304,52 @@
         model.topnum = newStr.copy;
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:index,nil] withRowAnimation:UITableViewRowAnimationNone];
         [self.dataArray replaceObjectAtIndex:index.section withObject:model];
-        [MBProgressHUD showMessage:@"推顶成功"];
+        self.rocketsView = [UIImageView new];
+        self.rocketsView.frame = CGRectMake(WIDTH/2-150, HEIGHT-450, 300, 300);
+        self.rocketsView.image = [UIImage imageNamed:@"推顶火箭"];
+        [self.view addSubview:self.rocketsView];
+        [self spring];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self move];
+        });
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.rocketsView removeFromSuperview];
+        });
     }];
 }
 
+// 移动
+- (void)move
+{
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+    animation.beginTime = CACurrentMediaTime();
+    animation.duration = 1;
+    animation.repeatCount = 0;
+    animation.fromValue = [NSValue valueWithCGPoint:self.rocketsView.layer.position];
+    animation.toValue = [NSValue valueWithCGPoint:CGPointMake(self.rocketsView.layer.position.x, self.rocketsView.layer.position.y-HEIGHT)];
+    [self.rocketsView.layer addAnimation:animation forKey:@"move"];
+}
+
+// 弹簧
+- (void)spring
+{
+    CASpringAnimation *animation = [CASpringAnimation animationWithKeyPath:@"position"];
+    animation.beginTime = CACurrentMediaTime();
+    animation.damping = 2;
+    animation.stiffness = 50;
+    animation.mass = 1;
+    animation.initialVelocity = 10;
+    [animation setFromValue:[NSValue valueWithCGPoint:self.rocketsView.layer.position]];
+    [animation setToValue:[NSValue valueWithCGPoint:CGPointMake(self.rocketsView.layer.position.x, self.rocketsView.layer.position.y + 50)]];
+    animation.duration = animation.settlingDuration;
+    [self.rocketsView.layer addAnimation:animation forKey:@"spring"];
+}
+
+
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    
     if (section == 0) {
-        
         return 0.1;
     }
-    
     return 10;
 }
 

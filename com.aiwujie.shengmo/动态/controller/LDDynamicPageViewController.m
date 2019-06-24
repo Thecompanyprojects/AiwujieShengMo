@@ -64,7 +64,7 @@
 //礼物界面
 @property (nonatomic,strong) GifView *gif;
 
-@property (nonatomic,strong) UIImageView *demoView;
+@property (nonatomic,strong) UIImageView *rocketsView;
 @end
 
 @implementation LDDynamicPageViewController
@@ -178,86 +178,43 @@
  * 创建话题页的数据请求
  */
 - (void)createDatatype:(NSString *)type {
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getTopicList"];
-    
     NSDictionary *parameters;
-    
     if ([self.content intValue] == 3) {
-        
         parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"1",@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-        
     }else{
-        
         parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"0",@"pid":[NSString stringWithFormat:@"%d",[self.content intValue] - 3],@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     }
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            
             if (integer == 3000) {
-                
                 if ([type intValue] == 1) {
-                    
                     [_dataArray removeAllObjects];
-                    
                     [_tableView reloadData];
-                    
                     self.tableView.mj_footer.hidden = YES;
-                    
                 }else{
-                    
                     [self.tableView.mj_footer endRefreshingWithNoMoreData];
-                    
                 }
-                
             }else{
-                
                 [self.tableView.mj_footer endRefreshing];
-                
                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"请求发生错误~"];
-                
             }
-            
         }else{
-            
             if ([type intValue] == 1) {
-                
                 [_dataArray removeAllObjects];
             }
-            
-            for (NSDictionary *dic in responseObject[@"data"]) {
-                
-                TopicModel *model = [[TopicModel alloc] init];
-                
-                [model setValuesForKeysWithDictionary:dic];
-                
-                [_dataArray addObject:model];
-            }
-            
+            NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[TopicModel class] json:responseObj[@"data"]]];
+            [self.dataArray addObjectsFromArray:data];
             self.tableView.mj_footer.hidden = NO;
-            
             [self.tableView reloadData];
-            
             [self.tableView.mj_footer endRefreshing];
-            
         }
-        
         [self.tableView.mj_header endRefreshing];
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
-        
     }];
-    
 }
 
 //热帖和广场判断本人不是认证会员和会员的时候展示提示开通或认证的界面搭建
@@ -387,33 +344,20 @@
  * 获取推荐页的话题
  */
 -(void)createTopicData{
-
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getTopicDyHead"];
-    
-    [manager POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//        NSLog(@"%@",responseObject);
-        
+    [NetManager afPostRequest:url parms:nil finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer == 4000) {
-            
             [_topicArray removeAllObjects];
-            
         }else{
-            
             if (_topicArray.count != 0) {
-                
                 [_topicArray removeAllObjects];
             }
-            
-            for (NSDictionary *dic in responseObject[@"data"]) {
+            for (NSDictionary *dic in responseObj[@"data"]) {
                 [_topicArray addObject:dic];
             }
         }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failed:^(NSString *errorMsg) {
         
     }];
 }
@@ -467,20 +411,15 @@
 
 //确定动态筛选的按钮
 -(void)dynamicScreenButtonClick{
-
     if ([self.content intValue] == 1||[self.content intValue] == 0) {
-        
         [self.tableView.mj_header beginRefreshing];
     }
 }
 
 //点击置顶按钮的监听
 -(void)topButtonClick:(NSNotification *)user{
-    
     if ([user.userInfo[@"index"] isEqualToString:self.content]) {
-        
         [_tableView setContentOffset:CGPointMake(0,0) animated:YES];
-        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"隐藏置顶按钮" object:nil];
     }
 }
@@ -497,100 +436,59 @@
 
 
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-
     if (scrollView.contentOffset.y > 0) {
-        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"显示置顶按钮" object:nil];
     }
     
     if (_tableView.contentOffset.y == 0) {
-        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"隐藏置顶按钮" object:nil];
     }
 }
 
-
 -(void)createHeaderViewData{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Other/getSlideMore"];
-    
     NSDictionary *parameters = @{@"type":@"2"};
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            
-           [self createTableViewAndRefresh];
-            
-        }else{
-            
-            [_slideArray addObjectsFromArray:responseObject[@"data"]];
-            
             [self createTableViewAndRefresh];
-            
+        }else{
+            [_slideArray addObjectsFromArray:responseObj[@"data"]];
+            [self createTableViewAndRefresh];
         }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        [self createTableViewAndRefresh];
-       
+    } failed:^(NSString *errorMsg) {
+         [self createTableViewAndRefresh];
     }];
 }
 
 -(void)createTableViewAndRefresh{
 
     [self createTableView];
-    
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        
         if ([self.content intValue] == 1) {
-            
             [[NSNotificationCenter defaultCenter] postNotificationName:@"清除最新红点" object:nil];
-            
         }else if ([self.content intValue] == 2){
-        
             [[NSNotificationCenter defaultCenter] postNotificationName:@"清除关注红点" object:nil];
-            
         }else if ([self.content intValue] == 0){
-        
             [[NSNotificationCenter defaultCenter] postNotificationName:@"清除推荐红点" object:nil];
         }
-
-        
         if ([self.content intValue] == 0) {
-            
             //获取推荐页的话题
             [self createTopicData];
-            
         }
-        
         if ([self.content intValue] == 1||[self.content intValue]==0) {
                 _page = 0;
-                
                 [self createDataType:@"1"];
-
         }else{
-        
             _page = 0;
-            
             [self createDataType:@"1"];
         }
- 
     }];
-    
     [self.tableView.mj_header beginRefreshing];
-    
     self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        
         _page++;
-        
         [self createDataType:@"2"];
-        
     }];
-  
 }
 
 
@@ -601,7 +499,6 @@
     if ([self.content intValue] == 1||[self.content intValue]==0) {
         
         //判定动态筛选是否开启
-
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"动态筛选"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"动态筛选"] intValue] == 0) {
             
             if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
@@ -814,22 +711,13 @@
 }
 
 -(void)createTableView{
-    
     if ([self.content intValue] >= 3) {
-        
         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX] - 49 - 40) style:UITableViewStyleGrouped];
-        
     }else{
-        
-        
         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX] - 49) style:UITableViewStyleGrouped];
     }
-    
-    
     if (@available(iOS 11.0, *)) {
-        
         self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
-        
         self.tableView.estimatedRowHeight = 0;
         self.tableView.estimatedSectionHeaderHeight = 0;
         self.tableView.estimatedSectionFooterHeight = 0;
@@ -838,17 +726,11 @@
         
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
     self.tableView.delegate = self;
-    
     self.tableView.dataSource = self;
-    
     [self.tableView registerNib:[UINib nibWithNibName:@"DynamicCell" bundle:nil] forCellReuseIdentifier:@"DynamicCell"];
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     self.tableView.showsHorizontalScrollIndicator = NO;
-    
     [self.view addSubview:self.tableView];
 }
 
@@ -900,27 +782,18 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     if ([self.content intValue] >= 3) {
-        
         return 85;
     }
-    
     return [tableView fd_heightForCellWithIdentifier:@"DynamicCell" cacheByIndexPath:indexPath configuration:^(DynamicCell *cell) {
-        
         [self configureCell:cell atIndexPath:indexPath];
-        
     }];
-    
 }
 
 //点击动态头像
 -(void)headButtonClick:(UIButton *)button{
-    
     DynamicCell *cell = (DynamicCell *)button.superview.superview;
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
     DynamicModel *model = _dataArray[indexPath.section];
     LDOwnInformationViewController *ivc = [[LDOwnInformationViewController alloc] init];
     ivc.userID = model.uid;
@@ -929,39 +802,24 @@
 
 #pragma 点击文字的danamicDelegate
 -(void)transmitClickModel:(DynamicModel *)model{
-
     HeaderTabViewController *tvc = [[HeaderTabViewController alloc] init];
-    
     tvc.tid = [NSString stringWithFormat:@"%@",model.tid];
-    
     [self.navigationController pushViewController:tvc animated:YES];
 }
 
 #pragma 点击图片看大图danamicDelegate
 -(void)tap:(UITapGestureRecognizer *)tap{
-    
     UIImageView *img = (UIImageView *)tap.view;
-    
     __weak typeof(self) weakSelf=self;
-    
     [ImageBrowserViewController show:self type:PhotoBroswerVCTypeModal index:img.tag - img.tag/100 * 100 imagesBlock:^NSArray *{
-        
         DynamicModel *model = _dataArray[img.tag/100];
-        
         if (model.sypic.count == 0) {
-            
             _picArray = model.pic;
-            
         }else{
-            
             _picArray = model.sypic;
-            
         }
-        
         return weakSelf.picArray;
     }];
-    
-    
 }
 
 #pragma mark - 点赞-动态-评论-推顶
@@ -969,9 +827,7 @@
 -(void)zanTabVClick:(UITableViewCell *)cell
 {
     NSIndexPath *index = [self.tableView indexPathForCell:cell];
-    
     DynamicModel *model = _dataArray[index.section];
-    
     if ([model.laudstate intValue] == 0) {
         NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,laudDynamicNewrd];
         NSDictionary *parameters;
@@ -999,7 +855,6 @@
 -(void)commentTabVClick:(UITableViewCell *)cell
 {
     NSIndexPath *index = [self.tableView indexPathForCell:cell];
-   
     DynamicModel *model = _dataArray[index.section];
     LDDynamicDetailViewController *dvc = [[LDDynamicDetailViewController alloc] init];
     dvc.did = model.did;
@@ -1012,9 +867,7 @@
 -(void)replyTabVClick:(UITableViewCell *)cell
 {
     NSIndexPath *index = [self.tableView indexPathForCell:cell];
-
     DynamicModel *model = _dataArray[index.section];
-    
     BOOL ismines = NO;
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]==[model.uid intValue]) {
         ismines = YES;
@@ -1033,45 +886,28 @@
 // 移动
 - (void)move
 {
-    // 位置移动
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
-    // 1秒后执行
     animation.beginTime = CACurrentMediaTime();
-    // 持续时间
     animation.duration = 1;
-    // 重复次数
     animation.repeatCount = 0;
-    // 起始位置
-    animation.fromValue = [NSValue valueWithCGPoint:self.demoView.layer.position];
-    // 终止位置
-    animation.toValue = [NSValue valueWithCGPoint:CGPointMake(self.demoView.layer.position.x, self.demoView.layer.position.y-HEIGHT)];
-    // 添加动画
-    [self.demoView.layer addAnimation:animation forKey:@"move"];
+    animation.fromValue = [NSValue valueWithCGPoint:self.rocketsView.layer.position];
+    animation.toValue = [NSValue valueWithCGPoint:CGPointMake(self.rocketsView.layer.position.x, self.rocketsView.layer.position.y-HEIGHT)];
+    [self.rocketsView.layer addAnimation:animation forKey:@"move"];
 }
 
 // 弹簧
 - (void)spring
 {
-    // 位置移动
     CASpringAnimation *animation = [CASpringAnimation animationWithKeyPath:@"position"];
-    // 1秒后执行
     animation.beginTime = CACurrentMediaTime();
-    // 阻尼系数（此值越大弹框效果越不明显）
     animation.damping = 2;
-    // 刚度系数（此值越大弹框效果越明显）
     animation.stiffness = 50;
-    // 质量大小（越大惯性越大）
     animation.mass = 1;
-    // 初始速度
     animation.initialVelocity = 10;
-    // 开始位置
-    [animation setFromValue:[NSValue valueWithCGPoint:self.demoView.layer.position]];
-    // 终止位置
-    [animation setToValue:[NSValue valueWithCGPoint:CGPointMake(self.demoView.layer.position.x, self.demoView.layer.position.y + 50)]];
-    // 持续时间
+    [animation setFromValue:[NSValue valueWithCGPoint:self.rocketsView.layer.position]];
+    [animation setToValue:[NSValue valueWithCGPoint:CGPointMake(self.rocketsView.layer.position.x, self.rocketsView.layer.position.y + 50)]];
     animation.duration = animation.settlingDuration;
-    // 添加动画
-    [self.demoView.layer addAnimation:animation forKey:@"spring"];
+    [self.rocketsView.layer addAnimation:animation forKey:@"spring"];
 }
 
 -(void)topTabVClick:(UITableViewCell *)cell
@@ -1107,54 +943,40 @@
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:index,nil] withRowAnimation:UITableViewRowAnimationNone];
         [self.dataArray replaceObjectAtIndex:index.section withObject:model];
         
-        self.demoView = [UIImageView new];
-        self.demoView.frame = CGRectMake(WIDTH/2-150, HEIGHT-450, 300, 300);
-        self.demoView.image = [UIImage imageNamed:@"推顶火箭"];
-        [self.view addSubview:self.demoView];
+        self.rocketsView = [UIImageView new];
+        self.rocketsView.frame = CGRectMake(WIDTH/2-150, HEIGHT-450, 300, 300);
+        self.rocketsView.image = [UIImage imageNamed:@"推顶火箭"];
+        [self.view addSubview:self.rocketsView];
         [self spring];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self move];
         });
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.demoView removeFromSuperview];
+            [self.rocketsView removeFromSuperview];
         });
     }];
     
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    
     if ([self.content intValue] == 0 && section == 0) {
-        
         if(_slideArray.count != 0){
-            
             if (_topicArray.count == 0) {
-                
                 return DYANDNERHEIGHT + ADVERTISEMENT + DYNAMICWARNH;
             }
-            
             return DYANDNERHEIGHT + ADVERTISEMENT + 50 + DYNAMICWARNH;
         }
-        
         if (_topicArray.count == 0) {
-            
             return DYANDNERHEIGHT + DYNAMICWARNH;
         }
-        
         return DYANDNERHEIGHT + 50 + DYNAMICWARNH;
-        
     }
-    
     if (section == 0 && _slideArray.count == 0) {
-        
         return 0.1;
     }
-    
     if ([self.content intValue] >= 3) {
-        
         return 1;
     }
- 
     return 10;
 }
 

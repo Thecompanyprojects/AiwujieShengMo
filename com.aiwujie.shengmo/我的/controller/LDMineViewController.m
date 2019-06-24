@@ -68,7 +68,7 @@
 @implementation LDMineViewController
 
 -(void)viewWillAppear:(BOOL)animated{
-
+    
     [super viewWillAppear:animated];
     
     [self createPersonInformationData];
@@ -170,36 +170,21 @@
 }
 
 -(void)liftButtonOnClick{
-
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Draw/getSignTimesInWeeks"];
-    
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer == 2002) {
-            
             LDSignView *signView = [[LDSignView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
-            
-            [signView getSignDays:[NSString stringWithFormat:@"%@",responseObject[@"data"][@"signtimes"]] andsignState:@"未签到"];
-            
+            [signView getSignDays:[NSString stringWithFormat:@"%@",responseObj[@"data"][@"signtimes"]] andsignState:@"未签到"];
             [self.tabBarController.view addSubview:signView];
-            
         }else if (integer == 2001){
-            
             LDSignView *signView = [[LDSignView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
-            
-            [signView getSignDays:[NSString stringWithFormat:@"%@",responseObject[@"data"][@"signtimes"]] andsignState:@"已签到"];
-            
+            [signView getSignDays:[NSString stringWithFormat:@"%@",responseObj[@"data"][@"signtimes"]] andsignState:@"已签到"];
             [self.tabBarController.view addSubview:signView];
         }
+    } failed:^(NSString *errorMsg) {
         
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-
     }];
 }
 
@@ -210,100 +195,58 @@
 }
 
 -(void)createHeadData{
-
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
+    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Other/getSlideMore"];
     NSDictionary *parameters = @{@"type":@"4"};
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            
             self.headerH.constant = 0;
-            
             self.backW.constant = WIDTH;
-            
             self.backH.constant = self.backView.frame.size.height - 98;
-            
             self.backView.frame = CGRectMake(0, 0, self.backW.constant, self.backH.constant);
-            
             [self createPersonInformationData];
-            
         }else{
-            
             self.headerH.constant = ADVERTISEMENT;
-            
             self.backW.constant = WIDTH;
-            
             self.backH.constant = 155 + self.headerH.constant;
-            
             self.backView.frame = CGRectMake(0, 0, self.backW.constant, 155 + self.headerH.constant);
-            
-            [_slideArray addObjectsFromArray:responseObject[@"data"]];
-            
+            [_slideArray addObjectsFromArray:responseObj[@"data"]];
             NSMutableArray *pathArray = [NSMutableArray array];
-            
-            for (NSDictionary *dic in responseObject[@"data"]) {
-               
+            for (NSDictionary *dic in responseObj[@"data"]) {
                 [pathArray addObject:dic[@"path"]];
-                
             }
-            
             SDCycleScrollView *cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, WIDTH, ADVERTISEMENT) delegate:self placeholderImage:[UIImage imageNamed:@"动态图片默认"]];
             cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentCenter;
             cycleScrollView.imageURLStringsGroup = pathArray;
             cycleScrollView.autoScrollTimeInterval = 3.0;
             [_headerImageView addSubview:cycleScrollView];
-            
             UIButton *deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(WIDTH - 25, 5, 20, 20)];
-            
             [deleteButton setBackgroundImage:[UIImage imageNamed:@"删除按钮"] forState:UIControlStateNormal];
-            
             [deleteButton addTarget:self action:@selector(deleteButtonClick) forControlEvents:UIControlEventTouchUpInside];
-            
             [self.headerImageView addSubview:deleteButton];
-            
         }
-        
         [self createTableView];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         self.headerH.constant = 0;
-        
         self.backW.constant = WIDTH;
-        
         self.backH.constant = self.backView.frame.size.height - 98;
-        
         self.backView.frame = CGRectMake(0, 0, self.backW.constant, self.backH.constant);
-        
         [self createTableView];
-        
         [self createPersonInformationData];
-        
     }];
-
 }
 
 //删除上面的广告
 -(void)deleteButtonClick{
-    
     for (UIView *view in self.headerImageView.subviews) {
-        
         [view removeFromSuperview];
-        
     }
-    
     self.headerH.constant = 0;
-    
     self.backW.constant = WIDTH;
-    
     self.backH.constant = 155;
-    
     self.backView.frame = CGRectMake(0, 0, self.backW.constant, 155);
-    
     self.tableView.tableHeaderView = self.backView;
-    
     [self.tableView reloadData];
 }
 
@@ -491,38 +434,22 @@
 }
 
 -(void)createPersonInformationData{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getmineinfo"];
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-            
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
         }else{
-            
-            [self.headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",responseObject[@"data"][@"head_pic"]]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
-
-            self.nameLabel.text = responseObject[@"data"][@"nickname"];
-            
-            self.attentionLabel.text = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"follow_num"]];
-            
-            self.fansLabel.text = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"fans_num"]];
-            
-            self.groupLabel.text = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"group_num"]];
-            
+            [self.headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",responseObj[@"data"][@"head_pic"]]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
+            self.nameLabel.text = responseObj[@"data"][@"nickname"];
+            self.attentionLabel.text = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"follow_num"]];
+            self.fansLabel.text = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"fans_num"]];
+            self.groupLabel.text = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"group_num"]];
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        NSLog(@"%@",error);
+    } failed:^(NSString *errorMsg) {
         
     }];
-
 }
 
 - (void)didReceiveMemoryWarning {

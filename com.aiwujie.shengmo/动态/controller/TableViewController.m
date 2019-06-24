@@ -39,7 +39,7 @@
 //保存tableview的偏移量
 @property (nonatomic,assign) CGFloat lastScrollOffset;
 
-
+@property (nonatomic,strong) UIImageView *rocketsView;
 @end
 
 @implementation TableViewController
@@ -49,34 +49,19 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     self.tableView.backgroundColor = [UIColor clearColor];
-    
     _dataArray = [NSMutableArray array];
-    
     _sectionArray = [NSMutableArray array];
-    
     self.navigationItem.title = @"话题";
-    
     [self createTableView];
-    
     _page = 0;
-    
     [self createDataType:@"1"];
-    
-    
     self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        
         _page++;
-        
         [self createDataType:@"2"];
-        
     }];
-    
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewardSuccess:) name:@"更多打赏成功" object:nil];
-    
     //起始偏移量为0
     self.lastScrollOffset = 0;
-
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
@@ -89,46 +74,30 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
         
     if (scrollView == self.tableView) {
-        
         if (scrollView.contentOffset.y > 0 && scrollView.contentOffset.y + HEIGHT < self.tableView.contentSize.height + 104) {
-            
             CGFloat y = scrollView.contentOffset.y + 40;
-            
             if (y >= self.lastScrollOffset) {
                 //用户往上拖动，也就是屏幕内容向下滚动
-                
                [[NSNotificationCenter defaultCenter] postNotificationName:@"参与话题按钮隐藏" object:nil];
-                
             } else if(y < self.lastScrollOffset){
                 //用户往下拖动，也就是屏幕内容向上滚动
-                
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"参与话题按钮显示" object:nil];
             }
-            
         }else{
-            
             if (self.lastScrollOffset == 0) {
-                
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"参与话题按钮显示" object:nil];
-                
             }
         }
     }
-
 }
 
 -(void)rewardSuccess:(NSNotification *)user{
     
     if (_dataArray.count >= [user.userInfo[@"section"] integerValue] + 1){
-        
         DynamicModel *model = _dataArray[[user.userInfo[@"section"] integerValue]];
-        
         model.rewardnum = [NSString stringWithFormat:@"%d",[model.rewardnum intValue] + 1];
-        
         [_dataArray replaceObjectAtIndex:[user.userInfo[@"section"] integerValue] withObject:model];
-        
         _cell.rewardLabel.text = [NSString stringWithFormat:@"%@",model.rewardnum];
-        
     }
 }
 
@@ -207,22 +176,15 @@
 -(void)createTableView{
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT - 104) style:UITableViewStyleGrouped];
-    
     if (@available(iOS 11.0, *)) {
-        
         self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
-        
         self.tableView.estimatedRowHeight = 0;
         self.tableView.estimatedSectionHeaderHeight = 0;
         self.tableView.estimatedSectionFooterHeight = 0;
-        
     }else {
-        
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
     self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
-    
     [self.tableView registerNib:[UINib nibWithNibName:@"DynamicCell" bundle:nil] forCellReuseIdentifier:@"DynamicCell"];
 }
 
@@ -252,56 +214,36 @@
 - (void)configureCell:(DynamicCell *)cell atIndexPath:(NSIndexPath *)indexPath {
     
     cell.fd_enforceFrameLayout = NO; // Enable to use "-sizeThatFits:"
-    
     DynamicModel *model = _dataArray[indexPath.section];
-    
     cell.model = model;
 }
 
 -(void)headButtonClick:(UIButton *)button{
-    
     DynamicCell *cell = (DynamicCell *)button.superview.superview;
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
     DynamicModel *model = _dataArray[indexPath.section];
-    
     LDOwnInformationViewController *ivc = [[LDOwnInformationViewController alloc] init];
-    
     ivc.userID = model.uid;
-    
     [self.navigationController pushViewController:ivc animated:YES];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     return [tableView fd_heightForCellWithIdentifier:@"DynamicCell" cacheByIndexPath:indexPath configuration:^(DynamicCell *cell) {
-        
         [self configureCell:cell atIndexPath:indexPath];
-        
     }];
 }
 
 
 -(void)tap:(UITapGestureRecognizer *)tap{
-    
     UIImageView *img = (UIImageView *)tap.view;
-    
     __weak typeof(self) weakSelf=self;
-    
     [ImageBrowserViewController show:self type:PhotoBroswerVCTypeModal index:img.tag - img.tag/100 * 100 imagesBlock:^NSArray *{
-        
         DynamicModel *model = _dataArray[img.tag/100];
-        
         if (model.sypic.count == 0) {
-            
             _picArray = model.pic;
-            
         }else{
-            
             _picArray = model.sypic;
         }
-        
         return weakSelf.picArray;
     }];
 }
@@ -403,10 +345,46 @@
         model.topnum = newStr.copy;
         [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:index,nil] withRowAnimation:UITableViewRowAnimationNone];
         [self.dataArray replaceObjectAtIndex:index.section withObject:model];
-        [MBProgressHUD showMessage:@"推顶成功"];
+        self.rocketsView = [UIImageView new];
+        self.rocketsView.frame = CGRectMake(WIDTH/2-150, HEIGHT-450, 300, 300);
+        self.rocketsView.image = [UIImage imageNamed:@"推顶火箭"];
+        [self.view addSubview:self.rocketsView];
+        [self spring];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self move];
+        });
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.rocketsView removeFromSuperview];
+        });
     }];
 }
 
+// 移动
+- (void)move
+{
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+    animation.beginTime = CACurrentMediaTime();
+    animation.duration = 1;
+    animation.repeatCount = 0;
+    animation.fromValue = [NSValue valueWithCGPoint:self.rocketsView.layer.position];
+    animation.toValue = [NSValue valueWithCGPoint:CGPointMake(self.rocketsView.layer.position.x, self.rocketsView.layer.position.y-HEIGHT)];
+    [self.rocketsView.layer addAnimation:animation forKey:@"move"];
+}
+
+// 弹簧
+- (void)spring
+{
+    CASpringAnimation *animation = [CASpringAnimation animationWithKeyPath:@"position"];
+    animation.beginTime = CACurrentMediaTime();
+    animation.damping = 2;
+    animation.stiffness = 50;
+    animation.mass = 1;
+    animation.initialVelocity = 10;
+    [animation setFromValue:[NSValue valueWithCGPoint:self.rocketsView.layer.position]];
+    [animation setToValue:[NSValue valueWithCGPoint:CGPointMake(self.rocketsView.layer.position.x, self.rocketsView.layer.position.y + 50)]];
+    animation.duration = animation.settlingDuration;
+    [self.rocketsView.layer addAnimation:animation forKey:@"spring"];
+}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
@@ -574,120 +552,69 @@
             }
             
             oneLabel.font = [UIFont systemFontOfSize:13];
-            
             [view addSubview:oneLabel];
-            
             UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 1)];
-            
             line.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
-            
             [view addSubview:line];
-            
             UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(12, 35, WIDTH - 24, 15)];
-            
             [button setTitle:@"更多评论>" forState:UIControlStateNormal];
-            
             [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-            
             button.titleLabel.font = [UIFont systemFontOfSize:13];
-            
             button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-            
             [view addSubview:button];
-            
             UIButton *moreButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 60)];
-            
             [moreButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-            
             moreButton.tag = section;
-            
             moreButton.titleLabel.font = [UIFont systemFontOfSize:13];
-            
             [moreButton addTarget:self action:@selector(moreButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-            
             moreButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-            
             [view addSubview:moreButton];
-            
             return view;
-            
         }
-        
     }
-    
     return nil;
 }
 
 -(void)moreButtonClick:(UIButton *)button{
-    
     DynamicModel *model = _dataArray[button.tag];
-    
     LDDynamicDetailViewController *dvc = [[LDDynamicDetailViewController alloc] init];
-    
     dvc.did = model.did;
-    
     dvc.ownUid = model.uid;
-    
     _indexPath = _sectionArray[button.tag];
-    
     [self.navigationController pushViewController:dvc animated:YES];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
     LDDynamicDetailViewController *dvc = [[LDDynamicDetailViewController alloc] init];
-    
     DynamicModel *model = _dataArray[indexPath.section];
-    
     dvc.did = model.did;
-    
     dvc.ownUid = model.uid;
-    
     DynamicCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    
     dvc.block = ^(NSString *zanNum,NSString *zanState){
-        
         if ([zanState intValue] == 1) {
-            
+
             model.laudstate = zanState;
-            
             model.laudnum = [NSString stringWithFormat:@"%d",[zanNum intValue]];
-            
             cell.zanImageView.image = [UIImage imageNamed:@"赞紫"];
-            
             cell.zanLabel.text = [NSString stringWithFormat:@"%@",model.laudnum];
-            
         }else{
-            
             model.laudstate = zanState;
-            
             model.laudnum = [NSString stringWithFormat:@"%d",[zanNum intValue]];
-            
             cell.zanImageView.image = [UIImage imageNamed:@"赞灰"];
-            
             cell.zanLabel.text = [NSString stringWithFormat:@"%@",model.laudnum];
         }
-        
-        
     };
-    
     dvc.commentBlock = ^(NSString *commentNum){
-        
         cell.contentLabel.text = commentNum;
     };
-    
     dvc.rewordBlock = ^(NSString *rewordNum){
-        
         cell.rewardLabel.text = rewordNum;
     };
-    
     dvc.deleteBlock = ^(){
-        
         [_dataArray removeObject:model];
-        
         [self.tableView reloadData];
     };
-    
     [self.navigationController pushViewController:dvc animated:YES];
 }
 
@@ -700,7 +627,6 @@
         [_gif removeView];
     }
 }
-
 
 - (IBAction)backButtonClick:(id)sender {
     

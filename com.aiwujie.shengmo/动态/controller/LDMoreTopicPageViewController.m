@@ -162,30 +162,19 @@
 }
 
 -(void)createTableView{
-
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX] - 40) style:UITableViewStyleGrouped];
-    
     if (@available(iOS 11.0, *)) {
-        
         self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
-        
         self.tableView.estimatedRowHeight = 0;
         self.tableView.estimatedSectionHeaderHeight = 0;
         self.tableView.estimatedSectionFooterHeight = 0;
-        
     }else {
-        
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
     _tableView.delegate = self;
-    
     _tableView.dataSource = self;
-    
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     [self.view addSubview:_tableView];
-    
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
