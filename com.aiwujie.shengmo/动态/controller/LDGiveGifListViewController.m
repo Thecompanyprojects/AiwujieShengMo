@@ -26,8 +26,10 @@
         NSMutableArray *arrayM = [[NSMutableArray alloc] init];
         LDGiveGifListPageViewController *v1 = [[LDGiveGifListPageViewController alloc] init];
         LDGiveGifListPageViewController *v2 = [[LDGiveGifListPageViewController alloc] init];
+        LDGiveGifListPageViewController *v3 = [[LDGiveGifListPageViewController alloc] init];
         [arrayM addObject:v1];
         [arrayM addObject:v2];
+        [arrayM addObject:v3];
         _pageContentArray = [[NSArray alloc] initWithArray:arrayM];
     }
     return _pageContentArray;
@@ -142,19 +144,12 @@
     if (finished) {
         
         if (completed) {
-            
             NSInteger index = [self.pageContentArray indexOfObject:_GiveGifListPageViewController];
-            
-//            _index = index;
-            
             [self changeNavButtonColor:index];
             
         }else{
             
             NSInteger index = [self.pageContentArray indexOfObject:previousViewControllers[0]];
-            
-//            _index = index;
-            
             [self changeNavButtonColor:index];
         }
     }
@@ -163,16 +158,12 @@
 #pragma mark - 根据index得到对应的UIViewController
 
 - (LDGiveGifListPageViewController *)viewControllerAtIndex:(NSUInteger)index {
-    
     if (([self.pageContentArray count] == 0) || (index >= [self.pageContentArray count])) {
         
         return nil;
     }
-    
     LDGiveGifListPageViewController *contentVC = self.pageContentArray[index];
-    
     contentVC.content = [NSString stringWithFormat:@"%ld",(long)index];
-    
     return contentVC;
 }
 
@@ -187,7 +178,7 @@
 -(void)changeNavButtonColor:(NSInteger)index{
     
     UIButton *button = (UIButton *)[self.view viewWithTag:index + 100];
-    for (int i = 100; i < 102; i++) {
+    for (int i = 100; i < 103; i++) {
         UIButton *btn = (UIButton *)[self.view viewWithTag:i];
         UIView *view = (UIView *)[self.view viewWithTag:i + 100];
         if (button.tag == btn.tag) {
@@ -211,10 +202,17 @@
         
         [_pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
         
-    }else{
-    
+    }
+    else
+    {
         [_pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
     }
+//    if (sender.tag==101) {
+//        [_pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+//    }
+//    if (sender.tag==102) {
+//        [_pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
+//    }
     
     [self changeNavButtonColor:sender.tag - 100];
 }

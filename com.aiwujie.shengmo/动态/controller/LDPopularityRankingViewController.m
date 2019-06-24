@@ -63,15 +63,18 @@
         [arrayM addObject:v2];
         [arrayM addObject:v3];
         [arrayM addObject:v4];
+ 
         [arrayM addObject:v5];
         [arrayM addObject:v6];
         [arrayM addObject:v7];
         [arrayM addObject:v8];
+        
         [arrayM addObject:v9];
         [arrayM addObject:v10];
         [arrayM addObject:v11];
         [arrayM addObject:v12];
         
+      
         _pageContentArray = [[NSArray alloc] initWithArray:arrayM];
         
     }
@@ -119,22 +122,27 @@
     if ([self.rankType isEqualToString:@"popularity"]) {
         
         self.navigationItem.title = @"人气榜";
-        
+
         [self.commentButton setTitle:@"热评榜" forState:UIControlStateNormal];
-        
         [self.zanButton setTitle:@"热赞榜" forState:UIControlStateNormal];
-        
         [self.recommendButton setTitle:@"热推榜" forState:UIControlStateNormal];
         
     }else if ([self.rankType isEqualToString:@"diligence"]){
         
         self.navigationItem.title = @"活跃榜";
-    
-        [self.commentButton setTitle:@"动态榜" forState:UIControlStateNormal];
+
+//        [self.commentButton setTitle:@"动态榜" forState:UIControlStateNormal];
+//
+//        [self.zanButton setTitle:@"点评榜" forState:UIControlStateNormal];
+//
+//        [self.recommendButton setTitle:@"点赞榜" forState:UIControlStateNormal];
         
-        [self.zanButton setTitle:@"点评榜" forState:UIControlStateNormal];
+        [self.commentButton setTitle:@"点评榜" forState:UIControlStateNormal];
         
-        [self.recommendButton setTitle:@"点赞榜" forState:UIControlStateNormal];
+        [self.zanButton setTitle:@"点赞榜" forState:UIControlStateNormal];
+        
+        [self.recommendButton setTitle:@"动态榜" forState:UIControlStateNormal];
+
         
     }
     
@@ -309,19 +317,12 @@
     }
     
     LDRewardRankingPageViewController *contentVC = self.pageContentArray[index];
-    
     contentVC.content = [NSString stringWithFormat:@"%ld",(long)index];
-    
     if ([self.rankType isEqualToString:@"popularity"]) {
-        
         contentVC.type = @"popularity";
-        
     }else if ([self.rankType isEqualToString:@"diligence"]){
-        
         contentVC.type = @"diligence";
-        
     }
-    
     return contentVC;
 }
 
@@ -332,6 +333,7 @@
     return [viewController.content integerValue];
     
 }
+
 - (IBAction)commentButtonClick:(id)sender {
     
     self.commentView.hidden = NO;

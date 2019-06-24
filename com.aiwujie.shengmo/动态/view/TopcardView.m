@@ -172,11 +172,16 @@
     [UIView animateWithDuration:0.3 animations:^{
         [self removeFromSuperview];
     }];
-    if (self.buyClick) {
-        self.buyClick([NSString new]);
+    if (self.numberStr.length==0||[self.numberStr isEqualToString:@"0"]) {
+        if (self.buyClick) {
+            self.buyClick([NSString new]);
+        }
+    }
+    else
+    {
+        [self topcardclick];
     }
 }
-
 
 -(void)singleTapAction
 {
@@ -212,7 +217,6 @@
     }];
 }
 
-
 -(void)getData
 {
     NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
@@ -223,7 +227,13 @@
             NSDictionary *data = [responseObj objectForKey:@"data"];
             self.numberStr = [data objectForKey:@"wallet_topcard"];
         }
-
+        if (self.numberStr.length==0||[self.numberStr isEqualToString:@"o"]) {
+            [self.buyBtn setTitle:@"去购买" forState:normal];
+        }
+        else
+        {
+            [self.buyBtn setTitle:@"确定" forState:normal];
+        }
         [self setTextFromurl:self.numberStr];
     } failed:^(NSString *errorMsg) {
         

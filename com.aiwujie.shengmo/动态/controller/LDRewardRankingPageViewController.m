@@ -35,12 +35,8 @@
     _dataArray = [NSMutableArray array];
     
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        
         _page = 0;
-            
         [self createData:@"1"];
-
-        
     }];
     
     [self.tableView.mj_header beginRefreshing];
@@ -85,30 +81,23 @@
     }else if ([self.type isEqualToString:@"diligence"]){
     
         if ([self.content intValue] >3 && [self.content intValue] < 8) {
-            
-            url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getCommentRankingList"];
-            
-            type = [NSString stringWithFormat:@"%d",[self.content intValue] - 4];
-            
+            //点赞排行榜单
+            url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getLaudRankingList"];
+            type = [NSString stringWithFormat:@"%d",[self.content intValue]-4];
             parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":type};
             
         }else if ([self.content intValue] > 7 && [self.content intValue] < 12){
-            
-            url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getLaudRankingList"];
-            
-            type = [NSString stringWithFormat:@"%d",[self.content intValue] - 8];
-            
-            parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":type};
-            
-        }else{
-            
+            //动态排行榜单
             url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getSendDynamicRandkingList"];
-            
-             type = self.content;
-            
+            type = [NSString stringWithFormat:@"%d",[self.content intValue]-8];
             parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":type,@"recommend":@"0"};
             
-           
+        }else{
+ 
+            //点评排行榜单
+            url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getCommentRankingList"];
+            type = [NSString stringWithFormat:@"%d",[self.content intValue]];
+            parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":type};
         }
         
     }else{
