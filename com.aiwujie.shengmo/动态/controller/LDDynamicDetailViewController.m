@@ -590,7 +590,27 @@
         [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
             NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
             if (integer != 2000) {
-                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
+                //[AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
+                NSString *msg = [responseObj objectForKey:@"msg"];
+                UIAlertController *control = [UIAlertController alertControllerWithTitle:@"提示" message:msg preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"开会员" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
+                    [self.navigationController pushViewController:mvc animated:YES];
+                }];
+                UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"去认证" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    LDCertificateViewController *cvc = [[LDCertificateViewController alloc] init];
+                    cvc.where = @"9";
+                    [self.navigationController pushViewController:cvc animated:YES];
+                }];
+                UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    
+                }];
+                [control addAction:action1];
+                [control addAction:action0];
+                [control addAction:action2];
+                [self presentViewController:control animated:YES completion:^{
+                    
+                }];
             }else{
                 if ([model.state intValue] == 0) {
                     model.state = @"1";

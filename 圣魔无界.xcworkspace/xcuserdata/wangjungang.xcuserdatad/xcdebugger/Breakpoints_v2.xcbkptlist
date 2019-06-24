@@ -20,12 +20,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "com.aiwujie.shengmo/&#x9996;&#x9875;/controller/LDOwnInformationViewController.m"
-            timestampString = "582894753.4358881"
+            timestampString = "583056459.766034"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3314"
-            endingLineNumber = "3314"
-            landmarkName = "-didSelectAttentButton:andButton:"
+            startingLineNumber = "3523"
+            endingLineNumber = "3523"
+            landmarkName = "-blackData"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -35,78 +35,46 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "com.aiwujie.shengmo/&#x9996;&#x9875;/controller/LDOwnInformationViewController.m"
-            timestampString = "582894753.436134"
+            filePath = "com.aiwujie.shengmo/&#x6211;&#x7684;/controller/LDCertificateViewController.m"
+            timestampString = "583056459.766409"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3311"
-            endingLineNumber = "3311"
-            landmarkName = "-didSelectAttentButton:andButton:"
+            startingLineNumber = "381"
+            endingLineNumber = "381"
+            landmarkName = "-submitButtonClick:"
             landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "-[LDOwnInformationViewController didSelectAttentButton:andButton:]"
+                  symbolName = "__49-[LDCertificateViewController submitButtonClick:]_block_invoke.192"
                   moduleName = "&#x5723;&#x9b54;&#x65e0;&#x754c;"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/wangjungang/Desktop/AiwujieShengMo/com.aiwujie.shengmo/%E9%A6%96%E9%A1%B5/controller/LDOwnInformationViewController.m"
-                  timestampString = "583052405.435964"
+                  urlString = "file:///Users/wangjungang/Desktop/AiwujieShengMo/com.aiwujie.shengmo/%E6%88%91%E7%9A%84/controller/LDCertificateViewController.m"
+                  timestampString = "583056460.235604"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "3311"
-                  endingLineNumber = "3311"
-                  offsetFromSymbolStart = "576">
+                  startingLineNumber = "382"
+                  endingLineNumber = "382"
+                  offsetFromSymbolStart = "3308">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__66-[LDOwnInformationViewController didSelectAttentButton:andButton:]_block_invoke"
+                  symbolName = "__49-[LDCertificateViewController submitButtonClick:]_block_invoke.192"
                   moduleName = "&#x5723;&#x9b54;&#x65e0;&#x754c;"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/wangjungang/Desktop/AiwujieShengMo/com.aiwujie.shengmo/%E9%A6%96%E9%A1%B5/controller/LDOwnInformationViewController.m"
-                  timestampString = "583052405.439764"
+                  urlString = "file:///Users/wangjungang/Desktop/AiwujieShengMo/com.aiwujie.shengmo/%E6%88%91%E7%9A%84/controller/LDCertificateViewController.m"
+                  timestampString = "583056460.237865"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "3312"
-                  endingLineNumber = "3312"
-                  offsetFromSymbolStart = "68">
+                  startingLineNumber = "382"
+                  endingLineNumber = "382"
+                  offsetFromSymbolStart = "3336">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "com.aiwujie.shengmo/&#x6211;&#x7684;/controller/LDBillViewController.m"
-            timestampString = "583052404.960007"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
-            landmarkName = "-createData:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "com.aiwujie.shengmo/&#x6211;&#x7684;/controller/LDBillViewController.m"
-            timestampString = "583052404.9600739"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "93"
-            endingLineNumber = "93"
-            landmarkName = "-createData:"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -134,15 +134,12 @@
                             [MBProgressHUD showMessage:[responseObj objectForKey:@"兑换成功"]];
                         }
                     } failed:^(NSString *errorMsg) {
-                        
-                        
+
                     }];
                     
                 }];
-  
-                
+
             }
-            
             if ([viptype isEqualToString:@"VIP"]) {
                 
                 if (index!=0) {

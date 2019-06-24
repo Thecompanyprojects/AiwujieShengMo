@@ -13,6 +13,10 @@
 #import "LDGroupUpViewController.h"
 #import "LDSetViewController.h"
 #import "LDOwnInformationViewController.h"
+#import "LDAttentionListViewController.h"
+#import "LDAttentOtherViewController.h"
+#import "PersonChatViewController.h"
+#import "LDDynamicDetailViewController.h"
 
 @interface LDCertificateViewController ()<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *uploadImageView;
@@ -373,7 +377,50 @@
                         }
                     }
                     
-                }else{
+                }else if ([self.where intValue] == 6){
+                    
+                    for (UIViewController *view in self.navigationController.viewControllers) {
+                        
+                        if ([view isKindOfClass:[LDAttentionListViewController class]]) {
+                            
+                            [self.navigationController popToViewController:view animated:YES];
+                        }
+                    }
+                    
+                }else if ([self.where intValue]==7)
+                {
+                    for (UIViewController *view in self.navigationController.viewControllers) {
+                        
+                        if ([view isKindOfClass:[LDAttentOtherViewController class]]) {
+                            
+                            [self.navigationController popToViewController:view animated:YES];
+                        }
+                    }
+                    
+                }
+                else if ([self.where intValue]==8)
+                {
+                    for (UIViewController *view in self.navigationController.viewControllers) {
+                        
+                        if ([view isKindOfClass:[PersonChatViewController class]]) {
+                            
+                            [self.navigationController popToViewController:view animated:YES];
+                        }
+                    }
+                    
+                }
+                else if ([self.where intValue]==9)
+                {
+                    for (UIViewController *view in self.navigationController.viewControllers) {
+                        
+                        if ([view isKindOfClass:[LDDynamicDetailViewController class]]) {
+                            
+                            [self.navigationController popToViewController:view animated:YES];
+                        }
+                    }
+                    
+                }
+                else{
                     
                     for (UIViewController *view in self.navigationController.viewControllers) {
                         

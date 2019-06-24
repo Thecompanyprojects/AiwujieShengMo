@@ -478,7 +478,32 @@
             
             hud.removeFromSuperViewOnHide = YES;
             [hud hide:YES];
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
+            if (integer==8881||integer==8882) {
+                NSString *msg = [responseObj objectForKey:@"msg"];
+                UIAlertController *control = [UIAlertController alertControllerWithTitle:@"提示" message:msg preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"开会员" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
+                    [self.navigationController pushViewController:mvc animated:YES];
+                }];
+                UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"去认证" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    LDCertificateViewController *cvc = [[LDCertificateViewController alloc] init];
+                    cvc.where = @"2";
+                    [self.navigationController pushViewController:cvc animated:YES];
+                }];
+                UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    
+                }];
+                [control addAction:action1];
+                [control addAction:action0];
+                [control addAction:action2];
+                [self presentViewController:control animated:YES completion:^{
+                    
+                }];
+            }else
+            {
+                
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
+            }
             
         }else{
             if (_attentStatus) {

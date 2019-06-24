@@ -23,6 +23,7 @@
 #import "LDPrivacyPhotoViewController.h"
 #import "LDAlertNameandIntroduceViewController.h"
 #import "EditinfoModel.h"
+#import "LDMemberViewController.h"
 
 @interface LDEditViewController ()<TZImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate,UINavigationControllerDelegate,UITextViewDelegate,UITableViewDataSource,UITableViewDelegate,RegisterNextCellDelegate,UIPickerViewDelegate,UIPickerViewDataSource,LDIamCellDelegate,UIImagePickerControllerDelegate>{
     
@@ -605,8 +606,20 @@
 
     if ([_vipString isEqualToString:@"非会员"]) {
         
-        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"您现在还不是会员,不能设置相册密码~"];
-        
+//        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"您现在还不是会员,不能设置相册密码~"];
+        UIAlertController *control = [UIAlertController alertControllerWithTitle:@"提示" message:@"您现在还不是会员,不能设置相册密码~" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"去开通" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
+            [self.navigationController pushViewController:mvc animated:YES];
+        }];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [control addAction:action1];
+        [control addAction:action0];
+        [self presentViewController:control animated:YES completion:^{
+            
+        }];
     }else{
         
         LDPrivacyPhotoViewController *ppvc = [[LDPrivacyPhotoViewController alloc] init];
@@ -618,15 +631,11 @@
         ppvc.block = ^(NSString *string){
         
             if ([string intValue] == 1) {
-                
+
                 [_picButton setTitle:@"已开放" forState:UIControlStateNormal];
-                
                 self.infoModel.photo_lock = @"1";
-                
             }else{
-            
                 [_picButton setTitle:@"未开放" forState:UIControlStateNormal];
-                
                 self.infoModel.photo_lock = @"2";
             }
         
