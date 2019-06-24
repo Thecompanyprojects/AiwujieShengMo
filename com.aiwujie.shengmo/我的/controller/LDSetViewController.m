@@ -680,7 +680,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"uid"];
     [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"hideLocation"];
     [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"lookBadge"];
-    
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"walletNum"];
     [[RCIM sharedRCIM] disconnect:NO];
     
     [self.tabBarController.tabBar hideBadgeOnItemIndex:0];
