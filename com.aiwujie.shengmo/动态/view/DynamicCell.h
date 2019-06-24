@@ -33,7 +33,7 @@
 @property (nonatomic,strong) NSIndexPath *indexPath;
 @property (nonatomic,assign) NSInteger integer;
 
-@property (nonatomic,strong) id <DynamicDelegate> delegate;
+@property (nonatomic,weak) id <DynamicDelegate> delegate;
 
 @property (weak, nonatomic) IBOutlet UIButton *headButton;
 @property (weak, nonatomic) IBOutlet UIImageView *headView;

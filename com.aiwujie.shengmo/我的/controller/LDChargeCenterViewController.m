@@ -96,7 +96,7 @@
     
     self.scrollView.contentSize = CGSizeMake(WIDTH, self.changeButton.frame.origin.y + 120);
     
-    _shopArray = @[@"bean1",@"bean2",@"bean3",@"bean4",@"bean5",@"bean6",@"pay6",@"bean7",@"bean8"];
+    self.shopArray = @[@"bean1",@"bean2",@"bean3",@"bean4",@"bean5",@"bean6",@"pay6",@"bean7",@"bean8"];
     
     self.changeButton.layer.cornerRadius = 2;
     self.changeButton.clipsToBounds = YES;
