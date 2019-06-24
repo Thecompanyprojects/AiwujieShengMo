@@ -34,7 +34,7 @@ static NSString *_stampNum;
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
     
     //礼物魔豆兑换充值魔豆
-    UIAlertAction *ChangeAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换充值魔豆"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertAction *ChangeAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换金魔豆"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         if (selectBlock) {
             selectBlock(1, @"CHANGEMODOU");
         }
@@ -42,9 +42,9 @@ static NSString *_stampNum;
     
     UIAlertAction *SVIPAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换SVIP"] style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
         
-        NSArray *SVIPArray = @[@"1个月/1920魔豆", @"3个月/5220魔豆", @"8个月/13470魔豆", @"12个月/19470魔豆"];
+        NSArray *SVIPArray = @[@"1个月/1920金魔豆", @"3个月/5220金魔豆", @"8个月/13470金魔豆", @"12个月/19470金魔豆"];
         NSMutableArray *arrs = [NSMutableArray new];
-        [arrs addObject:[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"魔豆)"]];
+        [arrs addObject:[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"]];
         [arrs addObjectsFromArray:SVIPArray];
         
         UIAlertController *SVIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
@@ -70,7 +70,7 @@ static NSString *_stampNum;
     
     UIAlertAction * VIPAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换VIP"] style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
      
-        NSArray *VIPArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"魔豆)"],@"1个月/450魔豆", @"3个月/1320魔豆", @"6个月/2520魔豆", @"12个月/4470魔豆"];
+        NSArray *VIPArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"1个月/450金魔豆", @"3个月/1320金魔豆", @"6个月/2520金魔豆", @"12个月/4470金魔豆"];
         
         UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
         
@@ -102,7 +102,7 @@ static NSString *_stampNum;
     
     UIAlertAction *topcareAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换推顶卡"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"魔豆)"],@"3张/450魔豆", @"10张/1500魔豆", @"30张/4500魔豆", @"50张/7500魔豆", @"100张/15000魔豆", @"308张/45000魔豆"];
+        NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"3张/450金魔豆", @"10张/1500金魔豆", @"30张/4500金魔豆", @"50张/7500金魔豆", @"100张/15000金魔豆", @"308张/45000金魔豆"];
         
         UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
         
@@ -129,7 +129,7 @@ static NSString *_stampNum;
 
     UIAlertAction *chargeAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换邮票"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"魔豆)"],@"3张/90魔豆", @"10张/300魔豆", @"30张/900魔豆", @"50张/1500魔豆", @"100张/3000魔豆", @"308张/9000魔豆"];
+        NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"3张/90金魔豆", @"10张/300金魔豆", @"30张/900金魔豆", @"50张/1500金魔豆", @"100张/3000金魔豆", @"308张/9000金魔豆"];
         
         UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
         
@@ -153,7 +153,7 @@ static NSString *_stampNum;
         [controller presentViewController:VIPAlert animated:YES completion:nil];
     }];
     
-    if ([type isEqualToString:@"礼物魔豆"]) {
+    if ([type isEqualToString:@"银魔豆"]) {
         [alert addAction:ChangeAction];
     }
     

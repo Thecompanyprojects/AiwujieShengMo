@@ -100,124 +100,71 @@
 }
 
 - (void)backButtonOnClick{
-    
-    if (_index == 1) {
+    if (self.index==1) {
         
-        //兑换VIP和SVIP
-        [AlertTool alertWithViewController:self type:@"礼物魔豆" num:self.numStr andAlertDidSelectItem:^(int index, NSString *viptype) {
-            __block NSString *urlString;
-            __block NSDictionary *parameters;
+        
+        UIAlertController *control = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
             
-            //礼物魔豆兑换充值魔豆
-            if ([viptype isEqualToString:@"CHANGEMODOU"]) {
-                changeAlertView *alert = [[changeAlertView alloc] init];
-                [alert withReturnClick:^(NSDictionary * _Nonnull dic) {
-                    
-                    int Nums = [self.numStr intValue];
-                    if (Nums<100) {
-                        [MBProgressHUD showMessage:@"您的魔豆不足"];
-                        return ;
+        }];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"银魔豆兑换金魔豆" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            changeAlertView *alert = [[changeAlertView alloc] init];
+            [alert withReturnClick:^(NSDictionary * _Nonnull dic) {
+                
+                int Nums = [self.numStr intValue];
+                if (Nums<100) {
+                    [MBProgressHUD showMessage:@"您的银魔豆不足"];
+                    return ;
+                }
+                
+                NSString *url = [PICHEADURL stringByAppendingString:changeexBeans];
+                NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+                NSMutableDictionary *para = [NSMutableDictionary new];
+                [para setDictionary:dic];
+                [para setValue:uid forKey:@"uid"];
+                
+                [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
+                    if ([[responseObj objectForKey:@"retcode"] intValue]==1000) {
+                        [MBProgressHUD showMessage:[responseObj objectForKey:@"兑换成功"]];
                     }
-                    
-                    NSString *url = [PICHEADURL stringByAppendingString:changeexBeans];
-                    NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
-                    NSMutableDictionary *para = [NSMutableDictionary new];
-                    [para setDictionary:dic];
-                    [para setValue:uid forKey:@"uid"];
-                    
-                    [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
-                        if ([[responseObj objectForKey:@"retcode"] intValue]==1000) {
-                            [MBProgressHUD showMessage:[responseObj objectForKey:@"兑换成功"]];
-                        }
-                        else
-                        {
-                            [MBProgressHUD showMessage:[responseObj objectForKey:@"兑换成功"]];
-                        }
-                    } failed:^(NSString *errorMsg) {
-
-                    }];
+                    else
+                    {
+                        [MBProgressHUD showMessage:[responseObj objectForKey:@"兑换成功"]];
+                    }
+                } failed:^(NSString *errorMsg) {
                     
                 }];
 
-            }
-            if ([viptype isEqualToString:@"VIP"]) {
                 
-                if (index!=0) {
-                    urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/vip_beans"];
-                    parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"viptype":[NSString stringWithFormat:@"%d",index], @"beanstype":@"1",@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-                    [self startExchangeWithUrl:urlString parameters:parameters];
-                }
-            }
-            if ([viptype isEqualToString:@"SVIP"]){
-                
-                if (index!=0) {
-                    urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/svip_beans"];
-                    parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"subject":[NSString stringWithFormat:@"%d",index], @"channel":@"2",@"vuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-                    [self startExchangeWithUrl:urlString parameters:parameters];
-                }
-            }
-            if ([viptype isEqualToString:@"YOUPIAO"]){
-                
-                //兑换邮票
-                if (index!=0) {
-                    NSArray *array = @[@"3",@"10",@"30",@"50",@"100",@"300"];
-                    urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/stamp_baans"];
-                    
-                    __block NSString *numStr = @"";
-                    [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                        
-                        if (idx==index) {
-                            numStr=[array objectAtIndex:idx+1];
-                            *stop = YES;
-                        }
-                    }];
-                    NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"num":numStr, @"channel":@"1"};
-                    [self startExchangeWithUrl:urlString parameters:parameters];
-                }
-            }
-            if ([viptype isEqualToString:@"TOPCARD"])
-            {
-                //兑换推顶卡 channel 礼物为1
-                if (index!=0) {
-                    NSString *urlString = [PICHEADURL stringByAppendingString:@"Api/Ping/topcard_baans"];
-                    NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
-                    NSArray *array = @[@"3",@"10",@"30",@"50",@"100",@"308"];
-                    __block NSString *numStr = @"";
-                    
-                    [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                        if (idx==index) {
-                            numStr=[array objectAtIndex:idx-1];
-                            *stop = YES;
-                        }
-                    }];
-                    NSDictionary *parameters = @{@"uid":uid,@"num":numStr,@"channel":@"1"};
-                    [self startExchangeWithUrl:urlString parameters:parameters];
-                }
-                
-                
-            }
-        }];
+            }];
 
+            
+            }];
+        
+            if (PHONEVERSION.doubleValue >= 8.3) {
+                [action0 setValue:MainColor forKey:@"_titleTextColor"];
+                [action1 setValue:MainColor forKey:@"_titleTextColor"];
+            }
+        
+            [control addAction:action0];
+            [control addAction:action1];
+            [self presentViewController:control animated:YES completion:^{
+                
+            }];
     }
 }
 
 - (void)startExchangeWithUrl:(NSString *)url parameters:(NSDictionary *)parameters{
-    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
-    
     [LDAFManager postDataWithDictionary:parameters andUrlString:url success:^(NSString *msg) {
-        
         hud.labelText = msg;
         hud.removeFromSuperViewOnHide = YES;
         [hud hide:YES afterDelay:1];
-        
     } fail:^(NSString *errorMsg){
-        
         hud.labelText = errorMsg;
         hud.removeFromSuperViewOnHide = YES;
         [hud hide:YES afterDelay:1];
-        
     }];
 }
 

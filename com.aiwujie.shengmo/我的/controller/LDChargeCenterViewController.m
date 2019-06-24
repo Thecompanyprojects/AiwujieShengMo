@@ -74,7 +74,7 @@
             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
         }else{
             
-            self.accountLabel.text = [NSString stringWithFormat:@"余额 %@ 魔豆",responseObj[@"data"][@"wallet"]];
+            self.accountLabel.text = [NSString stringWithFormat:@"余额 %@ 金魔豆",responseObj[@"data"][@"wallet"]];
             self.walletNumber = responseObj[@"data"][@"wallet"];
             if (self.returnValueBlock) {
                 self.returnValueBlock(self.walletNumber);
@@ -88,14 +88,10 @@
     }];
 }
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.navigationItem.title = @"充值";
-    
     self.scrollView.contentSize = CGSizeMake(WIDTH, self.changeButton.frame.origin.y + 120);
-    
     self.shopArray = @[@"bean1",@"bean2",@"bean3",@"bean4",@"bean5",@"bean6",@"pay6",@"bean7",@"bean8"];
     
     self.changeButton.layer.cornerRadius = 2;
@@ -114,11 +110,8 @@
     [IAPTool requestProductsWithProductArray:self.shopArray];
 
     for (int i = 0; i < 9; i++) {
-        
         UIButton *button = (UIButton *)[self.view viewWithTag:30 + i];
-        
         if (i == 0) {
-            
             _subject = _shopArray[0];
             
             button.layer.borderWidth = 1;
@@ -144,10 +137,7 @@
         
         [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
     }
-    
 }
-
-
 
 -(void)buttonClick:(UIButton *)button{
 

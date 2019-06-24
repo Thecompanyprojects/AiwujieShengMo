@@ -1748,17 +1748,11 @@
             if ([responseObj[@"data"][@"dynamic_num"] intValue] == 0) {
                 
                 self.totalNumView.hidden = YES;
-                
                 self.totalNumH.constant = 0;
-                
             }else{
-                
                 self.totalNumView.hidden = NO;
-                
                 self.totalNumH.constant = 40;
-                
                 self.dynamicNumLabel.text = [NSString stringWithFormat:@"发布的动态(%@)",responseObj[@"data"][@"dynamic_num"]];
-                
                 UILabel *messageLab = [UILabel new];
                 [self.totalNumView addSubview:messageLab];
                 [messageLab mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -1767,19 +1761,19 @@
                     
                 }];
                 messageLab.textColor = [UIColor lightGrayColor];
-                if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]==[self.userID intValue]) {
-                    messageLab.text = @"更多";
-                }
-                else
-                {
+//                if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]==[self.userID intValue]) {
+//                    messageLab.text = @"更多";
+//                }
+//                else
+//                {
                     if ([self.dynamic_rule isEqualToString:@"0"]) {
-                        messageLab.text = @"更多";
+                        messageLab.text = @"所有人可见";
                     }
                     else
                     {
                         messageLab.text = @"好友/会员可见";
                     }
-                }
+//                }
                 messageLab.font = [UIFont systemFontOfSize:14];
                 messageLab.textAlignment = NSTextAlignmentRight;
             }
@@ -1807,19 +1801,20 @@
                     
                 }];
                 messageLab.textColor = [UIColor lightGrayColor];
-                if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]==[self.userID intValue]) {
-                    messageLab.text = @"更多";
-                }
-                else
-                {
+                
+//                if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]==[self.userID intValue]) {
+//                    messageLab.text = @"更多";
+//                }
+//                else
+//                {
                     if ([self.comment_rule isEqualToString:@"0"]) {
-                        messageLab.text = @"更多";
+                        messageLab.text = @"所有人可见";
                     }
                     else
                     {
                         messageLab.text = @"好友/会员可见";
                     }
-                }
+//                }
                 
                 messageLab.font = [UIFont systemFontOfSize:14];
                 messageLab.textAlignment = NSTextAlignmentRight;

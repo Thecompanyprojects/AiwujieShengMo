@@ -146,7 +146,7 @@
 @property (nonatomic,strong) bottomView *bottom;
 
 @property (nonatomic,copy) NSString *topnumStr;
-@property (nonatomic,strong) UIImageView *demoView;
+@property (nonatomic,strong) UIImageView *rocketsView;
 @end
 
 @implementation LDDynamicDetailViewController
@@ -862,84 +862,47 @@
         self.vipView.image = [UIImage imageNamed:@"官方认证"];
         
     }else{
-        
         if ([dic[@"svipannual"] intValue] == 1) {
-            
             self.vipView.hidden = NO;
-            
             self.vipView.image = [UIImage imageNamed:@"年svip标识"];
-            
         }else if ([dic[@"svip"] intValue] == 1){
-            
             self.vipView.hidden = NO;
-            
             self.vipView.image = [UIImage imageNamed:@"svip标识"];
-            
         }else if ([dic[@"vipannual"] intValue] == 1) {
-            
             self.vipView.hidden = NO;
-            
             self.vipView.image = [UIImage imageNamed:@"年费会员"];
-            
         }else{
-            
             if ([dic[@"vip"] intValue] == 1) {
-                
                 self.vipView.hidden = NO;
-                
                 self.vipView.image = [UIImage imageNamed:@"高级紫"];
-                
             }else{
-                
                 self.vipView.hidden = YES;
             }
         }
-        
     }
-
-    
     if ([dic[@"onlinestate"] intValue] == 1) {
-        
         self.onlineView.hidden = NO;
-        
     }else{
-        
         self.onlineView.hidden = YES;
     }
-    
     if ([dic[@"realname"] intValue] == 1) {
-        
         self.idView.hidden = NO;
-        
         self.idViewW.constant = 17;
-        
     }else{
-        
         self.idView.hidden = YES;
-        
         self.idViewW.constant = 0;
     }
-    
     if ([dic[@"distance"] floatValue] != 0) {
-        
         if (integer == 2001) {
-            
             self.distanceLabel.text = [NSString stringWithFormat:@"%@",dic[@"addtime"]];
-            
         }else{
-        
             self.distanceLabel.text = [NSString stringWithFormat:@"%@km %@",dic[@"distance"],dic[@"addtime"]];
         }
-        
     }else{
-        
         self.distanceLabel.text = [NSString stringWithFormat:@"%@",dic[@"addtime"]];
     }
-    
     self.commentLabel.isCopyable = YES;
-    
     NSString *content;
-    
     if ([dic[@"topictitle"] length] == 0) {
         
         content = dic[@"content"];
@@ -965,24 +928,15 @@
         [attributedString addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:16] range:NSMakeRange(0, [content length])];
         
         self.commentLabel.attributedText = attributedString;
-        
         CGSize size = [[NSString stringWithFormat:@"#%@#",dic[@"topictitle"]] boundingRectWithSize:CGSizeMake(MAXFLOAT, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:14]} context:nil].size;
-        
         UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
-        
         [button addTarget:self action:@selector(topicButtonClick) forControlEvents:UIControlEventTouchUpInside];
-        
         [self.commentLabel addSubview:button];
     }
-    
     self.commentLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    
     CGSize size = [self.commentLabel sizeThatFits:CGSizeMake(WIDTH - 24, 10)];
-    
     if (size.height == 0) {
-        
         self.backH.constant = 150 - 16 - 12;
-        
         self.commentH.constant = 0;
         self.commentTopH.constant = 0;
         
@@ -996,103 +950,59 @@
         [paragraphStyle setLineSpacing:0];
         [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [content length])];
         self.commentLabel.attributedText = attributedString;
-        
         self.commentTopH.constant = 12;
         self.commentH.constant = 16;
-        
     }else{
-        
         self.backH.constant = 150 - 16;
-        
         self.commentTopH.constant = 12;
         self.commentH.constant = size.height;
     }
-    
-    
     if ([dic[@"sypic"] count] == 0) {
-        
         _picArray = dic[@"pic"];
-        
     }else{
-    
         _picArray = dic[@"sypic"];
     }
-    
     if (_picView.subviews.count != 0) {
         
         for (UIView *view in _picView.subviews) {
-            
             [view removeFromSuperview];
         }
     }
-    
     if ([dic[@"pic"] count] != 0) {
-        
         self.picTopH.constant = 12;
-        
         if ([dic[@"pic"] count] == 1) {
-            
             UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 240, 240)];
-            
             [imageV sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",dic[@"pic"][0]]]];
-            
             imageV.userInteractionEnabled = YES;
-            
             imageV.tag = 0;
-            
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
-            
             [imageV addGestureRecognizer:tap];
-            
             [_picView addSubview:imageV];
-            
             imageV.contentMode = UIViewContentModeScaleAspectFill;
-            
             imageV.clipsToBounds = YES;
-            
             self.picH.constant = 240;
-            
             self.backH.constant = self.backH.constant + self.picH.constant + self.commentH.constant;
-            
             self.backW.constant = WIDTH;
-            
             self.backView.frame = CGRectMake(self.backView.frame.origin.x, 2, self.backW.constant, self.backH.constant);
-            
         }else if ([dic[@"pic"] count] > 1){
-            
             CGFloat imageH = (WIDTH - 24 - 8)/3;
-            
             for (int i = 0; i < [dic[@"pic"] count]; i++) {
-                
                 UIImageView *imageV = [[UIImageView alloc] initWithFrame:CGRectMake(i%3 * imageH + i%3 * 4, i/3 * imageH + i/3 * 4, imageH, imageH)];
-                
                 [imageV sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",dic[@"pic"][i]]]];
-                
                 imageV.contentMode = UIViewContentModeScaleAspectFill;
-                
                 imageV.clipsToBounds = YES;
-                
                 imageV.userInteractionEnabled = YES;
-                
                 imageV.tag = i;
-                
                 UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
-                
                 [imageV addGestureRecognizer:tap];
-
-                
                 [_picView addSubview:imageV];
-                
                 if (i == [dic[@"pic"] count] - 1) {
                     
                     self.picH.constant = i/3 * imageH + i/3 * 4 + imageH;
                 }
             }
-            
             self.backH.constant = self.backH.constant + self.picH.constant + self.commentH.constant;
-            
             self.backW.constant = WIDTH;
-            
             self.backView.frame = CGRectMake(self.backView.frame.origin.x, 2, self.backW.constant,self.backH.constant);
         }
         
@@ -1138,27 +1048,17 @@
         self.aSexView.backgroundColor = GIRLECOLOR;
         
     }else{
-        
         self.sexLabel.image = [UIImage imageNamed:@"双性"];
         self.aSexView.backgroundColor = DOUBLECOLOR;
     }
-    
     self.ageLabel.text = [NSString stringWithFormat:@"%@",dic[@"age"]];
     
     if ([dic[@"laudstate"] intValue] == 0) {
-        
         [self.bottom.zanBtn setImage:[UIImage imageNamed:@"赞灰"] forState:normal];
         [self.bottom.zanBtn setTitleColor:[UIColor lightGrayColor] forState:normal];
-        
-//        self.zanImageView.image = [UIImage imageNamed:@"赞灰"];
-//        self.zanLabel.textColor = [UIColor lightGrayColor];
-        
     }else{
-        
         [self.bottom.zanBtn setImage:[UIImage imageNamed:@"赞紫"] forState:normal];
         [self.bottom.zanBtn setTitleColor:[UIColor colorWithHexString:@"#c450d6" alpha:1] forState:normal];
-//        self.zanImageView.image = [UIImage imageNamed:@"赞紫"];
-//        self.zanLabel.textColor = [UIColor colorWithHexString:@"#c450d6" alpha:1];
     }
     
     _zanNum = dic[@"laudnum"];
@@ -1441,16 +1341,16 @@
         self.topnumStr = newStr.copy;
         [self.totopButton setTitle:[NSString stringWithFormat:@"推顶 %@",self.topnumStr] forState:normal];
         
-        self.demoView = [UIImageView new];
-        self.demoView.frame = CGRectMake(WIDTH/2-150, HEIGHT-450, 300, 300);
-        self.demoView.image = [UIImage imageNamed:@"推顶火箭"];
-        [self.view addSubview:self.demoView];
+        self.rocketsView = [UIImageView new];
+        self.rocketsView.frame = CGRectMake(WIDTH/2-150, HEIGHT-450, 300, 300);
+        self.rocketsView.image = [UIImage imageNamed:@"推顶火箭"];
+        [self.view addSubview:self.rocketsView];
         [self spring];
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self move];
         });
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self.demoView removeFromSuperview];
+            [self.rocketsView removeFromSuperview];
         });
     }];
 }
@@ -1458,45 +1358,28 @@
 // 移动
 - (void)move
 {
-    // 位置移动
     CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
-    // 1秒后执行
     animation.beginTime = CACurrentMediaTime();
-    // 持续时间
     animation.duration = 1;
-    // 重复次数
     animation.repeatCount = 0;
-    // 起始位置
-    animation.fromValue = [NSValue valueWithCGPoint:self.demoView.layer.position];
-    // 终止位置
-    animation.toValue = [NSValue valueWithCGPoint:CGPointMake(self.demoView.layer.position.x, self.demoView.layer.position.y-HEIGHT)];
-    // 添加动画
-    [self.demoView.layer addAnimation:animation forKey:@"move"];
+    animation.fromValue = [NSValue valueWithCGPoint:self.rocketsView.layer.position];
+    animation.toValue = [NSValue valueWithCGPoint:CGPointMake(self.rocketsView.layer.position.x, self.rocketsView.layer.position.y-HEIGHT)];
+    [self.rocketsView.layer addAnimation:animation forKey:@"move"];
 }
 
 // 弹簧
 - (void)spring
 {
-    // 位置移动
     CASpringAnimation *animation = [CASpringAnimation animationWithKeyPath:@"position"];
-    // 1秒后执行
     animation.beginTime = CACurrentMediaTime();
-    // 阻尼系数（此值越大弹框效果越不明显）
     animation.damping = 2;
-    // 刚度系数（此值越大弹框效果越明显）
     animation.stiffness = 50;
-    // 质量大小（越大惯性越大）
     animation.mass = 1;
-    // 初始速度
     animation.initialVelocity = 10;
-    // 开始位置
-    [animation setFromValue:[NSValue valueWithCGPoint:self.demoView.layer.position]];
-    // 终止位置
-    [animation setToValue:[NSValue valueWithCGPoint:CGPointMake(self.demoView.layer.position.x, self.demoView.layer.position.y + 50)]];
-    // 持续时间
+    [animation setFromValue:[NSValue valueWithCGPoint:self.rocketsView.layer.position]];
+    [animation setToValue:[NSValue valueWithCGPoint:CGPointMake(self.rocketsView.layer.position.x, self.rocketsView.layer.position.y + 50)]];
     animation.duration = animation.settlingDuration;
-    // 添加动画
-    [self.demoView.layer addAnimation:animation forKey:@"spring"];
+    [self.rocketsView.layer addAnimation:animation forKey:@"spring"];
 }
 
 - (IBAction)sendButtonClick:(id)sender {
@@ -1526,91 +1409,44 @@
         [alert addAction:action];
         
         [self presentViewController:alert animated:YES completion:nil];
-
-        
     }else{
-    
         if ([_publishComment isEqualToString:@"NO"]) {
-            
             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"暂时不能评论,如有问题请联系客服~"];
-            
         }else if ([_publishComment isEqualToString:@"YES"]){
-            
             if (self.textView.text.length == 0) {
-                
                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"请输入评论内容~"];
-                
-                
             }else{
-                
-                AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-                
-                [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
-                
-                manager.requestSerializer.timeoutInterval = 10.f;
-                
-                [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
-                
                 NSString *url;
-                
                 NSDictionary *parameters;
-                
                 if (_dataArray.count != 0 ) {
-                    
                     if (_replyUid.length == 0) {
-                        
                         parameters = @{@"content":self.textView.text,@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":_did};
-                        
                     }else{
-                        
                         parameters = @{@"content":self.textView.text,@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":_did,@"otheruid":_replyUid};
                     }
-                    
                 }else{
-                    
                     parameters = @{@"content":self.textView.text,@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":_did};
                 }
-                
                 url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/sendCommentNewred"];
-                
-                [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                    
-                    NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-                    
-                    //NSLog(@"%@",responseObject[@"msg"]);
-                    
+                [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+                    NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
                     if (integer != 2000) {
-                        
-                        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-                        
+                        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
                     }else{
-                        
                         self.textView.text = @"";
-                        
                         _replyUid = @"";
-                        
                         _introduceLabel.text = @"";
-                        
                         _introduceLabel.hidden = YES;
-                        
                         _page = 0;
-                        
                         [_dataArray removeAllObjects];
-                        
                         [self createData:@"1"];
-                        
                         [self.commentButton setTitle:[NSString stringWithFormat:@"评论 %@",[NSString stringWithFormat:@"%d",[_commentNum intValue] + 1]] forState:UIControlStateNormal];
-                        
                         _commentNum = [NSString stringWithFormat:@"%d",[_commentNum intValue] + 1];
-                        
                         if (_commentBlock) {
-                            
                             self.commentBlock([NSString stringWithFormat:@"%d",[_commentNum intValue]]);
                         }
                     }
-                    
-                } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                    
+                } failed:^(NSString *errorMsg) {
                     [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"评论失败,请稍后重试~"];
                 }];
             }
@@ -1661,32 +1497,20 @@
 }
 
 -(void)dealloc{
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"动态详情打赏成功" object:nil];
-    
 }
 
 -(BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
-
 {
     if ([text isEqualToString:@"\n"]) {
-        
         self.textView.text = @"";
-        
         _replyUid = @"";
-        
         _introduceLabel.text = @"";
-        
         _introduceLabel.hidden = YES;
-        
         [textView resignFirstResponder];
-        
         return NO;
-        
     }
     return YES;
 }
