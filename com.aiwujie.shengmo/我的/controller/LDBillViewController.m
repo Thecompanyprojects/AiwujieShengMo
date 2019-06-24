@@ -81,22 +81,22 @@
 
         }else if ([self.content intValue] == 0){
         
-//            //充值记录  购买
-//            if ([_buttonState intValue] == 1)
-//            {
-//
+            //充值记录  购买
+            if ([_buttonState intValue] == 1)
+            {
+
                 url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getWalletRecord"];
                 parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
 
-//            }
-//            else
-//            {
-//                //充值记录 礼物魔豆兑换
-//                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getWalletRecord"];
-//                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-//
-//
-//            }
+            }
+            else
+            {
+                //充值记录 礼物魔豆兑换
+                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getWalletRecord"];
+                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+
+
+            }
        
         }
         
@@ -210,16 +210,16 @@
 
 -(void)createTableView{
     
-//    if (([_index intValue] == 0 && [self.content intValue] == 1) || ([_index intValue] == 1 && [self.content intValue] == 2) ||([self.content intValue]==0&&[self.index intValue]!=1)) {
+    if (([_index intValue] == 0 && [self.content intValue] == 1) || ([_index intValue] == 1 && [self.content intValue] == 2) ||([self.content intValue]==0&&[self.index intValue]!=1)) {
+
+        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 41, WIDTH, [self getIsIphoneX:ISIPHONEX] - 52 - 41) style:UITableViewStylePlain];
+
+    }
+//    if (([_index intValue] == 0 && [self.content intValue] == 1) || ([_index intValue] == 1 && [self.content intValue] == 2)) {
 //
 //        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 41, WIDTH, [self getIsIphoneX:ISIPHONEX] - 52 - 41) style:UITableViewStylePlain];
 //
 //    }
-    if (([_index intValue] == 0 && [self.content intValue] == 1) || ([_index intValue] == 1 && [self.content intValue] == 2)) {
-        
-        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 41, WIDTH, [self getIsIphoneX:ISIPHONEX] - 52 - 41) style:UITableViewStylePlain];
-        
-    }
     else{
     
         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX] - 52) style:UITableViewStylePlain];
@@ -281,7 +281,7 @@
                 cell.type = @"礼物兑换记录";
                 
             }
-
+            
         }
         
     }else if ([_index intValue] == 0){

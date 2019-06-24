@@ -27,6 +27,38 @@
             endingLineNumber = "128"
             landmarkName = "-backButtonOnClick"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__47-[LDDetailPageViewController backButtonOnClick]_block_invoke.74"
+                  moduleName = "&#x5723;&#x9b54;&#x65e0;&#x754c;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/wangjungang/Desktop/AiwujieShengMo/com.aiwujie.shengmo/%E6%88%91%E7%9A%84/controller/LDDetailPageViewController.m"
+                  timestampString = "583035999.953339"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "128"
+                  endingLineNumber = "128"
+                  offsetFromSymbolStart = "512">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__47-[LDDetailPageViewController backButtonOnClick]_block_invoke_2"
+                  moduleName = "&#x5723;&#x9b54;&#x65e0;&#x754c;"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/wangjungang/Desktop/AiwujieShengMo/com.aiwujie.shengmo/%E6%88%91%E7%9A%84/controller/LDDetailPageViewController.m"
+                  timestampString = "583035999.958321"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "131"
+                  endingLineNumber = "131"
+                  offsetFromSymbolStart = "48">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -58,54 +90,6 @@
             startingLineNumber = "132"
             endingLineNumber = "132"
             landmarkName = "-backButtonOnClick"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "com.aiwujie.shengmo/&#x6211;&#x7684;/controller/LDBillViewController.m"
-            timestampString = "582894753.435432"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "277"
-            endingLineNumber = "277"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "com.aiwujie.shengmo/&#x6211;&#x7684;/controller/LDBillViewController.m"
-            timestampString = "582894753.435505"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "281"
-            endingLineNumber = "281"
-            landmarkName = "-tableView:cellForRowAtIndexPath:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "com.aiwujie.shengmo/&#x6211;&#x7684;/controller/LDBillViewController.m"
-            timestampString = "582894753.435576"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "-createData:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -148,12 +132,12 @@
                   moduleName = "&#x5723;&#x9b54;&#x65e0;&#x754c;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/wangjungang/Desktop/AiwujieShengMo/com.aiwujie.shengmo/%E9%A6%96%E9%A1%B5/controller/LDOwnInformationViewController.m"
-                  timestampString = "582977524.445451"
+                  timestampString = "583035999.99673"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "3311"
                   endingLineNumber = "3311"
-                  offsetFromSymbolStart = "400">
+                  offsetFromSymbolStart = "576">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -163,14 +147,46 @@
                   moduleName = "&#x5723;&#x9b54;&#x65e0;&#x754c;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/wangjungang/Desktop/AiwujieShengMo/com.aiwujie.shengmo/%E9%A6%96%E9%A1%B5/controller/LDOwnInformationViewController.m"
-                  timestampString = "582977524.447938"
+                  timestampString = "583036000.002268"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "3312"
                   endingLineNumber = "3312"
-                  offsetFromSymbolStart = "44">
+                  offsetFromSymbolStart = "68">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "com.aiwujie.shengmo/&#x6211;&#x7684;/controller/LDBillViewController.m"
+            timestampString = "583035977.864599"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "85"
+            endingLineNumber = "85"
+            landmarkName = "-createData:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "com.aiwujie.shengmo/&#x6211;&#x7684;/controller/LDBillViewController.m"
+            timestampString = "583035977.864668"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "93"
+            endingLineNumber = "93"
+            landmarkName = "-createData:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

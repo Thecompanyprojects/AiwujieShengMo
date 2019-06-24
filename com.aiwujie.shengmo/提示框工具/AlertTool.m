@@ -153,9 +153,9 @@ static NSString *_stampNum;
         [controller presentViewController:VIPAlert animated:YES completion:nil];
     }];
     
-//    if ([type isEqualToString:@"礼物魔豆"]) {
-//        [alert addAction:ChangeAction];
-//    }
+    if ([type isEqualToString:@"礼物魔豆"]) {
+        [alert addAction:ChangeAction];
+    }
     
     [alert addAction:VIPAction];
     [alert addAction:SVIPAction];

@@ -105,11 +105,8 @@
  * 服务器返回的数据转换成字典
  */
 + (NSDictionary *)parseJSONStringToNSDictionary:(NSString *)JSONString {
-    
     NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
-    
     NSDictionary *responseJSON = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableLeaves error:nil];
-    
     return responseJSON;
 }
 

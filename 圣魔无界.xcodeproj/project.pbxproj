@@ -277,6 +277,7 @@
 		53E8CDC322A93EED007E5073 /* LDharassmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDC222A93EED007E5073 /* LDharassmentCell.m */; };
 		53F3B95222B73DC600F0EDF5 /* NullSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 53F3B95122B73DC600F0EDF5 /* NullSafe.m */; };
 		53F3B95522B74C1900F0EDF5 /* newsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3B95422B74C1900F0EDF5 /* newsManager.swift */; };
+		53FBA90E22C05FEC00990C28 /* LDhistoryViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 53FBA90D22C05FEC00990C28 /* LDhistoryViewModel.m */; };
 		D20016D01F46C4160045D0A2 /* TAAbstractDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D20016C31F46C4160045D0A2 /* TAAbstractDotView.m */; };
 		D20016D11F46C4160045D0A2 /* TAAnimatedDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D20016C51F46C4160045D0A2 /* TAAnimatedDotView.m */; };
 		D20016D21F46C4160045D0A2 /* TADotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D20016C71F46C4160045D0A2 /* TADotView.m */; };
@@ -935,6 +936,8 @@
 		53F3B95122B73DC600F0EDF5 /* NullSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NullSafe.m; sourceTree = "<group>"; };
 		53F3B95322B74C1900F0EDF5 /* 圣魔无界-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "圣魔无界-Bridging-Header.h"; sourceTree = "<group>"; };
 		53F3B95422B74C1900F0EDF5 /* newsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newsManager.swift; sourceTree = "<group>"; };
+		53FBA90C22C05FEC00990C28 /* LDhistoryViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDhistoryViewModel.h; sourceTree = "<group>"; };
+		53FBA90D22C05FEC00990C28 /* LDhistoryViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDhistoryViewModel.m; sourceTree = "<group>"; };
 		9A89452E2B9EA4A7089D17A7 /* Pods-圣魔无界.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-圣魔无界.debug.xcconfig"; path = "Pods/Target Support Files/Pods-圣魔无界/Pods-圣魔无界.debug.xcconfig"; sourceTree = "<group>"; };
 		CF0643EA17B0DA53D0932F1A /* libPods-圣魔无界.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-圣魔无界.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D20016C21F46C4160045D0A2 /* TAAbstractDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAbstractDotView.h; sourceTree = "<group>"; };
@@ -2049,6 +2052,7 @@
 		53B7C11B22B4943400113F50 /* 历史昵称 */ = {
 			isa = PBXGroup;
 			children = (
+				53FBA90B22C05FB200990C28 /* ViewModel */,
 				53B7C11C22B4947400113F50 /* LDhistorynameViewController.h */,
 				53B7C11D22B4947400113F50 /* LDhistorynameViewController.m */,
 				53B7C11F22B49C1F00113F50 /* LDhistorynameModel.h */,
@@ -2079,6 +2083,15 @@
 				53E8CDC222A93EED007E5073 /* LDharassmentCell.m */,
 			);
 			name = "消息设置";
+			sourceTree = "<group>";
+		};
+		53FBA90B22C05FB200990C28 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				53FBA90C22C05FEC00990C28 /* LDhistoryViewModel.h */,
+				53FBA90D22C05FEC00990C28 /* LDhistoryViewModel.m */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		A61CBB8DD0BA511459F60679 /* Frameworks */ = {
@@ -3638,6 +3651,7 @@
 				00EC29811E18F2670066273A /* UIView+Layout.m in Sources */,
 				00F9BD691E227DEC00F5CD18 /* LDSetBankCardViewController.m in Sources */,
 				D220579D201ACD3F00B231C0 /* UILabel+HeightForAttributedString.m in Sources */,
+				53FBA90E22C05FEC00990C28 /* LDhistoryViewModel.m in Sources */,
 				D2197D8E1FBE812F00723093 /* LDWarnPersonViewController.m in Sources */,
 				5372254B22ABF8E30082472A /* NetManager.m in Sources */,
 				004D014A1E373F6700EF5135 /* LDMoreTopicViewController.m in Sources */,
