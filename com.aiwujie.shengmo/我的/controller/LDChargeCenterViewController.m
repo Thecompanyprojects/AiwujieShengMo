@@ -75,10 +75,10 @@
         }else{
             
             self.accountLabel.text = [NSString stringWithFormat:@"余额 %@ 金魔豆",responseObj[@"data"][@"wallet"]];
-            self.walletNumber = responseObj[@"data"][@"wallet"];
-            if (self.returnValueBlock) {
-                self.returnValueBlock(self.walletNumber);
-            }
+            [[NSUserDefaults standardUserDefaults] setObject:responseObj[@"data"][@"wallet"] forKey:@"walletNum"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
+    
             NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:self.accountLabel.text];
             [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:255/255.0 green:157/255.0 blue:0/255.0 alpha:1] range:NSMakeRange(3,[responseObj[@"data"][@"wallet"] length])];
             self.accountLabel.attributedText = str;

@@ -168,7 +168,6 @@
         [headerView addSubview:view];
         reusableview = headerView;
     }
-    
     return reusableview;
 }
 

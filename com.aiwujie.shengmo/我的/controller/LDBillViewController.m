@@ -12,13 +12,9 @@
 #import "LDDynamicDetailViewController.h"
 
 @interface LDBillViewController ()<UITableViewDelegate,UITableViewDataSource>
-
 @property (nonatomic,strong) UITableView *tableView;
-
 @property (nonatomic,strong) NSMutableArray *dataArray;
-
 @property (nonatomic,assign) int page;
-
 @property (nonatomic,strong) NSString *buttonState;
 
 //充值界面的赠送记录和兑换记录
@@ -38,9 +34,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     _buttonState = @"1";
-    
     _dataArray = [NSMutableArray array];
     [self createTableView];
     
@@ -54,7 +48,6 @@
         _page++;
         [self createData:@"2"];
     }];
-
 }
 
 -(void)createData:(NSString *)type{
@@ -66,40 +59,32 @@
         
         if ([self.content intValue] == 1) {
             
-            if ([_buttonState intValue] == 1) {
-                
+//            if ([_buttonState intValue] == 1) {
+            
                 url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getGivePsRerond"];
-                
                 parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"0"};
                 
-            }else{
-                
-                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getExchangeRecord"];
-                
-                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"0"};
-            }
+//            }else{
+//
+//                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getExchangeRecord"];
+//
+//                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"0"};
+//            }
 
         }else if ([self.content intValue] == 0){
-        
             //充值记录  购买
             if ([_buttonState intValue] == 1)
             {
-
                 url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getWalletRecord"];
                 parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-
             }
             else
             {
                 //充值记录 礼物魔豆兑换
                 url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getWalletRecord"];
                 parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-
-
             }
-       
         }
-        
     }else if ([self.index intValue] == 1) {
         
         if ([self.content intValue] == 0) {
@@ -117,19 +102,18 @@
             
         }else if ([self.content intValue] == 2){
         
-            if ([_buttonState intValue] == 1) {
-                
-                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getGivePsRerond"];
-                
-                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"1"};
-                
-            }else if ([_buttonState intValue] == 2){
+//            if ([_buttonState intValue] == 1) {
             
-                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getExchangeRecord"];
-                
+                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getGivePsRerond"];
                 parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"1"};
                 
-            }
+//            }else if ([_buttonState intValue] == 2){
+//
+//                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getExchangeRecord"];
+//
+//                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"1"};
+//
+//            }
 
         }
 
@@ -210,16 +194,19 @@
 
 -(void)createTableView{
     
-    if (([_index intValue] == 0 && [self.content intValue] == 1) || ([_index intValue] == 1 && [self.content intValue] == 2) ||([self.content intValue]==0&&[self.index intValue]!=1)) {
-
-        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 41, WIDTH, [self getIsIphoneX:ISIPHONEX] - 52 - 41) style:UITableViewStylePlain];
-
-    }
+//    if (([_index intValue] == 0 && [self.content intValue] == 1) || ([_index intValue] == 1 && [self.content intValue] == 2) ||([self.content intValue]==0&&[self.index intValue]!=1)) {
+//
+//        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 41, WIDTH, [self getIsIphoneX:ISIPHONEX] - 52 - 41) style:UITableViewStylePlain];
+//
+//    }
 //    if (([_index intValue] == 0 && [self.content intValue] == 1) || ([_index intValue] == 1 && [self.content intValue] == 2)) {
 //
 //        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 41, WIDTH, [self getIsIphoneX:ISIPHONEX] - 52 - 41) style:UITableViewStylePlain];
 //
 //    }
+    if (([_index intValue] == 0 && [self.content intValue] == 1)) {
+        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 41, WIDTH, [self getIsIphoneX:ISIPHONEX] - 52 - 41) style:UITableViewStylePlain];
+    }
     else{
     
         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX] - 52) style:UITableViewStylePlain];

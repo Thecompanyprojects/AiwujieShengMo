@@ -63,7 +63,8 @@
 - (void)backButtonOnClick{
     
     //兑换VIP和SVIP
-    [AlertTool alertWithViewController:self type:@"金魔豆" num:self.numStr andAlertDidSelectItem:^(int index, NSString *viptype) {
+    NSString *numStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"walletNum"];
+    [AlertTool alertWithViewController:self type:@"金魔豆" num:numStr andAlertDidSelectItem:^(int index, NSString *viptype) {
         __block NSString *urlString;
         __block NSDictionary *parameters;
         
