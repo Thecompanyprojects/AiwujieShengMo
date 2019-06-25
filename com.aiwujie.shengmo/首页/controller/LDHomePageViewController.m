@@ -20,6 +20,8 @@
 #import "LDSoundControlViewController.h"
 #import "LDSearchUserViewController.h"
 #import "LDWarnPersonViewController.h"
+#import "LDDynamicDetailViewController.h"
+
 
 #define WARNHEIGNT 30
 #define OTHERHEIGHT 30
@@ -1036,28 +1038,36 @@
 }
 
 /** 点击图片回调 */
+/** 点击图片回调 */
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
+    
+    //link_type 0:url,1:话题,2:动态,3:主页,
     
     if ([_slideArray[index][@"link_type"] intValue] == 0) {
         
         LDBulletinViewController *bvc = [[LDBulletinViewController alloc] init];
-        
         bvc.url = _slideArray[index][@"url"];
-        
         bvc.title = _slideArray[index][@"title"];
-        
         [self.navigationController pushViewController:bvc animated:YES];
-        
-    }else{
-        
+    }
+    if ([_slideArray[index][@"link_type"] intValue] == 1) {
         HeaderTabViewController *tvc = [[HeaderTabViewController alloc] init];
-        
         tvc.tid = [NSString stringWithFormat:@"%@",_slideArray[index][@"link_id"]];
-        
         [self.navigationController pushViewController:tvc animated:YES];
+    }
+    if ([_slideArray[index][@"link_type"] intValue] == 2) {
+        LDDynamicDetailViewController *vc = [LDDynamicDetailViewController new];
+        vc.did = [NSString stringWithFormat:@"%@",_slideArray[index][@"link_id"]];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    if ([_slideArray[index][@"link_type"] intValue] == 3) {
+        LDOwnInformationViewController *VC = [LDOwnInformationViewController new];
+        VC.userID = [NSString stringWithFormat:@"%@",_slideArray[index][@"link_id"]];
+        [self.navigationController pushViewController:VC animated:YES];
     }
     
 }
+
 
 /**
  * 创建富豪榜,魅力榜,粉丝榜的按钮
