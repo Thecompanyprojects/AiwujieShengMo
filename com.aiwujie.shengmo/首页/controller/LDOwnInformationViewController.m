@@ -334,8 +334,10 @@
 //用户描述
 @property (nonatomic,strong) UILabel *describeLab;
 
+@property (nonatomic,strong) UILabel *noteLab;
+
 @property (nonatomic,assign) CGFloat markfloat0;
-@property (nonatomic,assign) CGFloat markfloat1;
+
 
 @end
 
@@ -444,9 +446,6 @@
     }];
     [self.tableView.mj_header beginRefreshing];
     self.lastScrollOffset = 0;
-
-
-    
     
     //监听修改了个人资料
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(alertOwnInformation) name:@"修改了个人资料" object:nil];
@@ -976,7 +975,9 @@
             [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
                 if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
                     [MBProgressHUD showSuccess:@"备注成功"];
-                    [self.tableView.mj_header beginRefreshing];
+                    self.admin_mark = content.copy;
+                    [self createOwnInformationData];
+                    [self.tableView reloadData];
                 }
             } failed:^(NSString *errorMsg) {
                 
@@ -993,7 +994,7 @@
         
         UIAlertAction *titleAction = [UIAlertAction actionWithTitle:@"永久封号" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
             
-             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+            [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             
             AFHTTPSessionManager *manager = [LDAFManager sharedManager];
             
@@ -1533,7 +1534,7 @@
         self.dynamic_rule = [responseObj objectForKey:@"data"][@"dynamic_rule"];
         self.comment_rule = [responseObj objectForKey:@"data"][@"comment_rule"];
         self.markname = @"";
-        self.admin_mark = @"";
+        self.admin_mark = [NSString new];
         if (integer == 2001) {
             
             self.tableView.scrollEnabled = NO;
@@ -1541,7 +1542,9 @@
             self.blackLabel.layer.cornerRadius = 16;
             self.blackLabel.clipsToBounds = YES;
             self.markname = responseObj[@"data"][@"markname"]?:@"";
+            
             self.admin_mark = responseObj[@"data"][@"admin_mark"]?:@"";
+            
             [self showBasicData:responseObj[@"data"] andIsShow:YES];
             _headBackView.hidden = NO;
             [self.tableView.mj_header endRefreshing];
@@ -1781,9 +1784,7 @@
                 messageLab.font = [UIFont systemFontOfSize:14];
                 messageLab.textAlignment = NSTextAlignmentRight;
             }
-            
-     
-            
+
             //获取礼物的接口
             [self getPersonReceiveGifData];
             
@@ -1901,43 +1902,46 @@
     }else{
         font = [UIFont systemFontOfSize:13];
     }
-    
-    
-    //CGFloat admin_markhei = 0.00f;
-    
+
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue]==1&&self.admin_mark.length!=0) {
         self.markfloat0 = [self.admin_mark boundingRectWithSize:CGSizeMake(WIDTH-28, 0) options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : font} context:nil].size.height;
-        
-//        self.tableViewTopY.constant = admin_markhei;
-        
+
         if (self.adminnoteView==nil) {
-            self.adminnoteView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, self.markfloat0+8)];
+            self.adminnoteView = [[UIView alloc] init];
         }
+
+        self.adminnoteView.frame = CGRectMake(0, 0, WIDTH, self.markfloat0+8);
         self.adminnoteView.backgroundColor = [UIColor colorWithHexString:@"A6A9B5" alpha:1];
         [self.headBackView addSubview:self.adminnoteView];
         
+        NSString *newStr = self.admin_mark.copy;
+        
         // 调整行间距
-        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:self.admin_mark];
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:newStr];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         [paragraphStyle setLineSpacing:5];
         [attributedString addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, [self.admin_mark length])];
-        UILabel *noteLabel = [[UILabel alloc] init];
-        noteLabel.numberOfLines = 0;
-        noteLabel.attributedText = attributedString;
-        [noteLabel sizeToFit];
-        noteLabel.frame = CGRectMake(14, 4, WIDTH-28, self.markfloat0);
-        noteLabel.textAlignment = NSTextAlignmentLeft;
-        noteLabel.textColor = [UIColor whiteColor];
-        [self.adminnoteView addSubview:noteLabel];
+        
+        
+        
+        if (self.noteLab==nil) {
+            self.noteLab = [[UILabel alloc] init];
+            [self.adminnoteView addSubview:self.noteLab];
+        }
+        
+        self.noteLab.numberOfLines = 0;
+        self.noteLab.font = font;
+        self.noteLab.attributedText = attributedString;
+        [self.noteLab sizeToFit];
+        self.noteLab.frame = CGRectMake(14, 4, WIDTH-28, self.markfloat0);
+        self.noteLab.textAlignment = NSTextAlignmentLeft;
+        self.noteLab.textColor = [UIColor whiteColor];
     }
     else
     {
         if (_adminnoteView != nil) {
             [_adminnoteView removeFromSuperview];
         }
-//        self.tableViewTopY.constant = admin_markhei;
-        
-        
     }
     
     //可以用户的设置
@@ -1975,8 +1979,6 @@
         if (_likeliarView != nil) {
             [_likeliarView removeFromSuperview];
         }
-//        self.tableViewTopY.constant = admin_markhei;
-
     }
     
     
