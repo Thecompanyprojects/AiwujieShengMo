@@ -104,6 +104,8 @@
         }];
         UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"银魔豆兑换金魔豆" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             changeAlertView *alert = [[changeAlertView alloc] init];
+            alert.numStr = self.numStr;
+            alert.messageLab.text = [NSString stringWithFormat:@"%@%@%@",@"余",self.numStr?:@"0",@"个银魔豆"];
             [alert withReturnClick:^(NSDictionary * _Nonnull dic) {
                 
                 int Nums = [self.numStr intValue];
@@ -111,7 +113,7 @@
                     [MBProgressHUD showMessage:@"您的银魔豆不足" toView:self.view];
                     return ;
                 }
-             
+                
                 NSString *url = [PICHEADURL stringByAppendingString:changeexBeans];
                 NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
                 NSMutableDictionary *para = [NSMutableDictionary new];

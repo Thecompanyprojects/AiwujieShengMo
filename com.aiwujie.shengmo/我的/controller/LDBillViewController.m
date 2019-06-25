@@ -207,9 +207,7 @@
     }else if ([_index intValue] == 2){
     
         if ([self.content intValue] == 0) {
-            
             cell.type = @"邮票购买记录";
-            
         }else if ([self.content intValue] == 1){
         
             cell.type = @"邮票系统赠送记录";

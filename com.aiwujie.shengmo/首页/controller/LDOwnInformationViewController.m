@@ -315,12 +315,10 @@
 @property (nonatomic,strong) UIButton *leftBtn;
 @property (nonatomic,strong) UIButton *rightBtn;
 
-
 //权限限制 0 默认不做限制 1 做限制
 @property (nonatomic,copy) NSString *photo_rule;
 @property (nonatomic,copy) NSString *dynamic_rule;
 @property (nonatomic,copy) NSString *comment_rule;
-
 
 //修改资料判断是否是admin用户修改
 @property (nonatomic,assign) BOOL isAdminchange;
@@ -332,17 +330,17 @@
 
 @property (nonatomic,strong) UILabel *oldnameLab;
 
-
 //用户描述
 @property (weak, nonatomic) IBOutlet UILabel *lmarknameLab;
-
 
 @property (nonatomic,copy) NSString *lmarkNameStr;
 
 @property (nonatomic,strong) UILabel *noteLab;
 
 @property (nonatomic,assign) CGFloat markfloat0;
-
+@property (nonatomic,assign) CGFloat markfloat1;
+@property (weak, nonatomic) IBOutlet UILabel *rightyinhao;
+@property (weak, nonatomic) IBOutlet UILabel *leftyinhao;
 
 @end
 
@@ -2067,41 +2065,17 @@
         }
     }
     
-//    self.lmarkNameStr = @"我是描述信息我是描述信息我是描述信息我是描述信息我是描述信息我是描述信息";
+    self.lmarkNameStr = @"我是描述信息我是描述信息我是描述信息我是描述信息我是描述信息我是描述信息";
+    
+    CGFloat hei1 = 0.0f;
+    
     
     if (self.lmarkNameStr.length!=0) {
         self.lmarknameLab.text = self.lmarkNameStr;
+        hei1 = 24;
     }
 
-    if (ISIPHONEPLUS) {
-        self.headImageViewY.constant = 35+self.markfloat0;
-        self.headImageButtonY.constant = 35+self.markfloat0;
-        self.vipViewY.constant = 112+self.markfloat0;
-        self.vipButtonY.constant = 112+self.markfloat0;
-        self.nameY.constant = 40+self.markfloat0;
-        self.idViewY.constant = 44+self.markfloat0;
-        self.onlineViewY.constant = 47+self.markfloat0;
-
-        self.backAlhpaH.constant = 300+self.markfloat0;
-        self.backGroundViewH.constant = 300+self.markfloat0;
-    }
-    else
-    {
-        self.headImageViewY.constant = 25+self.markfloat0;
-        self.headImageButtonY.constant = 25+self.markfloat0;
-        self.nameY.constant = 25+self.markfloat0;
-        self.idViewY.constant = 28+self.markfloat0;
-        self.onlineViewY.constant = 30+self.markfloat0;
-        self.vipViewY.constant = 81+self.markfloat0;
-        self.vipButtonY.constant = 81+self.markfloat0;
-        self.backAlhpaH.constant = 240+self.markfloat0;
-        self.backGroundViewH.constant = 240+self.markfloat0;
-        
-    }
-
- 
     
-   
     
     //展示用户信息的view的设置
     _headUrl = dic[@"head_pic"];
@@ -2120,8 +2094,43 @@
         self.backViewY.constant = 38;
         self.nameLabel.text = self.markname;
         self.oldnameLab.text = [NSString stringWithFormat:@"%@%@%@",@"(",dic[@"nickname"],@")"];
+        
+    }
+    else
+    {
+        self.markfloat1 = 27;
     }
 
+    
+    if (ISIPHONEPLUS) {
+        self.headImageViewY.constant = 35+self.markfloat0;
+        self.headImageButtonY.constant = 35+self.markfloat0;
+        self.vipViewY.constant = 112+self.markfloat0;
+        self.vipButtonY.constant = 112+self.markfloat0;
+        self.nameY.constant = 40+self.markfloat0;
+        self.idViewY.constant = 44+self.markfloat0;
+        self.onlineViewY.constant = 47+self.markfloat0;
+
+        self.backAlhpaH.constant = 300+self.markfloat0+hei1-self.markfloat1;
+        self.backGroundViewH.constant = 300+self.markfloat0+hei1-self.markfloat1;
+    }
+    else
+    {
+        self.headImageViewY.constant = 25+self.markfloat0;
+        self.headImageButtonY.constant = 25+self.markfloat0;
+        self.nameY.constant = 25+self.markfloat0;
+        self.idViewY.constant = 28+self.markfloat0;
+        self.onlineViewY.constant = 30+self.markfloat0;
+        self.vipViewY.constant = 81+self.markfloat0;
+        self.vipButtonY.constant = 81+self.markfloat0;
+        
+        self.backAlhpaH.constant = 240+self.markfloat0+hei1-self.markfloat1;
+        self.backGroundViewH.constant = 240+self.markfloat0+hei1-self.markfloat1;
+        
+    }
+
+
+    
     if ([dic[@"realname"] intValue] == 0) {
         if ([self.userID intValue] == [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]){
             self.idImageView.image = [UIImage imageNamed:@"认证灰"];

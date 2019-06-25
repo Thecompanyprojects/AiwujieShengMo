@@ -13,9 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 typedef void(^returnBlock)(NSDictionary *dic);
 
 @interface changeAlertView : UIView
-
+@property (nonatomic,copy) NSString *numStr;
 @property(nonatomic,copy)returnBlock returnClick;
-
+@property (nonatomic,strong) UILabel *messageLab;
 -(void)withReturnClick:(returnBlock)block;
 @end
 

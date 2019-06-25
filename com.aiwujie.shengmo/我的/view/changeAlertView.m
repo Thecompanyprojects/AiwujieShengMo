@@ -16,6 +16,7 @@
 @property (nonatomic,strong) UITextField *numberTextFiled;
 @property (nonatomic,strong) UILabel *numLab;
 @property (nonatomic,strong) UIButton *submitBtn;
+
 @end
 
 
@@ -51,7 +52,10 @@
         [self.alertView addSubview:self.numberTextFiled];
         [self.alertView addSubview:self.numLab];
         [self.alertView addSubview:self.submitBtn];
+        [self.alertView addSubview:self.messageLab];
         [self setuplayout];
+        
+        
     }
     return self;
 }
@@ -67,34 +71,39 @@
     }];
     
     [weakSelf.numberTextFiled mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(weakSelf.titleLab.mas_bottom).with.offset(26);
-        make.width.mas_offset(120);
-        make.left.equalTo(weakSelf.alertView).with.offset(15);
+        make.top.equalTo(weakSelf.titleLab.mas_bottom).with.offset(44);
+        make.width.mas_offset(65);
+        make.left.equalTo(weakSelf.titleLab).with.offset(35);
     }];
     
     [weakSelf.numLab mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(weakSelf.numberTextFiled.mas_bottom).with.offset(12);
-        make.width.mas_offset(120);
-        make.left.equalTo(weakSelf.numberTextFiled).with.offset(4);
+        make.top.equalTo(weakSelf.numberTextFiled.mas_bottom).with.offset(16);
+        make.width.mas_offset(65);
+        make.left.equalTo(weakSelf.numberTextFiled).with.offset(15);
     }];
     
     [weakSelf.leftLab0 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(weakSelf.numLab.mas_right).with.offset(18);
-        make.width.mas_offset(86);
+        make.left.equalTo(weakSelf.numLab.mas_right).with.offset(6);
+        make.width.mas_offset(45);
         make.centerY.equalTo(weakSelf.numberTextFiled);
     }];
     
     [weakSelf.leftLab1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(weakSelf.leftLab0);
         make.centerY.equalTo(weakSelf.numLab);
-        make.width.mas_offset(86);
+        make.width.mas_offset(45);
     }];
     
     [weakSelf.submitBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_offset(46);
         make.height.mas_offset(25);
         make.top.equalTo(weakSelf.numberTextFiled).with.offset(18);
-        make.right.equalTo(weakSelf.alertView).with.offset(-18);
+        make.right.equalTo(weakSelf.titleLab.mas_right).with.offset(-30);
+    }];
+    
+    [weakSelf.messageLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(weakSelf.alertView);
+        make.top.equalTo(weakSelf.titleLab.mas_bottom).with.offset(12);
     }];
 }
 
@@ -109,6 +118,19 @@
     }
     return _alertView;
 }
+
+-(UILabel *)messageLab
+{
+    if(!_messageLab)
+    {
+        _messageLab = [[UILabel alloc] init];
+        _messageLab.textColor = TextCOLOR;
+        _messageLab.font = [UIFont systemFontOfSize:12];
+        
+    }
+    return _messageLab;
+}
+
 
 -(UILabel *)titleLab
 {
@@ -224,6 +246,9 @@
 -(void)submitBtnclick
 {
     if (self.returnClick) {
+        [UIView animateWithDuration:0.3 animations:^{
+            [self removeFromSuperview];
+        }];
         NSString *beans_receive = [NSString new]; //礼物魔豆数量
         NSString *beans = [NSString new]; //充值魔豆数量
         NSString *str0 = self.numLab.text;
