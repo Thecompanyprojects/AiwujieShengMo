@@ -194,6 +194,7 @@ return _instance; \
 //充值魔豆兑换礼物魔豆
 #define  changeexBeans @"Api/Ping/exBeans"
 
-
+//设置描述
+#define lmarkName @"Api/users/lmarkName"
 
 #endif /* wangHeader_h */

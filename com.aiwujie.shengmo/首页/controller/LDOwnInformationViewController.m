@@ -331,8 +331,13 @@
 @property (nonatomic,copy) NSString *admin_mark;
 
 @property (nonatomic,strong) UILabel *oldnameLab;
+
+
 //用户描述
-@property (nonatomic,strong) UILabel *describeLab;
+@property (weak, nonatomic) IBOutlet UILabel *lmarknameLab;
+
+
+@property (nonatomic,copy) NSString *lmarkNameStr;
 
 @property (nonatomic,strong) UILabel *noteLab;
 
@@ -821,6 +826,21 @@
     UIAlertAction *describeAction = [UIAlertAction actionWithTitle:@"详细描述(好友/svip)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
         VC.type = @"5";
+        VC.block = ^(NSString *content) {
+            NSString *url = [PICHEADURL stringByAppendingString:lmarkName];
+            NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+            NSString *fuid = self.userID;
+            NSString *lmarkname = content;
+            NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"lmarkname":lmarkname?:@""};
+            [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
+                if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
+                    [MBProgressHUD showSuccess:@"备注成功"];
+                    [self.tableView.mj_header beginRefreshing];
+                }
+            } failed:^(NSString *errorMsg) {
+                
+            }];
+        };
         [self.navigationController pushViewController:VC animated:YES];
     }];
     
@@ -958,6 +978,21 @@
     UIAlertAction *describeAction = [UIAlertAction actionWithTitle:@"详细描述(好友/svip)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
         VC.type = @"5";
+        VC.block = ^(NSString *content) {
+            NSString *url = [PICHEADURL stringByAppendingString:lmarkName];
+            NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+            NSString *fuid = self.userID;
+            NSString *lmarkname = content;
+            NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"lmarkname":lmarkname?:@""};
+            [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
+                if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
+                    [MBProgressHUD showSuccess:@"备注成功"];
+                    [self.tableView.mj_header beginRefreshing];
+                }
+            } failed:^(NSString *errorMsg) {
+                
+            }];
+        };
         [self.navigationController pushViewController:VC animated:YES];
     }];
     
@@ -1542,9 +1577,8 @@
             self.blackLabel.layer.cornerRadius = 16;
             self.blackLabel.clipsToBounds = YES;
             self.markname = responseObj[@"data"][@"markname"]?:@"";
-            
             self.admin_mark = responseObj[@"data"][@"admin_mark"]?:@"";
-            
+            self.lmarkNameStr = responseObj[@"data"][@"lmarkname"]?:@"";
             [self showBasicData:responseObj[@"data"] andIsShow:YES];
             _headBackView.hidden = NO;
             [self.tableView.mj_header endRefreshing];
@@ -1579,6 +1613,7 @@
             self.blackView.hidden = YES;
             self.markname = responseObj[@"data"][@"markname"]?:@"";
             self.admin_mark = responseObj[@"data"][@"admin_mark"]?:@"";
+            self.lmarkNameStr = responseObj[@"data"][@"lmarkname"]?:@"";
             [self showBasicData:responseObj[@"data"] andIsShow:NO];
             if ([responseObj[@"data"][@"realname"] intValue] == 0) {
                 self.picPublicButton.hidden = YES;
@@ -1921,9 +1956,7 @@
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         [paragraphStyle setLineSpacing:5];
         [attributedString addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, [self.admin_mark length])];
-        
-        
-        
+
         if (self.noteLab==nil) {
             self.noteLab = [[UILabel alloc] init];
             [self.adminnoteView addSubview:self.noteLab];
@@ -1981,7 +2014,12 @@
         }
     }
     
+//    self.lmarkNameStr = @"我是描述信息我是描述信息我是描述信息我是描述信息我是描述信息我是描述信息";
     
+    if (self.lmarkNameStr.length!=0) {
+        self.lmarknameLab.text = self.lmarkNameStr;
+    }
+
     if (ISIPHONEPLUS) {
         self.headImageViewY.constant = 35+self.markfloat0;
         self.headImageButtonY.constant = 35+self.markfloat0;
@@ -2008,8 +2046,9 @@
         
     }
 
-
+ 
     
+   
     
     //展示用户信息的view的设置
     _headUrl = dic[@"head_pic"];
