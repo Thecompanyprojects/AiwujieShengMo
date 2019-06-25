@@ -162,9 +162,22 @@
                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mj5-qU-h8u">
+                                        <rect key="frame" x="375" y="208" width="27" height="22"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="22" id="EeC-cF-rhe"/>
+                                            <constraint firstAttribute="width" constant="27" id="oad-6b-AWs"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                        <state key="normal" title="更多">
+                                            <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="mj5-qU-h8u" secondAttribute="bottom" constant="10" id="9TP-Sz-q1u"/>
+                                    <constraint firstAttribute="trailing" secondItem="mj5-qU-h8u" secondAttribute="trailing" constant="12" id="AM6-Qz-Wfs"/>
                                     <constraint firstAttribute="trailing" secondItem="duJ-VA-DTA" secondAttribute="trailing" constant="47" id="Wny-q2-LL1"/>
                                     <constraint firstAttribute="bottom" secondItem="duJ-VA-DTA" secondAttribute="bottom" constant="12" id="XNA-JA-2xB"/>
                                     <constraint firstItem="duJ-VA-DTA" firstAttribute="leading" secondItem="TvY-ku-E4X" secondAttribute="leading" constant="47" id="b4F-uj-7Jf"/>

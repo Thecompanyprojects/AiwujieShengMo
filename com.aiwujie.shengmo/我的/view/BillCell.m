@@ -177,9 +177,9 @@
             self.moneyLabel.text = [NSString stringWithFormat:@"赠金魔豆%@个",model.num];
         }
     }
-    else if([self.type isEqualToString:@"充值兑换记录"] || [self.type isEqualToString:@"礼物兑换记录"]){
+    else if([self.type isEqualToString:@"充值兑换记录"] ){
         
-        self.timeLabel.text = model.addtime_format;
+        self.timeLabel.text =model.addtime;
         self.weekLabel.text = model.week;
         if ([model.type intValue]==1) {
             self.beanLabel.text = [NSString stringWithFormat:@"-%@银魔豆",model.beans];
@@ -233,7 +233,14 @@
         if ([model.state intValue] == 5){
            self.moneyLabel.text = [NSString stringWithFormat:@"兑换金魔豆%@个",model.num];
         }
-    }else if([self.type isEqualToString:@"邮票购买记录"]){
+    }
+    else if ([self.type isEqualToString:@"礼物兑换记录"])
+    {
+        self.timeLabel.text =model.date;
+        self.weekLabel.text = model.week;
+        self.beanLabel.text = [NSString stringWithFormat:@"%@金魔豆",model.beans];
+    }
+    else if([self.type isEqualToString:@"邮票购买记录"]){
         
         self.timeLabel.text = model.addtime_format;
         self.weekLabel.text = model.week;

@@ -57,12 +57,12 @@
         if ([self.content intValue] == 1) {
                 url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getExchangeRecord"];
                 parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"0"};
-                //parameters = @{@"uid":@"402624",@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"0"};
+            
         }else if ([self.content intValue] == 0){
-            //充值记录
+                //充值记录
                 url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getWalletRecord"];
                 parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-                //parameters = @{@"uid":@"402624",@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"0"};
+            
         }
     }else if ([self.index intValue] == 1) {
         if ([self.content intValue] == 0) {
@@ -74,19 +74,9 @@
             url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getBasicGiveRecord"];
             parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
         }else if ([self.content intValue] == 2){
-        
-//            if ([_buttonState intValue] == 1) {
             
-                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getGivePsRerond"];
-                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"1"};
-                
-//            }else if ([_buttonState intValue] == 2){
-//
-//                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getExchangeRecord"];
-//
-//                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"1"};
-//
-//            }
+            url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getWalletRecord"];
+            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
         }
     }
     if([_index intValue] == 2){
@@ -120,7 +110,6 @@
     
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
-        
         if (integer != 2000) {
             if (integer == 4001 || integer == 3000) {
                 if ([type intValue] == 1) {
@@ -156,16 +145,6 @@
 
 -(void)createTableView{
     
-//    if (([_index intValue] == 0 && [self.content intValue] == 1) || ([_index intValue] == 1 && [self.content intValue] == 2) ||([self.content intValue]==0&&[self.index intValue]!=1)) {
-//
-//        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 41, WIDTH, [self getIsIphoneX:ISIPHONEX] - 52 - 41) style:UITableViewStylePlain];
-//
-//    }
-//    if (([_index intValue] == 0 && [self.content intValue] == 1) || ([_index intValue] == 1 && [self.content intValue] == 2)) {
-//
-//        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 41, WIDTH, [self getIsIphoneX:ISIPHONEX] - 52 - 41) style:UITableViewStylePlain];
-//
-//    }
     if (([_index intValue] == 0 && [self.content intValue] == 1)) {
         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 41, WIDTH, [self getIsIphoneX:ISIPHONEX] - 52 - 41) style:UITableViewStylePlain];
     }
@@ -177,9 +156,7 @@
         [self.chargeGiveButton setTitle:@"购买" forState:normal];
     }
     if (@available(iOS 11.0, *)) {
-        
         self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
-        
         self.tableView.estimatedRowHeight = 0;
         self.tableView.estimatedSectionHeaderHeight = 0;
         self.tableView.estimatedSectionFooterHeight = 0;
@@ -210,45 +187,21 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     BillModel *model = _dataArray[indexPath.row];
     if ([_index intValue] == 1) {
-        
         if ([self.content intValue] == 0) {
-
             cell.type = @"收到的礼物";
-            
         }else if ([self.content intValue] == 1){
-        
             cell.type = @"礼物系统赠送";
-        
         }else if ([self.content intValue] == 2){
-        
-            if ([_buttonState intValue] == 1) {
-                
-                cell.type = @"礼物赠送记录";
-                
-            }else if ([_buttonState intValue] == 2){
-                
-                cell.type = @"礼物兑换记录";
-                
-            }
-            
+            cell.type = @"礼物兑换记录";
         }
-        
     }else if ([_index intValue] == 0){
-    
         if ([self.content intValue] == 0) {
-            
             cell.type = @"充值记录";
-            
         }else if ([self.content intValue] == 1){
-        
             if ([_buttonState intValue] == 1) {
-                
                 cell.type = @"充值赠送记录";
-                
             }else if ([_buttonState intValue] == 2){
-            
                 cell.type = @"充值兑换记录";
-            
             }
         }
     }else if ([_index intValue] == 2){

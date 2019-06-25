@@ -69,16 +69,11 @@
         __block NSDictionary *parameters;
         
         if ([viptype isEqualToString:@"VIP"]) {
-            
             if (index!=0) {
                 urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/vip_beans"];
-                
                 parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"viptype":[NSString stringWithFormat:@"%d",index], @"beanstype":@"0",@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-                
                 [self startExchangeWithUrl:urlString parameters:parameters];
             }
-         
-            
         }
         if ([viptype isEqualToString:@"SVIP"]){
             if (index!=0) {

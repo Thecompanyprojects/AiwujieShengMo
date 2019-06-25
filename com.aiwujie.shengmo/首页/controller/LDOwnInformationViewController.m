@@ -824,24 +824,49 @@
     }];
     
     UIAlertAction *describeAction = [UIAlertAction actionWithTitle:@"详细描述(好友/svip)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
-        VC.type = @"5";
-        VC.block = ^(NSString *content) {
-            NSString *url = [PICHEADURL stringByAppendingString:lmarkName];
-            NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
-            NSString *fuid = self.userID;
-            NSString *lmarkname = content;
-            NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"lmarkname":lmarkname?:@""};
-            [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
-                if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
-                    [MBProgressHUD showSuccess:@"备注成功"];
-                    [self.tableView.mj_header beginRefreshing];
-                }
-            } failed:^(NSString *errorMsg) {
+        if ([self.followState intValue]==3||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue]==1) {
+            LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
+            VC.type = @"5";
+            VC.content = self.lmarkNameStr;
+            VC.block = ^(NSString *content) {
                 
+                NSString *url = [PICHEADURL stringByAppendingString:lmarkName];
+                NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+                NSString *fuid = self.userID;
+                NSString *lmarkname = content;
+                NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"lmarkname":lmarkname?:@""};
+                [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
+                    if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
+                        [MBProgressHUD showSuccess:@"备注成功"];
+                        [self.tableView.mj_header beginRefreshing];
+                    }
+                } failed:^(NSString *errorMsg) {
+                    
+                }];
+
+            };
+            [self.navigationController pushViewController:VC animated:YES];
+            
+        } else {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"仅限好友/SVIP可用"    preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction * addFriendAction = [UIAlertAction actionWithTitle:@"加好友" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
+                [self attentButtonClickState:_attentStatus];
             }];
-        };
-        [self.navigationController pushViewController:VC animated:YES];
+            UIAlertAction * vipAction = [UIAlertAction actionWithTitle:@"开通SVIP" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
+                LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
+                [self.navigationController pushViewController:mvc animated:YES];
+            }];
+            UIAlertAction * action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
+            if (PHONEVERSION.doubleValue >= 8.3) {
+                [action setValue:[UIColor lightGrayColor] forKey:@"_titleTextColor"];
+                [vipAction setValue:MainColor forKey:@"_titleTextColor"];
+                [addFriendAction setValue:MainColor forKey:@"_titleTextColor"];
+            }
+            [alert addAction:action];
+            [alert addAction:addFriendAction];
+            [alert addAction:vipAction];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
     }];
     
     UIAlertAction * cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
@@ -976,24 +1001,52 @@
     }];
     
     UIAlertAction *describeAction = [UIAlertAction actionWithTitle:@"详细描述(好友/svip)" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
-        VC.type = @"5";
-        VC.block = ^(NSString *content) {
-            NSString *url = [PICHEADURL stringByAppendingString:lmarkName];
-            NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
-            NSString *fuid = self.userID;
-            NSString *lmarkname = content;
-            NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"lmarkname":lmarkname?:@""};
-            [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
-                if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
-                    [MBProgressHUD showSuccess:@"备注成功"];
-                    [self.tableView.mj_header beginRefreshing];
-                }
-            } failed:^(NSString *errorMsg) {
+        
+        if ([self.followState intValue]==3||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue]==1) {
+            LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
+            VC.type = @"5";
+            VC.content = self.lmarkNameStr;
+            VC.block = ^(NSString *content) {
                 
+                NSString *url = [PICHEADURL stringByAppendingString:lmarkName];
+                NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+                NSString *fuid = self.userID;
+                NSString *lmarkname = content;
+                NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"lmarkname":lmarkname?:@""};
+                [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
+                    if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
+                        [MBProgressHUD showSuccess:@"备注成功"];
+                        [self.tableView.mj_header beginRefreshing];
+                    }
+                } failed:^(NSString *errorMsg) {
+                    
+                }];
+
+                
+            };
+            [self.navigationController pushViewController:VC animated:YES];
+
+        } else {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"仅限好友/SVIP可用"    preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction * addFriendAction = [UIAlertAction actionWithTitle:@"加好友" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
+                [self attentButtonClickState:_attentStatus];
             }];
-        };
-        [self.navigationController pushViewController:VC animated:YES];
+            UIAlertAction * vipAction = [UIAlertAction actionWithTitle:@"开通SVIP" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
+                LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
+                [self.navigationController pushViewController:mvc animated:YES];
+            }];
+            UIAlertAction * action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
+            if (PHONEVERSION.doubleValue >= 8.3) {
+                [action setValue:[UIColor lightGrayColor] forKey:@"_titleTextColor"];
+                [vipAction setValue:MainColor forKey:@"_titleTextColor"];
+                [addFriendAction setValue:MainColor forKey:@"_titleTextColor"];
+            }
+            [alert addAction:action];
+            [alert addAction:addFriendAction];
+            [alert addAction:vipAction];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
+        
     }];
     
     UIAlertAction *adminnoteAction = [UIAlertAction actionWithTitle:@"管理备注" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

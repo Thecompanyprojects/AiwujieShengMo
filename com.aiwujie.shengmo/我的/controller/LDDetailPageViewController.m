@@ -108,26 +108,26 @@
                 
                 int Nums = [self.numStr intValue];
                 if (Nums<100) {
-                    [MBProgressHUD showMessage:@"您的银魔豆不足"];
+                    [MBProgressHUD showMessage:@"您的银魔豆不足" toView:self.view];
                     return ;
                 }
-                
+             
                 NSString *url = [PICHEADURL stringByAppendingString:changeexBeans];
                 NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
                 NSMutableDictionary *para = [NSMutableDictionary new];
                 [para setDictionary:dic];
                 [para setValue:uid forKey:@"uid"];
-                
+
                 [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
                     if ([[responseObj objectForKey:@"retcode"] intValue]==1000) {
-                        [MBProgressHUD showMessage:[responseObj objectForKey:@"兑换成功"]];
+                       [MBProgressHUD showMessage:@"兑换成功" toView:self.view];
                     }
                     else
                     {
-                        [MBProgressHUD showMessage:[responseObj objectForKey:@"兑换失败"]];
+                       [MBProgressHUD showMessage:@"兑换失败" toView:self.view];
                     }
                 } failed:^(NSString *errorMsg) {
-                    
+
                 }];
 
                 

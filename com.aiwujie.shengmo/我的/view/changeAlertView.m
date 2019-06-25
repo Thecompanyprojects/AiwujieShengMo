@@ -115,7 +115,7 @@
     if(!_titleLab)
     {
         _titleLab = [UILabel new];
-        _titleLab.text = @"礼物魔豆兑换充值魔豆(2:1)";
+        _titleLab.text = @"银魔豆兑换金魔豆(2:1)";
         _titleLab.font = [UIFont systemFontOfSize:16];
         _titleLab.textColor = MainColor;
         _titleLab.textAlignment = NSTextAlignmentCenter;
@@ -130,7 +130,7 @@
         _leftLab0 = [UILabel new];
         _leftLab0.font = [UIFont systemFontOfSize:12];
         _leftLab0.textColor = TextCOLOR;
-        _leftLab0.text = @"礼物魔豆";
+        _leftLab0.text = @"银魔豆";
     }
     return _leftLab0;
 }
@@ -142,7 +142,7 @@
         _leftLab1 = [UILabel new];
         _leftLab1.font = [UIFont systemFontOfSize:12];
         _leftLab1.textColor = TextCOLOR;
-        _leftLab1.text = @"充值魔豆";
+        _leftLab1.text = @"金魔豆";
     }
     return _leftLab1;
 }
