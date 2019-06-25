@@ -22,12 +22,6 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZKm-cV-geZ">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                     <subviews>
-                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="榜单花边" translatesAutoresizingMaskIntoConstraints="NO" id="PCx-EG-EhH">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="44" id="vJf-Xx-YXE"/>
-                            </constraints>
-                        </imageView>
                         <button opaque="NO" tag="100" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Tc-Nh-OBM">
                             <rect key="frame" x="18" y="20" width="96" height="32"/>
                             <constraints>
@@ -70,6 +64,12 @@
                                 <action selector="buttonClick:" destination="-1" eventType="touchUpInside" id="QRh-Hj-hDO"/>
                             </connections>
                         </button>
+                        <imageView contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="榜单花边" translatesAutoresizingMaskIntoConstraints="NO" id="PCx-EG-EhH">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44" id="vJf-Xx-YXE"/>
+                            </constraints>
+                        </imageView>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>

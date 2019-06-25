@@ -117,7 +117,6 @@
                 newLabel.font = [UIFont italicSystemFontOfSize:wordFont];//设置字体为斜体
                 newLabel.textColor = [UIColor redColor];
                 [privilegeView addSubview:newLabel];
-                
             }
         }
 

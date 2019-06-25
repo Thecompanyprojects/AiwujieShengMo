@@ -81,6 +81,7 @@
                 <outlet property="introduceWarnLabel" destination="7Hu-Ue-uIg" id="vfu-Av-pAw"/>
                 <outlet property="leftyinhao" destination="6CT-pW-yn6" id="u1J-jV-gtv"/>
                 <outlet property="levelLabel" destination="A2l-i4-HP4" id="dLz-30-G4u"/>
+                <outlet property="lmarknameH" destination="XNA-JA-2xB" id="tTe-uV-KzO"/>
                 <outlet property="lmarknameLab" destination="duJ-VA-DTA" id="tPM-h1-7Fo"/>
                 <outlet property="locationLabel" destination="cF3-6t-6iI" id="KT4-yr-FJ0"/>
                 <outlet property="locationView" destination="mOE-mr-WbL" id="ns4-LB-hdr"/>

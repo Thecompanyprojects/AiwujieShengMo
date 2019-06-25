@@ -2065,7 +2065,7 @@
     
     if (self.lmarkNameStr.length!=0) {
         self.lmarknameLab.text = self.lmarkNameStr;
-        hei1 = 24;
+        hei1 = 32;
     }
     else
     {
@@ -2130,8 +2130,6 @@
         self.backGroundViewH.constant = 240+self.markfloat0+hei1-self.markfloat1;
         
     }
-
-
     
     if ([dic[@"realname"] intValue] == 0) {
         if ([self.userID intValue] == [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]){

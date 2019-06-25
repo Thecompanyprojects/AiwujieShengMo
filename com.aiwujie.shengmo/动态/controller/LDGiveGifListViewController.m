@@ -46,6 +46,7 @@
                            barMetrics:UIBarMetricsDefault];
     [navigationBar setShadowImage:nil];
     
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -58,6 +59,7 @@
                        forBarPosition:UIBarPositionAny
                            barMetrics:UIBarMetricsDefault];
     [navigationBar setShadowImage:[UIImage new]];
+    
 }
 
 - (void)viewDidLoad {

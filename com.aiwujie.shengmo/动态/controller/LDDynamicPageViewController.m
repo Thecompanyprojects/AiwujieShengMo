@@ -27,7 +27,7 @@
 #import "LDStandardViewController.h"
 #import "ThinkVerb.h"
 
-#define DYNAMICWARNH 23
+#define DYNAMICWARNH 33
 
 @interface LDDynamicPageViewController ()<UITableViewDelegate,UITableViewDataSource,DynamicDelegate,UIScrollViewDelegate,YBAttributeTapActionDelegate,SDCycleScrollViewDelegate>
 
@@ -1050,34 +1050,63 @@
                 [button addTarget:self action:@selector(titleButtonClick:) forControlEvents:UIControlEventTouchUpInside];
                 [view addSubview:button];
             }
-            
             if (_topicArray.count != 0) {
-                
                 [self createTopicView:headView andHeight:DYANDNERHEIGHT];
-                
                 [self createWarnButtonWith:headView andOrignY:DYANDNERHEIGHT + 50];
-                
             }else{
-                
                 [self createWarnButtonWith:headView andOrignY:DYANDNERHEIGHT];
             }
 
             return headView;
         }
-        
     }
-
     return [[UIView alloc] init];
 }
 
 - (void)createWarnButtonWith:(UIView *)headView andOrignY:(CGFloat)y{
     
-    UIButton *warnButton = [[UIButton alloc] initWithFrame:CGRectMake(0, y - 1.5, WIDTH, DYNAMICWARNH)];
-    [warnButton setTitle:@"SVIP发布的动态将被自动推荐(点击查看)" forState:UIControlStateNormal];
-    warnButton.titleLabel.font = [UIFont systemFontOfSize:12];
-    [warnButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    [warnButton addTarget:self action:@selector(warnButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    [headView addSubview:warnButton];
+//    UIButton *warnButton = [[UIButton alloc] initWithFrame:CGRectMake(0, y - 1.5, WIDTH, DYNAMICWARNH)];
+//    [warnButton setTitle:@"SVIP发布的动态将被自动推荐(点击查看)" forState:UIControlStateNormal];
+//    warnButton.titleLabel.font = [UIFont systemFontOfSize:12];
+//    [warnButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+//    [warnButton addTarget:self action:@selector(warnButtonClick) forControlEvents:UIControlEventTouchUpInside];
+//    [headView addSubview:warnButton];
+//
+    UIButton *leftBtn = [UIButton new];
+    leftBtn.frame = CGRectMake(0, y - 1.5, WIDTH/2, 30);
+    [headView addSubview:leftBtn];
+    [leftBtn setTitle:@"推荐" forState:normal];
+    leftBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    [leftBtn setTitleColor:MainColor forState:normal];
+    leftBtn.tag = 2000;
+    [leftBtn addTarget:self action:@selector(leftChooseclick) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *rightBtn = [UIButton new];
+    rightBtn.frame = CGRectMake(WIDTH/2, y - 1.5, WIDTH/2, 30);
+    [headView addSubview:rightBtn];
+    rightBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+    [rightBtn setTitle:@"推顶" forState:normal];
+    [rightBtn setTitleColor:[UIColor darkGrayColor] forState:normal];
+    rightBtn.tag = 2001;
+    [rightBtn addTarget:self action:@selector(rightChooseclick) forControlEvents:UIControlEventTouchUpInside];
+    
+}
+
+-(void)leftChooseclick
+{
+    UIButton *btn0 = [self.tableView viewWithTag:2000];
+    UIButton *btn1 = [self.tableView viewWithTag:2001];
+    [btn0 setTitleColor:MainColor forState:normal];
+    [btn1 setTitleColor:[UIColor darkGrayColor] forState:normal];
+}
+
+-(void)rightChooseclick
+{
+    UIButton *btn0 = [self.tableView viewWithTag:2000];
+    UIButton *btn1 = [self.tableView viewWithTag:2001];
+    [btn1 setTitleColor:MainColor forState:normal];
+    [btn0 setTitleColor:[UIColor darkGrayColor] forState:normal];
+    
 }
 
 - (void)warnButtonClick{
