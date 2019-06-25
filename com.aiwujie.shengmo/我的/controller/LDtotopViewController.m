@@ -20,6 +20,7 @@
 @property (nonatomic,strong) NSMutableArray *shopArray;
 @property (nonatomic,copy) NSString *numberStr;
 @property (nonatomic,strong) LdtopHeaderView *headView;
+@property (nonatomic,strong) UILabel *messageLab;
 @end
 
 static NSString *ldtopidentfid = @"ldtopidentfid";
@@ -44,6 +45,7 @@ static float AD_height = 180;//头部高度
     //向苹果询问哪些商品能够购买
     [IAPTool requestProductsWithProductArray:self.shopArray];
     [self.view addSubview:self.collectionView];
+    [self.view addSubview:self.messageLab];
     [self createRightButton];
     [self createData];
 }
@@ -263,5 +265,27 @@ static float AD_height = 180;//头部高度
     [hud hide:YES];
     [MBProgressHUD showMessage:@"系统出错了"];
 }
+
+-(UILabel *)messageLab
+{
+    if(!_messageLab)
+    {
+        _messageLab = [[UILabel alloc] init];
+        if (ISIPHONEX) {
+            _messageLab.frame = CGRectMake(20, HEIGHT-34-240-IPHONEXTOPH, WIDTH-40, 32);
+        }
+        else
+        {
+            _messageLab.frame = CGRectMake(20, HEIGHT-64-200*W_screen, WIDTH-40, 32);
+        }
+        _messageLab.textColor = TextCOLOR;
+        _messageLab.font = [UIFont systemFontOfSize:13];
+        _messageLab.numberOfLines = 0;
+        _messageLab.text = @"“推顶卡”可将动态推至最顶部，获得更多浏览、评论、点赞。同时还可以增加相应的魅力值~";
+        [_messageLab sizeToFit];
+    }
+    return _messageLab;
+}
+
 
 @end

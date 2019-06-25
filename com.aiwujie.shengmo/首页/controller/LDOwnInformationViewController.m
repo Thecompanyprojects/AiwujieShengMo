@@ -341,6 +341,7 @@
 @property (nonatomic,assign) CGFloat markfloat1;
 @property (weak, nonatomic) IBOutlet UILabel *rightyinhao;
 @property (weak, nonatomic) IBOutlet UILabel *leftyinhao;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *lmarknameH;
 
 @end
 
@@ -2065,7 +2066,7 @@
         }
     }
     
-    self.lmarkNameStr = @"我是描述信息我是描述信息我是描述信息我是描述信息我是描述信息我是描述信息";
+//    self.lmarkNameStr = @"我是描述信息我是描述信息我是描述信息我是描述信息我是描述信息我是描述信息";
     
     CGFloat hei1 = 0.0f;
     
@@ -2074,7 +2075,16 @@
         self.lmarknameLab.text = self.lmarkNameStr;
         hei1 = 24;
     }
+    else
+    {
+        [self.leftyinhao setHidden:YES];
+        [self.rightyinhao setHidden:YES];
+    }
 
+    self.lmarknameLab.userInteractionEnabled = YES;
+    UITapGestureRecognizer *labelTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(labelTouchUpInside:)];
+    [self.lmarknameLab addGestureRecognizer:labelTapGestureRecognizer];
+    
     
     
     //展示用户信息的view的设置
@@ -2110,7 +2120,7 @@
         self.nameY.constant = 40+self.markfloat0;
         self.idViewY.constant = 44+self.markfloat0;
         self.onlineViewY.constant = 47+self.markfloat0;
-
+        self.lmarknameH.constant = 35;
         self.backAlhpaH.constant = 300+self.markfloat0+hei1-self.markfloat1;
         self.backGroundViewH.constant = 300+self.markfloat0+hei1-self.markfloat1;
     }
@@ -2315,6 +2325,55 @@
     [self getWealthAndCharmState:_charmLabel andView:_charmView andText:dic[@"charm_val"] andNSLayoutConstraint:_charmW andType:@"魅力"];
 }
 
+
+-(void)labelTouchUpInside:(UITapGestureRecognizer *)recognizer{
+    
+    if ([self.followState intValue]==3||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue]==1) {
+        LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
+        VC.type = @"5";
+        VC.content = self.lmarkNameStr;
+        VC.block = ^(NSString *content) {
+            
+            NSString *url = [PICHEADURL stringByAppendingString:lmarkName];
+            NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+            NSString *fuid = self.userID;
+            NSString *lmarkname = content;
+            NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"lmarkname":lmarkname?:@""};
+            [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
+                if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
+                    [MBProgressHUD showSuccess:@"备注成功"];
+                    [self.tableView.mj_header beginRefreshing];
+                }
+            } failed:^(NSString *errorMsg) {
+                
+            }];
+            
+            
+        };
+        [self.navigationController pushViewController:VC animated:YES];
+        
+    } else {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"仅限好友/SVIP可用"    preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction * addFriendAction = [UIAlertAction actionWithTitle:@"加好友" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
+            [self attentButtonClickState:_attentStatus];
+        }];
+        UIAlertAction * vipAction = [UIAlertAction actionWithTitle:@"开通SVIP" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
+            LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
+            [self.navigationController pushViewController:mvc animated:YES];
+        }];
+        UIAlertAction * action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
+        if (PHONEVERSION.doubleValue >= 8.3) {
+            [action setValue:[UIColor lightGrayColor] forKey:@"_titleTextColor"];
+            [vipAction setValue:MainColor forKey:@"_titleTextColor"];
+            [addFriendAction setValue:MainColor forKey:@"_titleTextColor"];
+        }
+        [alert addAction:action];
+        [alert addAction:addFriendAction];
+        [alert addAction:vipAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+    
+}
 /**
  * 点击认证照公开不公开按钮
  */
