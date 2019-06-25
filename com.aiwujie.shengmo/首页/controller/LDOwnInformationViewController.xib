@@ -1194,7 +1194,7 @@
                 <constraint firstAttribute="bottom" secondItem="wDT-WH-7Yx" secondAttribute="bottom" constant="32" id="vYA-wH-GxO"/>
                 <constraint firstAttribute="bottom" secondItem="GLy-uF-Xy5" secondAttribute="bottom" constant="32" id="z0E-T2-GmX"/>
             </constraints>
-            <point key="canvasLocation" x="550.72463768115949" y="-480.16304347826093"/>
+            <point key="canvasLocation" x="125" y="-247"/>
         </view>
         <tapGestureRecognizer id="ImC-dr-Ube">
             <connections>
