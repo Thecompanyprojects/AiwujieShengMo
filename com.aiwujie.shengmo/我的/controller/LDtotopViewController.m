@@ -70,7 +70,6 @@ static float AD_height = 180;//头部高度
 }
 
 -(void)createRightButton{
-    //右侧下拉列表
     UIButton *rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
     [rightButton setTitle:@"明细" forState:UIControlStateNormal];
     rightButton.titleLabel.font = [UIFont systemFontOfSize:12];

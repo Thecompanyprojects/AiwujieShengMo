@@ -297,7 +297,14 @@
         }
         if (indexPath.section==2) {
             if (self.isSvip) {
-                if (indexPath.row==2) {
+                if (indexPath.row==1) {
+                    UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(cell.nameLabel.frame)-75, CGRectGetMinY(cell.nameLabel.frame)+5, 50, 13)];
+                    newLabel.text = @"new";
+                    newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
+                    newLabel.textColor = [UIColor redColor];
+                    [cell addSubview:newLabel];
+                }
+                else if (indexPath.row==2) {
                     if (self.ischar_rule) {
                         cell.detailLabel.text = @"好友/邮票/SVIP";
                     }
@@ -305,11 +312,22 @@
                     {
                         cell.detailLabel.text = @"所有人";
                     }
+                    
+                    UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(cell.nameLabel.frame)-55, CGRectGetMinY(cell.nameLabel.frame)+5, 50, 13)];
+                    newLabel.text = @"new";
+                    newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
+                    newLabel.textColor = [UIColor redColor];
+                    [cell addSubview:newLabel];
                    
                 }
-                if (indexPath.row==3) {
+                else  if (indexPath.row==3) {
                     cell.lineView.hidden = YES;
                     
+                    UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(cell.nameLabel.frame)-75, CGRectGetMinY(cell.nameLabel.frame)+5, 50, 13)];
+                    newLabel.text = @"new";
+                    newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
+                    newLabel.textColor = [UIColor redColor];
+                    [cell addSubview:newLabel];
                 }
                 else
                 {
@@ -318,8 +336,17 @@
             }
             else
             {
-                if (indexPath.row==2) {
+                if (indexPath.row==1) {
+                    UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(cell.nameLabel.frame)-75, CGRectGetMinY(cell.nameLabel.frame)+5, 50, 13)];
+                    newLabel.text = @"new";
+                    newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
+                    newLabel.textColor = [UIColor redColor];
+                    [cell addSubview:newLabel];
+                }
+                else if (indexPath.row==2) {
                     cell.lineView.hidden = YES;
+                    
+                   
                 }
                 else
                 {

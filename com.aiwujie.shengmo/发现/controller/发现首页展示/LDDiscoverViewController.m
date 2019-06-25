@@ -27,6 +27,7 @@
 #import "LDOwnInformationViewController.h"
 #import "LDDynamicDetailViewController.h"
 
+
 @interface LDDiscoverViewController ()<SDCycleScrollViewDelegate>
 
 //九宫格的图片名称数组

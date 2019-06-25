@@ -341,6 +341,7 @@
 @property (nonatomic,assign) CGFloat markfloat1;
 @property (weak, nonatomic) IBOutlet UILabel *rightyinhao;
 @property (weak, nonatomic) IBOutlet UILabel *leftyinhao;
+
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *lmarknameH;
 
 @end
@@ -457,16 +458,7 @@
     //监听绑定手机号成功
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindPhoneNumSuccess) name:@"绑定手机号码成功" object:nil];
     
-    UIButton *timeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.headBackView addSubview:timeBtn];
-    [timeBtn setImage:[UIImage imageNamed:@"历史昵称(svip)"] forState:normal];
-    [timeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.onlineView.mas_right).with.offset(4);
-        make.centerY.equalTo(self.onlineView);
-        make.width.mas_offset(13);
-        make.height.mas_offset(13);
-    }];
-    [timeBtn addTarget:self action:@selector(timeBtnclick) forControlEvents:UIControlEventTouchUpInside];
+   
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -2318,6 +2310,18 @@
         
         self.onlineView.hidden = NO;
     }
+    
+    
+    UIButton *timeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.headBackView addSubview:timeBtn];
+    [timeBtn setImage:[UIImage imageNamed:@"历史昵称"] forState:normal];
+    [timeBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.onlineView.mas_right).with.offset(4);
+        make.centerY.equalTo(self.onlineView);
+        make.width.mas_offset(13);
+        make.height.mas_offset(13);
+    }];
+    [timeBtn addTarget:self action:@selector(timeBtnclick) forControlEvents:UIControlEventTouchUpInside];
     
     //获取展示的财富值和魅力值
     [self getWealthAndCharmState:_wealthLabel andView:_wealthView andText:dic[@"wealth_val"] andNSLayoutConstraint:_wealthW andType:@"财富"];

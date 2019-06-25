@@ -42,7 +42,7 @@
                         </button>
                         <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NQI-vK-ceZ">
                             <rect key="frame" x="133" y="28" width="109" height="16"/>
-                            <state key="normal" title="赠送VIP">
+                            <state key="normal" title="动态推顶">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>
@@ -63,7 +63,7 @@
                         </view>
                         <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3IW-yl-mRt">
                             <rect key="frame" x="260" y="21" width="107" height="30"/>
-                            <state key="normal" title="动态推顶">
+                            <state key="normal" title="赠送VIP">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
                             <connections>

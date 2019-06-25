@@ -312,6 +312,17 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.headView.image = [UIImage imageNamed:_dataArray[indexPath.section][indexPath.row]];
     cell.nameLabel.text = _dataArray[indexPath.section][indexPath.row];
+    
+    if (indexPath.row==2) {
+
+        UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(cell.nameLabel.frame)-55, CGRectGetMinY(cell.nameLabel.frame)+5, 50, 13)];
+        newLabel.text = @"new";
+        newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
+        newLabel.textColor = [UIColor redColor];
+        [cell addSubview:newLabel];
+        
+    }
+    
     if (indexPath.section == 0 && indexPath.row == 0) {
         if (_lookBadge.length != 0) {
             cell.badgeLabel.hidden = NO;
@@ -334,6 +345,11 @@
         cell.lineView.hidden = YES;
     }else if (indexPath.section == 2 && indexPath.row == 0){
         cell.lineView.hidden = YES;
+        UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(cell.nameLabel.frame)-85, CGRectGetMinY(cell.nameLabel.frame)+5, 50, 13)];
+        newLabel.text = @"new";
+        newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
+        newLabel.textColor = [UIColor redColor];
+        [cell addSubview:newLabel];
     }else{
         cell.lineView.hidden = NO;
     }

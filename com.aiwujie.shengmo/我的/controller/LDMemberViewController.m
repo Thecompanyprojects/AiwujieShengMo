@@ -12,6 +12,7 @@
 #import "LDMemberPageViewController.h"
 #import <StoreKit/StoreKit.h>
 #import <AFNetworkReachabilityManager.h>
+#import "LDBillPageViewController.h"
 
 @interface LDMemberViewController ()<SKPaymentTransactionObserver,SKProductsRequestDelegate,UIPageViewControllerDelegate,UIPageViewControllerDataSource>{
     
@@ -148,6 +149,27 @@
     
     //创建购买的按钮
     [self createBuyButton];
+    [self createRightButton];
+}
+
+
+-(void)createRightButton{
+    //右侧下拉列表
+    UIButton *rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    [rightButton setTitle:@"明细" forState:UIControlStateNormal];
+    rightButton.titleLabel.font = [UIFont systemFontOfSize:12];
+    [rightButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [rightButton addTarget:self action:@selector(rightButtonOnClic) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+}
+
+
+-(void)rightButtonOnClic
+{
+    LDBillPageViewController *vc = [LDBillPageViewController new];
+    vc.isfromVip = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 /**

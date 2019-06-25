@@ -28,7 +28,8 @@
         
         LDBillViewController *v1 = [[LDBillViewController alloc] init];
         LDBillViewController *v2 = [[LDBillViewController alloc] init];
-        
+        v1.isfromVip = self.isfromVip;
+        v2.isfromVip = self.isfromVip;
         [arrayM addObject:v1];
         [arrayM addObject:v2];
         
@@ -42,7 +43,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.navigationItem.title = @"充值明细";
+    if (self.isfromVip) {
+        self.navigationItem.title = @"会员明细";
+    }
+    else
+    {
+        self.navigationItem.title = @"充值明细";
+    }
+
     
     //生成翻页控制器
     [self createPageViewController];

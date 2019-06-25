@@ -55,9 +55,19 @@
 
 -(void)createDatatype:(NSString *)type{
     
-    //AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getPresentMsg"];
-    NSDictionary *parameters = @{@"page":[NSString stringWithFormat:@"%d",_tablePage],@"type":self.content};
+    NSString *contentss = [NSString new];
+    if ([self.content isEqualToString:@"0"]) {
+        contentss = @"0";
+    }
+    if ([self.content isEqualToString:@"1"]) {
+        contentss = @"0";
+    }
+    if ([self.content isEqualToString:@"2"]) {
+        contentss = @"1";
+    }
+    
+    NSDictionary *parameters = @{@"page":[NSString stringWithFormat:@"%d",_tablePage],@"type":contentss};
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000 && integer != 2001) {
@@ -185,10 +195,13 @@
         if ([self.content isEqualToString:@"0"]) {
             lab.text = @"送500魔豆以上的礼物可上大喇叭";
         }
-        else{
+        if ([self.content isEqualToString:@"1"]) {
+            lab.text = @"推顶动态可上大喇叭";
+        }
+        if ([self.content isEqualToString:@"2"]) {
             lab.text = @"送会员可上大喇叭";
         }
-        
+  
     }
     return _headerView;
 }

@@ -13,9 +13,7 @@
 -(instancetype)initWithCoder:(NSCoder *)aDecoder{
     
     if (self = [super initWithCoder:aDecoder]) {
-        
-        
-        
+
     }
     
     return self;
@@ -60,14 +58,16 @@
         
         sectionLabel.text = @"VIP会员特权";
         
-        array = @[@"[专属]-尊贵紫V表示身份",@"[专属]-可看到Ta的最后登录时间",@"[专属]-查看谁看过我,知道谁对我感兴趣",@"[专属]-可查看动态广场,浏览所有用户发布的最新动态",@"[专属]-可查看他人相册、自我介绍、动态",@"[专属]-可使用地图找人特权,穿越地球去找你",@"[专属]-可使用高级搜索功能",@"[专属]-可出现在附近-推荐中(年会员最靠前)",@"[专属]-可立即创建500人群(年会员1000人)",@"[专属]-群成员列表排名靠前",@"[专属]-每月可修改3次昵称",@"[专属]-可使用相册的加密功能,照片由6张升级为15张",@"[专属]-可在个人主页置顶一篇动态",@"[专属]-可预推荐自己或他人动态",@"[专属]-发布的动态将会被优先推荐"];
+        array = @[@"[专属]-尊贵V标识身份",@"[专属]-可备注所有人昵称",@"[专属]-可看到Ta的最后登陆时间",@"[专属]-可查看所有人相册、动态、评论",@"[专属]-可使用地图找人特权，穿越地球去找你",@"[专属]-可使用高级搜索功能",@"[专属]-可出现在附近-推荐中（年会员更靠前)",@"[专属]-每月可修改3次昵称",@"[专属]-聊天对话页显示紫色昵称",@"[专属]-可使用相册的加密功能，照片由6张升级为15张",@"[专属]-个人主页语音介绍由10秒增至30秒",@"[专属]-可在个人主页置顶一篇动态",@"[专属]-每日关注人数不受限制"];
         
     }else{
         
         sectionLabel.text = @"SVIP会员特权";
         
-        array = @[@"[专属]-发消息无需邮票,无限畅聊",@"[专属]-其他人给SVIP发消息也无需邮票",@"[专属]-包含普通VIP会员所有特权",@"[专属]-修改昵称不限次数",@"[专属]-发布的动态将自动被推荐",@"[专属]-聊天对话页显示红色昵称",@"[专属]-可创建1500人群组(年会员2000人)",@"[专属]-可编辑已发布动态",@"[专属]-各列表排名最前",@"[专属]-优先成为官方群组管理员",@"[专属]-豪华金V标识"];
+        array = @[@"[专属]-包含普通VIP会员所有特权",@"[专属]-发消息无需邮票，无限畅聊",@"[专属]-可设置所有人无需邮票直接给我发消息",@"[专属]-年费SVIP将在“身边”推顶一个月",@"[专属]-可查看所有人历史昵称",@"[专属]-修改昵称不限次数",@"[专属]-发布的动态将自动被推荐",@"[专属]-聊天对话页显示红色昵称",@"[专属]-可编辑已发布动态",@"[专属]-各列表排名最前",@"[专属]-豪华金V标识"];
     }
+    
+    
     
     CGFloat lineSpace = 6;
     
@@ -99,10 +99,21 @@
         
         if ([type intValue] != 0) {
             
-            if (i == 3 || i==4) {
+            if (i == 4 || i==3) {
                 
                 UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label.frame)+ 5, CGRectGetMinY(label.frame), 50, 15)];
-                newLabel.text = @"new~";
+                newLabel.text = @"new";
+                newLabel.font = [UIFont italicSystemFontOfSize:wordFont];//设置字体为斜体
+                newLabel.textColor = [UIColor redColor];
+                [privilegeView addSubview:newLabel];
+                
+            }
+        }
+        if ([type intValue]==0) {
+            if (i == 1) {
+                
+                UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label.frame)+ 5, CGRectGetMinY(label.frame), 50, 15)];
+                newLabel.text = @"new";
                 newLabel.font = [UIFont italicSystemFontOfSize:wordFont];//设置字体为斜体
                 newLabel.textColor = [UIColor redColor];
                 [privilegeView addSubview:newLabel];
