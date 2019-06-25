@@ -57,7 +57,7 @@
                             <rect key="frame" x="31" y="45" width="70" height="2"/>
                             <color key="backgroundColor" red="0.71683843089999999" green="0.22636065729999999" blue="0.79763487840000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
-                        <view hidden="YES" tag="201" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YU1-U8-6Jl">
+                        <view hidden="YES" tag="202" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YU1-U8-6Jl">
                             <rect key="frame" x="282" y="45" width="63" height="2"/>
                             <color key="backgroundColor" red="0.71683843089999999" green="0.22636065729999999" blue="0.79763487840000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>

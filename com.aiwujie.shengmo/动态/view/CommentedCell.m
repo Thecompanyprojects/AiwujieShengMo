@@ -86,6 +86,11 @@
         self.contentLabel.isCopyable = NO;
     
         self.contentLabel.text = [NSString stringWithFormat:@"%@打赏了你",model.nickname];
+    }else if ([self.type intValue] == 4){
+        
+        self.contentLabel.isCopyable = NO;
+        
+        self.contentLabel.text = [NSString stringWithFormat:@"%@推顶了你",model.nickname];
     }
     
     

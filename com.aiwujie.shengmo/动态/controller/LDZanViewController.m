@@ -13,15 +13,10 @@
 #import "LDDynamicDetailViewController.h"
 
 @interface LDZanViewController ()<UITableViewDelegate,UITableViewDataSource>
-
 @property (nonatomic,strong) UITableView *tableView;
-
 @property (nonatomic,strong) NSMutableArray *dataArray;
-
 @property (nonatomic,assign) int page;
-
 @property (nonatomic,assign) CGFloat cellH;
-
 @end
 
 @implementation LDZanViewController
@@ -29,7 +24,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
     self.navigationItem.title = @"赞过我的";
     _dataArray = [NSMutableArray array];
     [self createTableView];
@@ -107,47 +101,32 @@
         cell = [[NSBundle mainBundle] loadNibNamed:@"CommentedCell" owner:self options:nil].lastObject;
     }
     CommentedModel *model = _dataArray[indexPath.section];
-    cell.type = @"2";
+    cell.type = @"5";
     cell.model = model;
     _cellH = cell.contentView.frame.size.height;
     [cell.headButton addTarget:self action:@selector(headButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [cell.lookDynamicButton addTarget:self action:@selector(lookDynamicButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     return cell;
-    
 }
 
 -(void)lookDynamicButtonClick:(UIButton *)button{
-    
     CommentedCell *cell = (CommentedCell *)button.superview.superview;
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
     CommentedModel *model = _dataArray[indexPath.section];
-    
     LDDynamicDetailViewController *dvc = [[LDDynamicDetailViewController alloc] init];
-    
     dvc.did = model.did;
-    
     dvc.ownUid = model.uid;
-    
     [self.navigationController pushViewController:dvc animated:YES];
 }
 
 -(void)headButtonClick:(UIButton *)button{
-    
     CommentedCell *cell = (CommentedCell *)button.superview.superview;
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
     CommentedModel *model = _dataArray[indexPath.section];
-    
     LDOwnInformationViewController *ivc = [[LDOwnInformationViewController alloc] init];
-    
     ivc.userID = model.uid;
-    
     [self.navigationController pushViewController:ivc animated:YES];
 }
-
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
@@ -177,15 +156,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

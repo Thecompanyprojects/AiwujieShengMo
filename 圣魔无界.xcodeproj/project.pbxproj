@@ -278,6 +278,7 @@
 		53F3B95222B73DC600F0EDF5 /* NullSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 53F3B95122B73DC600F0EDF5 /* NullSafe.m */; };
 		53F3B95522B74C1900F0EDF5 /* newsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53F3B95422B74C1900F0EDF5 /* newsManager.swift */; };
 		53FBA90E22C05FEC00990C28 /* LDhistoryViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 53FBA90D22C05FEC00990C28 /* LDhistoryViewModel.m */; };
+		53FBA91122C1AA6400990C28 /* LDtopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53FBA91022C1AA6400990C28 /* LDtopViewController.m */; };
 		D20016D01F46C4160045D0A2 /* TAAbstractDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D20016C31F46C4160045D0A2 /* TAAbstractDotView.m */; };
 		D20016D11F46C4160045D0A2 /* TAAnimatedDotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D20016C51F46C4160045D0A2 /* TAAnimatedDotView.m */; };
 		D20016D21F46C4160045D0A2 /* TADotView.m in Sources */ = {isa = PBXBuildFile; fileRef = D20016C71F46C4160045D0A2 /* TADotView.m */; };
@@ -938,6 +939,8 @@
 		53F3B95422B74C1900F0EDF5 /* newsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = newsManager.swift; sourceTree = "<group>"; };
 		53FBA90C22C05FEC00990C28 /* LDhistoryViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDhistoryViewModel.h; sourceTree = "<group>"; };
 		53FBA90D22C05FEC00990C28 /* LDhistoryViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDhistoryViewModel.m; sourceTree = "<group>"; };
+		53FBA90F22C1AA6400990C28 /* LDtopViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDtopViewController.h; sourceTree = "<group>"; };
+		53FBA91022C1AA6400990C28 /* LDtopViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDtopViewController.m; sourceTree = "<group>"; };
 		9A89452E2B9EA4A7089D17A7 /* Pods-圣魔无界.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-圣魔无界.debug.xcconfig"; path = "Pods/Target Support Files/Pods-圣魔无界/Pods-圣魔无界.debug.xcconfig"; sourceTree = "<group>"; };
 		CF0643EA17B0DA53D0932F1A /* libPods-圣魔无界.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-圣魔无界.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D20016C21F46C4160045D0A2 /* TAAbstractDotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TAAbstractDotView.h; sourceTree = "<group>"; };
@@ -2715,6 +2718,8 @@
 				D2FB6BB61EBB24E000167FFA /* LDAtViewController.h */,
 				D2FB6BB71EBB24E000167FFA /* LDAtViewController.m */,
 				D2FB6BB81EBB24E000167FFA /* LDAtViewController.xib */,
+				53FBA90F22C1AA6400990C28 /* LDtopViewController.h */,
+				53FBA91022C1AA6400990C28 /* LDtopViewController.m */,
 			);
 			name = "动态消息";
 			sourceTree = "<group>";
@@ -3643,6 +3648,7 @@
 				00E60CD11E2515100078779C /* LDHelpViewController.m in Sources */,
 				D21638301F8B676800EAB501 /* LDLookOrBeLookPageViewController.m in Sources */,
 				0043DB501E2B743400577DE5 /* GroupSqureCell.m in Sources */,
+				53FBA91122C1AA6400990C28 /* LDtopViewController.m in Sources */,
 				000D93E41E0D79070076931E /* CollectCell.m in Sources */,
 				00EF77D91E3788CF00FDF998 /* LDGetListViewController.m in Sources */,
 				D20FD3AB1F95A563007E0A03 /* LDOwnInfoDynamicCommentViewController.m in Sources */,

@@ -915,9 +915,6 @@
     
     if ([self.content intValue] == 0  && section == 0) {
         
-//        NSArray *imageName = @[@"动态打赏榜",@"动态人气榜",@"动态活跃榜",@"动态话题",@"动态消息"];
-//        NSArray *titleName = @[@"打赏榜",@"人气榜",@"活跃榜",@"话题",@"动态消息"];
-        
         NSArray *imageName = @[@"动态打赏榜",@"动态人气榜",@"动态活跃榜",@"动态消息"];
         NSArray *titleName = @[@"打赏榜",@"人气榜",@"活跃榜",@"动态消息"];
         

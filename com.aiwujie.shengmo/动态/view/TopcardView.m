@@ -19,8 +19,6 @@
 
 @end
 
-
-
 @implementation TopcardView
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -185,7 +183,6 @@
 
 -(void)singleTapAction
 {
-   
     if ([self.numberStr isEqualToString:@"0"]||self.numberStr.length==0) {
         if (self.alertClick) {
             self.alertClick([NSString new]);

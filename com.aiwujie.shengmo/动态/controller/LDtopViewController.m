@@ -1,39 +1,32 @@
 //
-//  LDRewardViewController.m
-//  com.aiwujie.shengmo
+//  LDtopViewController.m
+//  圣魔无界
 //
-//  Created by a on 17/1/24.
-//  Copyright © 2017年 a. All rights reserved.
+//  Created by 王俊钢 on 2019/6/25.
+//  Copyright © 2019 a. All rights reserved.
 //
 
-#import "LDRewardViewController.h"
+#import "LDtopViewController.h"
 #import "CommentedCell.h"
 #import "CommentedModel.h"
 #import "LDOwnInformationViewController.h"
 #import "LDDynamicDetailViewController.h"
 
-@interface LDRewardViewController ()<UITableViewDelegate,UITableViewDataSource>
-
+@interface LDtopViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong) UITableView *tableView;
-
-@property (nonatomic,strong) NSMutableArray *dataArray;
-
+@property (nonatomic,strong) NSMutableArray *dataSource;
 @property (nonatomic,assign) int page;
-
 @property (nonatomic,assign) CGFloat cellH;
-
 @end
 
-@implementation LDRewardViewController
+@implementation LDtopViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-    
-    self.navigationItem.title = @"打赏过我的";
-    _dataArray = [NSMutableArray array];
+    // Do any additional setup after loading the view.
+    self.navigationItem.title = @"推顶过我的";
+    self.dataSource = [NSMutableArray array];
     [self createTableView];
-    _page = 0;
     [self createCommentData];
     self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         _page++;
@@ -42,26 +35,32 @@
 }
 
 -(void)createCommentData{
+    
     NSString *url;
     NSDictionary *parameters;
-    parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-    url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/getRewardedList"];
+    parameters = @{@"fuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+    url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getTopcardUsedRs];
     
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (integer == 2000){
             NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[CommentedModel class] json:responseObj[@"data"]]];
-            [self.dataArray addObjectsFromArray:data];
+            [self.dataSource addObjectsFromArray:data];
+            self.tableView.mj_footer.hidden = NO;
             [self.tableView reloadData];
+            [self.tableView.mj_footer endRefreshing];
+        }else if (integer == 4002){
+            self.tableView.mj_footer.hidden = YES;
         }
         [self.tableView.mj_footer endRefreshing];
     } failed:^(NSString *errorMsg) {
-         [self.tableView.mj_footer endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
     }];
 }
 
+#pragma mark - creatUI
+
 -(void)createTableView{
-    
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX]) style:UITableViewStyleGrouped];
     if (@available(iOS 11.0, *)) {
         self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
@@ -77,70 +76,46 @@
     [self.view addSubview:self.tableView];
 }
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    
-    return _dataArray.count;
+#pragma mark -UITableViewDataSource&&UITableViewDelegate
+
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return self.dataSource.count?:0;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
-    return 1;
-}
-
--(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     CommentedCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Commented"];
-    
     if (!cell) {
-        
         cell = [[NSBundle mainBundle] loadNibNamed:@"CommentedCell" owner:self options:nil].lastObject;
     }
-    
-    CommentedModel *model = _dataArray[indexPath.section];
-    
-    cell.type = @"3";
-    
+    CommentedModel *model = self.dataSource[indexPath.section];
+    cell.type = @"4";
     cell.model = model;
-    
     _cellH = cell.contentView.frame.size.height;
-    
     [cell.headButton addTarget:self action:@selector(headButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
     [cell.lookDynamicButton addTarget:self action:@selector(lookDynamicButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
     return cell;
     
 }
 
 -(void)lookDynamicButtonClick:(UIButton *)button{
-    
     CommentedCell *cell = (CommentedCell *)button.superview.superview;
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
-    CommentedModel *model = _dataArray[indexPath.section];
-    
+    CommentedModel *model = self.dataSource[indexPath.section];
     LDDynamicDetailViewController *dvc = [[LDDynamicDetailViewController alloc] init];
-    
     dvc.did = model.did;
-    
     dvc.ownUid = model.uid;
-    
     [self.navigationController pushViewController:dvc animated:YES];
 }
 
 -(void)headButtonClick:(UIButton *)button{
-    
     CommentedCell *cell = (CommentedCell *)button.superview.superview;
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
-    CommentedModel *model = _dataArray[indexPath.section];
-    
+    CommentedModel *model = self.dataSource[indexPath.section];
     LDOwnInformationViewController *ivc = [[LDOwnInformationViewController alloc] init];
-    
     ivc.userID = model.uid;
-    
     [self.navigationController pushViewController:ivc animated:YES];
 }
 
@@ -168,12 +143,4 @@
     
     return _cellH;
 }
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-
 @end

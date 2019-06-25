@@ -41,13 +41,9 @@
 -(void)createCommentData{
     
     for (NSDictionary *dic in [[NSUserDefaults standardUserDefaults] objectForKey:@"atPerson"]) {
-        
         AtModel *model = [[AtModel alloc] init];
-        
         [model setValuesForKeysWithDictionary:dic];
-        
         [_dataArray addObject:model];
-        
         [self.tableView reloadData];
     }
 }
@@ -55,26 +51,17 @@
 -(void)createTableView{
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX]) style:UITableViewStyleGrouped];
-    
     if (@available(iOS 11.0, *)) {
-        
         self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
-        
         self.tableView.estimatedRowHeight = 0;
         self.tableView.estimatedSectionHeaderHeight = 0;
         self.tableView.estimatedSectionFooterHeight = 0;
-        
     }else {
-        
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
     self.tableView.delegate = self;
-    
     self.tableView.dataSource = self;
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     [self.view addSubview:self.tableView];
 }
 
@@ -91,25 +78,16 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     AtCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"At"];
-    
     if (!cell) {
-        
         cell = [[NSBundle mainBundle] loadNibNamed:@"AtCell" owner:self options:nil].lastObject;
     }
-    
     if (_dataArray.count > 0) {
-        
         AtModel *model = _dataArray[indexPath.section];
-        
         cell.model = model;
-        
         [cell.headButton addTarget:self action:@selector(headButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        
         [cell.lookDynamicButton addTarget:self action:@selector(lookDynamicButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     }
-    
     return cell;
-    
 }
 
 -(void)lookDynamicButtonClick:(UIButton *)button{

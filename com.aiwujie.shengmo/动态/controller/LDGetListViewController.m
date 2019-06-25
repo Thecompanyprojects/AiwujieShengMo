@@ -14,6 +14,7 @@
 #import "LDOwnInformationViewController.h"
 #import "LDDynamicDetailViewController.h"
 #import "LDAtViewController.h"
+#import "LDtopViewController.h"
 
 @interface LDGetListViewController ()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic,strong) UITableView *tableView;
@@ -24,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *zanLabel;
 @property (weak, nonatomic) IBOutlet UILabel *rewardLabel;
 @property (weak, nonatomic) IBOutlet UILabel *atLabel;
+@property (weak, nonatomic) IBOutlet UIButton *topLab;
 
 @end
 
@@ -96,27 +98,18 @@
 
 -(void)createTableView{
 
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 193, WIDTH, [self getIsIphoneX:ISIPHONEX] - 193) style:UITableViewStyleGrouped];
-    
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 258, WIDTH, [self getIsIphoneX:ISIPHONEX] - 258) style:UITableViewStyleGrouped];
     if (@available(iOS 11.0, *)) {
-        
         self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
-        
         self.tableView.estimatedRowHeight = 0;
         self.tableView.estimatedSectionHeaderHeight = 0;
         self.tableView.estimatedSectionFooterHeight = 0;
-        
     }else {
-        
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
     self.tableView.delegate = self;
-    
     self.tableView.dataSource = self;
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     [self.view addSubview:self.tableView];
 }
 
@@ -133,57 +126,35 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 
     CommentedCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Commented"];
-    
     if (!cell) {
-        
         cell = [[NSBundle mainBundle] loadNibNamed:@"CommentedCell" owner:self options:nil].lastObject;
     }
-    
     CommentedModel *model = _dataArray[indexPath.section];
-    
     cell.type = @"1";
-    
     cell.model = model;
-    
     _cellH = cell.contentView.frame.size.height;
-    
     [cell.headButton addTarget:self action:@selector(headButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
     [cell.lookDynamicButton addTarget:self action:@selector(lookDynamicButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
     return cell;
     
 }
 
 -(void)lookDynamicButtonClick:(UIButton *)button{
-
     CommentedCell *cell = (CommentedCell *)button.superview.superview;
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
     CommentedModel *model = _dataArray[indexPath.section];
-    
     LDDynamicDetailViewController *dvc = [[LDDynamicDetailViewController alloc] init];
-    
     dvc.did = model.did;
-    
     dvc.ownUid = model.duid;
-    
     [self.navigationController pushViewController:dvc animated:YES];
 }
 
 -(void)headButtonClick:(UIButton *)button{
-    
     CommentedCell *cell = (CommentedCell *)button.superview.superview;
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
     CommentedModel *model = _dataArray[indexPath.section];
-    
     LDOwnInformationViewController *ivc = [[LDOwnInformationViewController alloc] init];
-    
     ivc.userID = model.uid;
-    
     [self.navigationController pushViewController:ivc animated:YES];
 }
 
@@ -212,47 +183,64 @@
     return _cellH;
 }
 
+
+/**
+ 赞过我的
+
+ @param sender 跳转赞过我的界面
+ */
 - (IBAction)zanButtonClick:(id)sender {
-    
     LDZanViewController *zvc = [[LDZanViewController alloc] init];
-    
     [self.navigationController pushViewController:zvc animated:YES];
 }
+
+
+/**
+ 打赏过我的
+
+ @param sender 跳转打赏过我的界面
+ */
 - (IBAction)rewardButtonClick:(id)sender {
-    
     LDRewardViewController *rvc = [[LDRewardViewController alloc] init];
-    
     [self.navigationController pushViewController:rvc animated:YES];
 }
+
+
+/**
+ @过我的
+
+ @param sender 跳转@过我的界面
+ */
 - (IBAction)atButtonClick:(id)sender {
-    
     LDAtViewController *avc = [[LDAtViewController alloc] init];
-    
     [self.navigationController pushViewController:avc animated:YES];
+}
+
+
+/**
+ 推顶过我的
+
+ @param sender 跳转推顶过我的界面
+ */
+- (IBAction)totopButtonClick:(id)sender {
+    
+    LDtopViewController *VC = [LDtopViewController new];
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 -(void)createButton{
     
     UIButton * areaButton = [[UIButton alloc] initWithFrame:CGRectMake(16, 36, 10, 14)];
-    
     if (@available(iOS 11.0, *)) {
-        
         [areaButton setImage:[UIImage imageNamed:@"back-11"] forState:UIControlStateNormal];
-        
     }else{
-        
         [areaButton setImage:[UIImage imageNamed:@"back"] forState:UIControlStateNormal];
     }
-    
     [areaButton addTarget:self action:@selector(backButtonOnClick) forControlEvents:UIControlEventTouchUpInside];
-    
     UIBarButtonItem* leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:areaButton];
-    
     if (@available(iOS 11.0, *)) {
-        
         leftBarButtonItem.customView.frame = CGRectMake(0, 0, 100, 44);
     }
-    
     self.navigationItem.leftBarButtonItem = leftBarButtonItem;
 }
 
@@ -272,48 +260,22 @@
 -(void)clearData{
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/clearUnreadNumAll"];
-    
     NSDictionary *parameters;
-    
     parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-         //NSLog(@"%@",responseObject[@"msg"]);
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
         [self.navigationController popViewControllerAnimated:YES];
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
         [self.navigationController popViewControllerAnimated:YES];
-        
     }];
-    
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
