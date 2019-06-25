@@ -1987,7 +1987,11 @@
         self.nameY.constant = 40+self.markfloat0;
         self.idViewY.constant = 44+self.markfloat0;
         self.onlineViewY.constant = 47+self.markfloat0;
+        
+//        self.backgroundView.frame = CGRectMake(0, self.markfloat0, WIDTH, 240);
+//        self.backGroundView.frame = CGRectMake(0, self.markfloat0, WIDTH, 240);
         self.backAlhpaH.constant = 300+self.markfloat0;
+        
     }
     else
     {
@@ -1999,6 +2003,9 @@
         self.vipViewY.constant = 81+self.markfloat0;
         self.vipButtonY.constant = 81+self.markfloat0;
         self.backAlhpaH.constant = 240+self.markfloat0;
+        
+//        self.backgroundView.frame = CGRectMake(0, self.markfloat0, WIDTH, 300);
+//        self.backGroundView.frame = CGRectMake(0, self.markfloat0, WIDTH, 240);
     }
 
 
