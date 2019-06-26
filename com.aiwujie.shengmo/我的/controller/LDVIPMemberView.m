@@ -49,6 +49,13 @@
     sectionLabel.font = [UIFont systemFontOfSize:15];
     [sectionView addSubview:sectionLabel];
     
+    UILabel *newLab = [UILabel new];
+    newLab.frame = CGRectMake(WIDTH-260*W_SCREEN,12, 30, 13);
+    newLab.text = @"new";
+    newLab.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
+    newLab.textColor = [UIColor redColor];
+    [sectionView addSubview:newLab];
+    
     UIView *privilegeView = [[UIView alloc] init];
     [self addSubview:privilegeView];
     

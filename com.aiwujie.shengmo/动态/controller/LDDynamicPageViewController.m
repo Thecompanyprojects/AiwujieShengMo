@@ -65,6 +65,8 @@
 @property (nonatomic,strong) GifView *gif;
 
 @property (nonatomic,strong) UIImageView *rocketsView;
+
+@property (nonatomic,assign) BOOL isLeftchoose;
 @end
 
 @implementation LDDynamicPageViewController
@@ -122,8 +124,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    
     self.view.backgroundColor = [UIColor whiteColor];
+    self.isLeftchoose = YES;
     _dataArray = [NSMutableArray array];
     _sectionArray = [NSMutableArray array];
     _topicArray = [NSMutableArray array];
@@ -457,11 +460,23 @@
                         }
                     }
                     
+                  
                     parameters = @{@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"firsttime":firsttime,@"page":[NSString stringWithFormat:@"%d",_page],@"loginuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+                 
+                    
+                    
                     
                 }else{
                     
-                    parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"type":[NSString stringWithFormat:@"%d",[self.content intValue]],@"page":[NSString stringWithFormat:@"%d",_page],@"loginuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+                    if (!self.isLeftchoose) {
+                        parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"type":@"5",@"page":[NSString stringWithFormat:@"%d",_page],@"loginuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+                    }
+                    else
+                    {
+                        parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"type":[NSString stringWithFormat:@"%d",[self.content intValue]],@"page":[NSString stringWithFormat:@"%d",_page],@"loginuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+                        
+                    }
+        
                     
                 }
                 
@@ -578,7 +593,7 @@
         _integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (_integer != 2000 && _integer != 2001) {
             if (_integer == 4001) {
-                if ([type intValue] == 1) {
+                if ([type intValue] == 1||[type intValue] == 5) {
                     [_dataArray removeAllObjects];
                     [self.tableView reloadData];
                 }
@@ -599,7 +614,7 @@
                 }
             }
         }else{
-            if ([type intValue] == 1) {
+            if ([type intValue] == 1||[type intValue]==5||[type intValue]==0) {
                 [_dataArray removeAllObjects];
             }
             if (_friendNoLookView != nil) {
@@ -618,7 +633,6 @@
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
     }];
-
 }
 
 //当好友没有动态的时候创建
@@ -1090,6 +1104,15 @@
     rightBtn.tag = 2001;
     [rightBtn addTarget:self action:@selector(rightChooseclick) forControlEvents:UIControlEventTouchUpInside];
     
+    if (self.isLeftchoose) {
+        [leftBtn setTitleColor:MainColor forState:normal];
+        [rightBtn setTitleColor:[UIColor darkGrayColor] forState:normal];
+    }
+    else
+    {
+        [rightBtn setTitleColor:MainColor forState:normal];
+        [leftBtn setTitleColor:[UIColor darkGrayColor] forState:normal];
+    }
 }
 
 -(void)leftChooseclick
@@ -1097,7 +1120,9 @@
     UIButton *btn0 = [self.tableView viewWithTag:2000];
     UIButton *btn1 = [self.tableView viewWithTag:2001];
     [btn0 setTitleColor:MainColor forState:normal];
+    self.isLeftchoose = YES;
     [btn1 setTitleColor:[UIColor darkGrayColor] forState:normal];
+    [self createDataType:@"1"];
 }
 
 -(void)rightChooseclick
@@ -1105,8 +1130,9 @@
     UIButton *btn0 = [self.tableView viewWithTag:2000];
     UIButton *btn1 = [self.tableView viewWithTag:2001];
     [btn1 setTitleColor:MainColor forState:normal];
+    self.isLeftchoose = NO;
     [btn0 setTitleColor:[UIColor darkGrayColor] forState:normal];
-    
+    [self createDataType:@"1"];
 }
 
 - (void)warnButtonClick{
@@ -1186,7 +1212,10 @@
         
         [btn setTitle:[NSString stringWithFormat:@"#%@#",_topicArray[i][@"title"]] forState:UIControlStateNormal];
         
-        [btn setTitleColor:UIColorFromRGB(strtoul([colorArray[i%7] UTF8String], 0, 0)) forState:UIControlStateNormal];
+       // [btn setTitleColor:UIColorFromRGB(strtoul([colorArray[i%7] UTF8String], 0, 0)) forState:UIControlStateNormal];
+        
+        btn.backgroundColor = UIColorFromRGB(strtoul([colorArray[i%7] UTF8String], 0, 0));
+        [btn setTitleColor:[UIColor whiteColor] forState:normal];
         
         btn.tag = 100 + i;
         
@@ -1198,9 +1227,14 @@
         titleSize.height = 44;
         titleSize.width += 20;
         
-        btn.frame = CGRectMake(btnX + 40, 0, titleSize.width, titleSize.height);
+        //btn.frame = CGRectMake(btnX + 40, 0, titleSize.width, titleSize.height);
+        btn.frame = CGRectMake(btnX + 40, 7, titleSize.width, 30);
         
-        btnX = btnX + titleSize.width;
+        btnX = btnX + titleSize.width+8;
+        
+        btn.layer.masksToBounds = YES;
+        
+        btn.layer.cornerRadius = 14;
         
         if (i == _topicArray.count - 1) {
             

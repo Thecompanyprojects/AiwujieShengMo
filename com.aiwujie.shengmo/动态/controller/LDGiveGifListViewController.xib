@@ -11,6 +11,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LDGiveGifListViewController">
             <connections>
+                <outlet property="leftLineW" destination="Pit-U5-vqu" id="0vN-Bf-Ojd"/>
+                <outlet property="rightLineW" destination="KHI-Y3-QEt" id="BBV-Kp-WPa"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

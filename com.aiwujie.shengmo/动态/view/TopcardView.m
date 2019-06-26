@@ -224,7 +224,7 @@
             NSDictionary *data = [responseObj objectForKey:@"data"];
             self.numberStr = [data objectForKey:@"wallet_topcard"];
         }
-        if (self.numberStr.length==0||[self.numberStr isEqualToString:@"o"]) {
+        if (self.numberStr.length==0||[self.numberStr isEqualToString:@"0"]) {
             [self.buyBtn setTitle:@"去购买" forState:normal];
         }
         else

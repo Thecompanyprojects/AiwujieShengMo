@@ -150,19 +150,19 @@
             _useAmount = @"0";
         }
         
-        _numLabel.text = [NSString stringWithFormat:@"共%@份",_num];
-        _accountLabel.text = [NSString stringWithFormat:@"总价值 %@ 银魔豆(可用 %@ 银魔豆)",_amount,_useAmount];
+        _numLabel.text = [NSString stringWithFormat:@"共 %@ 份",_num];
+        _accountLabel.text = [NSString stringWithFormat:@"共 %@ 银魔豆(可用 %@ 银魔豆)",_amount,_useAmount];
         if (self.returnValueBlock) {
             self.returnValueBlock(self.useAmount);
         }
         
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:_numLabel.text];
-        [str addAttribute:NSForegroundColorAttributeName value:MYORANGE range:NSMakeRange(1,_num.length)];
+        [str addAttribute:NSForegroundColorAttributeName value:MYORANGE range:NSMakeRange(2,_num.length)];
         _numLabel.attributedText = str;
         
         NSMutableAttributedString *str1 = [[NSMutableAttributedString alloc]initWithString:_accountLabel.text];
-        [str1 addAttribute:NSForegroundColorAttributeName value:MYORANGE range:NSMakeRange(4,_amount.length)];
-        [str1 addAttribute:NSForegroundColorAttributeName value:MYORANGE range:NSMakeRange(12 + _amount.length,_useAmount.length)];
+        [str1 addAttribute:NSForegroundColorAttributeName value:MYORANGE range:NSMakeRange(2,_amount.length)];
+        [str1 addAttribute:NSForegroundColorAttributeName value:MYORANGE range:NSMakeRange(10 + _amount.length,_useAmount.length)];
         _accountLabel.attributedText = str1;
         
         [headerView addSubview:view];

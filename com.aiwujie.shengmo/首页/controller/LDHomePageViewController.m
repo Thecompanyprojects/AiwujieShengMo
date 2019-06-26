@@ -1366,7 +1366,7 @@
         
     }else{
         
-        warnLabel.text = @"排序:推荐←年SVIP←SVIP←年VIP←VIP←认证";
+        warnLabel.text = @"排序:推顶←年SVIP←SVIP←年VIP←VIP←认证";
     }
     
     warnLabel.textColor = [UIColor lightGrayColor];

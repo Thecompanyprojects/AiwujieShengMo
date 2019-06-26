@@ -14,6 +14,9 @@
 @property (nonatomic, strong) UIPageViewController *pageViewController;
 @property (nonatomic, strong) NSArray *pageContentArray;
 @property (nonatomic, strong) LDGiveGifListPageViewController *GiveGifListPageViewController;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftLineW;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightLineW;
+
 @property (nonatomic, weak) UIView *navLine;
 @end
 

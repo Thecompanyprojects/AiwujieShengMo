@@ -51,6 +51,8 @@
 #define HEIGHTRADIO [UIScreen mainScreen].bounds.size.height/568
 
 
+#define W_SCREEN [UIScreen mainScreen].bounds.size.width/375
+
 //男的图标背景颜色
 //#define BOYCOLOR [UIColor colorWithHexString:@"#51c3ff" alpha:1]
 #define BOYCOLOR [UIColor colorWithHexString:@"#96d6ff" alpha:1]

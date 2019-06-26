@@ -149,12 +149,150 @@
                 
             }];
     }
-    else
-    {
-        [self backButtonOnClick2];
+    if (self.index==2) {
+        //邮票明细
+        NSString *numStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"walletNum"];
+
+        UIAlertController *control = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"金魔豆兑换邮票" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"3张/90金魔豆", @"10张/300金魔豆", @"30张/900金魔豆", @"50张/1500金魔豆", @"100张/3000金魔豆", @"308张/9000金魔豆"];
+            
+            UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
+            
+            for (int i = 0; i < TopcardArray.count; i++) {
+                UIAlertAction *month = [UIAlertAction actionWithTitle:TopcardArray[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                   
+                    if (i!=0) {
+                        NSArray *array = @[@"3",@"10",@"30",@"50",@"100",@"300"];
+                        NSString *urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/stamp_baans"];
+                        
+                        __block NSString *numStr = @"";
+                        [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                            
+                            if (idx==i) {
+                                numStr=[array objectAtIndex:idx-1];
+                                *stop = YES;
+                            }
+                        }];
+                        NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"num":numStr, @"channel":@"0"};
+                        [self startExchangeWithUrl:urlString parameters:parameters];
+                    }
+                    
+                }];
+                [VIPAlert addAction:month];
+                
+                if (PHONEVERSION.doubleValue >= 8.3&&i!=0) {
+                    [month setValue:MainColor forKey:@"_titleTextColor"];
+                }
+                if (PHONEVERSION.doubleValue >= 8.3&&i==0) {
+                    [month setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
+                }
+            }
+            
+            [self cancelActionWithAlert:VIPAlert];
+            [self presentViewController:VIPAlert animated:YES completion:nil];
+            
+        }];
+       
+        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        
+        if (PHONEVERSION.doubleValue >= 8.3) {
+            [action0 setValue:MainColor forKey:@"_titleTextColor"];
+            [action2 setValue:MainColor forKey:@"_titleTextColor"];
+        }
+        
+        [control addAction:action0];
+        [control addAction:action2];
+        [self presentViewController:control animated:YES completion:^{
+            
+        }];
+    }
+    if (self.index==3) {
+        //推顶卡明细
+        
+        NSString *numStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"walletNum"];
+        
+        UIAlertController *control = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"金魔豆兑换推顶卡" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            
+            NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"3张/450金魔豆", @"10张/1500金魔豆", @"30张/4500金魔豆", @"50张/7500金魔豆", @"100张/15000金魔豆", @"308张/45000金魔豆"];
+            
+            UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
+            
+            for (int i = 0; i < TopcardArray.count; i++) {
+                UIAlertAction *month = [UIAlertAction actionWithTitle:TopcardArray[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    
+                    //兑换推顶卡 channel 充值为0
+                    if (i!=0) {
+                        NSString *urlString = [PICHEADURL stringByAppendingString:@"Api/Ping/topcard_baans"];
+                        NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+                        NSArray *array = @[@"3",@"10",@"30",@"50",@"100",@"308"];
+                        __block NSString *numStr = @"";
+                        [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                            
+                            if (idx==i) {
+                                numStr=[array objectAtIndex:idx-1];
+                                *stop = YES;
+                            }
+                        }];
+                        NSDictionary *parameters = @{@"uid":uid,@"num":numStr,@"channel":@"0"};
+                        [self startExchangeWithUrl:urlString parameters:parameters];
+                    }
+                    
+                }];
+                [VIPAlert addAction:month];
+                
+                if (PHONEVERSION.doubleValue >= 8.3&&i!=0) {
+                    [month setValue:MainColor forKey:@"_titleTextColor"];
+                }
+                if (PHONEVERSION.doubleValue >= 8.3&&i==0) {
+                    [month setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
+                }
+                
+            }
+            [self cancelActionWithAlert:VIPAlert];
+            [self presentViewController:VIPAlert animated:YES completion:nil];
+            
+        }];
+        
+        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        
+        if (PHONEVERSION.doubleValue >= 8.3) {
+            [action0 setValue:MainColor forKey:@"_titleTextColor"];
+            [action2 setValue:MainColor forKey:@"_titleTextColor"];
+        }
+        
+        [control addAction:action0];
+        [control addAction:action2];
+        [self presentViewController:control animated:YES completion:^{
+            
+        }];
+        
+        
     }
 }
 
+
+//创建取消的按钮
+-(void)cancelActionWithAlert:(UIAlertController *)alert{
+    
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+    }];
+    
+    [alert addAction:cancelAction];
+    
+    if (PHONEVERSION.doubleValue >= 8.3) {
+        
+        [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
+    }
+}
 
 
 - (void)backButtonOnClick2{
