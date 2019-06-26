@@ -10,6 +10,7 @@
 #import "GiveGifModel.h"
 
 @interface GiveGifCell : UITableViewCell
+@property (nonatomic,assign) BOOL isTopcard;
 
 @property (nonatomic,strong) GiveGifModel *model;
 @property (weak, nonatomic) IBOutlet UILabel *showLabel;

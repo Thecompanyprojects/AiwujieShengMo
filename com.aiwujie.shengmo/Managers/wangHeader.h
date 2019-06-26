@@ -197,4 +197,7 @@ return _instance; \
 //设置描述
 #define lmarkName @"Api/users/lmarkName"
 
+//大喇叭 动态推顶消息
+#define  getTopcardUsedLb @"Api/Users/getTopcardUsedLb"
+
 #endif /* wangHeader_h */

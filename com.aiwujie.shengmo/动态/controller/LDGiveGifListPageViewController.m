@@ -55,19 +55,25 @@
 
 -(void)createDatatype:(NSString *)type{
     
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getPresentMsg"];
+    NSString *url;
+    
+    NSDictionary *parameters;
     NSString *contentss = [NSString new];
     if ([self.content isEqualToString:@"0"]) {
         contentss = @"0";
+        parameters = @{@"page":[NSString stringWithFormat:@"%d",_tablePage],@"type":contentss};
+        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getPresentMsg"];
     }
     if ([self.content isEqualToString:@"1"]) {
-        contentss = @"0";
+        url = [PICHEADURL stringByAppendingString:getTopcardUsedLb];
     }
     if ([self.content isEqualToString:@"2"]) {
         contentss = @"1";
+        parameters = @{@"page":[NSString stringWithFormat:@"%d",_tablePage],@"type":contentss};
+        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getPresentMsg"];
     }
     
-    NSDictionary *parameters = @{@"page":[NSString stringWithFormat:@"%d",_tablePage],@"type":contentss};
+    
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000 && integer != 2001) {
@@ -102,32 +108,21 @@
 }
 
 -(void)createTableView{
-    
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX] - 44) style:UITableViewStylePlain];
     self.tableView.backgroundColor = [UIColor blackColor];
     if (@available(iOS 11.0, *)) {
-        
         self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
-        
         self.tableView.estimatedRowHeight = 0;
         self.tableView.estimatedSectionHeaderHeight = 0;
         self.tableView.estimatedSectionFooterHeight = 0;
-        
     }else {
-        
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
     self.tableView.delegate = self;
-    
     self.tableView.dataSource = self;
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     self.tableView.tableFooterView = [[UIView alloc] init];
-    
     self.tableView.showsHorizontalScrollIndicator = NO;
-    
     [self.view addSubview:self.tableView];
     self.tableView.tableHeaderView = self.headerView;
 }
@@ -142,6 +137,9 @@
     GiveGifCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GiveGif"];
     if (!cell) {
         cell = [[NSBundle mainBundle] loadNibNamed:@"GiveGifCell" owner:self options:nil].lastObject;
+    }
+    if ([self.content isEqualToString:@"1"]) {
+        cell.isTopcard = YES;
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (_dataArray.count > 0) {
@@ -210,6 +208,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 @end

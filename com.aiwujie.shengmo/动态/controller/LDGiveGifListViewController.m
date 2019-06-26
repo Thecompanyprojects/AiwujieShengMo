@@ -66,7 +66,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.title = @"大喇叭";
-    
     //生成翻页控制器
     [self createPageViewController];
 }
