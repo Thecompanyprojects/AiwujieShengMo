@@ -18,9 +18,9 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightLineW;
 
 @property (weak, nonatomic) IBOutlet UIButton *Button0;
-
 @property (weak, nonatomic) IBOutlet UIButton *Button1;
 @property (weak, nonatomic) IBOutlet UIButton *Button2;
+
 @property (nonatomic, weak) UIView *navLine;
 @end
 
@@ -75,17 +75,9 @@
     self.navigationItem.title = @"大喇叭";
     //生成翻页控制器
     [self createPageViewController];
-    [self.Button0 addTarget:self action:@selector(buttonclick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.Button1 addTarget:self action:@selector(buttonclick:) forControlEvents:UIControlEventTouchUpInside];
-    [self.Button2 addTarget:self action:@selector(buttonclick:) forControlEvents:UIControlEventTouchUpInside];
-    
+
 }
 
-
--(void)buttonclick:(UIButton *)sender
-{
-    
-}
 
 //生成翻页控制器
 -(void)createPageViewController{
@@ -213,28 +205,16 @@
 - (IBAction)buttonClick:(UIButton *)sender {
     
     LDGiveGifListPageViewController *initialViewController = [self viewControllerAtIndex:sender.tag - 100];// 得到对应页
-    
     NSArray *viewControllers = [NSArray arrayWithObject:initialViewController];
-    
     if (sender.tag == 100) {
-        
         [_pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
-        
     }
     else
     {
         [_pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
     }
-//    if (sender.tag==101) {
-//        [_pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
-//    }
-//    if (sender.tag==102) {
-//        [_pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
-//    }
-    
     [self changeNavButtonColor:sender.tag - 100];
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

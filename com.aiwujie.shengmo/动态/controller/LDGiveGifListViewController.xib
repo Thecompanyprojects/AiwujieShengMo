@@ -54,6 +54,15 @@
                                 <action selector="buttonClick:" destination="-1" eventType="touchUpInside" id="sPr-E1-tCI"/>
                             </connections>
                         </button>
+                        <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3IW-yl-mRt">
+                            <rect key="frame" x="250" y="22" width="117" height="30"/>
+                            <state key="normal" title="赠送VIP">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="buttonClick:" destination="-1" eventType="touchUpInside" id="ZVy-X5-SdC"/>
+                            </connections>
+                        </button>
                         <view hidden="YES" tag="201" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="35A-35-bk0">
                             <rect key="frame" x="155" y="46" width="65" height="1"/>
                             <color key="backgroundColor" red="0.71683843089999999" green="0.22636065729999999" blue="0.79763487840000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -76,15 +85,6 @@
                             <color key="backgroundColor" red="0.71683843089999999" green="0.22636065729999999" blue="0.79763487840000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <rect key="contentStretch" x="0.0" y="0.0" width="1" height="0.65000000000000002"/>
                         </view>
-                        <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3IW-yl-mRt">
-                            <rect key="frame" x="250" y="22" width="117" height="30"/>
-                            <state key="normal" title="赠送VIP">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <action selector="buttonClick:" destination="-1" eventType="touchUpInside" id="ZVy-X5-SdC"/>
-                            </connections>
-                        </button>
                     </subviews>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
@@ -122,7 +122,7 @@
                 <constraint firstItem="ZKm-cV-geZ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="ZO6-NW-HQR"/>
                 <constraint firstAttribute="trailing" secondItem="ZKm-cV-geZ" secondAttribute="trailing" id="zps-Pz-4d9"/>
             </constraints>
-            <point key="canvasLocation" x="-196" y="139"/>
+            <point key="canvasLocation" x="-1234" y="-38"/>
         </view>
     </objects>
     <resources>
