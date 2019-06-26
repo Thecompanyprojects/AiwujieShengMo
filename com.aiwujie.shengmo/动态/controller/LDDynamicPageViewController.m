@@ -1204,57 +1204,37 @@
     CGFloat btnX = 5;
     
     NSArray *colorArray = @[@"0xff0000",@"0xb73acb",@"0x0000ff",@"0x18a153",@"0xf39700",@"0xff00ff",@"0x00a0e9"];
-    
-    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, heightH, WIDTH, 44)];
-    
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(3, heightH, WIDTH, 44)];
     scrollView.backgroundColor = [UIColor whiteColor];
-    
     scrollView.showsHorizontalScrollIndicator = NO;
-    
     [headView addSubview:scrollView];
-    
-    UIImageView *recommendView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 7, 30, 30)];
+    UIImageView *recommendView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 3, 30, 30)];
     recommendView.image = [UIImage imageNamed:@"推荐话题"];
     [scrollView addSubview:recommendView];
     
     for (int i = 0; i < _topicArray.count; i++) {
-        
         UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        
         btn.titleLabel.font = [UIFont systemFontOfSize:15.0];
-        
         [btn setTitle:[NSString stringWithFormat:@"#%@#",_topicArray[i][@"title"]] forState:UIControlStateNormal];
         
        // [btn setTitleColor:UIColorFromRGB(strtoul([colorArray[i%7] UTF8String], 0, 0)) forState:UIControlStateNormal];
         
         btn.backgroundColor = NewUIColorFromRGB(strtoul([colorArray[i%7] UTF8String], 0, 0));
-
         [btn setTitleColor:[UIColor whiteColor] forState:normal];
-        
         btn.tag = 100 + i;
-        
         [btn addTarget:self action:@selector(btnButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        
         //重要的是下面这部分哦！
         CGSize titleSize = [[NSString stringWithFormat:@"#%@#",_topicArray[i][@"title"]] sizeWithAttributes:@{NSFontAttributeName: [UIFont fontWithName:btn.titleLabel.font.fontName size:btn.titleLabel.font.pointSize]}];
-        
         titleSize.height = 44;
         titleSize.width += 20;
-        
         //btn.frame = CGRectMake(btnX + 40, 0, titleSize.width, titleSize.height);
-        btn.frame = CGRectMake(btnX + 40, 7, titleSize.width, 30);
-        
+        btn.frame = CGRectMake(btnX + 40, 3, titleSize.width, 30);
         btnX = btnX + titleSize.width+8;
-        
         btn.layer.masksToBounds = YES;
-        
         btn.layer.cornerRadius = 14;
-        
         if (i == _topicArray.count - 1) {
-            
             scrollView.contentSize = CGSizeMake(btnX + 10 + 40 , 44);
         }
-        
         [scrollView addSubview:btn];
     }
 }

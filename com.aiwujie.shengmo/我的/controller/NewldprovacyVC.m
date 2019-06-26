@@ -326,9 +326,9 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
             {
                 cell.contentLab.text = @"好友/会员可见";
             }
-            UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 17, 50, 13)];
+            UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 17, 45, 13)];
             newLabel.text = @"new";
-            newLabel.font = [UIFont italicSystemFontOfSize:15];//设置字体为斜体
+            newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
             newLabel.textColor = [UIColor redColor];
             [cell addSubview:newLabel];
             cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
@@ -346,7 +346,7 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
             {
                 cell.contentLab.text = @"好友/会员可见";
             }
-            UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 17, 50, 13)];
+            UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 17, 45, 13)];
             newLabel.text = @"new";
             newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
             newLabel.textColor = [UIColor redColor];
@@ -366,7 +366,7 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
             {
                 cell.contentLab.text = @"好友/会员可见";
             }
-            UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 17, 50, 13)];
+            UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 17, 45, 13)];
             newLabel.text = @"new";
             newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
             newLabel.textColor = [UIColor redColor];

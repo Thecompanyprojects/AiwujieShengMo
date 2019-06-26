@@ -298,7 +298,7 @@
         if (indexPath.section==2) {
             if (self.isSvip) {
                 if (indexPath.row==1) {
-                    UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(cell.nameLabel.frame)-75, CGRectGetMinY(cell.nameLabel.frame)+5, 50, 13)];
+                    UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(cell.nameLabel.frame)-85, CGRectGetMinY(cell.nameLabel.frame)+5, 50, 13)];
                     newLabel.text = @"new";
                     newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
                     newLabel.textColor = [UIColor redColor];
@@ -323,7 +323,7 @@
                 else  if (indexPath.row==3) {
                     cell.lineView.hidden = YES;
                     
-                    UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(cell.nameLabel.frame)-75, CGRectGetMinY(cell.nameLabel.frame)+5, 50, 13)];
+                    UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(cell.nameLabel.frame)-85, CGRectGetMinY(cell.nameLabel.frame)+5, 50, 13)];
                     newLabel.text = @"new";
                     newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
                     newLabel.textColor = [UIColor redColor];
@@ -337,7 +337,7 @@
             else
             {
                 if (indexPath.row==1) {
-                    UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(cell.nameLabel.frame)-75, CGRectGetMinY(cell.nameLabel.frame)+5, 50, 13)];
+                    UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(cell.nameLabel.frame)-85, CGRectGetMinY(cell.nameLabel.frame)+5, 50, 13)];
                     newLabel.text = @"new";
                     newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
                     newLabel.textColor = [UIColor redColor];
@@ -386,33 +386,19 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     if (indexPath.section == 0) {
-        
         if (indexPath.row == 0){
-            
             LDBindingPhoneNumViewController * pvc = [[LDBindingPhoneNumViewController alloc] init];
-            
             pvc.phoneNum = _phoneNum;
-            
             [self.navigationController pushViewController:pvc animated:YES];
-            
         }else if (indexPath.row == 1){
-            
             LDBindingEmailViewController *evc = [[LDBindingEmailViewController alloc] init];
-            
             evc.emailNum = _emailNum;
-            
             [self.navigationController pushViewController:evc animated:YES];
-            
         }else if (indexPath.row == 2){
-            
             if (_bindOpenidState.length == 0) {
-                
                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
-                
                 UIAlertAction * wechatAction = [UIAlertAction actionWithTitle:@"绑定微信" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
-                    
                     //构造SendAuthReq结构体
                     SendAuthReq* req =[[SendAuthReq alloc ] init];
                     

@@ -42,7 +42,7 @@
 #define ADVERTISEMENT [UIScreen mainScreen].bounds.size.width/3.2
 
 //定义附近和动态处上方的榜单高度
-#define DYANDNERHEIGHT [UIScreen mainScreen].bounds.size.width/4.2
+#define DYANDNERHEIGHT [UIScreen mainScreen].bounds.size.width/4.2-8
 
 //宽度的比例与5相比
 #define WIDTHRADIO [UIScreen mainScreen].bounds.size.width/320

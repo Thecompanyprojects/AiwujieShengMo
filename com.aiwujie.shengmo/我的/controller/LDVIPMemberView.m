@@ -50,7 +50,7 @@
     [sectionView addSubview:sectionLabel];
     
     UILabel *newLab = [UILabel new];
-    newLab.frame = CGRectMake(WIDTH-260*W_SCREEN,12, 30, 13);
+   
     newLab.text = @"new";
     newLab.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
     newLab.textColor = [UIColor redColor];
@@ -62,19 +62,17 @@
     NSArray *array;
     
     if ([type intValue] == 0) {
-        
+        newLab.frame = CGRectMake(WIDTH-280*W_SCREEN,13, 30, 13);
         sectionLabel.text = @"VIP会员特权";
         
         array = @[@"[专属]-尊贵V标识身份",@"[专属]-可备注所有人昵称",@"[专属]-可看到Ta的最后登陆时间",@"[专属]-可查看所有人相册、动态、评论",@"[专属]-可使用地图找人特权，穿越地球去找你",@"[专属]-可使用高级搜索功能",@"[专属]-可出现在附近-推荐中（年会员更靠前)",@"[专属]-每月可修改3次昵称",@"[专属]-聊天对话页显示紫色昵称",@"[专属]-可使用相册的加密功能，照片由6张升级为15张",@"[专属]-个人主页语音介绍由10秒增至30秒",@"[专属]-可在个人主页置顶一篇动态",@"[专属]-每日关注人数不受限制"];
         
     }else{
-        
+        newLab.frame = CGRectMake(WIDTH-270*W_SCREEN,13, 30, 13);
         sectionLabel.text = @"SVIP会员特权";
         
         array = @[@"[专属]-包含普通VIP会员所有特权",@"[专属]-发消息无需邮票，无限畅聊",@"[专属]-可设置所有人无需邮票直接给我发消息",@"[专属]-年费SVIP将在“身边”推顶一个月",@"[专属]-可查看所有人历史昵称",@"[专属]-修改昵称不限次数",@"[专属]-发布的动态将自动被推荐",@"[专属]-聊天对话页显示红色昵称",@"[专属]-可编辑已发布动态",@"[专属]-各列表排名最前",@"[专属]-豪华金V标识"];
     }
-    
-    
     
     CGFloat lineSpace = 6;
     
