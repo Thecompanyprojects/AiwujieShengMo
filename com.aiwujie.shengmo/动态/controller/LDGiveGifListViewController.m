@@ -17,6 +17,10 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftLineW;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightLineW;
 
+@property (weak, nonatomic) IBOutlet UIButton *Button0;
+
+@property (weak, nonatomic) IBOutlet UIButton *Button1;
+@property (weak, nonatomic) IBOutlet UIButton *Button2;
 @property (nonatomic, weak) UIView *navLine;
 @end
 
@@ -71,6 +75,16 @@
     self.navigationItem.title = @"大喇叭";
     //生成翻页控制器
     [self createPageViewController];
+    [self.Button0 addTarget:self action:@selector(buttonclick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.Button1 addTarget:self action:@selector(buttonclick:) forControlEvents:UIControlEventTouchUpInside];
+    [self.Button2 addTarget:self action:@selector(buttonclick:) forControlEvents:UIControlEventTouchUpInside];
+    
+}
+
+
+-(void)buttonclick:(UIButton *)sender
+{
+    
 }
 
 //生成翻页控制器

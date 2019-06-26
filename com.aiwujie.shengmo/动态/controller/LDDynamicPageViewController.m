@@ -1110,8 +1110,8 @@
         [rightBtn setTitleColor:[UIColor darkGrayColor] forState:normal];
         [leftBtn setImage:[UIImage imageNamed:@"小推荐紫"] forState:normal];
         [rightBtn setImage:[UIImage imageNamed:@"小推顶灰"] forState:normal];
-        [leftBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:5];
-        [rightBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:5];
+        [leftBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:3];
+        [rightBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:3];
     }
     else
     {
@@ -1119,8 +1119,8 @@
         [leftBtn setTitleColor:[UIColor darkGrayColor] forState:normal];
         [leftBtn setImage:[UIImage imageNamed:@"小推荐灰"] forState:normal];
         [rightBtn setImage:[UIImage imageNamed:@"小推顶紫"] forState:normal];
-        [leftBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:5];
-        [rightBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:5];
+        [leftBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:3];
+        [rightBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:3];
     }
 }
 
