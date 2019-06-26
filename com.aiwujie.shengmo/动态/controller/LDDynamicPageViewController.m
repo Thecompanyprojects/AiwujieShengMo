@@ -27,7 +27,8 @@
 #import "LDStandardViewController.h"
 #import "ThinkVerb.h"
 
-#define DYNAMICWARNH 33
+#define DYNAMICWARNH 26
+#define NewUIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:0.5]
 
 @interface LDDynamicPageViewController ()<UITableViewDelegate,UITableViewDataSource,DynamicDelegate,UIScrollViewDelegate,YBAttributeTapActionDelegate,SDCycleScrollViewDelegate>
 
@@ -1087,7 +1088,7 @@
 //    [headView addSubview:warnButton];
 //
     UIButton *leftBtn = [UIButton new];
-    leftBtn.frame = CGRectMake(0, y - 1.5, WIDTH/2, 30);
+    leftBtn.frame = CGRectMake(0, y - 1.5, WIDTH/2, 24);
     [headView addSubview:leftBtn];
     [leftBtn setTitle:@"推荐" forState:normal];
     leftBtn.titleLabel.font = [UIFont systemFontOfSize:13];
@@ -1096,22 +1097,30 @@
     [leftBtn addTarget:self action:@selector(leftChooseclick) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *rightBtn = [UIButton new];
-    rightBtn.frame = CGRectMake(WIDTH/2, y - 1.5, WIDTH/2, 30);
+    rightBtn.frame = CGRectMake(WIDTH/2, y - 1.5, WIDTH/2, 24);
     [headView addSubview:rightBtn];
     rightBtn.titleLabel.font = [UIFont systemFontOfSize:13];
     [rightBtn setTitle:@"推顶" forState:normal];
-    [rightBtn setTitleColor:[UIColor darkGrayColor] forState:normal];
+    [rightBtn setTitleColor:TextCOLOR forState:normal];
     rightBtn.tag = 2001;
     [rightBtn addTarget:self action:@selector(rightChooseclick) forControlEvents:UIControlEventTouchUpInside];
     
     if (self.isLeftchoose) {
         [leftBtn setTitleColor:MainColor forState:normal];
         [rightBtn setTitleColor:[UIColor darkGrayColor] forState:normal];
+        [leftBtn setImage:[UIImage imageNamed:@"小推荐紫"] forState:normal];
+        [rightBtn setImage:[UIImage imageNamed:@"小推顶灰"] forState:normal];
+        [leftBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:5];
+        [rightBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:5];
     }
     else
     {
         [rightBtn setTitleColor:MainColor forState:normal];
         [leftBtn setTitleColor:[UIColor darkGrayColor] forState:normal];
+        [leftBtn setImage:[UIImage imageNamed:@"小推荐灰"] forState:normal];
+        [rightBtn setImage:[UIImage imageNamed:@"小推顶紫"] forState:normal];
+        [leftBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:5];
+        [rightBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:5];
     }
 }
 
@@ -1121,8 +1130,10 @@
     UIButton *btn1 = [self.tableView viewWithTag:2001];
     [btn0 setTitleColor:MainColor forState:normal];
     self.isLeftchoose = YES;
-    [btn1 setTitleColor:[UIColor darkGrayColor] forState:normal];
+    [btn1 setTitleColor:TextCOLOR forState:normal];
     [self createDataType:@"1"];
+    [btn0 setImage:[UIImage imageNamed:@"小推荐紫"] forState:normal];
+    [btn1 setImage:[UIImage imageNamed:@"小推顶灰"] forState:normal];
 }
 
 -(void)rightChooseclick
@@ -1131,8 +1142,10 @@
     UIButton *btn1 = [self.tableView viewWithTag:2001];
     [btn1 setTitleColor:MainColor forState:normal];
     self.isLeftchoose = NO;
-    [btn0 setTitleColor:[UIColor darkGrayColor] forState:normal];
+    [btn0 setTitleColor:TextCOLOR forState:normal];
     [self createDataType:@"1"];
+    [btn0 setImage:[UIImage imageNamed:@"小推荐灰"] forState:normal];
+    [btn1 setImage:[UIImage imageNamed:@"小推顶紫"] forState:normal];
 }
 
 - (void)warnButtonClick{
@@ -1192,7 +1205,7 @@
     
     NSArray *colorArray = @[@"0xff0000",@"0xb73acb",@"0x0000ff",@"0x18a153",@"0xf39700",@"0xff00ff",@"0x00a0e9"];
     
-    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, heightH + 3, WIDTH, 44)];
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, heightH, WIDTH, 44)];
     
     scrollView.backgroundColor = [UIColor whiteColor];
     
@@ -1214,7 +1227,8 @@
         
        // [btn setTitleColor:UIColorFromRGB(strtoul([colorArray[i%7] UTF8String], 0, 0)) forState:UIControlStateNormal];
         
-        btn.backgroundColor = UIColorFromRGB(strtoul([colorArray[i%7] UTF8String], 0, 0));
+        btn.backgroundColor = NewUIColorFromRGB(strtoul([colorArray[i%7] UTF8String], 0, 0));
+
         [btn setTitleColor:[UIColor whiteColor] forState:normal];
         
         btn.tag = 100 + i;

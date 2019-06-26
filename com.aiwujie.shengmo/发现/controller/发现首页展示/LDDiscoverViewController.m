@@ -27,6 +27,7 @@
 #import "LDOwnInformationViewController.h"
 #import "LDDynamicDetailViewController.h"
 
+#define NewUIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:0.5]
 
 @interface LDDiscoverViewController ()<SDCycleScrollViewDelegate>
 
@@ -312,7 +313,13 @@
                 btn.titleLabel.font = [UIFont systemFontOfSize:15.0];
                 
                 [btn setTitle:[NSString stringWithFormat:@"#%@#",_topicArray[i][@"title"]] forState:UIControlStateNormal];
-                [btn setTitleColor:UIColorFromRGB(strtoul([colorArray[i%7] UTF8String], 0, 0)) forState:UIControlStateNormal];
+//                [btn setTitleColor:UIColorFromRGB(strtoul([colorArray[i%7] UTF8String], 0, 0)) forState:UIControlStateNormal];
+                btn.backgroundColor = NewUIColorFromRGB((strtoul([colorArray[i%7] UTF8String], 0, 0)));
+                [btn setTitleColor:[UIColor whiteColor] forState:normal];
+                btn.layer.masksToBounds = YES;
+                btn.layer.cornerRadius = 14;
+                
+                
                 btn.tag = 100 + i;
                 
                 [btn addTarget:self action:@selector(btnButtonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -323,9 +330,9 @@
                 titleSize.height = 44;
                 titleSize.width += 20;
                 
-                btn.frame = CGRectMake(btnX + 40, 0, titleSize.width, titleSize.height);
-                
-                btnX = btnX + titleSize.width;
+                //btn.frame = CGRectMake(btnX + 40, 0, titleSize.width, titleSize.height);
+                btn.frame = CGRectMake(btnX + 40, 7, titleSize.width, 30);
+                btnX = btnX + titleSize.width+6;
                 
                 if (i == [responseObject[@"data"] count] - 1) {
                     
