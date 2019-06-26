@@ -183,10 +183,10 @@
     if(!_headerView)
     {
         _headerView = [[UIView  alloc] init];
-        _headerView.frame = CGRectMake(0, 0, WIDTH, 20);
+        _headerView.frame = CGRectMake(0, 0, WIDTH, 44);
         UILabel *lab = [UILabel new];
         [_headerView addSubview:lab];
-        lab.frame = CGRectMake(0, 0, WIDTH, 20);
+        lab.frame = CGRectMake(0, 15, WIDTH, 20);
         lab.font = [UIFont systemFontOfSize:13];
         lab.textAlignment = NSTextAlignmentCenter;
         lab.textColor = [UIColor whiteColor];

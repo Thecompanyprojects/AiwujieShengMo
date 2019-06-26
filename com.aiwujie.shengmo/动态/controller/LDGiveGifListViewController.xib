@@ -23,7 +23,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="50"/>
                     <subviews>
                         <button opaque="NO" tag="100" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Tc-Nh-OBM">
-                            <rect key="frame" x="18" y="20" width="96" height="32"/>
+                            <rect key="frame" x="22" y="20" width="96" height="32"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="96" id="tyM-uH-UZ1"/>
                             </constraints>
@@ -35,7 +35,7 @@
                             </connections>
                         </button>
                         <button opaque="NO" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NQI-vK-ceZ">
-                            <rect key="frame" x="133" y="28" width="109" height="16"/>
+                            <rect key="frame" x="134" y="28" width="107" height="16"/>
                             <state key="normal" title="动态推顶">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -46,17 +46,20 @@
                         <view hidden="YES" tag="201" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="35A-35-bk0">
                             <rect key="frame" x="155" y="45" width="65" height="2"/>
                             <color key="backgroundColor" red="0.71683843089999999" green="0.22636065729999999" blue="0.79763487840000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <rect key="contentStretch" x="0.0" y="0.0" width="1" height="0.65000000000000002"/>
                         </view>
                         <view tag="200" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pu3-ga-IpA">
-                            <rect key="frame" x="31" y="45" width="70" height="2"/>
+                            <rect key="frame" x="31" y="45" width="78" height="2"/>
                             <color key="backgroundColor" red="0.71683843089999999" green="0.22636065729999999" blue="0.79763487840000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <rect key="contentStretch" x="0.0" y="0.0" width="1" height="0.65000000000000002"/>
                         </view>
                         <view hidden="YES" tag="202" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YU1-U8-6Jl">
-                            <rect key="frame" x="282" y="45" width="63" height="2"/>
+                            <rect key="frame" x="272" y="45" width="73" height="2"/>
                             <color key="backgroundColor" red="0.71683843089999999" green="0.22636065729999999" blue="0.79763487840000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <rect key="contentStretch" x="0.0" y="0.0" width="1" height="0.65000000000000002"/>
                         </view>
                         <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3IW-yl-mRt">
-                            <rect key="frame" x="260" y="21" width="107" height="30"/>
+                            <rect key="frame" x="250" y="21" width="117" height="30"/>
                             <state key="normal" title="赠送VIP">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </state>
@@ -80,8 +83,8 @@
                         <constraint firstItem="Pu3-ga-IpA" firstAttribute="top" secondItem="PCx-EG-EhH" secondAttribute="bottom" constant="1" id="B43-rp-Rla"/>
                         <constraint firstItem="35A-35-bk0" firstAttribute="leading" secondItem="ZKm-cV-geZ" secondAttribute="leading" constant="155" id="DnQ-tl-rOW"/>
                         <constraint firstItem="PCx-EG-EhH" firstAttribute="leading" secondItem="ZKm-cV-geZ" secondAttribute="leading" id="JF5-vN-bWw"/>
-                        <constraint firstItem="3IW-yl-mRt" firstAttribute="leading" secondItem="NQI-vK-ceZ" secondAttribute="trailing" constant="18" id="KHI-Y3-QEt"/>
-                        <constraint firstItem="5Tc-Nh-OBM" firstAttribute="leading" secondItem="ZKm-cV-geZ" secondAttribute="leading" constant="18" id="Pit-U5-vqu"/>
+                        <constraint firstItem="3IW-yl-mRt" firstAttribute="leading" secondItem="NQI-vK-ceZ" secondAttribute="trailing" constant="9" id="KHI-Y3-QEt"/>
+                        <constraint firstItem="5Tc-Nh-OBM" firstAttribute="leading" secondItem="ZKm-cV-geZ" secondAttribute="leading" constant="22" id="Pit-U5-vqu"/>
                         <constraint firstItem="PCx-EG-EhH" firstAttribute="centerX" secondItem="NQI-vK-ceZ" secondAttribute="centerX" id="UeA-v1-76f"/>
                         <constraint firstItem="35A-35-bk0" firstAttribute="top" secondItem="YU1-U8-6Jl" secondAttribute="top" id="Vbb-0z-wlq"/>
                         <constraint firstItem="Pu3-ga-IpA" firstAttribute="leading" secondItem="ZKm-cV-geZ" secondAttribute="leading" constant="31" id="WU8-gY-7Q8"/>
@@ -95,7 +98,7 @@
                         <constraint firstItem="NQI-vK-ceZ" firstAttribute="centerX" secondItem="35A-35-bk0" secondAttribute="centerX" id="hXN-7M-cjl"/>
                         <constraint firstItem="3IW-yl-mRt" firstAttribute="baseline" secondItem="5Tc-Nh-OBM" secondAttribute="firstBaseline" id="nMJ-OI-1hU"/>
                         <constraint firstItem="Pu3-ga-IpA" firstAttribute="bottom" secondItem="35A-35-bk0" secondAttribute="bottom" id="nfx-oz-uTU"/>
-                        <constraint firstItem="NQI-vK-ceZ" firstAttribute="leading" secondItem="5Tc-Nh-OBM" secondAttribute="trailing" constant="19" id="nrQ-QO-VCt"/>
+                        <constraint firstItem="NQI-vK-ceZ" firstAttribute="leading" secondItem="5Tc-Nh-OBM" secondAttribute="trailing" constant="16" id="nrQ-QO-VCt"/>
                         <constraint firstItem="5Tc-Nh-OBM" firstAttribute="centerY" secondItem="NQI-vK-ceZ" secondAttribute="centerY" id="qLm-pP-sz3"/>
                         <constraint firstItem="NQI-vK-ceZ" firstAttribute="top" secondItem="ZKm-cV-geZ" secondAttribute="topMargin" id="wAg-fW-Feq"/>
                         <constraint firstItem="5Tc-Nh-OBM" firstAttribute="top" secondItem="ZKm-cV-geZ" secondAttribute="top" constant="20" id="wXx-ND-drs"/>
