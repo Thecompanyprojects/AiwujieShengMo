@@ -85,12 +85,12 @@
                 
                 UIAlertAction *month = [UIAlertAction actionWithTitle:VIPArray[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     
-                    if (&index!=0) {
+                    if (i!=0) {
                         NSString *urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/vip_beans"];
-                        NSDictionary *parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"viptype":[NSString stringWithFormat:@"%d",(int)index], @"beanstype":@"0",@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+                        NSDictionary *parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"viptype":[NSString stringWithFormat:@"%d",i], @"beanstype":@"0",@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
                         [self startExchangeWithUrl:urlString parameters:parameters];
                         
-                    }
+                    };
                 }];
                 
                 [VIPAlert addAction:month];
@@ -108,6 +108,7 @@
             [self presentViewController:VIPAlert animated:YES completion:nil];
             
         }];
+        
         UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"金魔豆兑换SVIP" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
             NSArray *SVIPArray = @[@"1个月/1920金魔豆", @"3个月/5220金魔豆", @"8个月/13470金魔豆", @"12个月/19470金魔豆"];
@@ -120,9 +121,9 @@
             for (int i = 0; i < arrs.count; i++) {
                 UIAlertAction *month = [UIAlertAction actionWithTitle:arrs[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                     
-                    if (&index!=0) {
+                    if (i!=0) {
                         NSString *urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/svip_beans"];
-                        NSDictionary *parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"subject":[NSString stringWithFormat:@"%d",(int)index], @"channel":@"1",@"vuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+                        NSDictionary *parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"subject":[NSString stringWithFormat:@"%d",i], @"channel":@"1",@"vuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
                         [self startExchangeWithUrl:urlString parameters:parameters];
                     }
                 }];
