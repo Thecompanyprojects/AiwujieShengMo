@@ -76,7 +76,8 @@
         if ([_index intValue] == 0) {
             if ([self.content intValue] == 1) {
                 url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getExchangeRecord"];
-                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"0"};
+               // parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"0"};
+                parameters = @{@"uid":@"18",@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"0"};
                 
             }else if ([self.content intValue] == 0){
                 //充值记录

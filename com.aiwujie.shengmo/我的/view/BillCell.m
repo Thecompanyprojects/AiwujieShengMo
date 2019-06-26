@@ -150,7 +150,7 @@
             }else{
                 vip = @"VIP";
             }
-            self.moneyLabel.text = [NSString stringWithFormat:@"赠%@%@[%@元]",model.nickname?:@"",vip,model.amount];
+            self.moneyLabel.text = [NSString stringWithFormat:@"赠%@%@%@",vip,model.amount,@"个月"];
         }
         //3:svip 4
         if ([model.state intValue] == 3){
@@ -166,7 +166,7 @@
             }else{
                 vip = @"SVIP";
             }
-            self.moneyLabel.text = [NSString stringWithFormat:@"赠%@[%@元]",vip,model.amount];
+             self.moneyLabel.text = [NSString stringWithFormat:@"赠%@%@%@",vip,model.amount,@"个月"];
         }
         //4 推顶卡
         if ([model.state intValue] == 4){
@@ -174,7 +174,7 @@
         }
         //充值魔豆
         if ([model.state intValue] == 5){
-            self.moneyLabel.text = [NSString stringWithFormat:@"赠金魔豆%@个",model.num];
+            self.moneyLabel.text = [NSString stringWithFormat:@"赠%@金魔豆%@个",model.fnickname,model.num];
         }
     }
     else if([self.type isEqualToString:@"充值兑换记录"] ){
@@ -203,11 +203,11 @@
             }else{
                 vip = @"VIP";
             }
-            self.moneyLabel.text = [NSString stringWithFormat:@"兑换%@[%@元]",vip,model.amount];
+            self.moneyLabel.text = [NSString stringWithFormat:@"兑换%@",vip];
         }
         //邮票
         if ([model.state intValue] == 2){
-            self.moneyLabel.text = [NSString stringWithFormat:@"兑换斯慕邮票%@张[%@元]",model.num,model.amount];
+            self.moneyLabel.text = [NSString stringWithFormat:@"兑换斯慕邮票%@张",model.num];
         }
         //3:svip 4
         if ([model.state intValue] == 3){
@@ -223,7 +223,7 @@
             }else{
                 vip = @"SVIP";
             }
-            self.moneyLabel.text = [NSString stringWithFormat:@"兑换%@[%@元]",vip,model.amount];
+            self.moneyLabel.text = [NSString stringWithFormat:@"兑换%@",vip];
         }
         //4 推顶卡
         if ([model.state intValue] == 4){
