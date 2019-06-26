@@ -121,12 +121,13 @@
                 [para setValue:uid forKey:@"uid"];
 
                 [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
+                    NSString *msg = [responseObj objectForKey:@"msg"];
                     if ([[responseObj objectForKey:@"retcode"] intValue]==1000) {
-                       [MBProgressHUD showMessage:@"兑换成功" toView:self.view];
+                       [MBProgressHUD showMessage:msg toView:self.view];
                     }
                     else
                     {
-                       [MBProgressHUD showMessage:@"兑换失败" toView:self.view];
+                       [MBProgressHUD showMessage:msg toView:self.view];
                     }
                 } failed:^(NSString *errorMsg) {
 

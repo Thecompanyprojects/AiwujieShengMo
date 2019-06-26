@@ -357,6 +357,70 @@
 
         }
     }
+    else if ([self.type isEqualToString:@"会员购买记录"])
+    {
+        
+        self.timeLabel.text = model.addtime_format;
+        self.weekLabel.text = model.week;
+        
+//        于（addtime_format）用（beans魔豆兑换|amount人民币购买）（long天）（pay_type 会员）（赠送给了fnickname用户）
+        BOOL isbeans = false;
+        
+        if (![model.beans isEqualToString:@"0"]) {
+            isbeans = YES;
+        }
+
+        BOOL isfonk = false;
+        if (model.nickname.length!=0) {
+            isfonk = YES;
+        }
+        NSString *str1 = @"";
+        if (isbeans) {
+            self.beanLabel.text = [NSString stringWithFormat:@"%@%@",model.beans,@"金魔豆"];
+        }
+        else
+        {
+            self.beanLabel.text = [NSString stringWithFormat:@"%@%@",model.amount,@"元"];
+        }
+        
+        if (isfonk) {
+            NSString *str = [NSString stringWithFormat:@"%@%@%@%@%@",@"赠",model.nickname,model.pay_type,model.days,@"天"];
+            self.moneyLabel.text = str;
+        }
+        else
+        {
+            NSString *str = [NSString stringWithFormat:@"%@%@%@%@%@",@"购买",str1,model.pay_type,model.days,@"天"];
+            self.moneyLabel.text = str;
+        }
+
+    }
+    else if ([self.type isEqualToString:@"会员获赠记录"])
+    {
+        self.timeLabel.text = model.addtime_format;
+        self.weekLabel.text = model.week;
+        BOOL isbeans = false;
+        
+        if (![model.beans isEqualToString:@"0"]) {
+            isbeans = YES;
+        }
+        
+        BOOL isfonk = false;
+        if (model.nickname.length!=0) {
+            isfonk = YES;
+        }
+        if (isbeans) {
+            self.beanLabel.text = [NSString stringWithFormat:@"%@%@",model.beans,@"金魔豆"];
+        }
+        else
+        {
+            
+            self.beanLabel.text = [NSString stringWithFormat:@"%@%@",model.beans,@"元"];
+        }
+        
+        NSString *str = [NSString stringWithFormat:@"%@%@%@%@%@%@",model.nickname,@"赠",@"我",model.pay_type,model.days,@"天"];
+        self.moneyLabel.text = str;
+
+    }
 }
 
 -(UILabel *)ccomentLabel

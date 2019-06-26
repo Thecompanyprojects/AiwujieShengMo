@@ -1189,24 +1189,15 @@
 -(void)createPublishCommentData{
     
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
     manager.requestSerializer.timeoutInterval = 10.f;
-    
     [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/judgeDynamicNewrd"];
-    
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    
-    //    NSLog(@"%@",role);
-    
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-        //        NSLog(@"%@",responseObject);
-        
+
         if (integer == 4003  || integer == 4004) {
             
             _publishComment = @"NO";

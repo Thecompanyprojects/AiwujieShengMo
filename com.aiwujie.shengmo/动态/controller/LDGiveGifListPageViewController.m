@@ -194,7 +194,7 @@
             lab.text = @"送500魔豆以上的礼物可上大喇叭";
         }
         if ([self.content isEqualToString:@"1"]) {
-            lab.text = @"推顶动态可上大喇叭";
+            lab.text = @"推顶动态可上大喇叭,可获魅力值";
         }
         if ([self.content isEqualToString:@"2"]) {
             lab.text = @"送会员可上大喇叭";

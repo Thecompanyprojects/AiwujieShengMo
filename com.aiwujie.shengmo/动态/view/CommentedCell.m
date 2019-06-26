@@ -89,11 +89,10 @@
     }else if ([self.type intValue] == 4){
         
         self.contentLabel.isCopyable = NO;
-        
+        self.timeLabel.text = [[TimeManager defaultTool] getDateFormatStrFromTimeStampWithMin:model.addtime];
         self.contentLabel.text = [NSString stringWithFormat:@"%@推顶了你",model.nickname];
     }
-    
-    
+
     self.contentLabel.lineBreakMode = NSLineBreakByWordWrapping;
     
     [self.contentLabel sizeToFit];

@@ -14,6 +14,7 @@
 
 @property (nonatomic,strong) BillModel *model;
 
+
 @property (nonatomic,copy) NSString *type;
 
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;

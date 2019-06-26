@@ -14,4 +14,10 @@
 
 }
 
++ (nullable NSDictionary<NSString *, id> *)modelCustomPropertyMapper {
+    
+    return @{@"Newlong" : @"long"};
+}
+
+
 @end

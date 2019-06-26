@@ -15,6 +15,8 @@
 @property (nonatomic, strong) UIPageViewController *pageViewController;
 @property (nonatomic, strong) NSArray *pageContentArray;
 @property (nonatomic, strong) LDBillViewController *billViewController;
+@property (weak, nonatomic) IBOutlet UIButton *rightBtn;
+@property (weak, nonatomic) IBOutlet UIButton *leftBtn;
 
 @end
 
@@ -45,13 +47,13 @@
     // Do any additional setup after loading the view from its nib.
     if (self.isfromVip) {
         self.navigationItem.title = @"会员明细";
+        [self.rightBtn setTitle:@"获赠记录" forState:normal];
+        [self.leftBtn setTitle:@"购买记录" forState:normal];
     }
     else
     {
         self.navigationItem.title = @"充值明细";
     }
-
-    
     //生成翻页控制器
     [self createPageViewController];
     

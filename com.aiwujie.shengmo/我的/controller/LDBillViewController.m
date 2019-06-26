@@ -53,60 +53,85 @@
 -(void)createData:(NSString *)type{
     NSString *url = [NSString string];
     NSDictionary *parameters = [NSDictionary dictionary];
-    if ([_index intValue] == 0) {
-        if ([self.content intValue] == 1) {
+    
+    if (self.isfromVip) {
+        if ([self.content intValue]==0) {
+            //vip 购买记录
+            url = [PICHEADURL stringByAppendingString:@"Api/users/vipbuylist"];
+            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+            
+        }
+        else
+        {
+            //vip获赠记录
+            
+            url = [PICHEADURL stringByAppendingString:@"Api/users/vipgiftlist"];
+            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+            
+        }
+    }
+    else
+    {
+        
+        if ([_index intValue] == 0) {
+            if ([self.content intValue] == 1) {
                 url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getExchangeRecord"];
                 parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"0"};
-            
-        }else if ([self.content intValue] == 0){
+                
+            }else if ([self.content intValue] == 0){
                 //充值记录
                 url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getWalletRecord"];
                 parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+                
+            }
+        }else if ([self.index intValue] == 1) {
+            if ([self.content intValue] == 0) {
+                
+                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getReceivePresent"];
+                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+            }else if([self.content intValue] == 1){
+                
+                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getBasicGiveRecord"];
+                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+            }else if ([self.content intValue] == 2){
+                
+                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getWalletRecord"];
+                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+            }
+        }
+        if([_index intValue] == 2){
+            if ([self.content intValue] == 0) {
+                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getStampPaymentRs"];
+                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+            }else if([self.content intValue] == 1){
+                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getBasicStampGiveRs"];
+                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+            }else if ([self.content intValue] == 2){
+                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getStampUsedRs"];
+                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+            }
+        }
+        if([_index intValue] == 3)
+        {
+            if ([self.content intValue] == 0) {
+                url = [PICHEADURL stringByAppendingString:@"Api/users/getTopcardPaymentRs"];
+                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+            }
+            if ([self.content intValue] == 1) {
+                url = [PICHEADURL stringByAppendingString:@"Api/users/getTopcardUsedRs"];
+                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+            }
+            if ([self.content intValue] == 2) {
+                url = [PICHEADURL stringByAppendingString:@"Api/users/getTopcardUsedRs"];
+                parameters = @{@"fuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+            }
             
         }
-    }else if ([self.index intValue] == 1) {
-        if ([self.content intValue] == 0) {
-            
-            url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getReceivePresent"];
-            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-        }else if([self.content intValue] == 1){
-            
-            url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getBasicGiveRecord"];
-            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-        }else if ([self.content intValue] == 2){
-            
-            url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getWalletRecord"];
-            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-        }
+        
+        
     }
-    if([_index intValue] == 2){
-        if ([self.content intValue] == 0) {
-            url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getStampPaymentRs"];
-            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-        }else if([self.content intValue] == 1){
-            url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getBasicStampGiveRs"];
-            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-        }else if ([self.content intValue] == 2){
-            url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getStampUsedRs"];
-            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-        }
-    }
-     if([_index intValue] == 3)
-     {
-         if ([self.content intValue] == 0) {
-            url = [PICHEADURL stringByAppendingString:@"Api/users/getTopcardPaymentRs"];
-            parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-         }
-         if ([self.content intValue] == 1) {
-             url = [PICHEADURL stringByAppendingString:@"Api/users/getTopcardUsedRs"];
-             parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-         }
-         if ([self.content intValue] == 2) {
-             url = [PICHEADURL stringByAppendingString:@"Api/users/getTopcardUsedRs"];
-             parameters = @{@"fuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-         }
-         
-    }
+    
+   
     
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
@@ -140,18 +165,27 @@
         [self.tableView.mj_footer endRefreshing];
 
     }];
-    
 }
 
 -(void)createTableView{
     
-    if (([_index intValue] == 0 && [self.content intValue] == 1)) {
-        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 41, WIDTH, [self getIsIphoneX:ISIPHONEX] - 52 - 41) style:UITableViewStylePlain];
-    }
-    else{
+    if (self.isfromVip) {
     
         self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX] - 52) style:UITableViewStylePlain];
+
     }
+    else
+    {
+        if (([_index intValue] == 0 && [self.content intValue] == 1)) {
+            self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 41, WIDTH, [self getIsIphoneX:ISIPHONEX] - 52 - 41) style:UITableViewStylePlain];
+        }
+        else{
+            
+            self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX] - 52) style:UITableViewStylePlain];
+        }
+    }
+    
+ 
     if ([self.content intValue]==0&&[self.index intValue]!=1) {
         [self.chargeGiveButton setTitle:@"购买" forState:normal];
     }
@@ -185,53 +219,67 @@
         cell = [[NSBundle mainBundle] loadNibNamed:@"BillCell" owner:self options:nil].lastObject;
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     BillModel *model = _dataArray[indexPath.row];
-    if ([_index intValue] == 1) {
-        if ([self.content intValue] == 0) {
-            cell.type = @"收到的礼物";
-        }else if ([self.content intValue] == 1){
-            cell.type = @"礼物系统赠送";
-        }else if ([self.content intValue] == 2){
-            cell.type = @"礼物兑换记录";
+    if (self.isfromVip) {
+        if ([self.content intValue]==0) {
+            cell.type = @"会员购买记录";
         }
-    }else if ([_index intValue] == 0){
-        if ([self.content intValue] == 0) {
-            cell.type = @"充值记录";
-        }else if ([self.content intValue] == 1){
-            if ([_buttonState intValue] == 1) {
-                cell.type = @"充值赠送记录";
-            }else if ([_buttonState intValue] == 2){
-                cell.type = @"充值兑换记录";
+        else
+        {
+            cell.type = @"会员获赠记录";
+        }
+    }
+    else
+    {
+        if ([_index intValue] == 1) {
+            if ([self.content intValue] == 0) {
+                cell.type = @"收到的礼物";
+            }else if ([self.content intValue] == 1){
+                cell.type = @"礼物系统赠送";
+            }else if ([self.content intValue] == 2){
+                cell.type = @"礼物兑换记录";
+            }
+        }else if ([_index intValue] == 0){
+            if ([self.content intValue] == 0) {
+                cell.type = @"充值记录";
+            }else if ([self.content intValue] == 1){
+                if ([_buttonState intValue] == 1) {
+                    cell.type = @"充值赠送记录";
+                }else if ([_buttonState intValue] == 2){
+                    cell.type = @"充值兑换记录";
+                }
+            }
+        }else if ([_index intValue] == 2){
+            
+            if ([self.content intValue] == 0) {
+                cell.type = @"邮票购买记录";
+            }else if ([self.content intValue] == 1){
+                
+                cell.type = @"邮票系统赠送记录";
+                
+            }else if([self.content intValue] == 2){
+                
+                cell.type = @"邮票使用记录";
             }
         }
-    }else if ([_index intValue] == 2){
-    
-        if ([self.content intValue] == 0) {
-            cell.type = @"邮票购买记录";
-        }else if ([self.content intValue] == 1){
-        
-            cell.type = @"邮票系统赠送记录";
-           
-        }else if([self.content intValue] == 2){
-        
-            cell.type = @"邮票使用记录";
+        else if ([_index intValue] == 3){
+            
+            if ([self.content intValue] == 0) {
+                
+                cell.type = @"推顶购买记录";
+                
+            }else if ([self.content intValue] == 1){
+                
+                cell.type = @"推顶使用记录";
+                
+            }else if([self.content intValue] == 2){
+                
+                cell.type = @"他人推顶记录";
+            }
         }
     }
-    else if ([_index intValue] == 3){
-        
-        if ([self.content intValue] == 0) {
-            
-            cell.type = @"推顶购买记录";
-            
-        }else if ([self.content intValue] == 1){
-            
-            cell.type = @"推顶使用记录";
-            
-        }else if([self.content intValue] == 2){
-            
-            cell.type = @"他人推顶记录";
-        }
-    }
+   
     cell.model = model;
     return cell;
 }

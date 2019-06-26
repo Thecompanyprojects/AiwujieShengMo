@@ -19,29 +19,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "com.aiwujie.shengmo/&#x6211;&#x7684;/view/BillCell.m"
-            timestampString = "583215453.514244"
+            filePath = "com.aiwujie.shengmo/&#x6211;&#x7684;/controller/LDMemberViewController.m"
+            timestampString = "583245603.3097709"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
-            landmarkName = "-setModel:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "com.aiwujie.shengmo/&#x9996;&#x9875;/controller/LDownInfoDynamicViewController.m"
-            timestampString = "583207040.411211"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1304"
-            endingLineNumber = "1304"
-            landmarkName = "-createDataType:"
+            startingLineNumber = "229"
+            endingLineNumber = "229"
+            landmarkName = "-newrightButtonOnClic"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

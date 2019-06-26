@@ -52,4 +52,11 @@
 @property (nonatomic , copy) NSString              * vip;
 @property (nonatomic , copy) NSString              * vipannual;
 @property (nonatomic , copy) NSString              * role;
+
+@property (nonatomic , copy) NSString              * days;
+@property (nonatomic , copy) NSString              * pay_type;
+@property (nonatomic , copy) NSString              * channel;
+@property (nonatomic , copy) NSString              * fnickname;
+
+
 @end
