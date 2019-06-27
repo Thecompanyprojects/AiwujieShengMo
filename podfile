@@ -18,5 +18,5 @@ pod 'Bugly'
 pod 'YYModel'
 pod 'DZNEmptyDataSet'
 pod 'SDAutoLayout'
-pod 'ThinkVerb'
+#pod 'ThinkVerb'
 end
