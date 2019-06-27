@@ -14,6 +14,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import "UMMobClick/MobClick.h"
 #import <Bugly/Bugly.h>
+#import "XYRichMessageContent.h"
 
 
 @interface AppDelegate ()<CLLocationManagerDelegate,RCIMConnectionStatusDelegate,UIAlertViewDelegate,RCIMReceiveMessageDelegate,WXApiDelegate,WeiboSDKDelegate,QQApiInterfaceDelegate>
@@ -107,6 +108,9 @@
     [RCIM sharedRCIM].globalNavigationBarTintColor = [UIColor blackColor];
     
     [RCIMClient sharedRCIMClient].logLevel = RC_Log_Level_Info;
+    
+    // 注册自定义测试消息
+    [[RCIM sharedRCIM] registerMessageType:[XYRichMessageContent class]];
     
     //前台提示音开关
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"voiceSwitch"] == nil || [[[NSUserDefaults standardUserDefaults] objectForKey:@"voiceSwitch"] isEqualToString:@"no"]) {

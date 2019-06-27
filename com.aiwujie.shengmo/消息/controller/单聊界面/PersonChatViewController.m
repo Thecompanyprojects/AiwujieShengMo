@@ -16,8 +16,6 @@
 #import "XYRichMessageContent.h"
 #import "LDMyWalletPageViewController.h"
 
-
-
 @interface PersonChatViewController ()<RCPluginBoardViewDelegate>
 @property (strong, nonatomic) UIView *upView;
 //礼物界面
@@ -37,8 +35,7 @@
     [super viewDidLoad];
 
     
-    // 注册自定义测试消息
-    [[RCIM sharedRCIM] registerMessageType:[XYRichMessageContent class]];
+
     //注册自定义消息Cell
     [self registerClass:[XYRichMessageCell class] forMessageClass:[XYRichMessageContent class]];
 
@@ -146,7 +143,11 @@
             XYRichMessageContent *addcontent = [XYRichMessageContent messageWithDict:para];
             addcontent.number = dic[@"num"];
             addcontent.imageName = dic[@"image"];
-            [weakSelf sendMessage:addcontent pushContent:nil];
+            
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:para options:0 error:0];
+            NSString *dataStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            
+            [weakSelf sendMessage:addcontent pushContent:dataStr];
 
             
         };

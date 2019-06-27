@@ -104,10 +104,10 @@
     }
     
     CGSize contentViewSize = self.bubbleBackgroundView.bounds.size;
-    [self.titleLabel setFrame:CGRectMake(76, 10, contentViewSize.width - 80, 20)];
+    [self.titleLabel setFrame:CGRectMake(76, 30, contentViewSize.width - 80, 20)];
     [self.detailLabel setFrame:CGRectMake(76, 33, contentViewSize.width - 80, 40)];
     [self.imageView setCenter:CGPointMake(40, 40)];
-    NSString *str1 = [NSString stringWithFormat:@"%@%@%@",richMessage.imageName,@"X",richMessage.number];
+    NSString *str1 = [NSString stringWithFormat:@"%@%@%@",richMessage.imageName,@" × ",richMessage.number];
     [self.titleLabel setText:str1];
     
     NSDateFormatter *objDateformat = [[NSDateFormatter alloc] init];
@@ -122,8 +122,6 @@
 //    }
     UIImage *img = [UIImage imageNamed:self.imageName];
     [self.imageView setImage:img];
-
-    
 }
 
 @end
