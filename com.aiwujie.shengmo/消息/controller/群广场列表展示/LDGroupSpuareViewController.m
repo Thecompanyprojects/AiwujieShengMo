@@ -429,14 +429,15 @@
 
 -(void)createButton{
     
-    UIButton * rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
-    [rightButton setTitle:@"创建" forState:UIControlStateNormal];
-    [rightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    rightButton.titleLabel.font = [UIFont systemFontOfSize:14];
-    [rightButton addTarget:self action:@selector(createGroupButtonOnClick) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem* rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+    //暂时关闭创建功能
     
-    self.navigationItem.rightBarButtonItems = @[rightBarButtonItem];
+//    UIButton * rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 20)];
+//    [rightButton setTitle:@"创建" forState:UIControlStateNormal];
+//    [rightButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    rightButton.titleLabel.font = [UIFont systemFontOfSize:14];
+//    [rightButton addTarget:self action:@selector(createGroupButtonOnClick) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem* rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+//    self.navigationItem.rightBarButtonItems = @[rightBarButtonItem];
 }
 
 ////筛选按钮点击

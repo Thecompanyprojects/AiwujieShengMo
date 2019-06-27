@@ -1093,21 +1093,19 @@
             
             [MBProgressHUD showHUDAddedTo:self.view animated:YES];
             
-            AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-            
             NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Power/getAllUserStatus"];
             
             NSDictionary *parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"uid":self.userID};
             
-            [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
                 
-                NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
+                NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
                 
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
                 
                 if (integer == 2000) {
                     
-                    if ([responseObject[@"data"][@"status"] intValue] == 1) {
+                    if ([responseObj[@"data"][@"status"] intValue] == 1) {
                         
                         [self unenableUse:@"1" andBlockingAlong:@"0"];
                         
@@ -1122,11 +1120,8 @@
                     
                     [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"操作失败~"];
                 }
-                
-            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                
+            } failed:^(NSString *errorMsg) {
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
-                
             }];
             
         }];
@@ -1407,8 +1402,6 @@
     UIAlertAction *titleDeviceAction = [UIAlertAction actionWithTitle:titleDevice style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
-        AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-        
         NSString *url;
         
         if ([dic[@"devicestatus"] intValue] == 1) {
@@ -1423,11 +1416,10 @@
         
         NSDictionary *parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"uid":self.userID};
         
-        [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
             
-            NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
+            NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
             
-
             if (integer != 2000) {
                 
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -1440,11 +1432,8 @@
                 
                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"操作成功"];
             }
-            
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
-            [MBProgressHUD hideHUDForView:self.view animated:YES];
-            
+        } failed:^(NSString *errorMsg) {
+             [MBProgressHUD hideHUDForView:self.view animated:YES];
         }];
        
     }];
@@ -1640,8 +1629,7 @@
             self.blackLabel.clipsToBounds = YES;
            
             self.admin_mark = responseObj[@"data"][@"admin_mark"]?:@"";
-//            self.lmarkNameStr = responseObj[@"data"][@"lmarkname"]?:@"";
-//
+            
             NSDictionary *dict = responseObj[@"data"];
             self.inmodel = [infoModel yy_modelWithDictionary:dict];
             
@@ -1769,7 +1757,6 @@
                 self.attentButton.hidden = NO;
                 
                 self.giveGifButton.hidden = NO;
-                
             }
             
             if ([responseObj[@"data"][@"mediaalong"] intValue] == 0) {
@@ -2104,15 +2091,19 @@
     self.backGroundView.contentMode = UIViewContentModeScaleAspectFill;
     self.backGroundView.clipsToBounds = YES;
 
-    
+    CGFloat marknameHei = 0.00f;
     if (model.markname.length!=0) {
-        self.backViewY.constant = 38;
+        marknameHei = 22;
+        self.markfloat1 = 0.00f;
+        self.backViewY.constant = 16+marknameHei;
         self.nameLabel.text = model.markname;
         self.oldnameLab.text = [NSString stringWithFormat:@"%@%@%@",@"(",model.nickname,@")"];
         [self.oldnameLab setHidden:NO];
     }
     else
     {
+        marknameHei = 0.00f;
+        self.backViewY.constant = 16;
         self.markfloat1 = 27;
         self.nameLabel.text = model.nickname;
         [self.oldnameLab setHidden:YES];
