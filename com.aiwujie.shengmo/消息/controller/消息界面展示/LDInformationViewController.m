@@ -171,6 +171,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteChatCache) name:@"清空聊天记录" object:nil];
 }
 
+
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     RCConversationModel *model = self.conversationListDataSource[indexPath.row];
@@ -244,8 +245,18 @@
                              atIndexPath:(NSIndexPath *)indexPath{
 
     RCConversationCell *messageCell = (RCConversationCell *)cell;
-    
     messageCell.lastSendMessageStatusView.image = [UIImage imageNamed:@"已读"];
+    
+//    UIImageView *vipImg = [UIImageView new];
+//    vipImg.backgroundColor = [UIColor redColor];
+//    [messageCell addSubview:vipImg];
+//    [vipImg mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(messageCell.headerImageView);
+//        make.bottom.equalTo(messageCell.headerImageView);
+//        make.width.mas_offset(20);
+//        make.height.mas_offset(20);
+//    }];
+    
 }
 
 //重写RCConversationListViewController的onSelectedTableRow事件

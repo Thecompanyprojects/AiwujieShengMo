@@ -70,6 +70,8 @@
 //掉落的时间
 @property (nonatomic,assign) int second;
 
+//图片字符串
+@property (nonatomic,copy) NSString *imageName;
 @end
 
 @implementation GifView
@@ -122,7 +124,6 @@
             }   
         }
         
-//        [self createUI:frame];
         [self createUI:frame wihtismine:ismine];
         [self createData];
         
@@ -171,8 +172,6 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //        NSLog(@"%@",responseObject);
         
         if (integer != 2000) {
             
@@ -422,10 +421,15 @@
         
     }else{
         
-       MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:_viewController.view animated:YES];
+        if (self.sendmessageBlock) {
+            NSDictionary *dic = @{@"num":self.buyField.text,@"image":self.imageName};
+            self.sendmessageBlock(dic);
+        }
+        
+        MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:_viewController.view animated:YES];
         HUD.mode = MBProgressHUDModeIndeterminate;
         
-        NSURL* url;
+        NSURL *url;
         
         NSDictionary *d;
         
@@ -475,12 +479,10 @@
                 
                 NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 
-                //            NSLog(@"服务器返回：%@",result);
-                
+
                 NSDictionary *responseDic = [self parseJSONStringToNSDictionary:result];
                 
-//                NSLog(@"%@",responseDic);
-                
+
                 if ([responseDic[@"retcode"] intValue] == 2000) {
                     
                     if ([_sign isEqualToString:@"赠送给某人"]) {
@@ -604,12 +606,12 @@
     if (_isSelect) {
         
         image.image = [UIImage imageNamed:_grayArray[button.tag/1000 - 1][button.tag%1000]];
-
+        self.imageName = _grayArray[button.tag/1000 - 1][button.tag%1000];
     }else{
     
             
         image.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@",_systemArray[[_systemGifArray[button.tag%1000][@"type"] intValue] - 37]]];
-        
+        self.imageName = _systemArray[[_systemGifArray[button.tag%1000][@"type"] intValue] - 37];
     }
     
     _gifImage = image.image;

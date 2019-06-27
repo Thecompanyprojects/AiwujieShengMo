@@ -260,6 +260,10 @@
 		531D73A022AF80A600903BB4 /* LdtopHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D739F22AF80A600903BB4 /* LdtopHeaderView.m */; };
 		5323946922B90BDE001BF94C /* bottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5323946822B90BDE001BF94C /* bottomView.m */; };
 		5372254B22ABF8E30082472A /* NetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5372254922ABF8E30082472A /* NetManager.m */; };
+		5385593222C4A2B100980E18 /* mymessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385593122C4A2B100980E18 /* mymessageCell.m */; };
+		5385593522C4A44D00980E18 /* mymessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385593422C4A44D00980E18 /* mymessageContent.m */; };
+		5385593A22C4B15A00980E18 /* XYRichMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385593622C4B15900980E18 /* XYRichMessageContent.m */; };
+		5385593B22C4B15A00980E18 /* XYRichMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385593822C4B15A00980E18 /* XYRichMessageCell.m */; };
 		53A2E6B622BC793700403D83 /* infoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A2E6B522BC793700403D83 /* infoModel.m */; };
 		53A7138A22BDD4F9009839E6 /* changeAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A7138922BDD4F9009839E6 /* changeAlertView.m */; };
 		53B7C0EC22B3418800113F50 /* EditinfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C0EB22B3418800113F50 /* EditinfoModel.m */; };
@@ -904,6 +908,14 @@
 		5323946822B90BDE001BF94C /* bottomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = bottomView.m; sourceTree = "<group>"; };
 		5372254922ABF8E30082472A /* NetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetManager.m; sourceTree = "<group>"; };
 		5372254A22ABF8E30082472A /* NetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetManager.h; sourceTree = "<group>"; };
+		5385593022C4A2B100980E18 /* mymessageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mymessageCell.h; sourceTree = "<group>"; };
+		5385593122C4A2B100980E18 /* mymessageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mymessageCell.m; sourceTree = "<group>"; };
+		5385593322C4A44D00980E18 /* mymessageContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mymessageContent.h; sourceTree = "<group>"; };
+		5385593422C4A44D00980E18 /* mymessageContent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = mymessageContent.m; sourceTree = "<group>"; };
+		5385593622C4B15900980E18 /* XYRichMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XYRichMessageContent.m; sourceTree = "<group>"; };
+		5385593722C4B15A00980E18 /* XYRichMessageContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XYRichMessageContent.h; sourceTree = "<group>"; };
+		5385593822C4B15A00980E18 /* XYRichMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XYRichMessageCell.m; sourceTree = "<group>"; };
+		5385593922C4B15A00980E18 /* XYRichMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XYRichMessageCell.h; sourceTree = "<group>"; };
 		53A2E6B422BC793700403D83 /* infoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = infoModel.h; sourceTree = "<group>"; };
 		53A2E6B522BC793700403D83 /* infoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = infoModel.m; sourceTree = "<group>"; };
 		53A7138822BDD4F9009839E6 /* changeAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = changeAlertView.h; sourceTree = "<group>"; };
@@ -1750,6 +1762,14 @@
 				D205ABFC1F34599800DF1333 /* GroupSearchCell.h */,
 				D205ABFD1F34599800DF1333 /* GroupSearchCell.m */,
 				D205ABFE1F34599800DF1333 /* GroupSearchCell.xib */,
+				5385593022C4A2B100980E18 /* mymessageCell.h */,
+				5385593122C4A2B100980E18 /* mymessageCell.m */,
+				5385593322C4A44D00980E18 /* mymessageContent.h */,
+				5385593422C4A44D00980E18 /* mymessageContent.m */,
+				5385593922C4B15A00980E18 /* XYRichMessageCell.h */,
+				5385593822C4B15A00980E18 /* XYRichMessageCell.m */,
+				5385593722C4B15A00980E18 /* XYRichMessageContent.h */,
+				5385593622C4B15900980E18 /* XYRichMessageContent.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -3676,6 +3696,7 @@
 				D20E88F71F0624C0008D174C /* LDStampChatView.m in Sources */,
 				003B9A711E06BFA7006BF162 /* LDDynamicViewController.m in Sources */,
 				D2FEB5CE1EC416B6002A0886 /* GroupAtPersonCell.m in Sources */,
+				5385593B22C4B15A00980E18 /* XYRichMessageCell.m in Sources */,
 				53A2E6B622BC793700403D83 /* infoModel.m in Sources */,
 				000E774D1E2E0A9E00F2894B /* GroupMemberListCell.m in Sources */,
 				00E85EAC1E02BA6F004AB146 /* AppDelegate.m in Sources */,
@@ -3688,6 +3709,7 @@
 				D2376E921F0E424600C9D9D8 /* UIImage+Extension.m in Sources */,
 				D232FA591E73BC6E001D4018 /* LDSetGenstureViewController.m in Sources */,
 				004B2C921E33438C00EDCCC1 /* MGSelectionTagView.m in Sources */,
+				5385593A22C4B15A00980E18 /* XYRichMessageContent.m in Sources */,
 				531D738222ADF3D800903BB4 /* LDProvacyCell1.m in Sources */,
 				D2DAD0501EFCEBA80015793F /* LDMyWalletPageViewController.m in Sources */,
 				D213FD951ED41DB6001160F7 /* LDBindingPhoneNumViewController.m in Sources */,
@@ -3811,6 +3833,7 @@
 				D25BA6BD1EFE24F9003990A3 /* StampCell.m in Sources */,
 				00EC8EF21E1D24E6001521D8 /* LDSetViewController.m in Sources */,
 				53F3B95522B74C1900F0EDF5 /* newsManager.swift in Sources */,
+				5385593522C4A44D00980E18 /* mymessageContent.m in Sources */,
 				D2BB081A1EF7C2D700EB3080 /* GiveGifCell.m in Sources */,
 				0043DB411E2B50A400577DE5 /* LDLookOtherGroupInformationViewController.m in Sources */,
 				D201C3CB1EF37ECA004281BA /* LDSoundControlViewController.m in Sources */,
@@ -3845,6 +3868,7 @@
 				D232FA6D1E73C11C001D4018 /* WUGesturesUnlockIndicator.m in Sources */,
 				00181B5D1E097D6D007177E6 /* LDSearchUserViewController.m in Sources */,
 				D20016D41F46C4160045D0A2 /* SDCollectionViewCell.m in Sources */,
+				5385593222C4A2B100980E18 /* mymessageCell.m in Sources */,
 				00EC29871E193A1D0066273A /* LDLookOrBeLookViewController.m in Sources */,
 				D21DA6C81EC5988200827A2E /* LDPopularityRankingViewController.m in Sources */,
 				D29AF6ED1FBD632C001098B3 /* HJTabViewControllerPlugin_HeaderScroll.m in Sources */,

@@ -10,9 +10,18 @@
 #import "LDOwnInformationViewController.h"
 #import "LDLookOtherGroupInformationViewController.h"
 #import "LDGroupInformationViewController.h"
+#import "GifView.h"
 
-@interface PersonChatViewController ()
+#import "XYRichMessageCell.h"
+#import "XYRichMessageContent.h"
+#import "LDMyWalletPageViewController.h"
+
+
+
+@interface PersonChatViewController ()<RCPluginBoardViewDelegate>
 @property (strong, nonatomic) UIView *upView;
+//礼物界面
+@property (nonatomic,strong) GifView *gif;
 @end
 
 @implementation PersonChatViewController
@@ -27,6 +36,13 @@
     
     [super viewDidLoad];
 
+    
+    // 注册自定义测试消息
+    [[RCIM sharedRCIM] registerMessageType:[XYRichMessageContent class]];
+    //注册自定义消息Cell
+    [self registerClass:[XYRichMessageCell class] forMessageClass:[XYRichMessageContent class]];
+
+    
     if (_type != personIsNormal) {
         
         //更改导航栏的标题文字
@@ -91,7 +107,57 @@
  
     [self createButton];
     
+    [self addredEnvelope];
 }
+
+
+/**
+ 聊天页面发红包
+ */
+-(void)addredEnvelope
+{
+    self.chatSessionInputBarControl.pluginBoardView.pluginBoardDelegate = self;
+    [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"推顶火箭"] title:@"红包" atIndex:6 tag:2001];
+}
+
+- (void)pluginBoardView:(RCPluginBoardView *)pluginBoardView clickedItemWithTag:(NSInteger)tag
+{
+    [super pluginBoardView:pluginBoardView clickedItemWithTag:tag];
+    if (tag==2001) {
+        //红包功能
+        
+        _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) andisMine:NO :^{
+            LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
+            cvc.type = @"0";
+            [self.navigationController pushViewController:cvc animated:YES];
+            
+        }];
+        [_gif getPersonUid:self.mobile andSign:@"赠送给某人"andUIViewController:self];
+        
+        __weak typeof (self) weakSelf = self;
+        
+        _gif.sendmessageBlock = ^(NSDictionary *dic) {
+            NSString *imagename = [dic objectForKey:@"image"];
+            
+//            NSString *title = @"我是标题";
+//            NSArray *imgarray = [NSArray arrayWithObjects:[UIImage imageNamed:imagename], nil];
+            
+            NSDictionary *para = @{@"number":dic[@"num"],@"imageName":imagename};
+            XYRichMessageContent *addcontent = [XYRichMessageContent messageWithDict:para];
+            addcontent.number = dic[@"num"];
+            addcontent.imageName = dic[@"image"];
+            [weakSelf sendMessage:addcontent pushContent:nil];
+
+            
+        };
+        [self.tabBarController.view addSubview:_gif];
+        
+        
+        
+    }
+}
+
+
 
 /**
   * 更改导航栏的标题文字
@@ -328,7 +394,6 @@
 //点击聊天头像查看个人信息
 
 - (void)didTapCellPortrait:(NSString *)userId{
-//        NSLog(@"%@",userId);
     
     [self createData:userId];
     
