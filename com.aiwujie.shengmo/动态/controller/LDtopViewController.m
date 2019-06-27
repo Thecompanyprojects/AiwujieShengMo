@@ -39,13 +39,16 @@
     NSString *url;
     NSDictionary *parameters;
     parameters = @{@"fuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+    
     url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getTopcardUsedRs];
     
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (integer == 2000){
+            
             NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[CommentedModel class] json:responseObj[@"data"]]];
             [self.dataSource addObjectsFromArray:data];
+            
             self.tableView.mj_footer.hidden = NO;
             [self.tableView reloadData];
             [self.tableView.mj_footer endRefreshing];
@@ -90,7 +93,7 @@
     if (!cell) {
         cell = [[NSBundle mainBundle] loadNibNamed:@"CommentedCell" owner:self options:nil].lastObject;
     }
-    CommentedModel *model = self.dataSource[indexPath.section];
+    CommentedModel *model = self.dataSource[indexPath.row];
     cell.type = @"4";
     cell.model = model;
     _cellH = cell.contentView.frame.size.height;

@@ -55,7 +55,7 @@
     if ([self.type isEqualToString:@"popularity"]) {
         
         if ([self.content intValue] >3 && [self.content intValue] < 8) {
-            
+            //点赞排行版  0 1 2 3
             url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getBeLaudedRankingList"];
             
             type = [NSString stringWithFormat:@"%d",[self.content intValue] - 4];
@@ -217,7 +217,6 @@
             
             cell = [[NSBundle mainBundle] loadNibNamed:@"RankingCell" owner:self options:nil].lastObject;
         }
-        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         RankingModel *model = _dataArray[indexPath.row];

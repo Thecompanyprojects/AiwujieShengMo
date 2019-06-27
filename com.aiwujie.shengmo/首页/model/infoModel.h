@@ -10,13 +10,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface infoModel : NSObject<NSCoding,NSCopying>
+@interface infoModel : NSObject
 @property (nonatomic , copy) NSString              * media;
 @property (nonatomic , copy) NSString              * follow_num;
 @property (nonatomic , copy) NSString              * wealth_val;
 @property (nonatomic , copy) NSString              * is_admin;
 @property (nonatomic , copy) NSString              * timePoorState;
 @property (nonatomic , copy) NSString              * sex;
+@property (nonatomic , copy) NSString              * lmarkname;
 @property (nonatomic , copy) NSString              * weight;
 @property (nonatomic , copy) NSString              * group_num;
 @property (nonatomic , copy) NSArray<NSString *>              * photo;
@@ -57,11 +58,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic , copy) NSString              * uid;
 @property (nonatomic , copy) NSString              * level;
 @property (nonatomic , copy) NSString              * nickname;
+@property (nonatomic , copy) NSString              * admin_mark;
 @property (nonatomic , copy) NSString              * is_likeliar;
 @property (nonatomic , copy) NSString              * city;
 @property (nonatomic , copy) NSString              * dynamic_num;
 @property (nonatomic , copy) NSString              * is_hand;
 @property (nonatomic , copy) NSString              * comment_num;
+@property (nonatomic , copy) NSString              * markname;
 @property (nonatomic , copy) NSString              * follow_state;
 @property (nonatomic , copy) NSString              * reg_time;
 @property (nonatomic , copy) NSString              * charm_val;

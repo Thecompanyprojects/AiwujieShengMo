@@ -94,13 +94,9 @@
     }
 
     self.contentLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    
     [self.contentLabel sizeToFit];
-    
     self.contentView.frame = CGRectMake(0, 0, WIDTH, self.contentView.frame.size.height + self.contentLabel.frame.size.height - 21);
-    
     if (model.content.length != 0) {
-        
         self.ccomentLabel.text = model.content;
         
     }else{

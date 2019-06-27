@@ -1114,30 +1114,30 @@
     rightBtn.tag = 2001;
     [rightBtn addTarget:self action:@selector(rightChooseclick) forControlEvents:UIControlEventTouchUpInside];
     
-    UIView *line0 = [UIView new];
-    UIView *line1 = [UIView new];
-    line0.backgroundColor = MainColor;
-    line1.backgroundColor = MainColor;
+//    UIView *line0 = [UIView new];
+//    UIView *line1 = [UIView new];
+//    line0.backgroundColor = MainColor;
+//    line1.backgroundColor = MainColor;
     
-    [leftBtn addSubview:line0];
-    [rightBtn addSubview:line1];
-    
-    [line0 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(leftBtn);
-        make.bottom.equalTo(leftBtn);
-        make.height.mas_offset(1);
-        make.width.mas_offset(40);
-    }];
-    
-    [line1 mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(rightBtn);
-        make.bottom.equalTo(rightBtn);
-        make.height.mas_offset(1);
-        make.width.mas_offset(40);
-    }];
-    
-    line0.tag = 3000;
-    line1.tag = 3001;
+//    [leftBtn addSubview:line0];
+//    [rightBtn addSubview:line1];
+//
+//    [line0 mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.equalTo(leftBtn);
+//        make.bottom.equalTo(leftBtn);
+//        make.height.mas_offset(1);
+//        make.width.mas_offset(40);
+//    }];
+//
+//    [line1 mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.equalTo(rightBtn);
+//        make.bottom.equalTo(rightBtn);
+//        make.height.mas_offset(1);
+//        make.width.mas_offset(40);
+//    }];
+//
+//    line0.tag = 3000;
+//    line1.tag = 3001;
     
     if (self.isLeftchoose) {
         [leftBtn setTitleColor:MainColor forState:normal];
@@ -1146,8 +1146,8 @@
         [rightBtn setImage:[UIImage imageNamed:@"小推顶灰"] forState:normal];
         [leftBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:3];
         [rightBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:3];
-        [line0 setHidden:NO];
-        [line1 setHidden:YES];
+//        [line0 setHidden:NO];
+//        [line1 setHidden:YES];
     }
     else
     {
@@ -1157,8 +1157,8 @@
         [rightBtn setImage:[UIImage imageNamed:@"小推顶紫"] forState:normal];
         [leftBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:3];
         [rightBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:3];
-        [line0 setHidden:YES];
-        [line1 setHidden:NO];
+//        [line0 setHidden:YES];
+//        [line1 setHidden:NO];
     }
 }
 
@@ -1172,10 +1172,10 @@
     [self createDataType:@"1"];
     [btn0 setImage:[UIImage imageNamed:@"小推荐紫"] forState:normal];
     [btn1 setImage:[UIImage imageNamed:@"小推顶灰"] forState:normal];
-    UIView *line0 = [self.tableView viewWithTag:3000];
-    UIView *line1 = [self.tableView viewWithTag:3001];
-    [line0 setHidden:NO];
-    [line1 setHidden:YES];
+//    UIView *line0 = [self.tableView viewWithTag:3000];
+//    UIView *line1 = [self.tableView viewWithTag:3001];
+//    [line0 setHidden:NO];
+//    [line1 setHidden:YES];
 }
 
 -(void)rightChooseclick
@@ -1188,10 +1188,10 @@
     [self createDataType:@"1"];
     [btn0 setImage:[UIImage imageNamed:@"小推荐灰"] forState:normal];
     [btn1 setImage:[UIImage imageNamed:@"小推顶紫"] forState:normal];
-    UIView *line0 = [self.tableView viewWithTag:3000];
-    UIView *line1 = [self.tableView viewWithTag:3001];
-    [line0 setHidden:YES];
-    [line1 setHidden:NO];
+//    UIView *line0 = [self.tableView viewWithTag:3000];
+//    UIView *line1 = [self.tableView viewWithTag:3001];
+//    [line0 setHidden:YES];
+//    [line1 setHidden:NO];
 }
 
 - (void)warnButtonClick{

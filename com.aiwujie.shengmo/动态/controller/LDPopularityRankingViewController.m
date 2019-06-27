@@ -130,12 +130,6 @@
     }else if ([self.rankType isEqualToString:@"diligence"]){
         
         self.navigationItem.title = @"活跃榜";
-
-//        [self.commentButton setTitle:@"动态榜" forState:UIControlStateNormal];
-//
-//        [self.zanButton setTitle:@"点评榜" forState:UIControlStateNormal];
-//
-//        [self.recommendButton setTitle:@"点赞榜" forState:UIControlStateNormal];
         
         [self.commentButton setTitle:@"点评榜" forState:UIControlStateNormal];
         

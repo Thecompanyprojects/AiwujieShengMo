@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface EditinfoModel : NSObject<NSCoding,NSCopying>
+@interface EditinfoModel : NSObject
 @property (nonatomic , copy) NSString              * introduce;
 @property (nonatomic , copy) NSString              * tall;
 @property (nonatomic , copy) NSString              * birthday;

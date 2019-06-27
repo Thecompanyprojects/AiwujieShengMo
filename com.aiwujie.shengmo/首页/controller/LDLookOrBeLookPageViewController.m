@@ -104,8 +104,7 @@
  */
 -(void)requestData:(NSString *)state{
 
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
+
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/getReadList"];
     
     NSDictionary *parameters;

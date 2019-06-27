@@ -38,8 +38,12 @@
 #import "SSCopyLabel.h"
 #import "LDhistorynameViewController.h"
 #import "LDAlertNameandIntroduceViewController.h"
+#import "infoModel.h"
+
 
 @interface LDOwnInformationViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIScrollViewDelegate,StampChatDelete,YBAttributeTapActionDelegate>
+
+@property (nonatomic,strong) infoModel *inmodel;
 
 @property (nonatomic,strong) NSMutableArray *dataArray;
 
@@ -323,8 +327,7 @@
 //修改资料判断是否是admin用户修改
 @property (nonatomic,assign) BOOL isAdminchange;
 
-//备注
-@property (nonatomic,copy) NSString *markname;
+
 //管理员备注
 @property (nonatomic,copy) NSString *admin_mark;
 
@@ -333,7 +336,7 @@
 //用户描述
 @property (weak, nonatomic) IBOutlet UILabel *lmarknameLab;
 
-@property (nonatomic,copy) NSString *lmarkNameStr;
+//@property (nonatomic,copy) NSString *lmarkNameStr;
 
 @property (nonatomic,strong) UILabel *noteLab;
 
@@ -344,6 +347,8 @@
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *lmarknameH;
 
+//是否拉黑
+@property (nonatomic,assign) BOOL isLahei;
 @end
 
 @implementation LDOwnInformationViewController
@@ -480,7 +485,7 @@
         make.left.equalTo(self.nameLabel);
         make.top.equalTo(self.nameLabel.mas_bottom).with.offset(6);
         make.height.mas_offset(18);
-        make.width.mas_offset(150);
+        make.width.mas_offset(350*W_SCREEN);
     }];
 }
 
@@ -772,8 +777,12 @@
             //设置备注
             LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
             VC.type = @"3";
-            VC.content = self.markname;
+            VC.content = self.inmodel.markname;
             VC.block = ^(NSString *content) {
+                
+                self.inmodel.markname = content.copy;
+                [self showBasicData:self.inmodel andIsShow:self.isLahei];
+                
                 NSString *url = [PICHEADURL stringByAppendingString:markName];
                 NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
                 NSString *fuid = self.userID;
@@ -782,7 +791,7 @@
                 [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
                     if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
                         [MBProgressHUD showSuccess:@"备注成功"];
-                        [self.tableView.mj_header beginRefreshing];
+//                        [self.tableView.mj_header beginRefreshing];
                     }
                 } failed:^(NSString *errorMsg) {
                     
@@ -818,8 +827,10 @@
         if ([self.followState intValue]==3||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue]==1) {
             LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
             VC.type = @"5";
-            VC.content = self.lmarkNameStr;
+            VC.content = self.inmodel.lmarkname;
             VC.block = ^(NSString *content) {
+                self.inmodel.lmarkname = content.copy;
+                [self showBasicData:self.inmodel andIsShow:self.isLahei];
                 
                 NSString *url = [PICHEADURL stringByAppendingString:lmarkName];
                 NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
@@ -828,8 +839,8 @@
                 NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"lmarkname":lmarkname?:@""};
                 [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
                     if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
-                        [MBProgressHUD showSuccess:@"备注成功"];
-                        [self.tableView.mj_header beginRefreshing];
+                        [MBProgressHUD showSuccess:@"设置成功"];
+                       
                     }
                 } failed:^(NSString *errorMsg) {
                     
@@ -949,8 +960,12 @@
             //设置备注
             LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
             VC.type = @"3";
-            VC.content = self.markname;
+            VC.content = self.inmodel.markname;
             VC.block = ^(NSString *content) {
+                
+                self.inmodel.markname = content.copy;
+                [self showBasicData:self.inmodel andIsShow:self.isLahei];
+                
                 NSString *url = [PICHEADURL stringByAppendingString:markName];
                 NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
                 NSString *fuid = self.userID;
@@ -959,7 +974,7 @@
                 [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
                     if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
                         [MBProgressHUD showSuccess:@"备注成功"];
-                        [self.tableView.mj_header beginRefreshing];
+                       // [self.tableView.mj_header beginRefreshing];
                     }
                 } failed:^(NSString *errorMsg) {
                     
@@ -996,8 +1011,11 @@
         if ([self.followState intValue]==3||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue]==1) {
             LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
             VC.type = @"5";
-            VC.content = self.lmarkNameStr;
+            VC.content = self.inmodel.lmarkname;
             VC.block = ^(NSString *content) {
+                
+                self.inmodel.lmarkname = content.copy;
+                [self showBasicData:self.inmodel andIsShow:self.isLahei];
                 
                 NSString *url = [PICHEADURL stringByAppendingString:lmarkName];
                 NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
@@ -1006,8 +1024,8 @@
                 NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"lmarkname":lmarkname?:@""};
                 [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
                     if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
-                        [MBProgressHUD showSuccess:@"备注成功"];
-                        [self.tableView.mj_header beginRefreshing];
+                        [MBProgressHUD showSuccess:@"设置成功"];
+                       
                     }
                 } failed:^(NSString *errorMsg) {
                     
@@ -1612,18 +1630,22 @@
         self.photo_rule = [responseObj objectForKey:@"data"][@"photo_rule"];
         self.dynamic_rule = [responseObj objectForKey:@"data"][@"dynamic_rule"];
         self.comment_rule = [responseObj objectForKey:@"data"][@"comment_rule"];
-        self.markname = @"";
+        
         self.admin_mark = [NSString new];
         if (integer == 2001) {
-            
+            self.isLahei = YES;
             self.tableView.scrollEnabled = NO;
             self.blackView.hidden = NO;
             self.blackLabel.layer.cornerRadius = 16;
             self.blackLabel.clipsToBounds = YES;
-            self.markname = responseObj[@"data"][@"markname"]?:@"";
+           
             self.admin_mark = responseObj[@"data"][@"admin_mark"]?:@"";
-            self.lmarkNameStr = responseObj[@"data"][@"lmarkname"]?:@"";
-            [self showBasicData:responseObj[@"data"] andIsShow:YES];
+//            self.lmarkNameStr = responseObj[@"data"][@"lmarkname"]?:@"";
+//
+            NSDictionary *dict = responseObj[@"data"];
+            self.inmodel = [infoModel yy_modelWithDictionary:dict];
+            
+            [self showBasicData:self.inmodel andIsShow:self.isLahei];
             _headBackView.hidden = NO;
             [self.tableView.mj_header endRefreshing];
             UIView *showView = [[UIView alloc] initWithFrame:CGRectMake(0, self.backGroundViewH.constant, WIDTH, HEIGHT - self.backGroundViewH.constant)];
@@ -1653,12 +1675,16 @@
             [showView addSubview:_blackButton];
             
         }else if (integer == 2000){
-            
+            self.isLahei = NO;
             self.blackView.hidden = YES;
-            self.markname = responseObj[@"data"][@"markname"]?:@"";
+           
             self.admin_mark = responseObj[@"data"][@"admin_mark"]?:@"";
-            self.lmarkNameStr = responseObj[@"data"][@"lmarkname"]?:@"";
-            [self showBasicData:responseObj[@"data"] andIsShow:NO];
+            
+            
+            NSDictionary *dict = responseObj[@"data"];
+            self.inmodel = [infoModel yy_modelWithDictionary:dict];
+            
+            [self showBasicData:self.inmodel andIsShow:self.isLahei];
             if ([responseObj[@"data"][@"realname"] intValue] == 0) {
                 self.picPublicButton.hidden = YES;
             }else{
@@ -1805,19 +1831,15 @@
                     
                 }];
                 messageLab.textColor = [UIColor lightGrayColor];
-//                if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]==[self.userID intValue]) {
-//                    messageLab.text = @"更多";
-//                }
-//                else
-//                {
-                    if ([self.dynamic_rule isEqualToString:@"0"]) {
-                        messageLab.text = @"所有人可见";
-                    }
-                    else
-                    {
-                        messageLab.text = @"好友/会员可见";
-                    }
-//                }
+
+                if ([self.dynamic_rule isEqualToString:@"0"]) {
+                    messageLab.text = @"所有人可见";
+                }
+                else
+                {
+                    messageLab.text = @"好友/会员可见";
+                }
+
                 messageLab.font = [UIFont systemFontOfSize:14];
                 messageLab.textAlignment = NSTextAlignmentRight;
             }
@@ -1845,21 +1867,13 @@
                     
                 }];
                 messageLab.textColor = [UIColor lightGrayColor];
-                
-//                if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]==[self.userID intValue]) {
-//                    messageLab.text = @"更多";
-//                }
-//                else
-//                {
-                    if ([self.comment_rule isEqualToString:@"0"]) {
-                        messageLab.text = @"所有人可见";
-                    }
-                    else
-                    {
-                        messageLab.text = @"好友/会员可见";
-                    }
-//                }
-                
+                if ([self.comment_rule isEqualToString:@"0"]) {
+                    messageLab.text = @"所有人可见";
+                }
+                else
+                {
+                    messageLab.text = @"好友/会员可见";
+                }
                 messageLab.font = [UIFont systemFontOfSize:14];
                 messageLab.textAlignment = NSTextAlignmentRight;
             }
@@ -1941,7 +1955,7 @@
 /**
  * 顶部视图被拉黑与正常的情况均显示数据
  */
--(void)showBasicData:(NSDictionary *)dic andIsShow:(BOOL)show{
+-(void)showBasicData:(infoModel *)model andIsShow:(BOOL)show{
     
     //显示隐藏不必要的控件
     self.playButton.hidden = show;
@@ -1959,19 +1973,19 @@
     
     NSString *pic;
     
-    if ([dic[@"head_pic"] length] == 0) {
+    if ([model.head_pic length] == 0) {
 
         pic = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"nopeople.png"];
         
     }else{
         
-        pic = dic[@"head_pic"];
+        pic = model.head_pic;
     }
     
-    [self.navigationController.view addSubview:[_shareView createBottomView:@"Infomation" andNickName:dic[@"nickname"] andPicture:pic andId:self.userID]];
+    [self.navigationController.view addSubview:[_shareView createBottomView:@"Infomation" andNickName:model.nickname andPicture:pic andId:self.userID]];
     
     //存储拉黑时的状态
-     _blackState = dic[@"black_state"];
+     _blackState = model.black_state;
     
     //管理员备注展示
     
@@ -2022,9 +2036,9 @@
     }
     
     //可以用户的设置
-    _is_likeliar = [NSString stringWithFormat:@"%@",dic[@"is_likeliar"]];
+    _is_likeliar = [NSString stringWithFormat:@"%@",model.is_likeliar];
 
-    if ([dic[@"is_likeliar"] intValue] == 1) {
+    if ([model.is_likeliar intValue] == 1) {
   
         CGFloat tops = 0.00f;
         if (self.admin_mark.length!=0&&[[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue]==1) {
@@ -2063,12 +2077,16 @@
     CGFloat hei1 = 0.0f;
     
     
-    if (self.lmarkNameStr.length!=0) {
-        self.lmarknameLab.text = self.lmarkNameStr;
+    if (self.inmodel.lmarkname.length!=0) {
+        self.lmarknameLab.text = self.inmodel.lmarkname;
+        [self.lmarknameLab setHidden:NO];
         hei1 = 32;
+        [self.leftyinhao setHidden:NO];
+        [self.rightyinhao setHidden:NO];
     }
     else
     {
+        [self.lmarknameLab setHidden:YES];
         [self.leftyinhao setHidden:YES];
         [self.rightyinhao setHidden:YES];
     }
@@ -2080,28 +2098,30 @@
     
     
     //展示用户信息的view的设置
-    _headUrl = dic[@"head_pic"];
-    [self.backGroundView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",dic[@"head_pic"]]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
-    [self.headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",dic[@"head_pic"]]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
+    _headUrl = model.head_pic;
+    [self.backGroundView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.head_pic]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
+    [self.headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.head_pic]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
     self.backGroundView.contentMode = UIViewContentModeScaleAspectFill;
     self.backGroundView.clipsToBounds = YES;
+
     
-    self.nameLabel.text = dic[@"nickname"];
-    CGSize size = [self.nameLabel.text sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:15.0]}];
-    // ceilf()向上取整函数, 只要大于1就取整数2. floor()向下取整函数, 只要小于2就取整数1.
-    CGSize labelSize = CGSizeMake(ceilf(size.width), ceilf(size.height));
-    self.nameW.constant = labelSize.width;;
-    
-    if (self.markname.length!=0) {
+    if (model.markname.length!=0) {
         self.backViewY.constant = 38;
-        self.nameLabel.text = self.markname;
-        self.oldnameLab.text = [NSString stringWithFormat:@"%@%@%@",@"(",dic[@"nickname"],@")"];
-        
+        self.nameLabel.text = model.markname;
+        self.oldnameLab.text = [NSString stringWithFormat:@"%@%@%@",@"(",model.nickname,@")"];
+        [self.oldnameLab setHidden:NO];
     }
     else
     {
         self.markfloat1 = 27;
+        self.nameLabel.text = model.nickname;
+        [self.oldnameLab setHidden:YES];
     }
+
+    CGSize size = [self.nameLabel.text sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:15.0]}];
+    // ceilf()向上取整函数, 只要大于1就取整数2. floor()向下取整函数, 只要小于2就取整数1.
+    CGSize labelSize = CGSizeMake(ceilf(size.width), ceilf(size.height));
+    self.nameW.constant = labelSize.width;;
 
     
     if (ISIPHONEPLUS) {
@@ -2131,7 +2151,7 @@
         
     }
     
-    if ([dic[@"realname"] intValue] == 0) {
+    if ([model.realname intValue] == 0) {
         if ([self.userID intValue] == [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]){
             self.idImageView.image = [UIImage imageNamed:@"认证灰"];
             self.idImageView.hidden = NO;
@@ -2146,24 +2166,24 @@
         self.idviewW.constant = 19;
     }
     
-    if ([dic[@"role"] isEqualToString:@"S"]) {
+    if ([model.role isEqualToString:@"S"]) {
         self.sexualLabel.text = @"斯";
         self.sexualLabel.backgroundColor = BOYCOLOR;
-    }else if ([dic[@"role"] isEqualToString:@"M"]){
+    }else if ([model.role isEqualToString:@"M"]){
         self.sexualLabel.text = @"慕";
         self.sexualLabel.backgroundColor = GIRLECOLOR;
-    }else if ([dic[@"role"] isEqualToString:@"SM"]){
+    }else if ([model.role isEqualToString:@"SM"]){
         self.sexualLabel.text = @"双";
         self.sexualLabel.backgroundColor = DOUBLECOLOR;
     }else{
         self.sexualLabel.text = @"~";
         self.sexualLabel.backgroundColor = GREENCOLORS;
     }
-    if ([dic[@"sex"] intValue] == 1) {
+    if ([model.sex intValue] == 1) {
         self.sexImageView.image = [UIImage imageNamed:@"男"];
         self.backView.backgroundColor = BOYCOLOR;
         _signColor = BOYCOLOR;
-    }else if ([dic[@"sex"] intValue] == 2){
+    }else if ([model.sex intValue] == 2){
         self.sexImageView.image = [UIImage imageNamed:@"女"];
         self.backView.backgroundColor = GIRLECOLOR;
         _signColor = GIRLECOLOR;
@@ -2173,16 +2193,16 @@
         _signColor = DOUBLECOLOR;
     }
     
-    self.ageLabel.text = [NSString stringWithFormat:@"%@",dic[@"age"]];
+    self.ageLabel.text = [NSString stringWithFormat:@"%@",model.age];
     
     //判断获取的时间是不是NSNull,如果是NSNull则显示隐身
-    if ([dic[@"last_login_time"] isEqual:[NSNull null]]) {
+    if ([model.last_login_time isEqual:[NSNull null]]) {
         _lastTime = @"隐身";
     }else{
-        _lastTime = dic[@"last_login_time"];
+        _lastTime = model.last_login_time;
     }
-    if ([dic[@"login_time_switch"] intValue] == 0) {
-        if ([dic[@"timePoorState"] intValue] == 1) {
+    if ([model.login_time_switch intValue] == 0) {
+        if ([model.timePoorState intValue] == 1) {
             self.timeLabel.text = _lastTime;
         }else{
             self.timeLabel.text = @"查看时间";
@@ -2192,7 +2212,7 @@
         self.timeLabel.text = @"隐身";
     }
     self.timeW.constant = 18 + [self fitLabelWidth:self.timeLabel.text].width;
-    self.locationLabel.text = [NSString stringWithFormat:@"%@",dic[@"distance"]];
+    self.locationLabel.text = [NSString stringWithFormat:@"%@",model.distance];
     self.locationW.constant = 18 + [self fitLabelWidth:self.locationLabel.text].width;
     
     if (show == NO) {
@@ -2200,9 +2220,9 @@
             self.cityView.hidden = YES;
         }else{
             
-            if ([dic[@"city"] length] == 0) {
+            if ([model.city length] == 0) {
                 
-                if ([dic[@"province"] length] == 0) {
+                if ([model.province length] == 0) {
                     
                     self.cityView.hidden = YES;
                     
@@ -2210,26 +2230,26 @@
                     
                     self.cityView.hidden = NO;
                     
-                    self.cityLabel.text = [NSString stringWithFormat:@"%@",dic[@"province"]];
+                    self.cityLabel.text = [NSString stringWithFormat:@"%@",model.province];
                 }
                 
             }else{
                 
                 self.cityView.hidden = NO;
                 
-                if ([dic[@"province"] length] == 0) {
+                if ([model.province length] == 0) {
                     
-                    self.cityLabel.text = [NSString stringWithFormat:@"%@",dic[@"city"]];
+                    self.cityLabel.text = [NSString stringWithFormat:@"%@",model.city];
                     
                 }else{
                     
-                    if ([dic[@"province"] isEqualToString:dic[@"city"]]) {
+                    if ([model.province isEqualToString:model.city]) {
                         
-                        self.cityLabel.text = [NSString stringWithFormat:@"%@",dic[@"province"]];
+                        self.cityLabel.text = [NSString stringWithFormat:@"%@",model.province];
                         
                     }else{
                         
-                        self.cityLabel.text = [NSString stringWithFormat:@"%@ %@",dic[@"province"],dic[@"city"]];
+                        self.cityLabel.text = [NSString stringWithFormat:@"%@ %@",model.province,model.city];
                     }
                 }
             }
@@ -2238,7 +2258,7 @@
         self.cityW.constant = 18 + [self fitLabelWidth:self.cityLabel.text].width;
     }
     
-    if ([dic[@"is_volunteer"] intValue] == 1) {
+    if ([model.is_volunteer intValue] == 1) {
         
         _vipTypeString = @"is_volunteer";
         
@@ -2246,7 +2266,7 @@
         
         self.vipView.image = [UIImage imageNamed:@"志愿者标识"];
         
-    }else if ([dic[@"is_admin"] intValue] == 1) {
+    }else if ([model.is_admin intValue] == 1) {
         
         _vipTypeString = @"is_admin";
         
@@ -2256,7 +2276,7 @@
         
     }else{
         
-        if ([dic[@"svipannual"] intValue] == 1) {
+        if ([model.svipannual intValue] == 1) {
             
             _vipTypeString = @"";
             
@@ -2264,7 +2284,7 @@
             
             self.vipView.image = [UIImage imageNamed:@"年svip标识"];
             
-        }else if ([dic[@"svip"] intValue] == 1){
+        }else if ([model.svip intValue] == 1){
             
             _vipTypeString = @"";
             
@@ -2272,7 +2292,7 @@
             
             self.vipView.image = [UIImage imageNamed:@"svip标识"];
             
-        }else if ([dic[@"vipannual"] intValue] == 1) {
+        }else if ([model.vipannual intValue] == 1) {
             
             _vipTypeString = @"";
             
@@ -2282,7 +2302,7 @@
             
         }else{
             
-            if ([dic[@"vip"] intValue] == 1) {
+            if ([model.vip intValue] == 1) {
                 
                 _vipTypeString = @"";
                 
@@ -2300,7 +2320,7 @@
         }
     }
     
-    if ([dic[@"onlinestate"] intValue] == 0) {
+    if ([model.onlinestate intValue] == 0) {
         
         self.onlineView.hidden = YES;
         
@@ -2308,7 +2328,6 @@
         
         self.onlineView.hidden = NO;
     }
-    
     
     UIButton *timeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.headBackView addSubview:timeBtn];
@@ -2322,18 +2341,16 @@
     [timeBtn addTarget:self action:@selector(timeBtnclick) forControlEvents:UIControlEventTouchUpInside];
     
     //获取展示的财富值和魅力值
-    [self getWealthAndCharmState:_wealthLabel andView:_wealthView andText:dic[@"wealth_val"] andNSLayoutConstraint:_wealthW andType:@"财富"];
-    
-    [self getWealthAndCharmState:_charmLabel andView:_charmView andText:dic[@"charm_val"] andNSLayoutConstraint:_charmW andType:@"魅力"];
+    [self getWealthAndCharmState:_wealthLabel andView:_wealthView andText:model.wealth_val andNSLayoutConstraint:_wealthW andType:@"财富"];
+    [self getWealthAndCharmState:_charmLabel andView:_charmView andText:model.charm_val andNSLayoutConstraint:_charmW andType:@"魅力"];
 }
-
 
 -(void)labelTouchUpInside:(UITapGestureRecognizer *)recognizer{
     
     if ([self.followState intValue]==3||[[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue]==1) {
         LDAlertNameandIntroduceViewController *VC = [LDAlertNameandIntroduceViewController new];
         VC.type = @"5";
-        VC.content = self.lmarkNameStr;
+        VC.content = self.inmodel.lmarkname;
         VC.block = ^(NSString *content) {
             
             NSString *url = [PICHEADURL stringByAppendingString:lmarkName];
