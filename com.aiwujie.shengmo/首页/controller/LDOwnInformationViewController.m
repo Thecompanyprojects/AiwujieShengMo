@@ -789,10 +789,8 @@
                 NSString *markname = content;
                 NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"markname":markname?:@""};
                 [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
-                    if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
-                        [MBProgressHUD showSuccess:@"备注成功"];
-//                        [self.tableView.mj_header beginRefreshing];
-                    }
+                    NSString *msg = [responseObj objectForKey:@"msg"];
+                    [MBProgressHUD showSuccess:msg];
                 } failed:^(NSString *errorMsg) {
                     
                 }];
@@ -838,10 +836,8 @@
                 NSString *lmarkname = content;
                 NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"lmarkname":lmarkname?:@""};
                 [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
-                    if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
-                        [MBProgressHUD showSuccess:@"设置成功"];
-                       
-                    }
+                    NSString *msg = [responseObj objectForKey:@"msg"];
+                    [MBProgressHUD showSuccess:msg];
                 } failed:^(NSString *errorMsg) {
                     
                 }];
@@ -897,19 +893,12 @@
 -(void)rightButtonOnClick{
 
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
-    
     NSString *blackTitle;
-    
     if ([_blackState intValue] == 1) {
-        
         blackTitle = @"取消拉黑";
-
     }else{
-        
         blackTitle = @"拉黑";
     }
-    
-    
     UIAlertAction * action = [UIAlertAction actionWithTitle:blackTitle style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
         
         [self blackButtonClick];
@@ -972,10 +961,8 @@
                 NSString *markname = content;
                 NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"markname":markname?:@""};
                 [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
-                    if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
-                        [MBProgressHUD showSuccess:@"备注成功"];
-                       // [self.tableView.mj_header beginRefreshing];
-                    }
+                    NSString *msg = [responseObj objectForKey:@"msg"];
+                    [MBProgressHUD showSuccess:msg];
                 } failed:^(NSString *errorMsg) {
                     
                 }];
@@ -1023,10 +1010,8 @@
                 NSString *lmarkname = content;
                 NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"lmarkname":lmarkname?:@""};
                 [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
-                    if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
-                        [MBProgressHUD showSuccess:@"设置成功"];
-                       
-                    }
+                    NSString *msg = [responseObj objectForKey:@"msg"];
+                    [MBProgressHUD showSuccess:msg];
                 } failed:^(NSString *errorMsg) {
                     
                 }];
