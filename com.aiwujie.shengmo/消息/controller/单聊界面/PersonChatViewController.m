@@ -104,7 +104,7 @@
  
     [self createButton];
     
-    [self addredEnvelope];
+    //[self addredEnvelope];
 }
 
 
