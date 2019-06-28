@@ -264,6 +264,10 @@
 		5385593B22C4B15A00980E18 /* XYRichMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385593822C4B15A00980E18 /* XYRichMessageCell.m */; };
 		5385593E22C5A30A00980E18 /* XYgiftgroupMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385593D22C5A30A00980E18 /* XYgiftgroupMessageCell.m */; };
 		5385594122C5A45800980E18 /* XYgiftMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385594022C5A45800980E18 /* XYgiftMessageContent.m */; };
+		5385594722C5B6DF00980E18 /* SendredsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385594622C5B6DF00980E18 /* SendredsViewController.m */; };
+		5385594A22C5B70700980E18 /* SendNav.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385594922C5B70700980E18 /* SendNav.m */; };
+		5385595022C5BF1000980E18 /* sendredsCell0.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385594F22C5BF1000980E18 /* sendredsCell0.m */; };
+		5385595322C5BF1B00980E18 /* sendredsCell1.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385595222C5BF1B00980E18 /* sendredsCell1.m */; };
 		53A2E6B622BC793700403D83 /* infoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A2E6B522BC793700403D83 /* infoModel.m */; };
 		53A7138A22BDD4F9009839E6 /* changeAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A7138922BDD4F9009839E6 /* changeAlertView.m */; };
 		53B7C0EC22B3418800113F50 /* EditinfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C0EB22B3418800113F50 /* EditinfoModel.m */; };
@@ -916,6 +920,14 @@
 		5385593D22C5A30A00980E18 /* XYgiftgroupMessageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XYgiftgroupMessageCell.m; sourceTree = "<group>"; };
 		5385593F22C5A45800980E18 /* XYgiftMessageContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XYgiftMessageContent.h; sourceTree = "<group>"; };
 		5385594022C5A45800980E18 /* XYgiftMessageContent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XYgiftMessageContent.m; sourceTree = "<group>"; };
+		5385594522C5B6DF00980E18 /* SendredsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SendredsViewController.h; sourceTree = "<group>"; };
+		5385594622C5B6DF00980E18 /* SendredsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SendredsViewController.m; sourceTree = "<group>"; };
+		5385594822C5B70700980E18 /* SendNav.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SendNav.h; sourceTree = "<group>"; };
+		5385594922C5B70700980E18 /* SendNav.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SendNav.m; sourceTree = "<group>"; };
+		5385594E22C5BF1000980E18 /* sendredsCell0.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sendredsCell0.h; sourceTree = "<group>"; };
+		5385594F22C5BF1000980E18 /* sendredsCell0.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = sendredsCell0.m; sourceTree = "<group>"; };
+		5385595122C5BF1B00980E18 /* sendredsCell1.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sendredsCell1.h; sourceTree = "<group>"; };
+		5385595222C5BF1B00980E18 /* sendredsCell1.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = sendredsCell1.m; sourceTree = "<group>"; };
 		53A2E6B422BC793700403D83 /* infoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = infoModel.h; sourceTree = "<group>"; };
 		53A2E6B522BC793700403D83 /* infoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = infoModel.m; sourceTree = "<group>"; };
 		53A7138822BDD4F9009839E6 /* changeAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = changeAlertView.h; sourceTree = "<group>"; };
@@ -1698,6 +1710,7 @@
 		003B9A661E06BE3C006BF162 /* controller */ = {
 			isa = PBXGroup;
 			children = (
+				5385595422C5CF8800980E18 /* 红包礼物 */,
 				D2139D391FA80E4A0063137A /* 消息界面展示 */,
 				D2139D3A1FA80E740063137A /* 系统消息 */,
 				D2139D4A1FA8117A0063137A /* 单聊界面 */,
@@ -2063,6 +2076,19 @@
 				5372254922ABF8E30082472A /* NetManager.m */,
 			);
 			path = NetWorking;
+			sourceTree = "<group>";
+		};
+		5385595422C5CF8800980E18 /* 红包礼物 */ = {
+			isa = PBXGroup;
+			children = (
+				5385594522C5B6DF00980E18 /* SendredsViewController.h */,
+				5385594622C5B6DF00980E18 /* SendredsViewController.m */,
+				5385594E22C5BF1000980E18 /* sendredsCell0.h */,
+				5385594F22C5BF1000980E18 /* sendredsCell0.m */,
+				5385595122C5BF1B00980E18 /* sendredsCell1.h */,
+				5385595222C5BF1B00980E18 /* sendredsCell1.m */,
+			);
+			path = "红包礼物";
 			sourceTree = "<group>";
 		};
 		53A2E6B722BC7A4400403D83 /* viewModel */ = {
@@ -2445,6 +2471,8 @@
 			children = (
 				0005AB2F1E324A4200F605EF /* LDGroupChatViewController.h */,
 				0005AB301E324A4200F605EF /* LDGroupChatViewController.m */,
+				5385594822C5B70700980E18 /* SendNav.h */,
+				5385594922C5B70700980E18 /* SendNav.m */,
 			);
 			path = "群聊";
 			sourceTree = "<group>";
@@ -3667,6 +3695,7 @@
 				53B7C0F522B3A89000113F50 /* NSObject+Swizzling.m in Sources */,
 				D23A5FE21ED52CB100FE4AD5 /* LDLookChangeBindingPhoneViewController.m in Sources */,
 				00E60CD11E2515100078779C /* LDHelpViewController.m in Sources */,
+				5385594A22C5B70700980E18 /* SendNav.m in Sources */,
 				D21638301F8B676800EAB501 /* LDLookOrBeLookPageViewController.m in Sources */,
 				0043DB501E2B743400577DE5 /* GroupSqureCell.m in Sources */,
 				53FBA91122C1AA6400990C28 /* LDtopViewController.m in Sources */,
@@ -3684,6 +3713,7 @@
 				004D014A1E373F6700EF5135 /* LDMoreTopicViewController.m in Sources */,
 				000BFA0C1E04106900E23998 /* LDEmailRegisterViewController.m in Sources */,
 				000528BD1E265D1B00CCBB1B /* PersonChatViewController.m in Sources */,
+				5385595322C5BF1B00980E18 /* sendredsCell1.m in Sources */,
 				00EC58CA1E1E952E00B06073 /* LDAttentOtherViewController.m in Sources */,
 				000254DF1E30EF0400229898 /* LDGroupUpViewController.m in Sources */,
 				D29AF6EF1FBD632C001098B3 /* HJTabViewController+ViewController.m in Sources */,
@@ -3753,6 +3783,7 @@
 				00EF77EB1E37A51700FDF998 /* LDRewardViewController.m in Sources */,
 				D22CE9241F19EB71001372F4 /* LDCreateTopicViewController.m in Sources */,
 				00FC749B1E1554C5005A6137 /* MBProgressHUD.m in Sources */,
+				5385594722C5B6DF00980E18 /* SendredsViewController.m in Sources */,
 				0030691B1E056F94000486C7 /* LDProtocolViewController.m in Sources */,
 				00EC29781E18F2670066273A /* TZImageCropManager.m in Sources */,
 				004B2C9C1E33955600EDCCC1 /* DynamicCell.m in Sources */,
@@ -3805,6 +3836,7 @@
 				D2366F701F7CE078009B7F4C /* LDownInfoDynamicViewController.m in Sources */,
 				0057F8F61E20AB8E0053C6F8 /* LDAlertNameandIntroduceViewController.m in Sources */,
 				D296D87D1E9E12D4009772E0 /* LDStandardViewController.m in Sources */,
+				5385595022C5BF1000980E18 /* sendredsCell0.m in Sources */,
 				000E77361E2DCE5100F2894B /* LDAddGroupVerifyViewController.m in Sources */,
 				0013A8C21E2A24BE003647EE /* LDDynamicDetailViewController.m in Sources */,
 				00ED35AB1E0BF7AE00FC37FE /* LDMapViewController.m in Sources */,

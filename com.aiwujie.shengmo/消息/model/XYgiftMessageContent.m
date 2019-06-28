@@ -84,7 +84,7 @@
  */
 + (NSString *)getObjectName
 {
-    return @"ec:phoneinfo";
+    return @"ec:groupgiftinfo";
 }
 
 #pragma mark - RCMessagePersistentCompatible

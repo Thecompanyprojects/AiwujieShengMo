@@ -14,6 +14,9 @@
 #import "XYgiftgroupMessageCell.h"
 #import "XYgiftMessageContent.h"
 #import "LDMyWalletPageViewController.h"
+#import "SendNav.h"
+#import "SendredsViewController.h"
+
 
 @interface LDGroupChatViewController ()<RCPluginBoardViewDelegate>
 //礼物界面
@@ -28,11 +31,8 @@
     
     //注册自定义消息Cell
     [self registerClass:[XYgiftgroupMessageCell class] forMessageClass:[XYgiftMessageContent class]];
-    
     [self createRefreshUserData:self.groupId];
-
     self.view.backgroundColor = [UIColor whiteColor];
-    
     [self createButton];
     [self addredEnvelope];
 }
@@ -78,13 +78,15 @@
             NSString *dataStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
             
             [weakSelf sendMessage:addcontent pushContent:dataStr];
-            
-            
         };
         [self.tabBarController.view addSubview:_gif];
+    }
+    if (tag==2002) {
         
-        
-        
+        SendredsViewController * allTicketVC = [[SendredsViewController alloc] init];// 包装一个导航栏控制器
+        SendNav * nav = [[SendNav alloc]initWithRootViewController:allTicketVC];
+        [self presentViewController:nav animated:YES completion:nil];
+ 
     }
 }
 

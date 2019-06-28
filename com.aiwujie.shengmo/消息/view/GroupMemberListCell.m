@@ -187,9 +187,7 @@
     
          self.lastTimeLabel.text = @"隐身";
     }
-    
-    
-    
+
     if ([_model.role isEqualToString:@"S"]) {
         
         self.roleLabel.text = @"斯";
@@ -202,12 +200,18 @@
         
         self.roleLabel.backgroundColor = GIRLECOLOR;
         
-    }else{
+    }else if([_model.role isEqualToString:@"SM"]){
         
         self.roleLabel.text = @"双";
         
         self.roleLabel.backgroundColor = DOUBLECOLOR;
+        
+    }else{
+        
+        self.roleLabel.text = @"~";
+        self.roleLabel.backgroundColor = GREENCOLORS;
     }
+    
     
     if ([_model.sex intValue] == 1) {
         
@@ -221,7 +225,8 @@
         
         self.backView.backgroundColor = GIRLECOLOR;
         
-    }else{
+    }
+    else{
         
         self.sexView.image = [UIImage imageNamed:@"双性"];
         
