@@ -8,6 +8,10 @@
 
 #import <RongIMKit/RongIMKit.h>
 
+
+/**
+ 单聊部分 发送礼物 自定义消息cell
+ */
 @interface XYRichMessageCell : RCMessageCell
 
 @property UIImageView *imageView;

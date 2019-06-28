@@ -15,7 +15,7 @@
 #import "UMMobClick/MobClick.h"
 #import <Bugly/Bugly.h>
 #import "XYRichMessageContent.h"
-
+#import "XYgiftMessageContent.h"
 
 @interface AppDelegate ()<CLLocationManagerDelegate,RCIMConnectionStatusDelegate,UIAlertViewDelegate,RCIMReceiveMessageDelegate,WXApiDelegate,WeiboSDKDelegate,QQApiInterfaceDelegate>
 
@@ -111,7 +111,7 @@
     
     // 注册自定义测试消息
     [[RCIM sharedRCIM] registerMessageType:[XYRichMessageContent class]];
-    
+    [[RCIM sharedRCIM] registerMessageType:[XYgiftMessageContent class]];
     //前台提示音开关
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"voiceSwitch"] == nil || [[[NSUserDefaults standardUserDefaults] objectForKey:@"voiceSwitch"] isEqualToString:@"no"]) {
         

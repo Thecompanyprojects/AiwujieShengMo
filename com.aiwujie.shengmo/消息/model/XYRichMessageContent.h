@@ -8,6 +8,9 @@
 
 #import <RongIMLib/RongIMLib.h>
 
+/**
+ 单聊部分 发送礼物 自定义消息model方法
+ */
 @interface XYRichMessageContent : RCMessageContent
 
 @property (copy) NSString *imageName;

@@ -262,6 +262,8 @@
 		5372254B22ABF8E30082472A /* NetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5372254922ABF8E30082472A /* NetManager.m */; };
 		5385593A22C4B15A00980E18 /* XYRichMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385593622C4B15900980E18 /* XYRichMessageContent.m */; };
 		5385593B22C4B15A00980E18 /* XYRichMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385593822C4B15A00980E18 /* XYRichMessageCell.m */; };
+		5385593E22C5A30A00980E18 /* XYgiftgroupMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385593D22C5A30A00980E18 /* XYgiftgroupMessageCell.m */; };
+		5385594122C5A45800980E18 /* XYgiftMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385594022C5A45800980E18 /* XYgiftMessageContent.m */; };
 		53A2E6B622BC793700403D83 /* infoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A2E6B522BC793700403D83 /* infoModel.m */; };
 		53A7138A22BDD4F9009839E6 /* changeAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A7138922BDD4F9009839E6 /* changeAlertView.m */; };
 		53B7C0EC22B3418800113F50 /* EditinfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C0EB22B3418800113F50 /* EditinfoModel.m */; };
@@ -910,6 +912,10 @@
 		5385593722C4B15A00980E18 /* XYRichMessageContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XYRichMessageContent.h; sourceTree = "<group>"; };
 		5385593822C4B15A00980E18 /* XYRichMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XYRichMessageCell.m; sourceTree = "<group>"; };
 		5385593922C4B15A00980E18 /* XYRichMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XYRichMessageCell.h; sourceTree = "<group>"; };
+		5385593C22C5A30A00980E18 /* XYgiftgroupMessageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XYgiftgroupMessageCell.h; sourceTree = "<group>"; };
+		5385593D22C5A30A00980E18 /* XYgiftgroupMessageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XYgiftgroupMessageCell.m; sourceTree = "<group>"; };
+		5385593F22C5A45800980E18 /* XYgiftMessageContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XYgiftMessageContent.h; sourceTree = "<group>"; };
+		5385594022C5A45800980E18 /* XYgiftMessageContent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XYgiftMessageContent.m; sourceTree = "<group>"; };
 		53A2E6B422BC793700403D83 /* infoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = infoModel.h; sourceTree = "<group>"; };
 		53A2E6B522BC793700403D83 /* infoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = infoModel.m; sourceTree = "<group>"; };
 		53A7138822BDD4F9009839E6 /* changeAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = changeAlertView.h; sourceTree = "<group>"; };
@@ -1728,6 +1734,10 @@
 				D281AA9C1EEA89B5004ABF20 /* chatListModel.m */,
 				D2366F651F7C88CD009B7F4C /* FollowMessageModel.h */,
 				D2366F661F7C88CD009B7F4C /* FollowMessageModel.m */,
+				5385593722C4B15A00980E18 /* XYRichMessageContent.h */,
+				5385593622C4B15900980E18 /* XYRichMessageContent.m */,
+				5385593F22C5A45800980E18 /* XYgiftMessageContent.h */,
+				5385594022C5A45800980E18 /* XYgiftMessageContent.m */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -1758,8 +1768,8 @@
 				D205ABFE1F34599800DF1333 /* GroupSearchCell.xib */,
 				5385593922C4B15A00980E18 /* XYRichMessageCell.h */,
 				5385593822C4B15A00980E18 /* XYRichMessageCell.m */,
-				5385593722C4B15A00980E18 /* XYRichMessageContent.h */,
-				5385593622C4B15900980E18 /* XYRichMessageContent.m */,
+				5385593C22C5A30A00980E18 /* XYgiftgroupMessageCell.h */,
+				5385593D22C5A30A00980E18 /* XYgiftgroupMessageCell.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -3624,6 +3634,7 @@
 				D208DA0B1EB2E6A8001AC93F /* LDDynamicPageViewController.m in Sources */,
 				00EC297D1E18F2670066273A /* TZPhotoPreviewCell.m in Sources */,
 				000E77451E2E05AF00F2894B /* LDGroupMemberListViewController.m in Sources */,
+				5385594122C5A45800980E18 /* XYgiftMessageContent.m in Sources */,
 				00E85EAF1E02BA6F004AB146 /* ViewController.m in Sources */,
 				53B7C12122B49C1F00113F50 /* LDhistorynameModel.m in Sources */,
 				00E9D2E61E2FAFB30004365D /* LDCreateGroupFailViewController.m in Sources */,
@@ -3897,6 +3908,7 @@
 				53E8CDC322A93EED007E5073 /* LDharassmentCell.m in Sources */,
 				D23A5FEC1ED5795E00FE4AD5 /* LDBindingEmailViewController.m in Sources */,
 				D20016D91F46D4C10045D0A2 /* MatchmakerDetailModel.m in Sources */,
+				5385593E22C5A30A00980E18 /* XYgiftgroupMessageCell.m in Sources */,
 				D24F96AF1FECF495008B7ECF /* LDEditIntroduceViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

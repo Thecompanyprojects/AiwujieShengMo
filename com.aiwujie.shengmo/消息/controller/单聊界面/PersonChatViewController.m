@@ -104,17 +104,19 @@
  
     [self createButton];
     
-    //[self addredEnvelope];
+    [self addredEnvelope];
 }
 
 
+
+
 /**
- 聊天页面发红包
+ 聊天页面发礼物
  */
 -(void)addredEnvelope
 {
     self.chatSessionInputBarControl.pluginBoardView.pluginBoardDelegate = self;
-    [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"推顶火箭"] title:@"红包" atIndex:6 tag:2001];
+    [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"聊天-礼物"] title:@"礼物" atIndex:6 tag:2001];
 }
 
 - (void)pluginBoardView:(RCPluginBoardView *)pluginBoardView clickedItemWithTag:(NSInteger)tag
@@ -375,9 +377,7 @@
 -(void)createButton{
     
     UIButton * rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    
     [rightButton setBackgroundImage:[UIImage imageNamed:@"个人图标"] forState:UIControlStateNormal];
-    
     [rightButton addTarget:self action:@selector(backButtonOnClick:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
     self.navigationItem.rightBarButtonItem = rightBarButtonItem;

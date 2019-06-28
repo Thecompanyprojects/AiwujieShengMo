@@ -553,50 +553,31 @@
 }
 
 -(void)timeFireMethod{
-    
     _second ++;
-    
     if (_second == 3) {
-        
         [_flowFlower endFlyFlower];
-        
         [_gifTimer invalidate];
-        
         _flowFlower = nil;
-        
         _gifTimer = nil;
     }
 }
 
 -(NSDictionary *)parseJSONStringToNSDictionary:(NSString *)JSONString {
-    
     NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
-    
     NSDictionary *responseJSON = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableLeaves error:nil];
-    
     return responseJSON;
 }
 
-
 -(void)buttonClick1:(UIButton *)button{
-    
     if (_giveView) {
-        
         [self giveCancelButtonClick];
     }
-    
     CGFloat space = (WIDTH - 200 - (WIDTH - 50)/3)/4;
-    
     _giveView = [[UIView alloc] initWithFrame:CGRectMake(20, (3 * (WIDTH - 50)/3 + 190 - WIDTH)/2, WIDTH - 50, WIDTH - 60)];
-    
     _giveView.backgroundColor = [UIColor whiteColor];
-    
     _giveView.layer.cornerRadius = 4;
-    
     _giveView.clipsToBounds = YES;
-    
     [_backView addSubview:_giveView];
-    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     [_giveView addGestureRecognizer:tap];
 
