@@ -16,11 +16,29 @@
 #import "LDMyWalletPageViewController.h"
 #import "SendNav.h"
 #import "SendredsViewController.h"
+#import "XYredMessageCell.h"
+#import "XYredMessageContent.h"
+#import "WSRedPacketView.h"
+#import "WSRewardConfig.h"
+#import "FlowFlower.h"
 
-
-@interface LDGroupChatViewController ()<RCPluginBoardViewDelegate>
+@interface LDGroupChatViewController ()<RCPluginBoardViewDelegate,RCIMReceiveMessageDelegate>
 //礼物界面
 @property (nonatomic,strong) GifView *gif;
+@property (nonatomic,assign) BOOL isgif;
+
+/**
+ 创建礼物掉落的效果
+ */
+//创建礼物下落的定时器
+@property (nonatomic,strong) NSTimer * gifTimer;
+//掉落礼物的view
+@property (nonatomic,strong) FlowFlower *flowFlower;
+//存储选中的礼物
+@property (nonatomic,strong) UIImage *gifImage;
+//掉落的时间
+@property (nonatomic,assign) int second;
+
 @end
 
 @implementation LDGroupChatViewController
@@ -31,10 +49,12 @@
     
     //注册自定义消息Cell
     [self registerClass:[XYgiftgroupMessageCell class] forMessageClass:[XYgiftMessageContent class]];
+    [self registerClass:[XYredMessageCell class] forMessageClass:[XYredMessageContent class]];
     [self createRefreshUserData:self.groupId];
     self.view.backgroundColor = [UIColor whiteColor];
     [self createButton];
     [self addredEnvelope];
+    [RCIM sharedRCIM].receiveMessageDelegate = self;
 }
 
 /**
@@ -53,6 +73,8 @@
     if (tag==2001) {
         //红包功能
         
+        self.isgif = YES;
+        
         _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) andisMine:NO :^{
             LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
             cvc.type = @"0";
@@ -65,10 +87,7 @@
         
         _gif.sendmessageBlock = ^(NSDictionary *dic) {
             NSString *imagename = [dic objectForKey:@"image"];
-            
-            //            NSString *title = @"我是标题";
-            //            NSArray *imgarray = [NSArray arrayWithObjects:[UIImage imageNamed:imagename], nil];
-            
+
             NSDictionary *para = @{@"number":dic[@"num"],@"imageName":imagename};
             XYgiftMessageContent *addcontent = [XYgiftMessageContent messageWithDict:para];
             addcontent.number = dic[@"num"];
@@ -83,13 +102,156 @@
     }
     if (tag==2002) {
         
+        self.isgif = NO;
+        
         SendredsViewController * allTicketVC = [[SendredsViewController alloc] init];// 包装一个导航栏控制器
         SendNav * nav = [[SendNav alloc]initWithRootViewController:allTicketVC];
+        allTicketVC.myBlock = ^(NSDictionary * _Nonnull dic) {
+            __weak typeof (self) weakSelf = self;
+            
+            NSString *message = [dic objectForKey:@"message"];
+            if (message.length==0) {
+                message = @"恭喜发财，大吉大利";
+            }
+            NSDictionary *paras = @{@"message":message,@"extra":@"0"};
+            
+            XYredMessageContent *addcontent = [[XYredMessageContent alloc] init];
+            addcontent.message = message;
+            addcontent.senderUserInfo = [RCIM sharedRCIM].currentUserInfo;
+            addcontent.extra = @"0";
+            
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:paras options:0 error:0];
+            NSString *dataStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            [weakSelf sendMessage:addcontent pushContent:dataStr];
+
+        };
         [self presentViewController:nav animated:YES completion:nil];
- 
     }
 }
 
+/**
+ * 重写方法，过滤消息或者修改消息
+ *
+ * @param messageCotent 消息内容
+ *
+ * @return 返回消息内容
+ */
+- (RCMessageContent *)willSendMessage:(RCMessageContent *)messageCotent{
+    [super willSendMessage:messageCotent];
+    if (!self.isgif) {
+        RCTextMessage *message = (RCTextMessage *)messageCotent;
+        message.extra = @"0";
+        return message;
+    }
+    return messageCotent;
+}
+
+- (void)didTapMessageCell:(RCMessageModel *)model
+{
+    [super didTapMessageCell:model];
+    
+    if (self.isgif) {
+        _gifTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod) userInfo:nil repeats:YES];
+        //face
+        
+        XYgiftMessageContent *oldHongBao = (XYgiftMessageContent *)model.content;
+        
+        UIImage *faceImage = [UIImage imageNamed:oldHongBao.imageName];
+        [[NSRunLoop currentRunLoop] addTimer:_gifTimer forMode:NSRunLoopCommonModes];
+        //飞行
+        _flowFlower = [FlowFlower flowerFLow:@[faceImage]];
+        [_flowFlower startFlyFlowerOnView:self.view];
+    }
+    else
+    {
+        XYredMessageContent *mes = [[XYredMessageContent alloc] init];
+        mes.senderUserInfo = [RCIM sharedRCIM].currentUserInfo;
+        mes.extra = @"1";
+
+        mes.extra = [NSString stringWithFormat:@"1/%@",model.messageUId];
+        
+        RCMessage *oldMess = [[RCIMClient sharedRCIMClient] getMessageByUId:model.messageUId];
+        [[RCIMClient sharedRCIMClient] setMessageExtra:oldMess.messageId value:mes.extra];
+        
+        for (RCMessageModel *model in self.conversationDataRepository) {
+            
+            if (model.messageId == oldMess.messageId) {
+                if (model.messageId == oldMess.messageId) {
+                    XYredMessageContent *oldHongBao = (XYredMessageContent *)model.content;
+                    oldHongBao.extra = mes.extra;
+                    model.content = oldHongBao;
+                }
+            }
+        }
+        
+        [self.conversationMessageCollectionView reloadData];
+        
+        XYredMessageContent *cons = (XYredMessageContent*)model.content;
+        NSString *messge = cons.message;
+        
+        WSRewardConfig *info = ({
+            WSRewardConfig *info = [[WSRewardConfig alloc] init];
+            info.money = 100.0;
+            info.headImgurl = model.userInfo.portraitUri;
+            info.content = messge;
+            info.userName = model.userInfo.name;
+            info;
+        });
+        
+        [WSRedPacketView showRedPackerWithData:info cancelBlock:^{
+            NSLog(@"取消领取");
+        } finishBlock:^(float money) {
+            NSLog(@"领取金额：%f",money);
+        }];
+    }
+    
+   
+    
+}
+
+/**
+ 礼物定时器release
+ */
+-(void)timeFireMethod{
+    _second ++;
+    if (_second >= 3) {
+        [_flowFlower endFlyFlower];
+        [_gifTimer invalidate];
+        _flowFlower = nil;
+        _gifTimer = nil;
+    }
+}
+
+
+- (void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left {
+    if ([message.content isKindOfClass:[XYredMessageContent class]]) {
+        
+        
+//        XYredMessageContent *mes = (XYredMessageContent *)message.content;
+//        NSString *ex = mes.isopen;
+//
+//        NSString *sta = [ex componentsSeparatedByString:@"/"][0];
+//        NSString *oldMessID = [ex componentsSeparatedByString:@"/"][1];
+//        if ([sta isEqualToString:@"1"])  {//已接收
+//            dispatch_sync(dispatch_get_main_queue(), ^{
+//                RCMessage *oldMess = [[RCIMClient sharedRCIMClient] getMessageByUId:oldMessID];
+//
+//                for (RCMessageModel *model in self.conversationDataRepository) {
+//                    if (model.messageId == oldMess.messageId) {
+//                        XYredMessageContent *oldHongBao = (XYredMessageContent *)model.content;
+//                        oldHongBao.isopen = ex;
+//                        model.content = oldHongBao;
+//                    }
+//                }
+//
+//                //[[RCIMClient sharedRCIMClient] setMessageExtra:oldMess.messageId value:mes.isopen];
+//
+//                [self.conversationMessageCollectionView reloadData];
+//            });
+//
+//        }
+    }
+}
 
 - (void)didTapUrlInMessageCell:(NSString *)url model:(RCMessageModel *)model{
 
@@ -110,8 +272,7 @@
         NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/getGroupinfo"];
 
         NSDictionary *parameters = @{@"gid":gid,@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-
-
+        
         [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
 
             NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
@@ -119,8 +280,7 @@
             if (integer != 2000) {
 
                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-
-
+                
             }else{
 
                 if ([responseObject[@"data"][@"userpower"] intValue] < 1) {
@@ -272,8 +432,6 @@
     }
 
     
-    //    NSLog(@"gsgggggdgdggdgsgssgdgs%@",groupId);
-    
     [manager POST:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Other/getGroupinfo"] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
@@ -286,8 +444,8 @@
             group.groupName = responseObject[@"data"][@"groupname"];
             group.portraitUri = responseObject[@"data"][@"group_pic"];
             [[RCIM sharedRCIM] refreshGroupInfoCache:group withGroupId:groupId];
+            
         }
-        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
         NSLog(@"88888%@",error);

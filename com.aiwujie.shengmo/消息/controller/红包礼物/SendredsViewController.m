@@ -82,9 +82,11 @@ static  NSString *sendidentfity2 = @"sendidentfity2";
         sendredsCell0 *cell = [tableView dequeueReusableCellWithIdentifier:sendidentfity0];
         if (!cell) {
             cell = [[sendredsCell0 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:sendidentfity0];
+            cell.numberText.tag = 101;
         }
         cell.leftLab.text = @"总金额";
         cell.rightLab.text = @"金魔豆";
+        cell.numberText.placeholder = @"0";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
@@ -92,9 +94,11 @@ static  NSString *sendidentfity2 = @"sendidentfity2";
         sendredsCell0 *cell = [tableView dequeueReusableCellWithIdentifier:sendidentfity1];
         if (!cell) {
             cell = [[sendredsCell0 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:sendidentfity1];
+            cell.numberText.tag = 102;
         }
         cell.leftLab.text = @"红包个数";
         cell.rightLab.text = @"个";
+        cell.numberText.placeholder = @"0";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
     }
@@ -102,6 +106,7 @@ static  NSString *sendidentfity2 = @"sendidentfity2";
         sendredsCell1 *cell = [tableView dequeueReusableCellWithIdentifier:sendidentfity2];
         if (!cell) {
             cell = [[sendredsCell1 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:sendidentfity2];
+            cell.messageText.tag = 103;
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
@@ -114,10 +119,23 @@ static  NSString *sendidentfity2 = @"sendidentfity2";
     return 100;
 }
 
-
 -(void)submitBtnClick
 {
+    UITextField *text0 = [self.tableView viewWithTag:101];
+    UITextField *text1 = [self.tableView viewWithTag:102];
+    UITextField *text2 = [self.tableView viewWithTag:103];
     
+    NSString *num0 = text0.text?:@"0";
+    NSString *num1 = text1.text?:@"0";
+    NSString *message = text2.text?:@"恭喜发财，大吉大利";
+    
+    NSDictionary *para = @{@"money":num0,@"number":num1,@"message":message};
+    if (self.myBlock) {
+        self.myBlock(para);
+    }
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
 }
 
 -(void)createButton{

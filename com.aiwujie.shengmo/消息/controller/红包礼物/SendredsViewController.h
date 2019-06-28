@@ -10,7 +10,9 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+
 @interface SendredsViewController : UIViewController
+@property (nonatomic,strong) void (^myBlock)(NSDictionary *dic);
 
 @end
 

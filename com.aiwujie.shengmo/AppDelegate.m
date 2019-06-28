@@ -16,15 +16,12 @@
 #import <Bugly/Bugly.h>
 #import "XYRichMessageContent.h"
 #import "XYgiftMessageContent.h"
+#import "XYredMessageContent.h"
 
 @interface AppDelegate ()<CLLocationManagerDelegate,RCIMConnectionStatusDelegate,UIAlertViewDelegate,RCIMReceiveMessageDelegate,WXApiDelegate,WeiboSDKDelegate,QQApiInterfaceDelegate>
-
 @property (nonatomic,strong) CLLocationManager *locationManager;
-
 @property (nonatomic,strong) LDMainTabViewController *mvc;
-
 @property (nonatomic,strong) UIAlertView *alert;
-
 @end
 
 @implementation AppDelegate
@@ -112,27 +109,21 @@
     // 注册自定义测试消息
     [[RCIM sharedRCIM] registerMessageType:[XYRichMessageContent class]];
     [[RCIM sharedRCIM] registerMessageType:[XYgiftMessageContent class]];
+    [[RCIM sharedRCIM] registerMessageType:[XYredMessageContent class]];
+    
     //前台提示音开关
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"voiceSwitch"] == nil || [[[NSUserDefaults standardUserDefaults] objectForKey:@"voiceSwitch"] isEqualToString:@"no"]) {
-        
         [RCIM sharedRCIM].disableMessageAlertSound = NO;
-        
     }else{
-        
         [RCIM sharedRCIM].disableMessageAlertSound = YES;
     }
     
     //本地通知提示音开关
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"notificationSwitch"] == nil || [[[NSUserDefaults standardUserDefaults] objectForKey:@"notificationSwitch"] isEqualToString:@"no"]) {
-        
         [RCIM sharedRCIM].disableMessageNotificaiton = NO;
-        
     }else{
-        
         [RCIM sharedRCIM].disableMessageNotificaiton = YES;
-        
     }
-    
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue] == 0) {
         
         //为在底部控制器上添加红点或消息数

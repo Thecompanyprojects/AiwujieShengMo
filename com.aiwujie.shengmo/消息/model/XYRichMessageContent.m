@@ -142,7 +142,7 @@
  */
 - (NSString *)conversationDigest
 {
-    return @"";
+    return [NSString stringWithFormat:@"%@%@%@",self.imageName,@" × ",self.number];
     
 }
 

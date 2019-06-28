@@ -78,54 +78,56 @@
  */
 - (void)tapMessage:(id)sender {
     NSLog(@"%s", __func__);
-    
-    _gifTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod) userInfo:nil repeats:YES];
-    //face
-    UIImage *faceImage = [UIImage imageNamed:_imageName];
-    [[NSRunLoop currentRunLoop] addTimer:_gifTimer forMode:NSRunLoopCommonModes];
-    //飞行
-    _flowFlower = [FlowFlower flowerFLow:@[faceImage]];
-    [_flowFlower startFlyFlowerOnView:[self getCurrentVC].view];
+    if ([self.delegate respondsToSelector:@selector(didTapMessageCell:)]) {
+        [self.delegate didTapMessageCell:self.model];
+    }
+//    _gifTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod) userInfo:nil repeats:YES];
+//    //face
+//    UIImage *faceImage = [UIImage imageNamed:_imageName];
+//    [[NSRunLoop currentRunLoop] addTimer:_gifTimer forMode:NSRunLoopCommonModes];
+//    //飞行
+//    _flowFlower = [FlowFlower flowerFLow:@[faceImage]];
+//    [_flowFlower startFlyFlowerOnView:[self getCurrentVC].view];
 }
 
-/**
- 礼物定时器release
- */
--(void)timeFireMethod{
-    _second ++;
-    if (_second >= 3) {
-        [_flowFlower endFlyFlower];
-        [_gifTimer invalidate];
-        _flowFlower = nil;
-        _gifTimer = nil;
-    }
-}
+///**
+// 礼物定时器release
+// */
+//-(void)timeFireMethod{
+//    _second ++;
+//    if (_second >= 3) {
+//        [_flowFlower endFlyFlower];
+//        [_gifTimer invalidate];
+//        _flowFlower = nil;
+//        _gifTimer = nil;
+//    }
+//}
 
-//获取当前屏幕显示的viewcontroller
-- (UIViewController *)getCurrentVC
-{
-    UIViewController *result = nil;
-    UIWindow * window = [[UIApplication sharedApplication] keyWindow];
-    if (window.windowLevel != UIWindowLevelNormal)
-    {
-        NSArray *windows = [[UIApplication sharedApplication] windows];
-        for(UIWindow * tmpWin in windows)
-        {
-            if (tmpWin.windowLevel == UIWindowLevelNormal)
-            {
-                window = tmpWin;
-                break;
-            }
-        }
-    }
-    UIView *frontView = [[window subviews] objectAtIndex:0];
-    id nextResponder = [frontView nextResponder];
-    if ([nextResponder isKindOfClass:[UIViewController class]])
-        result = nextResponder;
-    else
-        result = window.rootViewController;
-    return result;
-}
+////获取当前屏幕显示的viewcontroller
+//- (UIViewController *)getCurrentVC
+//{
+//    UIViewController *result = nil;
+//    UIWindow * window = [[UIApplication sharedApplication] keyWindow];
+//    if (window.windowLevel != UIWindowLevelNormal)
+//    {
+//        NSArray *windows = [[UIApplication sharedApplication] windows];
+//        for(UIWindow * tmpWin in windows)
+//        {
+//            if (tmpWin.windowLevel == UIWindowLevelNormal)
+//            {
+//                window = tmpWin;
+//                break;
+//            }
+//        }
+//    }
+//    UIView *frontView = [[window subviews] objectAtIndex:0];
+//    id nextResponder = [frontView nextResponder];
+//    if ([nextResponder isKindOfClass:[UIViewController class]])
+//        result = nextResponder;
+//    else
+//        result = window.rootViewController;
+//    return result;
+//}
 
 - (void)setDataModel:(RCMessageModel *)model {
     [super setDataModel:model];
