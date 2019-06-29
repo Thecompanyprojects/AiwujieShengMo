@@ -2020,7 +2020,7 @@
         }
         
         self.lmarkTitleLab.backgroundColor = [UIColor colorWithHexString:@"F5F5F5" alpha:1];
-        self.lmarkTitleLab.text = @"   详细描述";
+        self.lmarkTitleLab.text = @"   详细描述(仅自己可见)";
         self.lmarkTitleLab.font = [UIFont systemFontOfSize:14];
         self.lmarkTitleLab.frame = CGRectMake(0, 0, WIDTH, 35);
         self.lmarkTitleLab.textColor = TextCOLOR;

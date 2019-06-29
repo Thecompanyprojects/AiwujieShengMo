@@ -243,6 +243,7 @@
         UIImageView *itemImageView = [[UIImageView alloc] initWithFrame:CGRectMake((itemW - itemH)/2, 0, itemH, itemH)];
         itemImageView.image = [UIImage imageNamed:itemArray[i]];
         [backView addSubview:itemImageView];
+        itemImageView.alpha = 0.8;
         
         //添加按钮使其可点击
         UIButton *itemButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, itemW, itemH)];

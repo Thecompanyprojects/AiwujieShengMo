@@ -24,10 +24,10 @@
         NSString *newStr = [NSString stringWithFormat:@"%@%@%@%@",str0,str1,str2,str3];
         NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:newStr];
         [str addAttribute:NSForegroundColorAttributeName value:MainColor range:NSMakeRange(0,str0.length)];
-        [str addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(str0.length,str1.length)];
+        [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:255/255.0 green:157/255.0 blue:0/255.0 alpha:1] range:NSMakeRange(str0.length,str1.length)];
         [str addAttribute:NSForegroundColorAttributeName value:MainColor range:NSMakeRange(str0.length+str1.length,str2.length)];
         [str addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(str0.length+str1.length+str2.length,1)];
-        [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:255/255.0 green:157/255.0 blue:0/255.0 alpha:1] range:NSMakeRange(str0.length+str1.length+str2.length+1,2)];
+        [str addAttribute:NSForegroundColorAttributeName value:[UIColor whiteColor] range:NSMakeRange(str0.length+str1.length+str2.length+1,2)];
         self.showLabel.attributedText = str;
         
         self.connectImageView.image = [UIImage imageNamed:@"连接图"];

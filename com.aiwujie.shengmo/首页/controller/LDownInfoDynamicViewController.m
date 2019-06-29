@@ -26,9 +26,7 @@
 @interface LDownInfoDynamicViewController ()<UITableViewDelegate,UITableViewDataSource,DynamicDelegate,YBAttributeTapActionDelegate>
 
 @property (nonatomic,strong) UITableView *tableView;
-
 @property (nonatomic,strong) NSMutableArray *dataArray;
-
 @property (nonatomic,strong) NSIndexPath *indexPath;
 @property (nonatomic,strong) DynamicModel *model;
 @property (nonatomic,strong) DynamicCell *cell;
