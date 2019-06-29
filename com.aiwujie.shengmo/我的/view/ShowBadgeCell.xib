@@ -75,6 +75,7 @@
                 <outlet property="headView" destination="89w-P2-bQU" id="dgy-i7-Oss"/>
                 <outlet property="lineView" destination="5Ra-Gx-9Cc" id="1il-O2-1nO"/>
                 <outlet property="nameLabel" destination="Nk1-kE-1WQ" id="kWR-jM-vXg"/>
+                <outlet property="youjiantou" destination="ns7-HP-d51" id="eOS-Zn-d92"/>
             </connections>
             <point key="canvasLocation" x="158" y="116"/>
         </tableViewCell>

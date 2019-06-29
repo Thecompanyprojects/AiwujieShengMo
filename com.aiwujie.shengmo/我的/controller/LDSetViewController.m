@@ -222,20 +222,27 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 3 && indexPath.row == 2) {
-        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"V%@", [[[NSBundle mainBundle]infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
-        cell.imageView.image = [UIImage imageNamed:_dataArray[indexPath.section][indexPath.row]];
-        [cell.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_offset(17);
-            make.height.mas_offset(17);
-            make.centerY.equalTo(cell.contentView);
-            make.left.equalTo(cell.contentView).with.offset(15);
-        }];
-        cell.detailTextLabel.font = [UIFont italicSystemFontOfSize:15];//设置字体为斜体
-        cell.textLabel.text = _dataArray[indexPath.section][indexPath.row];
-        cell.textLabel.font = [UIFont systemFontOfSize:15];
-        cell.textLabel.textColor = TextCOLOR;
+//        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
+//        cell.detailTextLabel.text = [NSString stringWithFormat:@"V%@", [[[NSBundle mainBundle]infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+//        cell.imageView.image = [UIImage imageNamed:_dataArray[indexPath.section][indexPath.row]];
+//        [cell.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.width.mas_offset(17);
+//            make.height.mas_offset(17);
+//            make.centerY.equalTo(cell.contentView);
+//            make.left.equalTo(cell.contentView).with.offset(15*W_SCREEN);
+//        }];
+//        cell.detailTextLabel.font = [UIFont italicSystemFontOfSize:15];//设置字体为斜体
+//        cell.textLabel.text = _dataArray[indexPath.section][indexPath.row];
+//        cell.textLabel.font = [UIFont systemFontOfSize:15];
+//        cell.textLabel.textColor = TextCOLOR;
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        ShowBadgeCell *cell = [[NSBundle mainBundle] loadNibNamed:@"ShowBadgeCell" owner:self options:nil].lastObject;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.headView.image = [UIImage imageNamed:@"版本号"];
+        cell.detailLabel.text = [NSString stringWithFormat:@"V%@", [[[NSBundle mainBundle]infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+        cell.detailLabel.font = [UIFont italicSystemFontOfSize:15];//设置字体为斜体
+        cell.nameLabel.text = @"版本号";
+        [cell.youjiantou setHidden:YES];
         return cell;
     }else{
         ShowBadgeCell *cell = [[NSBundle mainBundle] loadNibNamed:@"ShowBadgeCell" owner:self options:nil].lastObject;
