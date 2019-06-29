@@ -75,13 +75,24 @@
         
         if ([_index intValue] == 0) {
             if ([self.content intValue] == 1) {
-                url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getExchangeRecord"];
-                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"0"};
+                
+                if ([self.buttonState isEqualToString:@"1"]) {
+                    //充值赠送记录
+                    url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getGivePsRerond"];
+                    parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"0"};
+                }
+                else
+                {
+                    //充值兑换记录
+                    url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getExchangeRecord"];
+                    parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"1"};
+                }
                 
             }else if ([self.content intValue] == 0){
                 //充值记录
                 url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getWalletRecord"];
                 parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
+
                 
             }
         }else if ([self.index intValue] == 1) {

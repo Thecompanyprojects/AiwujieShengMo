@@ -836,8 +836,8 @@
                 NSString *lmarkname = content;
                 NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"lmarkname":lmarkname?:@""};
                 [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
-                    NSString *msg = [responseObj objectForKey:@"msg"];
-                    [MBProgressHUD showSuccess:msg];
+//                    NSString *msg = [responseObj objectForKey:@"msg"];
+//                    [MBProgressHUD showSuccess:msg];
                 } failed:^(NSString *errorMsg) {
                     
                 }];
@@ -1010,8 +1010,8 @@
                 NSString *lmarkname = content;
                 NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"lmarkname":lmarkname?:@""};
                 [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
-                    NSString *msg = [responseObj objectForKey:@"msg"];
-                    [MBProgressHUD showSuccess:msg];
+//                    NSString *msg = [responseObj objectForKey:@"msg"];
+//                    [MBProgressHUD showSuccess:msg];
                 } failed:^(NSString *errorMsg) {
                     
                 }];
@@ -1056,7 +1056,7 @@
             NSDictionary *para = @{@"uid":uid?:@"",@"loginid":loginid?:@"",@"content":contents?:@""};
             [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
                 if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
-                    [MBProgressHUD showSuccess:@"备注成功"];
+//                    [MBProgressHUD showSuccess:@"备注成功"];
                     self.admin_mark = content.copy;
                     [self createOwnInformationData];
                     [self.tableView reloadData];
@@ -2336,7 +2336,7 @@
             NSDictionary *para = @{@"uid":uid?:@"",@"fuid":fuid?:@"",@"lmarkname":lmarkname?:@""};
             [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
                 if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
-                    [MBProgressHUD showSuccess:@"备注成功"];
+                    //[MBProgressHUD showSuccess:@"备注成功"];
                     [self.tableView.mj_header beginRefreshing];
                 }
             } failed:^(NSString *errorMsg) {

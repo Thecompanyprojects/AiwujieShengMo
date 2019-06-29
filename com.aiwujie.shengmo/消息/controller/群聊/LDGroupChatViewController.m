@@ -53,7 +53,7 @@
     [self createRefreshUserData:self.groupId];
     self.view.backgroundColor = [UIColor whiteColor];
     [self createButton];
-    [self addredEnvelope];
+   // [self addredEnvelope];
     [RCIM sharedRCIM].receiveMessageDelegate = self;
 }
 

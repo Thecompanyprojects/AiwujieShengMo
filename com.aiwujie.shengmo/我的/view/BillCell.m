@@ -179,7 +179,7 @@
     }
     else if([self.type isEqualToString:@"充值兑换记录"] ){
         
-        self.timeLabel.text =model.addtime;
+        self.timeLabel.text =model.addtime_format;
         self.weekLabel.text = model.week;
         if ([model.type intValue]==1) {
             self.beanLabel.text = [NSString stringWithFormat:@"-%@银魔豆",model.beans];
