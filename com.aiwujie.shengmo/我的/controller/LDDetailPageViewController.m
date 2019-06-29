@@ -157,7 +157,7 @@
         UIAlertController *control = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"金魔豆兑换邮票" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
-            NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"3张/90金魔豆", @"10张/300金魔豆", @"30张/900金魔豆", @"50张/1500金魔豆", @"100张/3000金魔豆", @"308张/9000金魔豆"];
+            NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"3张/80金魔豆", @"11张/300金魔豆", @"38张/980金魔豆", @"105张/2730金魔豆", @"200张/5180金魔豆", @"385张/9980金魔豆"];
             
             UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
             
@@ -165,7 +165,7 @@
                 UIAlertAction *month = [UIAlertAction actionWithTitle:TopcardArray[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                    
                     if (i!=0) {
-                        NSArray *array = @[@"3",@"10",@"30",@"50",@"100",@"300"];
+                        NSArray *array = @[@"3",@"11",@"38",@"105",@"200",@"385"];
                         NSString *urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/stamp_baans"];
                         
                         __block NSString *numStr = @"";
@@ -219,7 +219,7 @@
         UIAlertController *control = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"金魔豆兑换推顶卡" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
-            NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"3张/450金魔豆", @"10张/1500金魔豆", @"30张/4500金魔豆", @"50张/7500金魔豆", @"100张/15000金魔豆", @"308张/45000金魔豆"];
+            NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"1张/400金魔豆", @"3张/1130金魔豆", @"9张/3280金魔豆", @"29张/9980金魔豆", @"81张/25980金魔豆", @"216张/64980金魔豆"];
             
             UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
             
@@ -230,7 +230,7 @@
                     if (i!=0) {
                         NSString *urlString = [PICHEADURL stringByAppendingString:@"Api/Ping/topcard_baans"];
                         NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
-                        NSArray *array = @[@"3",@"10",@"30",@"50",@"100",@"308"];
+                        NSArray *array = @[@"1",@"3",@"9",@"29",@"81",@"216"];
                         __block NSString *numStr = @"";
                         [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                             

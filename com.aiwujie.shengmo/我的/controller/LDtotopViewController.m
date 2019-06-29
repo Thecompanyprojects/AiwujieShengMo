@@ -35,7 +35,8 @@ static float AD_height = 180;//头部高度
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"动态推顶";
-    self.shopArray = [NSMutableArray arrayWithObjects:@"topcard1",@"topcard2",@"topcard3",@"topcard4",@"topcard5",@"topcard6", nil];
+//    self.shopArray = [NSMutableArray arrayWithObjects:@"topcard1",@"topcard2",@"topcard3",@"topcard4",@"topcard5",@"topcard6", nil];
+     self.shopArray = [NSMutableArray arrayWithObjects:@"topcard11",@"topcard12",@"topcard13",@"topcard14",@"topcard15",@"topcard16", nil];
     //获取单例
     YQInAppPurchaseTool *IAPTool = [YQInAppPurchaseTool defaultTool];
     //设置代理

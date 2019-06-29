@@ -79,7 +79,7 @@
         UIAlertController *control = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"金魔豆兑换VIP" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
-            NSArray *VIPArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"1个月/450金魔豆", @"3个月/1320金魔豆", @"6个月/2520金魔豆", @"12个月/4470金魔豆"];
+            NSArray *VIPArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"1个月/300金魔豆", @"3个月/880金魔豆", @"6个月/1680金魔豆", @"12个月/2980金魔豆"];
             
             UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
             
@@ -113,7 +113,7 @@
         
         UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"金魔豆兑换SVIP" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
-            NSArray *SVIPArray = @[@"1个月/1920金魔豆", @"3个月/5220金魔豆", @"8个月/13470金魔豆", @"12个月/19470金魔豆"];
+            NSArray *SVIPArray = @[@"1个月/1280金魔豆", @"3个月/3480金魔豆", @"8个月/8980金魔豆", @"12个月/12980金魔豆"];
             NSMutableArray *arrs = [NSMutableArray new];
             [arrs addObject:[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"]];
             [arrs addObjectsFromArray:SVIPArray];
@@ -189,7 +189,7 @@
                 //兑换邮票
                 
                 if (index!=0) {
-                    NSArray *array = @[@"3",@"10",@"30",@"50",@"100",@"300"];
+                    NSArray *array = @[@"3",@"11",@"38",@"105",@"200",@"385"];
                     urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/stamp_baans"];
                     
                     __block NSString *numStr = @"";
@@ -210,7 +210,7 @@
                 if (index!=0) {
                     NSString *urlString = [PICHEADURL stringByAppendingString:@"Api/Ping/topcard_baans"];
                     NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
-                    NSArray *array = @[@"3",@"10",@"30",@"50",@"100",@"308"];
+                    NSArray *array = @[@"1",@"3",@"9",@"29",@"81",@"216"];
                     __block NSString *numStr = @"";
                     [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                         

@@ -42,7 +42,7 @@ static NSString *_stampNum;
     
     UIAlertAction *SVIPAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换SVIP"] style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
         
-        NSArray *SVIPArray = @[@"1个月/1920金魔豆", @"3个月/5220金魔豆", @"8个月/13470金魔豆", @"12个月/19470金魔豆"];
+        NSArray *SVIPArray = @[@"1个月/1280金魔豆", @"3个月/3480金魔豆", @"8个月/8980金魔豆", @"12个月/12980金魔豆"];
         NSMutableArray *arrs = [NSMutableArray new];
         [arrs addObject:[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"]];
         [arrs addObjectsFromArray:SVIPArray];
@@ -70,7 +70,7 @@ static NSString *_stampNum;
     
     UIAlertAction * VIPAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换VIP"] style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
      
-        NSArray *VIPArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"1个月/450金魔豆", @"3个月/1320金魔豆", @"6个月/2520金魔豆", @"12个月/4470金魔豆"];
+        NSArray *VIPArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"1个月/300金魔豆", @"3个月/880金魔豆", @"6个月/1680金魔豆", @"12个月/2980金魔豆"];
         
         UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
         
@@ -102,7 +102,7 @@ static NSString *_stampNum;
     
     UIAlertAction *topcareAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换推顶卡"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"3张/450金魔豆", @"10张/1500金魔豆", @"30张/4500金魔豆", @"50张/7500金魔豆", @"100张/15000金魔豆", @"308张/45000金魔豆"];
+        NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"1张/400金魔豆", @"3张/1130金魔豆", @"9张/3280金魔豆", @"29张/9980金魔豆", @"81张/25980金魔豆", @"216张/64980金魔豆"];
         
         UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
         
@@ -129,7 +129,7 @@ static NSString *_stampNum;
 
     UIAlertAction *chargeAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换邮票"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"3张/90金魔豆", @"10张/300金魔豆", @"30张/900金魔豆", @"50张/1500金魔豆", @"100张/3000金魔豆", @"308张/9000金魔豆"];
+        NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"3张/80金魔豆", @"11张/300金魔豆", @"38张/980金魔豆", @"105张/2730金魔豆", @"200张/5180金魔豆", @"385张/9980金魔豆"];
         
         UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
         

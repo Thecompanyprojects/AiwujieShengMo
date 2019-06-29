@@ -12,6 +12,7 @@
 @property (nonatomic,strong) UILabel *numberLab;
 @property (nonatomic,strong) UILabel *priceLab;
 @property (nonatomic,strong) UILabel *messageLab;
+@property (nonatomic,strong) UILabel *contentLab;
 @end
 
 //屏幕宽度比
@@ -29,6 +30,7 @@
         [self.contentView addSubview:self.numberLab];
         [self.contentView addSubview:self.priceLab];
         [self.contentView addSubview:self.messageLab];
+        [self.contentView addSubview:self.contentLab];
         [self setuplayout];
     }
     return self;
@@ -39,15 +41,19 @@
     __weak typeof (self) weakSelf = self;
     [weakSelf.numberLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(weakSelf);
-        make.top.equalTo(weakSelf).with.offset(14*WIDTH_SCALE);
+        make.top.equalTo(weakSelf).with.offset(10*WIDTH_SCALE);
     }];
     [weakSelf.priceLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(weakSelf);
-        make.top.equalTo(weakSelf.numberLab.mas_bottom).with.offset(11*WIDTH_SCALE);
+        make.top.equalTo(weakSelf.numberLab.mas_bottom).with.offset(8*WIDTH_SCALE);
     }];
     [weakSelf.messageLab mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(weakSelf);
-        make.top.equalTo(weakSelf.priceLab.mas_bottom).with.offset(11*WIDTH_SCALE);
+        make.top.equalTo(weakSelf.priceLab.mas_bottom).with.offset(8*WIDTH_SCALE);
+    }];
+    [weakSelf.contentLab mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(weakSelf);
+        make.top.equalTo(weakSelf.messageLab.mas_bottom).with.offset(8*WIDTH_SCALE);
     }];
 }
 
@@ -90,79 +96,170 @@
     return _messageLab;
 }
 
+-(UILabel *)contentLab
+{
+    if(!_contentLab)
+    {
+        _contentLab = [[UILabel alloc] init];
+        _contentLab.textAlignment = NSTextAlignmentCenter;
+        _contentLab.font = [UIFont systemFontOfSize:11];
+        _contentLab.textColor = [UIColor lightGrayColor];
+    }
+    return _contentLab;
+}
+
+
 -(void)setDatafromIndex:(NSInteger )indexrow
 {
     switch (indexrow) {
         case 0:
         {
-            self.numberLab.text = @"3张";
+            self.numberLab.text = @"1张";
             self.priceLab.text = @"￥40";
-            self.messageLab.text = @"原价￥80";
-            //中划线
-            NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原价￥80" attributes:attribtDic];
-            _messageLab.attributedText = attribtStr;
+//            self.messageLab.text = @"原价￥80";
+//            //中划线
+//            NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+//            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原价￥80" attributes:attribtDic];
+//            _messageLab.attributedText = attribtStr;
+            [self.messageLab setHidden:YES];
+            [self.contentLab setHidden:YES];
         }
           
             break;
         case 1:
         {
-            self.numberLab.text = @"10张";
-            self.priceLab.text = @"￥128";
-            self.messageLab.text = @"原价￥256";
+            
+            NSString *str0 = @"3张(9.5折)";
+            NSMutableAttributedString *attstr0 = [[NSMutableAttributedString alloc] initWithString:str0];
+            [attstr0 addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3,3)];
+            self.numberLab.attributedText = attstr0;
+            
+            self.priceLab.text = @"￥113";
+            
+            NSString *str3 = @"(仅￥37.6/张)";
+            NSMutableAttributedString *attstr1 = [[NSMutableAttributedString alloc] initWithString:str3];
+            [attstr1 addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3,4)];
+            self.messageLab.attributedText = attstr1;
+            
+            
+            
+            self.contentLab.text = @"原￥120";
             //中划线
             NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
             NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原价￥256" attributes:attribtDic];
-            _messageLab.attributedText = attribtStr;
+            self.contentLab.attributedText = attribtStr;
+            
+            [self.messageLab setHidden:NO];
+            [self.contentLab setHidden:NO];
+            
         }
            
             
             break;
         case 2:
         {
-            self.numberLab.text = @"30张";
-            self.priceLab.text = @"￥388";
-            self.messageLab.text = @"原价￥776";
+            NSString *str0 = @"9张(9.1折)";
+            NSMutableAttributedString *attstr0 = [[NSMutableAttributedString alloc] initWithString:str0];
+            [attstr0 addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3,3)];
+            self.numberLab.attributedText = attstr0;
+            
+            self.priceLab.text = @"￥328";
+            
+            NSString *str3 = @"(仅￥36.4/张)";
+            NSMutableAttributedString *attstr1 = [[NSMutableAttributedString alloc] initWithString:str3];
+            [attstr1 addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3,4)];
+            self.messageLab.attributedText = attstr1;
+            
+            
+            
+            self.contentLab.text = @"原￥360";
             //中划线
             NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原价￥776" attributes:attribtDic];
-            _messageLab.attributedText = attribtStr;
+            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原价￥256" attributes:attribtDic];
+            self.contentLab.attributedText = attribtStr;
+            
+            [self.messageLab setHidden:NO];
+            [self.contentLab setHidden:NO];
         }
             
             break;
         case 3:
         {
-            self.numberLab.text = @"50张";
-            self.priceLab.text = @"￥648";
-            self.messageLab.text = @"原价￥1296";
+            NSString *str0 = @"29张(8.6折)";
+            NSMutableAttributedString *attstr0 = [[NSMutableAttributedString alloc] initWithString:str0];
+            [attstr0 addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(4,3)];
+            self.numberLab.attributedText = attstr0;
+            
+            self.priceLab.text = @"￥998";
+            
+            NSString *str3 = @"(仅￥34.4/张)";
+            NSMutableAttributedString *attstr1 = [[NSMutableAttributedString alloc] initWithString:str3];
+            [attstr1 addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3,4)];
+            self.messageLab.attributedText = attstr1;
+            
+            
+            
+            self.contentLab.text = @"原￥1160";
             //中划线
             NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原价￥1296" attributes:attribtDic];
-            _messageLab.attributedText = attribtStr;
+            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原价￥256" attributes:attribtDic];
+            self.contentLab.attributedText = attribtStr;
+            
+            [self.messageLab setHidden:NO];
+            [self.contentLab setHidden:NO];
         }
             
             break;
         case 4:
         {
-            self.numberLab.text = @"100张";
-            self.priceLab.text = @"￥1298";
-            self.messageLab.text = @"原价￥2596";
+            NSString *str0 = @"81张(8折)";
+            NSMutableAttributedString *attstr0 = [[NSMutableAttributedString alloc] initWithString:str0];
+            [attstr0 addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(4,1)];
+            self.numberLab.attributedText = attstr0;
+            
+            self.priceLab.text = @"￥2598";
+            
+            NSString *str3 = @"(仅￥32/张)";
+            NSMutableAttributedString *attstr1 = [[NSMutableAttributedString alloc] initWithString:str3];
+            [attstr1 addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3,2)];
+            self.messageLab.attributedText = attstr1;
+            
+            
+            
+            self.contentLab.text = @"原￥3240";
             //中划线
             NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原价￥2596" attributes:attribtDic];
-            _messageLab.attributedText = attribtStr;
+            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原价￥256" attributes:attribtDic];
+            self.contentLab.attributedText = attribtStr;
+            
+            [self.messageLab setHidden:NO];
+            [self.contentLab setHidden:NO];
         }
             
             break;
         case 5:
         {
-            self.numberLab.text = @"308张";
-            self.priceLab.text = @"￥3998";
-            self.messageLab.text = @"原价￥7996";
+            NSString *str0 = @"216张(7.5折)";
+            NSMutableAttributedString *attstr0 = [[NSMutableAttributedString alloc] initWithString:str0];
+            [attstr0 addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(5,3)];
+            self.numberLab.attributedText = attstr0;
+            
+            self.priceLab.text = @"￥6498";
+            
+            NSString *str3 = @"(仅￥30/张)";
+            NSMutableAttributedString *attstr1 = [[NSMutableAttributedString alloc] initWithString:str3];
+            [attstr1 addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(3,2)];
+            self.messageLab.attributedText = attstr1;
+
+            self.contentLab.text = @"原￥8640";
             //中划线
             NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原价￥7996" attributes:attribtDic];
-            _messageLab.attributedText = attribtStr;
+            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原价￥256" attributes:attribtDic];
+            self.contentLab.attributedText = attribtStr;
+            
+            [self.messageLab setHidden:NO];
+            [self.contentLab setHidden:NO];
+            
         }
             
             break;
