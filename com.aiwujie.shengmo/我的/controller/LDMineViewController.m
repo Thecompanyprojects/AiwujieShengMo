@@ -312,7 +312,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.headView.image = [UIImage imageNamed:_dataArray[indexPath.section][indexPath.row]];
     cell.nameLabel.text = _dataArray[indexPath.section][indexPath.row];
-    
+    cell.headView.alpha = 0.5;
     if (indexPath.row==2) {
 
         UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(cell.nameLabel.frame)-55, CGRectGetMinY(cell.nameLabel.frame)+5, 50, 13)];

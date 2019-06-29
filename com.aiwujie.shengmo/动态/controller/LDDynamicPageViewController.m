@@ -28,7 +28,7 @@
 
 
 #define DYNAMICWARNH 26
-#define NewUIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:0.5]
+#define NewUIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:0.25]
 
 @interface LDDynamicPageViewController ()<UITableViewDelegate,UITableViewDataSource,DynamicDelegate,UIScrollViewDelegate,YBAttributeTapActionDelegate,SDCycleScrollViewDelegate>
 
@@ -969,6 +969,7 @@
                 UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake((itemW - itemW/2)/2, topBottomSpace, itemW/2, itemW/2)];
                 imgView.image = [UIImage imageNamed:imageName[i]];
                 [view addSubview:imgView];
+                imgView.alpha = 0.5;
                 
                 UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, topBottomSpace + itemW/2 + plSpace, itemW, lableH)];
                 label.text = titleName[i];

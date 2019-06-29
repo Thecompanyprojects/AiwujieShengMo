@@ -27,7 +27,7 @@
 #import "LDOwnInformationViewController.h"
 #import "LDDynamicDetailViewController.h"
 
-#define NewUIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:0.5]
+#define NewUIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:0.25]
 
 @interface LDDiscoverViewController ()<SDCycleScrollViewDelegate>
 

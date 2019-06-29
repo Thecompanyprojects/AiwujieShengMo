@@ -225,6 +225,12 @@
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
         cell.detailTextLabel.text = [NSString stringWithFormat:@"V%@", [[[NSBundle mainBundle]infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
         cell.imageView.image = [UIImage imageNamed:_dataArray[indexPath.section][indexPath.row]];
+        [cell.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.width.mas_offset(17);
+            make.height.mas_offset(17);
+            make.centerY.equalTo(cell.contentView);
+            make.left.equalTo(cell.contentView).with.offset(15);
+        }];
         cell.detailTextLabel.font = [UIFont italicSystemFontOfSize:15];//设置字体为斜体
         cell.textLabel.text = _dataArray[indexPath.section][indexPath.row];
         cell.textLabel.font = [UIFont systemFontOfSize:15];

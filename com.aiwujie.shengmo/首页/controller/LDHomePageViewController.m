@@ -1092,6 +1092,7 @@
         UIImageView *imgView = [[UIImageView alloc] initWithFrame:CGRectMake((itemW - itemW/2)/2, topBottomSpace, itemW/2, itemW/2)];
         imgView.image = [UIImage imageNamed:imageName[i]];
         [view addSubview:imgView];
+        imgView.alpha = 0.5;
         
         UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, topBottomSpace + itemW/2 + plSpace, itemW, lableH)];
         label.tag = 2000 + i;

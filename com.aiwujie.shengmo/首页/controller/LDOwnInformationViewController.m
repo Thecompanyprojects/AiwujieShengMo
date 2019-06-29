@@ -333,19 +333,18 @@
 
 @property (nonatomic,strong) UILabel *oldnameLab;
 
-//用户描述
-@property (weak, nonatomic) IBOutlet UILabel *lmarknameLab;
-
-//@property (nonatomic,copy) NSString *lmarkNameStr;
-
+//admin备注
 @property (nonatomic,strong) UILabel *noteLab;
-
+//
 @property (nonatomic,assign) CGFloat markfloat0;
-@property (nonatomic,assign) CGFloat markfloat1;
-@property (weak, nonatomic) IBOutlet UILabel *rightyinhao;
-@property (weak, nonatomic) IBOutlet UILabel *leftyinhao;
 
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *lmarknameH;
+//详细描述
+@property (nonatomic,assign) CGFloat markfloat1;
+@property (nonatomic,strong) UIView *lmarkbgView;
+@property (nonatomic,strong) UILabel *lmarkTitleLab;
+@property (nonatomic,strong) UIView *lmarkmessageBgView;
+@property (nonatomic,strong) UILabel *lmarkMessageLab;
+
 
 //是否拉黑
 @property (nonatomic,assign) BOOL isLahei;
@@ -1978,9 +1977,9 @@
         self.adminnoteView.frame = CGRectMake(0, 0, WIDTH, self.markfloat0+8);
         self.adminnoteView.backgroundColor = [UIColor colorWithHexString:@"A6A9B5" alpha:1];
         [self.headBackView addSubview:self.adminnoteView];
-        
+
         NSString *newStr = self.admin_mark.copy;
-        
+
         // 调整行间距
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:newStr];
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -1991,7 +1990,7 @@
             self.noteLab = [[UILabel alloc] init];
             [self.adminnoteView addSubview:self.noteLab];
         }
-        
+
         self.noteLab.numberOfLines = 0;
         self.noteLab.font = font;
         self.noteLab.attributedText = attributedString;
@@ -2007,6 +2006,83 @@
         }
     }
     
+    
+    CGFloat lmarkhei = 0.00f;
+    if (model.lmarkname.length!=0) {
+        //用户描述
+        lmarkhei = [model.lmarkname boundingRectWithSize:CGSizeMake(WIDTH-28, 0) options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName : font} context:nil].size.height;
+        if (self.lmarkbgView==nil) {
+            self.lmarkbgView = [[UIView alloc] init];
+        }
+        self.lmarkbgView.backgroundColor = [UIColor whiteColor];
+        if (self.lmarkTitleLab==nil) {
+            self.lmarkTitleLab = [[UILabel alloc] init];
+        }
+        
+        self.lmarkTitleLab.backgroundColor = [UIColor colorWithHexString:@"F5F5F5" alpha:1];
+        self.lmarkTitleLab.text = @"   详细描述";
+        self.lmarkTitleLab.font = [UIFont systemFontOfSize:14];
+        self.lmarkTitleLab.frame = CGRectMake(0, 0, WIDTH, 35);
+        self.lmarkTitleLab.textColor = TextCOLOR;
+        
+        if (self.lmarkMessageLab==nil) {
+            self.lmarkMessageLab = [[UILabel alloc] init];
+        }
+       
+        if (self.lmarkmessageBgView==nil) {
+            self.lmarkmessageBgView = [UIView new];
+        }
+        
+        NSString *newStr = model.lmarkname.copy;
+        self.lmarkMessageLab.backgroundColor = [UIColor whiteColor];
+        // 调整行间距
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:newStr];
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        [paragraphStyle setLineSpacing:5];
+        [attributedString addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, [model.lmarkname length])];
+        
+        self.lmarkMessageLab.numberOfLines = 0;
+        self.lmarkMessageLab.font = font;
+        self.lmarkMessageLab.attributedText = attributedString;
+        [self.lmarkMessageLab sizeToFit];
+        self.lmarkMessageLab.textColor = TextCOLOR;
+        
+        if (model.admin_mark.length==0) {
+            self.lmarkbgView.frame = CGRectMake(0, 0, WIDTH, lmarkhei+35);
+        }
+        else
+        {
+            self.lmarkbgView.frame = CGRectMake(0, self.markfloat0+8, WIDTH, lmarkhei+35);
+        }
+        
+        self.lmarkmessageBgView.frame = CGRectMake(0, 30, WIDTH, lmarkhei+20);
+        self.lmarkmessageBgView.backgroundColor = [UIColor whiteColor];
+        self.lmarkMessageLab.frame = CGRectMake(14, 10, WIDTH-28, lmarkhei);
+        self.markfloat1 = lmarkhei+35+10;
+        
+        [self.headBackView addSubview:self.lmarkbgView];
+        [self.lmarkbgView addSubview:self.lmarkTitleLab];
+        [self.lmarkbgView addSubview:self.lmarkmessageBgView];
+        [self.lmarkmessageBgView addSubview:self.lmarkMessageLab];
+    }
+    else
+    {
+        lmarkhei = 0.00f;
+        self.markfloat1 = 0.00f;
+        if (self.lmarkbgView != nil) {
+            [self.lmarkbgView removeFromSuperview];
+        }
+        if (self.lmarkTitleLab != nil) {
+            [self.lmarkTitleLab removeFromSuperview];
+        }
+        if (self.lmarkmessageBgView != nil) {
+            [self.lmarkmessageBgView removeFromSuperview];
+        }
+        if (self.lmarkMessageLab != nil) {
+            [self.lmarkMessageLab removeFromSuperview];
+        }
+        
+    }
     //可以用户的设置
     _is_likeliar = [NSString stringWithFormat:@"%@",model.is_likeliar];
 
@@ -2016,9 +2092,15 @@
         if (self.admin_mark.length!=0&&[[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue]==1) {
             tops = self.markfloat0+8;
         }
+        
+        if (model.lmarkname) {
+            tops = self.markfloat0+8+self.markfloat1;
+        }
+        
         if (_likeliarView == nil) {
             _likeliarView = [[UIView alloc] initWithFrame:CGRectMake(0, tops, WIDTH, 40)];
         }
+        
         self.markfloat0 = self.markfloat0+40;
         [self.headBackView addSubview:_likeliarView];
         _likeliarView.backgroundColor = [UIColor colorWithHexString:@"#ff3434" alpha:1];
@@ -2044,30 +2126,6 @@
         }
     }
     
-//    self.lmarkNameStr = @"我是描述信息我是描述信息我是描述信息我是描述信息我是描述信息我是描述信息";
-    
-    CGFloat hei1 = 0.0f;
-    
-    
-    if (self.inmodel.lmarkname.length!=0) {
-        self.lmarknameLab.text = self.inmodel.lmarkname;
-        [self.lmarknameLab setHidden:NO];
-        hei1 = 32;
-        [self.leftyinhao setHidden:NO];
-        [self.rightyinhao setHidden:NO];
-    }
-    else
-    {
-        [self.lmarknameLab setHidden:YES];
-        [self.leftyinhao setHidden:YES];
-        [self.rightyinhao setHidden:YES];
-    }
-
-    self.lmarknameLab.userInteractionEnabled = YES;
-    UITapGestureRecognizer *labelTapGestureRecognizer = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(labelTouchUpInside:)];
-    [self.lmarknameLab addGestureRecognizer:labelTapGestureRecognizer];
-    
-    
     
     //展示用户信息的view的设置
     _headUrl = model.head_pic;
@@ -2077,19 +2135,18 @@
     self.backGroundView.clipsToBounds = YES;
 
     CGFloat marknameHei = 0.00f;
+    
     if (model.markname.length!=0) {
-        marknameHei = 22;
-        self.markfloat1 = 0.00f;
-        self.backViewY.constant = 16+marknameHei;
+        marknameHei = 0.00f;
+        self.backViewY.constant = 16+22;
         self.nameLabel.text = model.markname;
         self.oldnameLab.text = [NSString stringWithFormat:@"%@%@%@",@"(",model.nickname,@")"];
         [self.oldnameLab setHidden:NO];
     }
     else
     {
-        marknameHei = 0.00f;
+        marknameHei = 22;
         self.backViewY.constant = 16;
-        self.markfloat1 = 27;
         self.nameLabel.text = model.nickname;
         [self.oldnameLab setHidden:YES];
     }
@@ -2098,32 +2155,43 @@
     // ceilf()向上取整函数, 只要大于1就取整数2. floor()向下取整函数, 只要小于2就取整数1.
     CGSize labelSize = CGSizeMake(ceilf(size.width), ceilf(size.height));
     self.nameW.constant = labelSize.width;;
-
+    
+    
     
     if (ISIPHONEPLUS) {
-        self.headImageViewY.constant = 35+self.markfloat0;
-        self.headImageButtonY.constant = 35+self.markfloat0;
-        self.vipViewY.constant = 112+self.markfloat0;
-        self.vipButtonY.constant = 112+self.markfloat0;
-        self.nameY.constant = 40+self.markfloat0;
-        self.idViewY.constant = 44+self.markfloat0;
-        self.onlineViewY.constant = 47+self.markfloat0;
-        self.lmarknameH.constant = 35;
-        self.backAlhpaH.constant = 300+self.markfloat0+hei1-self.markfloat1;
-        self.backGroundViewH.constant = 300+self.markfloat0+hei1-self.markfloat1;
+        
+        CGFloat heis = 0.00f;
+        if (model.lmarkname.length!=0) {
+            heis = 18;
+        }
+        
+        self.headImageViewY.constant = 35+self.markfloat0+self.markfloat1+heis;
+        self.headImageButtonY.constant = 35+self.markfloat0+self.markfloat1+heis;
+        self.vipViewY.constant = 112+self.markfloat0+self.markfloat1+heis;
+        self.vipButtonY.constant = 112+self.markfloat0+self.markfloat1+heis;
+        self.nameY.constant = 40+self.markfloat0+self.markfloat1+heis;
+        self.idViewY.constant = 44+self.markfloat0+self.markfloat1+heis;
+        self.onlineViewY.constant = 47+self.markfloat0+self.markfloat1+heis;
+        
+        self.backAlhpaH.constant = 300+self.markfloat0-marknameHei+self.markfloat1+heis;
+        self.backGroundViewH.constant = 300+self.markfloat0-marknameHei+self.markfloat1+heis;
     }
     else
     {
-        self.headImageViewY.constant = 25+self.markfloat0;
-        self.headImageButtonY.constant = 25+self.markfloat0;
-        self.nameY.constant = 25+self.markfloat0;
-        self.idViewY.constant = 28+self.markfloat0;
-        self.onlineViewY.constant = 30+self.markfloat0;
-        self.vipViewY.constant = 81+self.markfloat0;
-        self.vipButtonY.constant = 81+self.markfloat0;
+        CGFloat heis = 0.00f;
+        if (model.lmarkname.length!=0) {
+            heis = 15;
+        }
+        self.headImageViewY.constant = 25+self.markfloat0+self.markfloat1+heis;
+        self.headImageButtonY.constant = 25+self.markfloat0+self.markfloat1+heis;
+        self.nameY.constant = 25+self.markfloat0+self.markfloat1+heis;
+        self.idViewY.constant = 28+self.markfloat0+self.markfloat1+heis;
+        self.onlineViewY.constant = 30+self.markfloat0+self.markfloat1+heis;
+        self.vipViewY.constant = 81+self.markfloat0+self.markfloat1+heis;
+        self.vipButtonY.constant = 81+self.markfloat0+self.markfloat1+heis;
         
-        self.backAlhpaH.constant = 240+self.markfloat0+hei1-self.markfloat1;
-        self.backGroundViewH.constant = 240+self.markfloat0+hei1-self.markfloat1;
+        self.backAlhpaH.constant = 240+self.markfloat0-marknameHei+self.markfloat1+heis;
+        self.backGroundViewH.constant = 240+self.markfloat0-marknameHei+self.markfloat1+heis;
         
     }
     
