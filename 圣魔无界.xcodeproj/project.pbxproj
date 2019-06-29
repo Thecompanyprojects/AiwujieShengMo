@@ -288,6 +288,7 @@
 		53C95C2122BB2D2B0075FF55 /* CCLodingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C95C1D22BB2D2B0075FF55 /* CCLodingView.m */; };
 		53C95C2222BB2D2B0075FF55 /* CCLoadingHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C95C2022BB2D2B0075FF55 /* CCLoadingHUD.m */; };
 		53C95C2822BB3B530075FF55 /* MBProgressHUD+JJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C95C2722BB3B530075FF55 /* MBProgressHUD+JJ.m */; };
+		53C9921422C7455D0058AED8 /* HomepersonViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C9921322C7455D0058AED8 /* HomepersonViewModel.m */; };
 		53E8CDC022A93E2D007E5073 /* LDharassmentVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDBF22A93E2D007E5073 /* LDharassmentVC.m */; };
 		53E8CDC322A93EED007E5073 /* LDharassmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53E8CDC222A93EED007E5073 /* LDharassmentCell.m */; };
 		53F3B95222B73DC600F0EDF5 /* NullSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = 53F3B95122B73DC600F0EDF5 /* NullSafe.m */; };
@@ -972,6 +973,8 @@
 		53C95C2022BB2D2B0075FF55 /* CCLoadingHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCLoadingHUD.m; sourceTree = "<group>"; };
 		53C95C2622BB3B530075FF55 /* MBProgressHUD+JJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+JJ.h"; sourceTree = "<group>"; };
 		53C95C2722BB3B530075FF55 /* MBProgressHUD+JJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+JJ.m"; sourceTree = "<group>"; };
+		53C9921222C7455D0058AED8 /* HomepersonViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HomepersonViewModel.h; sourceTree = SOURCE_ROOT; };
+		53C9921322C7455D0058AED8 /* HomepersonViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HomepersonViewModel.m; sourceTree = SOURCE_ROOT; };
 		53E8CDBE22A93E2D007E5073 /* LDharassmentVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDharassmentVC.h; sourceTree = "<group>"; };
 		53E8CDBF22A93E2D007E5073 /* LDharassmentVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDharassmentVC.m; sourceTree = "<group>"; };
 		53E8CDC122A93EED007E5073 /* LDharassmentCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDharassmentCell.h; sourceTree = "<group>"; };
@@ -2133,6 +2136,8 @@
 		53A2E6B722BC7A4400403D83 /* viewModel */ = {
 			isa = PBXGroup;
 			children = (
+				53C9921222C7455D0058AED8 /* HomepersonViewModel.h */,
+				53C9921322C7455D0058AED8 /* HomepersonViewModel.m */,
 			);
 			path = viewModel;
 			sourceTree = "<group>";
@@ -3887,6 +3892,7 @@
 				0005AB311E324A4200F605EF /* LDGroupChatViewController.m in Sources */,
 				531D738D22AE142E00903BB4 /* LDBaseViewController.m in Sources */,
 				D208A7391EDFE590000316D3 /* LDNoDisturbViewController.m in Sources */,
+				53C9921422C7455D0058AED8 /* HomepersonViewModel.m in Sources */,
 				D263D3561EE92D36005CFA4F /* InvitationMemberCell.m in Sources */,
 				00E60CD51E2522BD0078779C /* LDRevisePasswordViewController.m in Sources */,
 				003B9A891E06C049006BF162 /* LDMainNavViewController.m in Sources */,
