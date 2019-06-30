@@ -179,7 +179,7 @@
     UIAlertController *control = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"金魔豆兑换VIP" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        NSArray *VIPArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"1个月/450金魔豆", @"3个月/1320金魔豆", @"6个月/2520金魔豆", @"12个月/4470金魔豆"];
+        NSArray *VIPArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"1个月/300金魔豆", @"3个月/880金魔豆", @"6个月/1680金魔豆", @"12个月/2980金魔豆"];
         
         UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
         
@@ -213,7 +213,7 @@
     
     UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"金魔豆兑换SVIP" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-        NSArray *SVIPArray = @[@"1个月/1920金魔豆", @"3个月/5220金魔豆", @"8个月/13470金魔豆", @"12个月/19470金魔豆"];
+        NSArray *SVIPArray = @[@"1个月/1280金魔豆", @"3个月/3480金魔豆", @"8个月/8980金魔豆", @"12个月/12980金魔豆"];
         NSMutableArray *arrs = [NSMutableArray new];
         [arrs addObject:[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"]];
         [arrs addObjectsFromArray:SVIPArray];

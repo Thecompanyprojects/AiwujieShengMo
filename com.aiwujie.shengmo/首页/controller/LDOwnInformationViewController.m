@@ -2088,20 +2088,32 @@
 
     if ([model.is_likeliar intValue] == 1) {
   
+        if (_likeliarView == nil) {
+            _likeliarView = [[UIView alloc] init];
+        }
+        
         CGFloat tops = 0.00f;
+        
+        
         if (self.admin_mark.length!=0&&[[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue]==1) {
             tops = self.markfloat0+8;
+            [_likeliarView setHidden:YES];
         }
         
         if (model.lmarkname) {
-            tops = self.markfloat0+8+self.markfloat1;
+            if (model.lmarkname.length==0&&self.admin_mark.length==0) {
+                self.likeliarView.frame = CGRectMake(0, 0, WIDTH, 40);
+            }
+            else
+            {
+                tops = self.markfloat0+8+self.markfloat1;
+                [_likeliarView setHidden:NO];
+                self.likeliarView.frame = CGRectMake(0, tops, WIDTH, 40);
+            }
         }
+     
         
-        if (_likeliarView == nil) {
-            _likeliarView = [[UIView alloc] initWithFrame:CGRectMake(0, tops, WIDTH, 40)];
-        }
-        
-        self.markfloat0 = self.markfloat0+40;
+//        self.markfloat0 = self.markfloat0+40;
         [self.headBackView addSubview:_likeliarView];
         _likeliarView.backgroundColor = [UIColor colorWithHexString:@"#ff3434" alpha:1];
         // 调整行间距
@@ -2164,17 +2176,20 @@
         if (model.lmarkname.length!=0) {
             heis = 18;
         }
+        CGFloat height2 = 0.00f;
+        if ([model.is_likeliar intValue]==1) {
+            height2 = 40;
+        }
+        self.headImageViewY.constant = 35+self.markfloat0+self.markfloat1+heis+height2;
+        self.headImageButtonY.constant = 35+self.markfloat0+self.markfloat1+heis+height2;
+        self.vipViewY.constant = 112+self.markfloat0+self.markfloat1+heis+height2;
+        self.vipButtonY.constant = 112+self.markfloat0+self.markfloat1+heis+height2;
+        self.nameY.constant = 40+self.markfloat0+self.markfloat1+heis+height2;
+        self.idViewY.constant = 44+self.markfloat0+self.markfloat1+heis+height2;
+        self.onlineViewY.constant = 47+self.markfloat0+self.markfloat1+heis+height2;
         
-        self.headImageViewY.constant = 35+self.markfloat0+self.markfloat1+heis;
-        self.headImageButtonY.constant = 35+self.markfloat0+self.markfloat1+heis;
-        self.vipViewY.constant = 112+self.markfloat0+self.markfloat1+heis;
-        self.vipButtonY.constant = 112+self.markfloat0+self.markfloat1+heis;
-        self.nameY.constant = 40+self.markfloat0+self.markfloat1+heis;
-        self.idViewY.constant = 44+self.markfloat0+self.markfloat1+heis;
-        self.onlineViewY.constant = 47+self.markfloat0+self.markfloat1+heis;
-        
-        self.backAlhpaH.constant = 300+self.markfloat0-marknameHei+self.markfloat1+heis;
-        self.backGroundViewH.constant = 300+self.markfloat0-marknameHei+self.markfloat1+heis;
+        self.backAlhpaH.constant = 300+self.markfloat0-marknameHei+self.markfloat1+heis+height2;
+        self.backGroundViewH.constant = 300+self.markfloat0-marknameHei+self.markfloat1+heis+height2;
     }
     else
     {
@@ -2182,16 +2197,20 @@
         if (model.lmarkname.length!=0) {
             heis = 15;
         }
-        self.headImageViewY.constant = 25+self.markfloat0+self.markfloat1+heis;
-        self.headImageButtonY.constant = 25+self.markfloat0+self.markfloat1+heis;
-        self.nameY.constant = 25+self.markfloat0+self.markfloat1+heis;
-        self.idViewY.constant = 28+self.markfloat0+self.markfloat1+heis;
-        self.onlineViewY.constant = 30+self.markfloat0+self.markfloat1+heis;
-        self.vipViewY.constant = 81+self.markfloat0+self.markfloat1+heis;
-        self.vipButtonY.constant = 81+self.markfloat0+self.markfloat1+heis;
+        CGFloat height2 = 0.00f;
+        if ([model.is_likeliar intValue]==1) {
+            height2 = 40;
+        }
+        self.headImageViewY.constant = 25+self.markfloat0+self.markfloat1+heis+height2;
+        self.headImageButtonY.constant = 25+self.markfloat0+self.markfloat1+heis+height2;
+        self.nameY.constant = 25+self.markfloat0+self.markfloat1+heis+height2;
+        self.idViewY.constant = 28+self.markfloat0+self.markfloat1+heis+height2;
+        self.onlineViewY.constant = 30+self.markfloat0+self.markfloat1+heis+height2;
+        self.vipViewY.constant = 81+self.markfloat0+self.markfloat1+heis+height2;
+        self.vipButtonY.constant = 81+self.markfloat0+self.markfloat1+heis+height2;
         
-        self.backAlhpaH.constant = 240+self.markfloat0-marknameHei+self.markfloat1+heis;
-        self.backGroundViewH.constant = 240+self.markfloat0-marknameHei+self.markfloat1+heis;
+        self.backAlhpaH.constant = 240+self.markfloat0-marknameHei+self.markfloat1+heis+height2;
+        self.backGroundViewH.constant = 240+self.markfloat0-marknameHei+self.markfloat1+heis+height2;
         
     }
     
