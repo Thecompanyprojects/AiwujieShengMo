@@ -70,5 +70,6 @@
 //桥接文件
 #import "圣魔无界-Bridging-Header.h"
 #import "圣魔无界-Swift.h"
+#import "WangConst.h"
 
 #endif /* PrefixHeader_pch */

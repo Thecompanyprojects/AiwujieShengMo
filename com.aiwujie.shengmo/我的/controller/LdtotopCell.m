@@ -146,7 +146,7 @@
             self.contentLab.text = @"原￥120";
             //中划线
             NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原价￥256" attributes:attribtDic];
+            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原￥120" attributes:attribtDic];
             self.contentLab.attributedText = attribtStr;
             
             [self.messageLab setHidden:NO];
@@ -175,7 +175,7 @@
             self.contentLab.text = @"原￥360";
             //中划线
             NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原价￥256" attributes:attribtDic];
+            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原￥360" attributes:attribtDic];
             self.contentLab.attributedText = attribtStr;
             
             [self.messageLab setHidden:NO];
@@ -202,7 +202,7 @@
             self.contentLab.text = @"原￥1160";
             //中划线
             NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原价￥256" attributes:attribtDic];
+            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原￥1160" attributes:attribtDic];
             self.contentLab.attributedText = attribtStr;
             
             [self.messageLab setHidden:NO];
@@ -229,7 +229,7 @@
             self.contentLab.text = @"原￥3240";
             //中划线
             NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原价￥256" attributes:attribtDic];
+            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原￥3240" attributes:attribtDic];
             self.contentLab.attributedText = attribtStr;
             
             [self.messageLab setHidden:NO];
@@ -254,7 +254,7 @@
             self.contentLab.text = @"原￥8640";
             //中划线
             NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原价￥256" attributes:attribtDic];
+            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原￥8640" attributes:attribtDic];
             self.contentLab.attributedText = attribtStr;
             
             [self.messageLab setHidden:NO];

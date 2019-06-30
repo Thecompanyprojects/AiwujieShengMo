@@ -285,6 +285,7 @@
 		53B7C11E22B4947400113F50 /* LDhistorynameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C11D22B4947400113F50 /* LDhistorynameViewController.m */; };
 		53B7C12122B49C1F00113F50 /* LDhistorynameModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C12022B49C1F00113F50 /* LDhistorynameModel.m */; };
 		53B7C12422B4A11800113F50 /* TimeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C12322B4A11800113F50 /* TimeManager.m */; };
+		53C942F722C8C8B500183BC8 /* WangConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C942F622C8C8B500183BC8 /* WangConst.m */; };
 		53C95C2122BB2D2B0075FF55 /* CCLodingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C95C1D22BB2D2B0075FF55 /* CCLodingView.m */; };
 		53C95C2222BB2D2B0075FF55 /* CCLoadingHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C95C2022BB2D2B0075FF55 /* CCLoadingHUD.m */; };
 		53C95C2822BB3B530075FF55 /* MBProgressHUD+JJ.m in Sources */ = {isa = PBXBuildFile; fileRef = 53C95C2722BB3B530075FF55 /* MBProgressHUD+JJ.m */; };
@@ -967,6 +968,8 @@
 		53B7C12022B49C1F00113F50 /* LDhistorynameModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDhistorynameModel.m; sourceTree = "<group>"; };
 		53B7C12222B4A11800113F50 /* TimeManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeManager.h; sourceTree = "<group>"; };
 		53B7C12322B4A11800113F50 /* TimeManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TimeManager.m; sourceTree = "<group>"; };
+		53C942F522C8C8B500183BC8 /* WangConst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WangConst.h; sourceTree = "<group>"; };
+		53C942F622C8C8B500183BC8 /* WangConst.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WangConst.m; sourceTree = "<group>"; };
 		53C95C1D22BB2D2B0075FF55 /* CCLodingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCLodingView.m; sourceTree = "<group>"; };
 		53C95C1E22BB2D2B0075FF55 /* CCLoadingHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLoadingHUD.h; sourceTree = "<group>"; };
 		53C95C1F22BB2D2B0075FF55 /* CCLodingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCLodingView.h; sourceTree = "<group>"; };
@@ -2027,6 +2030,8 @@
 			isa = PBXGroup;
 			children = (
 				531D739522AF37B500903BB4 /* wangHeader.h */,
+				53C942F522C8C8B500183BC8 /* WangConst.h */,
+				53C942F622C8C8B500183BC8 /* WangConst.m */,
 				53F3B95122B73DC600F0EDF5 /* NullSafe.m */,
 				53B7C12222B4A11800113F50 /* TimeManager.h */,
 				53B7C12322B4A11800113F50 /* TimeManager.m */,
@@ -3963,6 +3968,7 @@
 				D20016D11F46C4160045D0A2 /* TAAnimatedDotView.m in Sources */,
 				003B9A801E06BFF9006BF162 /* LDMineViewController.m in Sources */,
 				D20016D21F46C4160045D0A2 /* TADotView.m in Sources */,
+				53C942F722C8C8B500183BC8 /* WangConst.m in Sources */,
 				D20016D01F46C4160045D0A2 /* TAAbstractDotView.m in Sources */,
 				003B9A6C1E06BF7C006BF162 /* LDHomeViewController.m in Sources */,
 				D20016D31F46C4160045D0A2 /* TAPageControl.m in Sources */,
