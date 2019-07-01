@@ -80,7 +80,7 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
 
 -(void)createStatusData{
 
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getSecretSit"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getSecretSitUrl];
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
@@ -161,7 +161,7 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
 
 -(void)afterstaticData
 {
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getSecretSit"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getSecretSitUrl];
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         if ([responseObj[@"data"][@"photo_lock"] intValue] == 1) {
@@ -529,7 +529,7 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
 
 -(void)changeldprovacyClick
 {
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/setSecretSit"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setSecretSitUrl];
     NSString *attentString = [NSString new];
     if (self.isFocuson) {
         attentString = @"0";

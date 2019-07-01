@@ -93,7 +93,7 @@
 -(void)createData{
 
     
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getStampPageInfo];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getStampPageInfoUrl];
     NSDictionary *parameters;
     parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     

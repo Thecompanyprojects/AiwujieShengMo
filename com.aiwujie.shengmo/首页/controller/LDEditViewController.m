@@ -2345,7 +2345,7 @@
 
 -(void)getphototIscanlookInfo
 {
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getSecretSit"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getSecretSitUrl];
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
       

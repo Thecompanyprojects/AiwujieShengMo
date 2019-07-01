@@ -353,7 +353,7 @@
     NSString *url = [NSString string];
     NSDictionary *parameters = [NSDictionary dictionary];
     if ([content integerValue] == 1) {
-        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,userListNewth];
+        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,userListNewthUrl];
         
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
             

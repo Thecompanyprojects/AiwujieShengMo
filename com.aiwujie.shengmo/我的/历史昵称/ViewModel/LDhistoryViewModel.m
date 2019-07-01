@@ -23,7 +23,7 @@
 - (void)getNewsList{
     __weak typeof(self) weakSelf = self;
     NSDictionary *para = @{@"uid":self.uid?:@""};
-    [NetManager afPostRequest:[PICHEADURL stringByAppendingString:getEditnicknameList] parms:para finished:^(id responseObj) {
+    [NetManager afPostRequest:[PICHEADURL stringByAppendingString:getEditnicknameListUrl] parms:para finished:^(id responseObj) {
         if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
             NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[LDhistorynameModel class] json:responseObj[@"data"]]];
             [weakSelf.news addObjectsFromArray:data];

@@ -432,7 +432,7 @@
 
 -(void)createDataType:(NSString *)type{
     NSString *url;
-    url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getDynamicListNewFive];
+    url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getDynamicListNewFiveUrl];
     NSDictionary *parameters;
     if ([self.content intValue] == 1||[self.content intValue]==0) {
         

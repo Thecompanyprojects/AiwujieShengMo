@@ -3255,7 +3255,7 @@
     }else{
     
         [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
-        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getOpenChatRestrictAndInfo];
+        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getOpenChatRestrictAndInfoUrl];
         NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"otheruid":self.userID};
         AFHTTPSessionManager *manager = [LDAFManager sharedManager];
         [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];

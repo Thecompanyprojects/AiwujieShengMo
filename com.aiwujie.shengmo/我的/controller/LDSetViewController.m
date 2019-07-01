@@ -726,7 +726,7 @@
 
 -(void)getsvipSendMessage
 {
-    NSString *url = [PICHEADURL stringByAppendingString:getVipSecretSit];
+    NSString *url = [PICHEADURL stringByAppendingString:getVipSecretSitUrl];
     NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
     NSDictionary *parms = @{@"uid":uid?:@""};
     [NetManager afPostRequest:url parms:parms finished:^(id responseObj) {

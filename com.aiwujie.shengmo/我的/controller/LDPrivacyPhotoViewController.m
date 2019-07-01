@@ -47,7 +47,7 @@
     [super didMoveToParentViewController:parent];
     if(!parent){
 
-        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setSecretSit];
+        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setSecretSitUrl];
         
         NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"photo_lock":_privacyString};
         [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
@@ -69,7 +69,7 @@
 
 -(void)createStatusData{
 
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,judgePhotoPwd];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,judgePhotoPwdUrl];
     
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     
@@ -416,7 +416,7 @@
 
 -(void)backButtonOnClick{
     
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setSecretSit];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setSecretSitUrl];
 
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"photo_lock":_privacyString};
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {

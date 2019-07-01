@@ -318,7 +318,7 @@
             [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
             manager.requestSerializer.timeoutInterval = 10.f;
             [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
-            NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getOpenChatRestrictAndInfo];
+            NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getOpenChatRestrictAndInfoUrl];
             NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"otheruid":model.targetId};
             
             [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

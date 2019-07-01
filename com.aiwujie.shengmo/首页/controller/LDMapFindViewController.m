@@ -74,7 +74,7 @@
 //地图找人
 -(void)createData:(NSString *)str{
     
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,searchByMapNew];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,userListNewthUrl];
     
     NSString *age;
     NSString *sex;

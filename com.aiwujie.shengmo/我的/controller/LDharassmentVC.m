@@ -123,7 +123,7 @@ static NSString *LDharassmentIdentfity = @"LDharassmentIdentfity";
  */
 -(void)choosesvipsendMessage
 {
-    NSString *url = [PICHEADURL stringByAppendingString:setVipSecretSit];
+    NSString *url = [PICHEADURL stringByAppendingString:setVipSecretSitUrl];
     NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
     NSString *char_rule = [NSString new];
     if (self.isAll) {

@@ -89,7 +89,7 @@
 
 -(void)createDatatype:(NSString *)type{
 
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,userListNewth];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,userListNewthUrl];
     
     NSDictionary *parameters = @{@"page":[NSString stringWithFormat:@"%d",_tablePage],@"layout":@"1",@"type":@"4",@"loginid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]?:@""};
 

@@ -274,7 +274,7 @@
  */
 -(void)createData:(int)page type:(NSString *)type{
     
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,userListNewth];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,userListNewthUrl];
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"layout"] length] == 0) {
         [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"layout"];
     }
