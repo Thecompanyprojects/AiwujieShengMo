@@ -28,11 +28,11 @@
 /*!
  公众服务图文信息条目RCRichContentItem内容
  */
-@property(nonatomic, strong) RCRichContentItem *richConent;
+@property(nonatomic, strong) RCRichContentItem *richContent;
 
 /*!
  图文消息的附加信息
  */
-@property(nonatomic, strong) NSString *extra;
+@property(nonatomic, copy) NSString *extra;
 
 @end

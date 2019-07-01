@@ -6,11 +6,11 @@ pod 'MJRefresh'
 pod 'AMap2DMap-NO-IDFA'
 pod 'AMapSearch-NO-IDFA'
 pod 'AMapLocation-NO-IDFA'
+
 pod 'RongCloudIM/IMLib'
 pod 'RongCloudIM/IMKit'
-pod 'RongCloudIM/CallLib'
-pod 'RongCloudIM/CallKit'
-pod 'RongCloudIM/Sticker'
+pod 'RongRTCLib', '~> 3.0.7'
+
 pod 'UMengAnalytics-NO-IDFA'
 pod 'Masonry', '~> 1.1.0'
 pod 'IQKeyboardManager'
@@ -18,5 +18,5 @@ pod 'Bugly'
 pod 'YYModel'
 pod 'DZNEmptyDataSet'
 pod 'SDAutoLayout'
-#pod 'ThinkVerb'
+
 end

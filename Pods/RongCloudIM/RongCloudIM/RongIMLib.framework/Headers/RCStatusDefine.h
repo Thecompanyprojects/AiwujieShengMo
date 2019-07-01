@@ -189,6 +189,11 @@ typedef NS_ENUM(NSInteger, RCConnectErrorCode) {
     RC_DISCONN_KICK = 31010,
 
     /*!
+     重连过程中当前用户在其它设备上登录
+     */
+    RC_CONN_OTHER_DEVICE_LOGIN = 31023,
+    
+    /*!
      连接被拒绝
 
      @discussion 建立连接的临时错误码，SDK会做好自动重连，开发者无须处理。
@@ -216,7 +221,7 @@ typedef NS_ENUM(NSInteger, RCConnectErrorCode) {
      调用过connect之后，只有在token错误或者被踢下线或者用户logout的情况下才需要再次调用connect。SDK会自动重连，不需要应用多次调用connect来保证连接性。
      */
     RC_CONNECTION_EXIST = 34001,
-
+    
     /*!
      开发者接口调用时传入的参数错误
 
@@ -376,7 +381,13 @@ typedef NS_ENUM(NSInteger, RCErrorCode) {
     /*!
      消息中敏感词已经被替换 （接收方可以收到被替换之后的消息）
      */
-    RC_MSG_REPLACED_SENSITIVE_WORD = 21502
+    RC_MSG_REPLACED_SENSITIVE_WORD = 21502,
+    
+    /*!
+     小视频消息超限
+     */
+    RC_SIGHT_MSG_DURATION_LIMIT_EXCEED = 34002,
+
 };
 
 #pragma mark - 连接状态
@@ -595,7 +606,23 @@ typedef NS_ENUM(NSUInteger, RCConversationType) {
     /*!
      推送服务会话
      */
-    ConversationType_PUSHSERVICE = 9
+    ConversationType_PUSHSERVICE = 9,
+    
+    /*!
+     加密会话（仅对部分私有云用户开放，公有云用户不适用）
+     */
+    ConversationType_Encrypted = 11,
+    
+    /**
+     * RTC 会话
+     */
+    ConversationType_RTC = 12,
+    
+    /*!
+     无效类型
+     */
+    ConversationType_INVALID
+    
 };
 
 #pragma mark RCConversationNotificationStatus - 会话提醒状态
@@ -664,7 +691,7 @@ typedef NS_ENUM(NSUInteger, RCMessagePersistent) {
     MessagePersistent_ISCOUNTED = 3,
 
     /*!
-     在本地不存储，不计入未读数，并且如果对方不在线，服务器会直接丢弃该消息，对方如果之后再上线也不会再收到此消息(聊天室类型除外，此类消息聊天室会视为普通消息)。
+     在本地不存储，不计入未读数，并且如果对方不在线，服务器会直接丢弃该消息，对方如果之后再上线也不会再收到此消息。
 
      @discussion 一般用于发送输入状态之类的消息，该类型消息的messageUId为nil。
      */
@@ -725,7 +752,12 @@ typedef NS_ENUM(NSUInteger, RCSentStatus) {
     /*!
      发送已取消
      */
-    SentStatus_CANCELED = 70
+    SentStatus_CANCELED = 70,
+    
+    /*!
+     无效类型
+     */
+    SentStatus_INVALID
 };
 
 #pragma mark RCReceivedStatus - 消息的接收状态
@@ -814,6 +846,31 @@ typedef NS_ENUM(NSUInteger, RCMentionedType) {
     RC_Mentioned_Users = 2,
 };
 
+/**
+ 语音消息采样率
+ 
+ - RCSample_Rate_8000: 8KHz
+ - RCSample_Rate_16000: 16KHz
+ */
+typedef NS_ENUM(NSInteger,RCSampleRate)
+{
+    RCSample_Rate_8000 = 1,         //8KHz
+    RCSample_Rate_16000 = 2,        //16KHz
+};
+
+/**
+ 语音消息类型
+ 
+ - RCVoiceMessageTypeOrdinary: 普通音质语音消息
+ - RCVoiceMessageTypeHighQuality: 高音质语音消息
+ */
+typedef NS_ENUM(NSInteger,RCVoiceMessageType)
+{
+    RCVoiceMessageTypeOrdinary = 1,
+    RCVoiceMessageTypeHighQuality = 2,
+};
+
+
 #pragma mark - 公众服务相关
 
 #pragma mark RCPublicServiceType - 公众服务账号类型
@@ -867,6 +924,10 @@ typedef NS_ENUM(NSUInteger, RCSearchType) {
      模糊匹配
      */
     RC_SEARCH_TYPE_FUZZY = 1,
+    /*!
+     无效类型
+     */
+    RCSearchType_INVALID
 };
 
 /*!
@@ -988,6 +1049,16 @@ typedef NS_ENUM(NSUInteger, RCLogLevel) {
      *  输出错误、警告和一般的日志
      */
     RC_Log_Level_Info = 3,
+    
+    /*!
+     *  输出输出错误、警告和一般的日志以及 debug 日志
+     */
+    RC_Log_Level_Debug = 4,
+    
+    /*!
+     *  输出所有日志
+     */
+    RC_Log_Level_Verbose = 5,
 };
 
 #pragma mark RCTimestampOrder - 历史消息查询顺序
