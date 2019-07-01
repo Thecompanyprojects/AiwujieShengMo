@@ -29,7 +29,7 @@
                 <outlet property="charmLabel" destination="8vK-is-V3v" id="Wpf-3X-Yju"/>
                 <outlet property="charmView" destination="FAX-ze-i6e" id="T3J-5W-WOR"/>
                 <outlet property="charmW" destination="UC3-jn-rtQ" id="M1Y-Tk-DVc"/>
-                <outlet property="chatButton" destination="wDT-WH-7Yx" id="o6K-Ys-DDZ"/>
+                <outlet property="chatButton" destination="wDT-WH-7Yx" id="orO-lh-Wom"/>
                 <outlet property="chatH" destination="D9P-5K-knI" id="F1p-mu-fuH"/>
                 <outlet property="chatW" destination="4oc-MT-1EF" id="c5i-Xn-l5i"/>
                 <outlet property="cityLabel" destination="z1a-VJ-LCa" id="dbV-rw-nyb"/>

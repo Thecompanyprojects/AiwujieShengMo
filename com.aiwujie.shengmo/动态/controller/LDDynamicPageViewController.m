@@ -341,8 +341,10 @@
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"发布动态按钮显示" object:nil];
             }
         }
+        
     }
 }
+
 
 //确定动态筛选的按钮
 -(void)dynamicScreenButtonClick{
@@ -691,6 +693,7 @@
     self.tableView.showsHorizontalScrollIndicator = NO;
     [self.view addSubview:self.tableView];
 }
+
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
@@ -1091,13 +1094,7 @@
 
 - (void)createWarnButtonWith:(UIView *)headView andOrignY:(CGFloat)y{
     
-//    UIButton *warnButton = [[UIButton alloc] initWithFrame:CGRectMake(0, y - 1.5, WIDTH, DYNAMICWARNH)];
-//    [warnButton setTitle:@"SVIP发布的动态将被自动推荐(点击查看)" forState:UIControlStateNormal];
-//    warnButton.titleLabel.font = [UIFont systemFontOfSize:12];
-//    [warnButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-//    [warnButton addTarget:self action:@selector(warnButtonClick) forControlEvents:UIControlEventTouchUpInside];
-//    [headView addSubview:warnButton];
-//
+
     UIButton *leftBtn = [UIButton new];
     leftBtn.frame = CGRectMake(0, y - 1.5, WIDTH/2, 24);
     [headView addSubview:leftBtn];
@@ -1116,30 +1113,6 @@
     rightBtn.tag = 2001;
     [rightBtn addTarget:self action:@selector(rightChooseclick) forControlEvents:UIControlEventTouchUpInside];
     
-//    UIView *line0 = [UIView new];
-//    UIView *line1 = [UIView new];
-//    line0.backgroundColor = MainColor;
-//    line1.backgroundColor = MainColor;
-    
-//    [leftBtn addSubview:line0];
-//    [rightBtn addSubview:line1];
-//
-//    [line0 mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerX.equalTo(leftBtn);
-//        make.bottom.equalTo(leftBtn);
-//        make.height.mas_offset(1);
-//        make.width.mas_offset(40);
-//    }];
-//
-//    [line1 mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerX.equalTo(rightBtn);
-//        make.bottom.equalTo(rightBtn);
-//        make.height.mas_offset(1);
-//        make.width.mas_offset(40);
-//    }];
-//
-//    line0.tag = 3000;
-//    line1.tag = 3001;
     
     if (self.isLeftchoose) {
         [leftBtn setTitleColor:MainColor forState:normal];
@@ -1148,8 +1121,7 @@
         [rightBtn setImage:[UIImage imageNamed:@"小推顶灰"] forState:normal];
         [leftBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:3];
         [rightBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:3];
-//        [line0 setHidden:NO];
-//        [line1 setHidden:YES];
+
     }
     else
     {
@@ -1159,8 +1131,7 @@
         [rightBtn setImage:[UIImage imageNamed:@"小推顶紫"] forState:normal];
         [leftBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:3];
         [rightBtn layoutButtonWithEdgeInsetsStyle:MKButtonEdgeInsetsStyleLeft imageTitleSpace:3];
-//        [line0 setHidden:YES];
-//        [line1 setHidden:NO];
+
     }
 }
 
@@ -1174,10 +1145,7 @@
     [self createDataType:@"1"];
     [btn0 setImage:[UIImage imageNamed:@"小推荐紫"] forState:normal];
     [btn1 setImage:[UIImage imageNamed:@"小推顶灰"] forState:normal];
-//    UIView *line0 = [self.tableView viewWithTag:3000];
-//    UIView *line1 = [self.tableView viewWithTag:3001];
-//    [line0 setHidden:NO];
-//    [line1 setHidden:YES];
+
 }
 
 -(void)rightChooseclick
@@ -1190,10 +1158,7 @@
     [self createDataType:@"1"];
     [btn0 setImage:[UIImage imageNamed:@"小推荐灰"] forState:normal];
     [btn1 setImage:[UIImage imageNamed:@"小推顶紫"] forState:normal];
-//    UIView *line0 = [self.tableView viewWithTag:3000];
-//    UIView *line1 = [self.tableView viewWithTag:3001];
-//    [line0 setHidden:YES];
-//    [line1 setHidden:NO];
+
 }
 
 - (void)warnButtonClick{

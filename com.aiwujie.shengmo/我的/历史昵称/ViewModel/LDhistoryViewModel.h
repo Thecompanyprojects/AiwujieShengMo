@@ -21,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface LDhistoryViewModel : NSObject
 @property (nonatomic,copy) NSString *uid;
-//@property (nonatomic,weak) id <historydelegate> delegate;
 
 @property (nonatomic, copy, readonly) __block NSMutableArray *news;
 @property (nonatomic, copy) __block void (^newsListBlock)(void);

@@ -235,8 +235,7 @@
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
         
-//        NSLog(@"%@",responseObject);
-        
+
         if (integer == 2000){
             
             if ([responseObject[@"data"][@"dynamic"] integerValue] > 0) {
@@ -322,7 +321,6 @@
             
              [[NSNotificationCenter defaultCenter] postNotificationName:@"lookBadge" object:nil];
 
-            
         }else if([message.senderUserId intValue] == 3){//监听是否有新的点赞评论打赏的消息
         
             [[NSNotificationCenter defaultCenter] postNotificationName:@"消息接收" object:nil];

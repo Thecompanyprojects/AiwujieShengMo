@@ -39,12 +39,12 @@
 #import "LDhistorynameViewController.h"
 #import "LDAlertNameandIntroduceViewController.h"
 #import "infoModel.h"
-
+#import "HomepersonViewModel.h"
 
 @interface LDOwnInformationViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,UIScrollViewDelegate,StampChatDelete,YBAttributeTapActionDelegate>
 
 @property (nonatomic,strong) infoModel *inmodel;
-
+@property (nonatomic,strong) HomepersonViewModel *viewModel;
 @property (nonatomic,strong) NSMutableArray *dataArray;
 
 @property (nonatomic,strong) AVPlayer *audioPlayer;//音频播放器，用于播放录音文件
@@ -348,6 +348,8 @@
 
 //是否拉黑
 @property (nonatomic,assign) BOOL isLahei;
+
+
 @end
 
 @implementation LDOwnInformationViewController
@@ -1589,277 +1591,275 @@
  */
 -(void)createOwnInformationData{
     
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/getUserInfo"];
-    NSDictionary *parameters;
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
-        parameters = @{@"uid":self.userID?:@"",@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    }else{
-        parameters = @{@"uid":self.userID?:@"",@"lat":@"",@"lng":@"",@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    }
-    
-    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
-        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
-        
-        self.photo_rule = [responseObj objectForKey:@"data"][@"photo_rule"];
-        self.dynamic_rule = [responseObj objectForKey:@"data"][@"dynamic_rule"];
-        self.comment_rule = [responseObj objectForKey:@"data"][@"comment_rule"];
-        
-        self.admin_mark = [NSString new];
-        if (integer == 2001) {
-            self.isLahei = YES;
-            self.tableView.scrollEnabled = NO;
-            self.blackView.hidden = NO;
-            self.blackLabel.layer.cornerRadius = 16;
-            self.blackLabel.clipsToBounds = YES;
-           
-            self.admin_mark = responseObj[@"data"][@"admin_mark"]?:@"";
-            
-            NSDictionary *dict = responseObj[@"data"];
-            self.inmodel = [infoModel yy_modelWithDictionary:dict];
-            
-            [self showBasicData:self.inmodel andIsShow:self.isLahei];
-            _headBackView.hidden = NO;
-            [self.tableView.mj_header endRefreshing];
-            UIView *showView = [[UIView alloc] initWithFrame:CGRectMake(0, self.backGroundViewH.constant, WIDTH, HEIGHT - self.backGroundViewH.constant)];
-            showView.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
-            [self.headBackView addSubview:showView];
-            
-            UIButton *reportButton = [[UIButton alloc] initWithFrame:CGRectMake(20 * WIDTHRADIO, 20 * WIDTHRADIO, WIDTH - 2 * (20 * WIDTHRADIO), 40 * WIDTHRADIO)];
-            reportButton.backgroundColor = [UIColor whiteColor];
-            [reportButton addTarget:self action:@selector(reportButtonClick) forControlEvents:UIControlEventTouchUpInside];
-            reportButton.layer.cornerRadius = reportButton.frame.size.height/2;
-            reportButton.clipsToBounds = YES;
-            [reportButton setTitle:@"举报" forState:UIControlStateNormal];
-            [reportButton setTitleColor:MainColor forState:UIControlStateNormal];
-            [showView addSubview:reportButton];
-            
-            _blackButton = [[UIButton alloc] initWithFrame:CGRectMake(20 * WIDTHRADIO, CGRectGetMaxY(reportButton.frame) + 20 * WIDTHRADIO, WIDTH - 2 * (20 * WIDTHRADIO), 40 * WIDTHRADIO)];
-            _blackButton.backgroundColor = [UIColor whiteColor];
-            [_blackButton addTarget:self action:@selector(blackButtonClick) forControlEvents:UIControlEventTouchUpInside];
-            _blackButton.layer.cornerRadius = _blackButton.frame.size.height/2;
-            _blackButton.clipsToBounds = YES;
-            if ([_blackState intValue] == 1) {
-                [_blackButton setTitle:@"取消拉黑" forState:UIControlStateNormal];
-            }else{
-                [_blackButton setTitle:@"拉黑" forState:UIControlStateNormal];
-            }
-            [_blackButton setTitleColor:MainColor forState:UIControlStateNormal];
-            [showView addSubview:_blackButton];
-            
-        }else if (integer == 2000){
-            self.isLahei = NO;
-            self.blackView.hidden = YES;
-           
-            self.admin_mark = responseObj[@"data"][@"admin_mark"]?:@"";
-            
-            
-            NSDictionary *dict = responseObj[@"data"];
-            self.inmodel = [infoModel yy_modelWithDictionary:dict];
-            
-            [self showBasicData:self.inmodel andIsShow:self.isLahei];
-            if ([responseObj[@"data"][@"realname"] intValue] == 0) {
-                self.picPublicButton.hidden = YES;
-            }else{
-                self.picPublicButton.hidden = NO;
-            }
-            
-            //认证照的查看权限的设置
-            _realpicstate = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"realpicstate"]];
-            
-            if ([_realpicstate intValue] == 1) {
-                
-                [self.picPublicButton setBackgroundImage:[UIImage imageNamed:@"个人主页认证照vip可见"] forState:UIControlStateNormal];
-                
-            }else{
-                
-                [self.picPublicButton setBackgroundImage:[UIImage imageNamed:@"个人主页认证照未公开"] forState:UIControlStateNormal];
-            }
-            
-            self.attentionLabel.text = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"follow_num"]];
-            
-            self.fansLabel.text = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"fans_num"]];
-            
-            self.groupLabel.text = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"group_num"]];
-            
-            _picArray = responseObj[@"data"][@"photo"];
-            
-            _followState = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"follow_state"]];
-            
-            //创建个人主页个性签名
-            [self createOwnInfoSign:responseObj];
-            
-            //创建个人主页个人相册scroll
-            [self createOwnInfoPic:responseObj];
-            
-            //标签显示
-            [self createLabel:self.heightLabel andString:[NSString stringWithFormat:@" 身高: %@ ",responseObj[@"data"][@"tall"]]];
-            
-            [self createLabel:self.weightLabel andString:[NSString stringWithFormat:@" 体重: %@ ",responseObj[@"data"][@"weight"]]];
-            
-            [self createLabel:self.starLabel andString:[NSString stringWithFormat:@" 星座: %@ ",responseObj[@"data"][@"starchar"]]];
-            
-            [self createLabel:self.psexualLabel andString:[NSString stringWithFormat:@" 取向: %@ ",responseObj[@"data"][@"sexual"]]];
-            
-            [self createLabel:self.contactLabel andString:[NSString stringWithFormat:@" 接触: %@ ",responseObj[@"data"][@"along"]]];
-            
-            [self createLabel:self.experenceLabel andString:[NSString stringWithFormat:@" 实践: %@ ",responseObj[@"data"][@"experience"]]];
-            
-            [self createLabel:self.levelLabel andString:[NSString stringWithFormat:@" 程度: %@ ",responseObj[@"data"][@"level"]]];
-            
-            [self createLabel:self.wantLabel andString:[NSString stringWithFormat:@" 想找: %@ ",responseObj[@"data"][@"want"]]];
-            
-            [self createLabel:self.cultureLabel andString:[NSString stringWithFormat:@" 学历: %@ ",responseObj[@"data"][@"culture"]]];
-            
-            [self createLabel:self.monthLabel andString:[NSString stringWithFormat:@" 月薪: %@ ",responseObj[@"data"][@"monthly"]]];
-            
-            
-            _mediaStrng = responseObj[@"data"][@"media"];
-            
-            if ([responseObj[@"data"][@"media"] length] == 0) {
-                
-                [self.playButton setBackgroundImage:[UIImage imageNamed:@"录音灰"] forState:UIControlStateNormal];
-                
-                self.playButton.userInteractionEnabled = NO;
-                
-            }else{
-                
-                [self.playButton setBackgroundImage:[UIImage imageNamed:@"录音"] forState:UIControlStateNormal];
-                
-                self.playButton.userInteractionEnabled = YES;
-            }
-            
-            if ([responseObj[@"data"][@"uid"] intValue] == [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]) {
-                
-                self.publishButton.hidden = NO;
-                
-                self.recordButton.hidden = NO;
-                
-            }else if ([responseObj[@"data"][@"uid"] intValue] != [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]){
-                
-                self.chatButton.hidden = NO;
-                
-                self.attentButton.hidden = NO;
-                
-                self.giveGifButton.hidden = NO;
-            }
-            
-            if ([responseObj[@"data"][@"mediaalong"] intValue] == 0) {
-                
-                self.secondLabel.text = @"";
-                
-                self.secondW.constant = 0;
-                
-            }else{
-                
-                self.secondLabel.text = [NSString stringWithFormat:@"\%@\"",responseObj[@"data"][@"mediaalong"]];
-                
-                self.secondW.constant = 24;
-            }
-            
-            
-            
-            if ([responseObj[@"data"][@"follow_state"] intValue] == 2) {
-                
-                [self.attentButton setBackgroundImage:[UIImage imageNamed:@"关注好友"] forState:UIControlStateNormal];
-                _attentStatus = NO;
-                
-            }else if([responseObj[@"data"][@"follow_state"] intValue] == 1){
-                
-                [self.attentButton setBackgroundImage:[UIImage imageNamed:@"已关注"] forState:UIControlStateNormal];
-                
-                _attentStatus = YES;
-                
-            }else if ([responseObj[@"data"][@"follow_state"] intValue] == 3){
-                
-                [self.attentButton setBackgroundImage:[UIImage imageNamed:@"互为好友"] forState:UIControlStateNormal];
-                
-                _attentStatus = YES;
-                
-            }else if ([responseObj[@"data"][@"follow_state"] intValue] == 4){
-                
-                [self.attentButton setBackgroundImage:[UIImage imageNamed:@"个人主页被关注"] forState:UIControlStateNormal];
-                
-                _attentStatus = NO;
-            }
-            
-            self.dateLabel.text = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"reg_time"]];
-            
-            [self.dateLabel sizeToFit];
-            
-            if ([responseObj[@"data"][@"dynamic_num"] intValue] == 0) {
-                
-                self.totalNumView.hidden = YES;
-                self.totalNumH.constant = 0;
-            }else{
-                self.totalNumView.hidden = NO;
-                self.totalNumH.constant = 40;
-                self.dynamicNumLabel.text = [NSString stringWithFormat:@"发布的动态(%@)",responseObj[@"data"][@"dynamic_num"]];
-                UILabel *messageLab = [UILabel new];
-                [self.totalNumView addSubview:messageLab];
-                [messageLab mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.centerY.equalTo(self.totalNumView);
-                    make.right.equalTo(self.totalNumView).with.offset(-30);
-                    
-                }];
-                messageLab.textColor = [UIColor lightGrayColor];
-
-                if ([self.dynamic_rule isEqualToString:@"0"]) {
-                    messageLab.text = @"所有人可见";
-                }
-                else
-                {
-                    messageLab.text = @"好友/会员可见";
-                }
-
-                messageLab.font = [UIFont systemFontOfSize:14];
-                messageLab.textAlignment = NSTextAlignmentRight;
-            }
-            
-            if ([responseObj[@"data"][@"comment_num"] intValue] == 0) {
-                
-                self.dynamicCommentNumView.hidden = YES;
-                
-                self.dynamicCommentNumH.constant = 0;
-                
-                
-            }else{
-                
-                self.dynamicCommentNumView.hidden = NO;
-                
-                self.dynamicCommentNumH.constant = 40;
-                
-                self.dynamicCommentNumLabel.text = [NSString stringWithFormat:@"参与的评论(%@)",responseObj[@"data"][@"comment_num"]];
-                
-                UILabel *messageLab = [UILabel new];
-                [self.dynamicCommentNumView addSubview:messageLab];
-                [messageLab mas_makeConstraints:^(MASConstraintMaker *make) {
-                    make.centerY.equalTo(self.dynamicCommentNumView);
-                    make.right.equalTo(self.dynamicCommentNumView).with.offset(-30);
-                    
-                }];
-                messageLab.textColor = [UIColor lightGrayColor];
-                if ([self.comment_rule isEqualToString:@"0"]) {
-                    messageLab.text = @"所有人可见";
-                }
-                else
-                {
-                    messageLab.text = @"好友/会员可见";
-                }
-                messageLab.font = [UIFont systemFontOfSize:14];
-                messageLab.textAlignment = NSTextAlignmentRight;
-            }
-
-            //获取礼物的接口
-            [self getPersonReceiveGifData];
-            
-        }else{
-            
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"请求发生错误~"];
-        }
-    } failed:^(NSString *errorMsg) {
-        
-    }];
+    __weak typeof (self) weakSelf = self;
+    self.viewModel = [[HomepersonViewModel alloc] init];
+    self.viewModel.uid = self.userID?:@"";
+    self.viewModel.personInfoBlock = ^{
+        [weakSelf saveInfodata:weakSelf.viewModel.infoObj];
+    };
+    [self.viewModel getinfodataFromweb];
 }
+
+-(void)saveInfodata:(id )responseObj
+{
+    NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
+    self.photo_rule = [responseObj objectForKey:@"data"][@"photo_rule"];
+    self.dynamic_rule = [responseObj objectForKey:@"data"][@"dynamic_rule"];
+    self.comment_rule = [responseObj objectForKey:@"data"][@"comment_rule"];
+
+    self.admin_mark = [NSString new];
+    if (integer == 2001) {
+        self.isLahei = YES;
+        self.tableView.scrollEnabled = NO;
+        self.blackView.hidden = NO;
+        self.blackLabel.layer.cornerRadius = 16;
+        self.blackLabel.clipsToBounds = YES;
+
+        self.admin_mark = responseObj[@"data"][@"admin_mark"]?:@"";
+
+        NSDictionary *dict = responseObj[@"data"];
+        self.inmodel = [infoModel yy_modelWithDictionary:dict];
+
+        [self showBasicData:self.inmodel andIsShow:self.isLahei];
+        _headBackView.hidden = NO;
+        [self.tableView.mj_header endRefreshing];
+        UIView *showView = [[UIView alloc] initWithFrame:CGRectMake(0, self.backGroundViewH.constant, WIDTH, HEIGHT - self.backGroundViewH.constant)];
+        showView.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
+        [self.headBackView addSubview:showView];
+
+        UIButton *reportButton = [[UIButton alloc] initWithFrame:CGRectMake(20 * WIDTHRADIO, 20 * WIDTHRADIO, WIDTH - 2 * (20 * WIDTHRADIO), 40 * WIDTHRADIO)];
+        reportButton.backgroundColor = [UIColor whiteColor];
+        [reportButton addTarget:self action:@selector(reportButtonClick) forControlEvents:UIControlEventTouchUpInside];
+        reportButton.layer.cornerRadius = reportButton.frame.size.height/2;
+        reportButton.clipsToBounds = YES;
+        [reportButton setTitle:@"举报" forState:UIControlStateNormal];
+        [reportButton setTitleColor:MainColor forState:UIControlStateNormal];
+        [showView addSubview:reportButton];
+
+        _blackButton = [[UIButton alloc] initWithFrame:CGRectMake(20 * WIDTHRADIO, CGRectGetMaxY(reportButton.frame) + 20 * WIDTHRADIO, WIDTH - 2 * (20 * WIDTHRADIO), 40 * WIDTHRADIO)];
+        _blackButton.backgroundColor = [UIColor whiteColor];
+        [_blackButton addTarget:self action:@selector(blackButtonClick) forControlEvents:UIControlEventTouchUpInside];
+        _blackButton.layer.cornerRadius = _blackButton.frame.size.height/2;
+        _blackButton.clipsToBounds = YES;
+        if ([_blackState intValue] == 1) {
+            [_blackButton setTitle:@"取消拉黑" forState:UIControlStateNormal];
+        }else{
+            [_blackButton setTitle:@"拉黑" forState:UIControlStateNormal];
+        }
+        [_blackButton setTitleColor:MainColor forState:UIControlStateNormal];
+        [showView addSubview:_blackButton];
+
+    }else if (integer == 2000){
+        self.isLahei = NO;
+        self.blackView.hidden = YES;
+
+        self.admin_mark = responseObj[@"data"][@"admin_mark"]?:@"";
+
+        NSDictionary *dict = responseObj[@"data"];
+        self.inmodel = [infoModel yy_modelWithDictionary:dict];
+
+        [self showBasicData:self.inmodel andIsShow:self.isLahei];
+        if ([responseObj[@"data"][@"realname"] intValue] == 0) {
+            self.picPublicButton.hidden = YES;
+        }else{
+            self.picPublicButton.hidden = NO;
+        }
+
+        //认证照的查看权限的设置
+        _realpicstate = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"realpicstate"]];
+
+        if ([_realpicstate intValue] == 1) {
+
+            [self.picPublicButton setBackgroundImage:[UIImage imageNamed:@"个人主页认证照vip可见"] forState:UIControlStateNormal];
+
+        }else{
+
+            [self.picPublicButton setBackgroundImage:[UIImage imageNamed:@"个人主页认证照未公开"] forState:UIControlStateNormal];
+        }
+
+        self.attentionLabel.text = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"follow_num"]];
+
+        self.fansLabel.text = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"fans_num"]];
+
+        self.groupLabel.text = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"group_num"]];
+
+        _picArray = responseObj[@"data"][@"photo"];
+
+        _followState = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"follow_state"]];
+
+        //创建个人主页个性签名
+        [self createOwnInfoSign:responseObj];
+
+        //创建个人主页个人相册scroll
+        [self createOwnInfoPic:responseObj];
+
+        //标签显示
+        [self createLabel:self.heightLabel andString:[NSString stringWithFormat:@" 身高: %@ ",responseObj[@"data"][@"tall"]]];
+
+        [self createLabel:self.weightLabel andString:[NSString stringWithFormat:@" 体重: %@ ",responseObj[@"data"][@"weight"]]];
+
+        [self createLabel:self.starLabel andString:[NSString stringWithFormat:@" 星座: %@ ",responseObj[@"data"][@"starchar"]]];
+
+        [self createLabel:self.psexualLabel andString:[NSString stringWithFormat:@" 取向: %@ ",responseObj[@"data"][@"sexual"]]];
+
+        [self createLabel:self.contactLabel andString:[NSString stringWithFormat:@" 接触: %@ ",responseObj[@"data"][@"along"]]];
+
+        [self createLabel:self.experenceLabel andString:[NSString stringWithFormat:@" 实践: %@ ",responseObj[@"data"][@"experience"]]];
+
+        [self createLabel:self.levelLabel andString:[NSString stringWithFormat:@" 程度: %@ ",responseObj[@"data"][@"level"]]];
+
+        [self createLabel:self.wantLabel andString:[NSString stringWithFormat:@" 想找: %@ ",responseObj[@"data"][@"want"]]];
+
+        [self createLabel:self.cultureLabel andString:[NSString stringWithFormat:@" 学历: %@ ",responseObj[@"data"][@"culture"]]];
+
+        [self createLabel:self.monthLabel andString:[NSString stringWithFormat:@" 月薪: %@ ",responseObj[@"data"][@"monthly"]]];
+
+
+        _mediaStrng = responseObj[@"data"][@"media"];
+
+        if ([responseObj[@"data"][@"media"] length] == 0) {
+
+            [self.playButton setBackgroundImage:[UIImage imageNamed:@"录音灰"] forState:UIControlStateNormal];
+
+            self.playButton.userInteractionEnabled = NO;
+
+        }else{
+
+            [self.playButton setBackgroundImage:[UIImage imageNamed:@"录音"] forState:UIControlStateNormal];
+
+            self.playButton.userInteractionEnabled = YES;
+        }
+
+        if ([responseObj[@"data"][@"uid"] intValue] == [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]) {
+
+            self.publishButton.hidden = NO;
+
+            self.recordButton.hidden = NO;
+
+        }else if ([responseObj[@"data"][@"uid"] intValue] != [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]){
+
+            self.chatButton.hidden = NO;
+
+            self.attentButton.hidden = NO;
+
+            self.giveGifButton.hidden = NO;
+        }
+
+        if ([responseObj[@"data"][@"mediaalong"] intValue] == 0) {
+
+            self.secondLabel.text = @"";
+
+            self.secondW.constant = 0;
+
+        }else{
+
+            self.secondLabel.text = [NSString stringWithFormat:@"\%@\"",responseObj[@"data"][@"mediaalong"]];
+
+            self.secondW.constant = 24;
+        }
+
+
+
+        if ([responseObj[@"data"][@"follow_state"] intValue] == 2) {
+
+            [self.attentButton setBackgroundImage:[UIImage imageNamed:@"关注好友"] forState:UIControlStateNormal];
+            _attentStatus = NO;
+
+        }else if([responseObj[@"data"][@"follow_state"] intValue] == 1){
+
+            [self.attentButton setBackgroundImage:[UIImage imageNamed:@"已关注"] forState:UIControlStateNormal];
+
+            _attentStatus = YES;
+
+        }else if ([responseObj[@"data"][@"follow_state"] intValue] == 3){
+
+            [self.attentButton setBackgroundImage:[UIImage imageNamed:@"互为好友"] forState:UIControlStateNormal];
+
+            _attentStatus = YES;
+
+        }else if ([responseObj[@"data"][@"follow_state"] intValue] == 4){
+
+            [self.attentButton setBackgroundImage:[UIImage imageNamed:@"个人主页被关注"] forState:UIControlStateNormal];
+
+            _attentStatus = NO;
+        }
+
+        self.dateLabel.text = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"reg_time"]];
+
+        [self.dateLabel sizeToFit];
+
+        if ([responseObj[@"data"][@"dynamic_num"] intValue] == 0) {
+
+            self.totalNumView.hidden = YES;
+            self.totalNumH.constant = 0;
+        }else{
+            self.totalNumView.hidden = NO;
+            self.totalNumH.constant = 40;
+            self.dynamicNumLabel.text = [NSString stringWithFormat:@"发布的动态(%@)",responseObj[@"data"][@"dynamic_num"]];
+            UILabel *messageLab = [UILabel new];
+            [self.totalNumView addSubview:messageLab];
+            [messageLab mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(self.totalNumView);
+                make.right.equalTo(self.totalNumView).with.offset(-30);
+
+            }];
+            messageLab.textColor = [UIColor lightGrayColor];
+
+            if ([self.dynamic_rule isEqualToString:@"0"]) {
+                messageLab.text = @"所有人可见";
+            }
+            else
+            {
+                messageLab.text = @"好友/会员可见";
+            }
+
+            messageLab.font = [UIFont systemFontOfSize:14];
+            messageLab.textAlignment = NSTextAlignmentRight;
+        }
+
+        if ([responseObj[@"data"][@"comment_num"] intValue] == 0) {
+
+            self.dynamicCommentNumView.hidden = YES;
+
+            self.dynamicCommentNumH.constant = 0;
+
+
+        }else{
+
+            self.dynamicCommentNumView.hidden = NO;
+
+            self.dynamicCommentNumH.constant = 40;
+
+            self.dynamicCommentNumLabel.text = [NSString stringWithFormat:@"参与的评论(%@)",responseObj[@"data"][@"comment_num"]];
+
+            UILabel *messageLab = [UILabel new];
+            [self.dynamicCommentNumView addSubview:messageLab];
+            [messageLab mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.centerY.equalTo(self.dynamicCommentNumView);
+                make.right.equalTo(self.dynamicCommentNumView).with.offset(-30);
+
+            }];
+            messageLab.textColor = [UIColor lightGrayColor];
+            if ([self.comment_rule isEqualToString:@"0"]) {
+                messageLab.text = @"所有人可见";
+            }
+            else
+            {
+                messageLab.text = @"好友/会员可见";
+            }
+            messageLab.font = [UIFont systemFontOfSize:14];
+            messageLab.textAlignment = NSTextAlignmentRight;
+        }
+
+        //获取礼物的接口
+        [self getPersonReceiveGifData];
+
+    }else{
+
+        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"请求发生错误~"];
+    }
+}
+
 
 /**
  * 被拉黑时的拉黑某人的按钮点击事件
@@ -3257,15 +3257,10 @@
         [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
         NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getOpenChatRestrictAndInfoUrl];
         NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"otheruid":self.userID};
-        AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-        [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
-        manager.requestSerializer.timeoutInterval = 10.f;
-        [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
-        [manager POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
-            
-        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+
+        [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
             [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-            NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
+            NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
             
             if (integer == 2000 || integer == 2001) {
                 
@@ -3280,30 +3275,30 @@
                 
                 if (integer == 2000) {
                     
-                    conversationVC.state = [NSString stringWithFormat:@"%d",[responseObject[@"data"][@"filiation"] intValue]];
+                    conversationVC.state = [NSString stringWithFormat:@"%d",[responseObj[@"data"][@"filiation"] intValue]];
                 }
                 
-                if ([responseObject[@"data"][@"info"][@"is_admin"] integerValue] == 1) {
+                if ([responseObj[@"data"][@"info"][@"is_admin"] integerValue] == 1) {
                     
                     conversationVC.type = personIsADMIN;
                     
-                }else if ([responseObject[@"data"][@"info"][@"is_volunteer"] integerValue] == 1){
+                }else if ([responseObj[@"data"][@"info"][@"is_volunteer"] integerValue] == 1){
                     
                     conversationVC.type = personIsVOLUNTEER;
                     
-                }else if ([responseObject[@"data"][@"info"][@"svipannual"] integerValue] == 1){
+                }else if ([responseObj[@"data"][@"info"][@"svipannual"] integerValue] == 1){
                     
                     conversationVC.type = personIsSVIPANNUAL;
                     
-                }else if ([responseObject[@"data"][@"info"][@"svip"] integerValue] == 1) {
+                }else if ([responseObj[@"data"][@"info"][@"svip"] integerValue] == 1) {
                     
                     conversationVC.type = personIsSVIP;
                     
-                }else if ([responseObject[@"data"][@"info"][@"vipannual"] integerValue] == 1) {
+                }else if ([responseObj[@"data"][@"info"][@"vipannual"] integerValue] == 1) {
                     
                     conversationVC.type = personIsVIPANNUAL;
                     
-                }else if ([responseObject[@"data"][@"info"][@"vip"] integerValue] == 1){
+                }else if ([responseObj[@"data"][@"info"][@"vip"] integerValue] == 1){
                     
                     conversationVC.type = personIsVIP;
                     
@@ -3323,7 +3318,7 @@
                 
                 _stampView.viewController = self;
                 
-                _stampView.data = responseObject[@"data"];
+                _stampView.data = responseObj[@"data"];
                 
                 _stampView.delegate = self;
                 
@@ -3334,9 +3329,8 @@
                 [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
                 
             }
-
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
+        } failed:^(NSString *errorMsg) {
+             [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
         }];
     }
 }

@@ -54,10 +54,10 @@
 #define W_SCREEN [UIScreen mainScreen].bounds.size.width/375
 
 //男的图标背景颜色
-//#define BOYCOLOR [UIColor colorWithHexString:@"#51c3ff" alpha:1]
+
 #define BOYCOLOR [UIColor colorWithHexString:@"#96d6ff" alpha:1]
 //女的图标背景颜色
-//#define GIRLECOLOR [UIColor colorWithHexString:@"#f56684" alpha:1]
+
 #define GIRLECOLOR [UIColor colorWithHexString:@"#ffacc0" alpha:1]
 
 //双性图标背景颜色
@@ -67,7 +67,7 @@
 #define GREENCOLORS [UIColor colorWithHexString:@"#ade489" alpha:1]
 
 //main 紫色
-//#define MainColor [UIColor colorWithHexString:@"#B73ACB" alpha:1]
+
 #define MainColor [UIColor colorWithHexString:@"#c450d6" alpha:1]
 
 //textColor

@@ -12,7 +12,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface HomepersonViewModel : NSObject
-
+@property (nonatomic,copy) NSString *uid;
+@property (nonatomic,strong) NSObject *infoObj;
+@property (nonatomic, copy) __block void (^personInfoBlock)(void);
+- (void)getinfodataFromweb;
 @end
 
 NS_ASSUME_NONNULL_END

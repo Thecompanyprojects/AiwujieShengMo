@@ -64,7 +64,10 @@
 -(void)createButton{
     
     UIButton *rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-    [rightButton setImage:[UIImage imageNamed: @"其他"] forState:UIControlStateNormal];
+//    [rightButton setImage:[UIImage imageNamed: @"其他"] forState:UIControlStateNormal];
+    [rightButton setTitle:@"兑换" forState:normal];
+    [rightButton setTitleColor:TextCOLOR forState:normal];
+    rightButton.titleLabel.font = [UIFont systemFontOfSize:12];
     [rightButton addTarget:self action:@selector(backButtonOnClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
     self.navigationItem.rightBarButtonItem = rightBarButtonItem;
