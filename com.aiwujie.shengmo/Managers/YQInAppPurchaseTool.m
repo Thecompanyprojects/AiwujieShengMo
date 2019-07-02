@@ -107,11 +107,17 @@ static YQInAppPurchaseTool *storeTool;
 {
     SKProduct *product = self.productDict[productID];
     
-    // 要购买产品(店员给用户开了个小票)
-    SKPayment *payment = [SKPayment paymentWithProduct:product];
-    
-    // 去收银台排队，准备购买(异步网络)
-    [[SKPaymentQueue defaultQueue] addPayment:payment];
+    if (![NSObject dx_isNullOrNilWithObject:product]) {
+        // 要购买产品(店员给用户开了个小票)
+        SKPayment *payment = [SKPayment paymentWithProduct:product];
+        
+        // 去收银台排队，准备购买(异步网络)
+        [[SKPaymentQueue defaultQueue] addPayment:payment];
+    }
+    else
+    {
+        
+    }
 }
 
 #pragma mark - SKPaymentTransaction Observer

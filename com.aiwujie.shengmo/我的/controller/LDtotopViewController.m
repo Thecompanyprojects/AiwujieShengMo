@@ -224,7 +224,7 @@ static float AD_height = 180;//头部高度
     NSString *order = [infoDic objectForKey:@"order"];
     NSString *url = [PICHEADURL stringByAppendingString:topcard_ioshooks];
 
-    NSDictionary *parameters = @{@"receipt":receipt?:@"",@"order_no":order?:@"",@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+    NSDictionary *parameters = @{@"receipt":receipt?:@"",@"order_no":order?:@"",@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"isbox":@"1"};
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {

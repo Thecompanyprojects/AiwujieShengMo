@@ -33,12 +33,9 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-
     
-
     //注册自定义消息Cell
     [self registerClass:[XYRichMessageCell class] forMessageClass:[XYRichMessageContent class]];
-
     
     if (_type != personIsNormal) {
         

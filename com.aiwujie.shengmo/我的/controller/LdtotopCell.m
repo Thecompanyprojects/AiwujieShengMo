@@ -115,12 +115,9 @@
         case 0:
         {
             self.numberLab.text = @"1张";
-            self.priceLab.text = @"￥40";
-//            self.messageLab.text = @"原价￥80";
-//            //中划线
-//            NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-//            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:@"原价￥80" attributes:attribtDic];
-//            _messageLab.attributedText = attribtStr;
+            NSMutableAttributedString *attstr1 = [[NSMutableAttributedString alloc] initWithString:@"￥40"];
+            [attstr1 addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(1,2)];
+            self.priceLab.attributedText = attstr1;
             [self.messageLab setHidden:YES];
             [self.contentLab setHidden:YES];
         }

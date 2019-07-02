@@ -16,14 +16,14 @@ PODS:
     - AFNetworking/NSURLSession
   - AMap2DMap-NO-IDFA (5.6.1):
     - AMapFoundation-NO-IDFA (~> 1.4)
-  - AMapFoundation-NO-IDFA (1.5.6)
+  - AMapFoundation-NO-IDFA (1.5.7)
   - AMapLocation-NO-IDFA (2.6.2):
     - AMapFoundation-NO-IDFA (~> 1.4)
   - AMapSearch-NO-IDFA (6.9.0):
     - AMapFoundation-NO-IDFA (~> 1.4)
   - Bugly (2.5.0)
   - DZNEmptyDataSet (1.8.1)
-  - IQKeyboardManager (6.3.0)
+  - IQKeyboardManager (6.4.0)
   - Masonry (1.1.0)
   - MJRefresh (3.2.0)
   - RongCloudIM/CallKit (2.8.32):
@@ -53,10 +53,10 @@ DEPENDENCIES:
   - IQKeyboardManager
   - Masonry (~> 1.1.0)
   - MJRefresh
-  - RongCloudIM/CallKit
-  - RongCloudIM/CallLib
-  - RongCloudIM/IMKit
-  - RongCloudIM/IMLib
+  - RongCloudIM/CallKit (= 2.8.32)
+  - RongCloudIM/CallLib (= 2.8.32)
+  - RongCloudIM/IMKit (= 2.8.32)
+  - RongCloudIM/IMLib (= 2.8.32)
   - RongCloudIM/Sticker
   - SDAutoLayout
   - SDWebImage (~> 3.8.2)
@@ -84,12 +84,12 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   AMap2DMap-NO-IDFA: ccecb3e2a044c17e6badb9b91c950e709368be20
-  AMapFoundation-NO-IDFA: 40d723b352992d0f95abe2976f0c0ecda3c3ffc3
+  AMapFoundation-NO-IDFA: 9088085827c831811bb0fd3afd96b99963a7cf71
   AMapLocation-NO-IDFA: d7792c8c516f415e186f1bc25946f1a58ca6a583
   AMapSearch-NO-IDFA: 264999e6c149383a8f164c2fe49b51513e93d674
   Bugly: 3ca9f255c01025582df26f9222893b383c7e4b4e
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
-  IQKeyboardManager: 2ca9d64893247556f53523dcd8d78641f0ba7c23
+  IQKeyboardManager: fcef267266379c003181fc3592f6bdb8bf4db839
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJRefresh: ed450d6eb9d3346a2cb033ab7eb6de090aeef437
   RongCloudIM: 48bfc2fcb8d7cae8ce1e19cb5fb26d6d90616375
@@ -98,6 +98,6 @@ SPEC CHECKSUMS:
   UMengAnalytics-NO-IDFA: 16666e32edce5be44ae5b14aaaa7f3582e09d6ab
   YYModel: 2a7fdd96aaa4b86a824e26d0c517de8928c04b30
 
-PODFILE CHECKSUM: 5c847cab82045d4ce58d5117b423c01bb5789b2b
+PODFILE CHECKSUM: e5a00e2bd2eb09648bbea45537c143a035d6a2b7
 
-COCOAPODS: 1.7.1
+COCOAPODS: 1.7.3
