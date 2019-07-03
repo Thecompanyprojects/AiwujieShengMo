@@ -17,6 +17,8 @@
 #import "XYRichMessageContent.h"
 #import "XYgiftMessageContent.h"
 #import "XYredMessageContent.h"
+#import "XYreadoneContent.h"
+
 
 @interface AppDelegate ()<CLLocationManagerDelegate,RCIMConnectionStatusDelegate,UIAlertViewDelegate,RCIMReceiveMessageDelegate,WXApiDelegate,WeiboSDKDelegate,QQApiInterfaceDelegate>
 @property (nonatomic,strong) CLLocationManager *locationManager;
@@ -110,6 +112,7 @@
     [[RCIM sharedRCIM] registerMessageType:[XYRichMessageContent class]];
     [[RCIM sharedRCIM] registerMessageType:[XYgiftMessageContent class]];
     [[RCIM sharedRCIM] registerMessageType:[XYredMessageContent class]];
+    [[RCIM sharedRCIM] registerMessageType:[XYreadoneContent class]];
     
     //前台提示音开关
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"voiceSwitch"] == nil || [[[NSUserDefaults standardUserDefaults] objectForKey:@"voiceSwitch"] isEqualToString:@"no"]) {

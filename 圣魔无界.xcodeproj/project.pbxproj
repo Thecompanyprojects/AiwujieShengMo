@@ -261,6 +261,8 @@
 		5323946922B90BDE001BF94C /* bottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5323946822B90BDE001BF94C /* bottomView.m */; };
 		5329FC6B22CB0832006092BC /* NSObject+additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5329FC6A22CB0832006092BC /* NSObject+additions.m */; };
 		5329FC9A22CC441C006092BC /* LDBillPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5329FC9922CC441C006092BC /* LDBillPresenter.m */; };
+		5329FC9D22CC556F006092BC /* XYreadoneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5329FC9C22CC556F006092BC /* XYreadoneCell.m */; };
+		5329FCA022CC5586006092BC /* XYreadoneContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5329FC9F22CC5586006092BC /* XYreadoneContent.m */; };
 		5372254B22ABF8E30082472A /* NetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5372254922ABF8E30082472A /* NetManager.m */; };
 		5385593A22C4B15A00980E18 /* XYRichMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385593622C4B15900980E18 /* XYRichMessageContent.m */; };
 		5385593B22C4B15A00980E18 /* XYRichMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385593822C4B15A00980E18 /* XYRichMessageCell.m */; };
@@ -925,6 +927,10 @@
 		5329FC6A22CB0832006092BC /* NSObject+additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+additions.m"; sourceTree = "<group>"; };
 		5329FC9822CC441C006092BC /* LDBillPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDBillPresenter.h; sourceTree = "<group>"; };
 		5329FC9922CC441C006092BC /* LDBillPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDBillPresenter.m; sourceTree = "<group>"; };
+		5329FC9B22CC556F006092BC /* XYreadoneCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XYreadoneCell.h; sourceTree = "<group>"; };
+		5329FC9C22CC556F006092BC /* XYreadoneCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XYreadoneCell.m; sourceTree = "<group>"; };
+		5329FC9E22CC5586006092BC /* XYreadoneContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XYreadoneContent.h; sourceTree = "<group>"; };
+		5329FC9F22CC5586006092BC /* XYreadoneContent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XYreadoneContent.m; sourceTree = "<group>"; };
 		5372254922ABF8E30082472A /* NetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetManager.m; sourceTree = "<group>"; };
 		5372254A22ABF8E30082472A /* NetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetManager.h; sourceTree = "<group>"; };
 		5385593622C4B15900980E18 /* XYRichMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XYRichMessageContent.m; sourceTree = "<group>"; };
@@ -1783,6 +1789,8 @@
 				5385594022C5A45800980E18 /* XYgiftMessageContent.m */,
 				5385595822C5E44C00980E18 /* XYredMessageContent.h */,
 				5385595922C5E44C00980E18 /* XYredMessageContent.m */,
+				5329FC9E22CC5586006092BC /* XYreadoneContent.h */,
+				5329FC9F22CC5586006092BC /* XYreadoneContent.m */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -1818,6 +1826,8 @@
 				5385593D22C5A30A00980E18 /* XYgiftgroupMessageCell.m */,
 				5385595522C5E2AE00980E18 /* XYredMessageCell.h */,
 				5385595622C5E2AE00980E18 /* XYredMessageCell.m */,
+				5329FC9B22CC556F006092BC /* XYreadoneCell.h */,
+				5329FC9C22CC556F006092BC /* XYreadoneCell.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -3740,6 +3750,7 @@
 				00EC29761E18F2670066273A /* TZAssetCell.m in Sources */,
 				5385596622C5F7C100980E18 /* WSRedPacketView.m in Sources */,
 				53157EB622B9FB2C0041B582 /* YQInAppPurchaseTool.m in Sources */,
+				5329FC9D22CC556F006092BC /* XYreadoneCell.m in Sources */,
 				D21249401FC3FB2F00936BA0 /* VIPMemberCell.m in Sources */,
 				D25212DF1FAD559500A8A3A4 /* AlertTool.m in Sources */,
 				D2FB6BC21EBB378400167FFA /* AtModel.m in Sources */,
@@ -3940,6 +3951,7 @@
 				0002A5771E24BE5F0037311C /* LDCertificateViewController.m in Sources */,
 				00FC74931E15537B005A6137 /* ImageBrowserViewController.m in Sources */,
 				00EF77DD1E37961C00FDF998 /* CommentedModel.m in Sources */,
+				5329FCA022CC5586006092BC /* XYreadoneContent.m in Sources */,
 				000BFA0E1E04106900E23998 /* LDIAmViewController.m in Sources */,
 				00EC294D1E18DF100066273A /* attentionCell.m in Sources */,
 				D2BB081E1EF7CCAE00EB3080 /* GiveGifModel.m in Sources */,

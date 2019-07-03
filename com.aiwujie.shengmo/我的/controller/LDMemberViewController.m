@@ -152,10 +152,9 @@
     
     //创建购买的按钮
     [self createBuyButton];
-  
+    
     [LDBillPresenter savewakketNum];
 }
-
 
 #pragma mark - 魔豆兑换
 

@@ -11,10 +11,12 @@
 #import "LDLookOtherGroupInformationViewController.h"
 #import "LDGroupInformationViewController.h"
 #import "GifView.h"
-
 #import "XYRichMessageCell.h"
 #import "XYRichMessageContent.h"
 #import "LDMyWalletPageViewController.h"
+#import "XYreadoneCell.h"
+#import "XYreadoneContent.h"
+
 
 @interface PersonChatViewController ()<RCPluginBoardViewDelegate>
 @property (strong, nonatomic) UIView *upView;
@@ -36,6 +38,7 @@
     
     //注册自定义消息Cell
     [self registerClass:[XYRichMessageCell class] forMessageClass:[XYRichMessageContent class]];
+    [self registerClass:[XYreadoneCell classForKeyedArchiver] forMessageClass:[XYreadoneContent class]];
     
     if (_type != personIsNormal) {
         
