@@ -263,6 +263,7 @@
 		5329FC9A22CC441C006092BC /* LDBillPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5329FC9922CC441C006092BC /* LDBillPresenter.m */; };
 		5329FC9D22CC556F006092BC /* XYreadoneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5329FC9C22CC556F006092BC /* XYreadoneCell.m */; };
 		5329FCA022CC5586006092BC /* XYreadoneContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5329FC9F22CC5586006092BC /* XYreadoneContent.m */; };
+		5329FCA422CC6AD9006092BC /* NTImageBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5329FCA322CC6AD8006092BC /* NTImageBrowser.m */; };
 		5372254B22ABF8E30082472A /* NetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5372254922ABF8E30082472A /* NetManager.m */; };
 		5385593A22C4B15A00980E18 /* XYRichMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385593622C4B15900980E18 /* XYRichMessageContent.m */; };
 		5385593B22C4B15A00980E18 /* XYRichMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385593822C4B15A00980E18 /* XYRichMessageCell.m */; };
@@ -931,6 +932,8 @@
 		5329FC9C22CC556F006092BC /* XYreadoneCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XYreadoneCell.m; sourceTree = "<group>"; };
 		5329FC9E22CC5586006092BC /* XYreadoneContent.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = XYreadoneContent.h; sourceTree = "<group>"; };
 		5329FC9F22CC5586006092BC /* XYreadoneContent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XYreadoneContent.m; sourceTree = "<group>"; };
+		5329FCA222CC6AD8006092BC /* NTImageBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTImageBrowser.h; sourceTree = "<group>"; };
+		5329FCA322CC6AD8006092BC /* NTImageBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTImageBrowser.m; sourceTree = "<group>"; };
 		5372254922ABF8E30082472A /* NetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetManager.m; sourceTree = "<group>"; };
 		5372254A22ABF8E30082472A /* NetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetManager.h; sourceTree = "<group>"; };
 		5385593622C4B15900980E18 /* XYRichMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XYRichMessageContent.m; sourceTree = "<group>"; };
@@ -1798,6 +1801,7 @@
 		003B9A681E06BE3C006BF162 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				5329FCA122CC6AD8006092BC /* NTImageBrowser */,
 				5385595B22C5F7C000980E18 /* WSRedPacketView */,
 				0043DB4D1E2B743400577DE5 /* GroupSqureCell.h */,
 				0043DB4E1E2B743400577DE5 /* GroupSqureCell.m */,
@@ -2114,6 +2118,15 @@
 				531D739F22AF80A600903BB4 /* LdtopHeaderView.m */,
 			);
 			name = View;
+			sourceTree = "<group>";
+		};
+		5329FCA122CC6AD8006092BC /* NTImageBrowser */ = {
+			isa = PBXGroup;
+			children = (
+				5329FCA222CC6AD8006092BC /* NTImageBrowser.h */,
+				5329FCA322CC6AD8006092BC /* NTImageBrowser.m */,
+			);
+			path = NTImageBrowser;
 			sourceTree = "<group>";
 		};
 		5372254822ABF8E30082472A /* NetWorking */ = {
@@ -3782,6 +3795,7 @@
 				00F9BD691E227DEC00F5CD18 /* LDSetBankCardViewController.m in Sources */,
 				D220579D201ACD3F00B231C0 /* UILabel+HeightForAttributedString.m in Sources */,
 				53FBA90E22C05FEC00990C28 /* LDhistoryViewModel.m in Sources */,
+				5329FCA422CC6AD9006092BC /* NTImageBrowser.m in Sources */,
 				D2197D8E1FBE812F00723093 /* LDWarnPersonViewController.m in Sources */,
 				5372254B22ABF8E30082472A /* NetManager.m in Sources */,
 				004D014A1E373F6700EF5135 /* LDMoreTopicViewController.m in Sources */,

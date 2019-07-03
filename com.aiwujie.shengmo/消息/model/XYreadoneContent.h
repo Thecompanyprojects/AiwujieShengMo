@@ -14,10 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
  阅后即焚功能content部分
  */
 @interface XYreadoneContent : RCMessageContent
-@property (copy) NSString *imageName;
-@property (copy) NSString *number;
+@property (copy) NSString *imageUrl;
 
-+ (instancetype)messageWithDict:(NSDictionary *)dict;
+
++ (instancetype)messageWithDict:(NSString *)imageUrl;
 @end
 
 NS_ASSUME_NONNULL_END

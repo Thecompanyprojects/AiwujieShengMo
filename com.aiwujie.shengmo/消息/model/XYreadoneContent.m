@@ -10,18 +10,11 @@
 
 @implementation XYreadoneContent
 
-+ (instancetype)messageWithDict:(NSDictionary *)dict
++ (instancetype)messageWithDict:(NSString *)imageUrl
 {
     XYreadoneContent *msg = [[XYreadoneContent alloc] init];
     
-    NSString *imageName = dict[@"imageName"];
-    if (imageName) {
-        msg.imageName = imageName;
-    }
-    NSString *number = dict[@"number"];
-    if (number) {
-        msg.number = number;
-    }
+    msg.imageUrl = imageUrl;
     
     return msg;
 }
@@ -39,7 +32,7 @@
 {
     NSError *err;
     
-    NSDictionary *dict = @{@"number":self.number,@"imageName":self.imageName};
+    NSDictionary *dict = @{@"imageUrl":self.imageUrl};
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&err];
     if (err) {
         NSLog(@"encode error %@", err);
@@ -66,12 +59,9 @@
     if ([dict isKindOfClass:NSArray.class]) {
         return;
     }
-    
-    self.imageName = dict[@"imageName"];
-    NSString *number = dict[@"number"];
-    self.number = number;
-    //    NSNumber *ts = dict[@"timeStamp"];
-    //    self.dateSent = [NSDate dateWithTimeIntervalSince1970:ts.doubleValue];
+
+    self.imageUrl = dict[@"imageUrl"];
+
 }
 
 /*!
@@ -115,7 +105,7 @@
  */
 - (NSString *)conversationDigest
 {
-    return [NSString stringWithFormat:@"%@%@%@",self.imageName,@" × ",self.number];
+    return @"阅后即焚";
     
 }
 @end

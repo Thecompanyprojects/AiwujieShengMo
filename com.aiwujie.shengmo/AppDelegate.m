@@ -40,9 +40,7 @@
     
     //@{}代表Dictionary  设置title颜色
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1],NSFontAttributeName:[UIFont systemFontOfSize:17]}];
-    
     [UINavigationBar appearance].translucent = NO;
-    
     [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
     
     //用keychain存储用户的唯一标示uuid,用于封设备

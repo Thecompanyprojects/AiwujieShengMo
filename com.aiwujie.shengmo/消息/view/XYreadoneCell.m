@@ -60,7 +60,9 @@
 
 - (void)tapMessage:(id)sender {
     NSLog(@"%s", __func__);
-    
+    if ([self.delegate respondsToSelector:@selector(didTapMessageCell:)]) {
+        [self.delegate didTapMessageCell:self.model];
+    }
 }
 
 - (void)setDataModel:(RCMessageModel *)model {
@@ -84,7 +86,7 @@
 {
     XYreadoneContent *richMessage = (XYreadoneContent *)self.model.content;
     //self.dataSource = richMessage.imgArray;
-    self.imageName = richMessage.imageName;
+    self.imageName = richMessage.imageUrl;
     
     [self.messageContentView setBounds:CGRectMake(0, 0, 200, 80)];
     [self.bubbleBackgroundView setFrame:CGRectMake(0, 0, 200, 80)];
@@ -106,13 +108,12 @@
     [self.titleLabel setFrame:CGRectMake(76, 30, contentViewSize.width - 80, 20)];
     [self.detailLabel setFrame:CGRectMake(76, 33, contentViewSize.width - 80, 40)];
     [self.imageView setCenter:CGPointMake(40, 40)];
-    NSString *str1 = [NSString stringWithFormat:@"%@%@%@",richMessage.imageName,@" × ",richMessage.number];
-    [self.titleLabel setText:str1];
-    
-    NSDateFormatter *objDateformat = [[NSDateFormatter alloc] init];
-    [objDateformat setDateFormat:@"yyyy-MM-dd HH:mm"];
-    UIImage *img = [UIImage imageNamed:self.imageName];
-    [self.imageView setImage:img];
+     
+    [self.imageView sd_setImageWithURL:[NSURL URLWithString:richMessage.imageUrl]];
+//    NSDateFormatter *objDateformat = [[NSDateFormatter alloc] init];
+//    [objDateformat setDateFormat:@"yyyy-MM-dd HH:mm"];
+//    UIImage *img = [UIImage imageNamed:self.imageName];
+//    [self.imageView setImage:img];
 }
 
 @end

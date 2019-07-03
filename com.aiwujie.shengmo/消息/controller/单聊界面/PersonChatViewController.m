@@ -16,7 +16,7 @@
 #import "LDMyWalletPageViewController.h"
 #import "XYreadoneCell.h"
 #import "XYreadoneContent.h"
-
+#import "NTImageBrowser.h"
 
 @interface PersonChatViewController ()<RCPluginBoardViewDelegate>
 @property (strong, nonatomic) UIView *upView;
@@ -116,7 +116,11 @@
 - (void)didTapMessageCell:(RCMessageModel *)model
 {
     [super didTapMessageCell:model];
-    
+    if ([model.objectName isEqualToString:@"ec:messagereadone"]) {
+        XYreadoneContent *content = (XYreadoneContent*)model.content;
+        
+        [NTImageBrowser showImageBrowserWithImageView:content.imageUrl];
+    }
 }
 
 /**
@@ -126,6 +130,7 @@
 {
     self.chatSessionInputBarControl.pluginBoardView.pluginBoardDelegate = self;
     [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"聊天-礼物"] title:@"礼物" atIndex:6 tag:2001];
+    [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"火箭"] title:@"阅后即焚" atIndex:7 tag:2002];
 }
 
 - (void)pluginBoardView:(RCPluginBoardView *)pluginBoardView clickedItemWithTag:(NSInteger)tag
@@ -165,6 +170,19 @@
         [self.tabBarController.view addSubview:_gif];
         
         
+        
+    }
+    if (tag==2002) {
+        //阅后即焚
+        NSString *img = @"http://pic31.nipic.com/20130705/9527735_231540074000_2.jpg";
+        NSDictionary *para = @{@"imageUrl":img};
+        XYreadoneContent *content = [XYreadoneContent messageWithDict:img];
+        content.imageUrl = @"http://pic31.nipic.com/20130705/9527735_231540074000_2.jpg";
+        
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:para options:0 error:0];
+        NSString *dataStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        
+        [self sendMessage:content pushContent:dataStr];
         
     }
 }
