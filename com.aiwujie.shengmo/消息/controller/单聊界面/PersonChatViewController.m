@@ -118,8 +118,7 @@
     [super didTapMessageCell:model];
     if ([model.objectName isEqualToString:@"ec:messagereadone"]) {
         XYreadoneContent *content = (XYreadoneContent*)model.content;
-        
-        [NTImageBrowser showImageBrowserWithImageView:content.imageUrl];
+        [[NTImageBrowser sharedShow] showImageBrowserWithImageView:content.imageUrl];
     }
 }
 

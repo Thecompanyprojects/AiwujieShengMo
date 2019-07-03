@@ -25,4 +25,6 @@
             mainColor:(UIColor *)mColor
            countColor:(UIColor *)color
                 block:(void(^)(NSInteger time))block;
+
+-(void)endcodeclick;
 @end

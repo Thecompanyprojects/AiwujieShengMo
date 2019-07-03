@@ -13,14 +13,35 @@
 #define NTCurrentWindow [[UIApplication sharedApplication].windows lastObject]
 
 @interface NTImageBrowser()
-
+{
+    
+    //倒计时时间
+    __block NSInteger timeOut;
+    
+    dispatch_queue_t queue;
+    __block dispatch_source_t _timer ;
+    
+}
+@property (nonatomic, assign) BOOL timerStop;
+@property (nonatomic, strong) UIButton *doneBtn;
 @end
+
 
 @implementation NTImageBrowser
 
++ (instancetype)sharedShow{
+    static NTImageBrowser *_show = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _show = [[NTImageBrowser alloc]init];
+    });
+    return _show;
+}
+
+
 static CGRect originFrame; // 用于记录imageView本来的frame
 
-+ (void)showImageBrowserWithImageView :(NSString *)imageUrl {
+-(void)showImageBrowserWithImageView :(NSString *)imageUrl {
     
     originFrame = CGRectMake(100, 100, WIDTH/2-50, 200); // 这个方法用于将imageView原来在父控件中的位置对应到NTCurrentWindow中来
     
@@ -39,21 +60,64 @@ static CGRect originFrame; // 用于记录imageView本来的frame
     [backgroundView addSubview:newImageView];
     [NTCurrentWindow addSubview:backgroundView];
     
-    UIButton *countDounCode;
-    countDounCode = [UIButton buttonWithType:UIButtonTypeCustom];
-    countDounCode.frame = CGRectMake(WIDTH-60, 10, 40, 40);
-    countDounCode.backgroundColor = [UIColor whiteColor];
-    [NTCurrentWindow addSubview:countDounCode];
+   
+    self.doneBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.doneBtn.frame = CGRectMake(WIDTH-60, 10, 40, 40);
+    self.doneBtn.tag = 201;
+    self.doneBtn.backgroundColor = [UIColor whiteColor];
+    [NTCurrentWindow addSubview:self.doneBtn];
     
-    [countDounCode startWithTime:5 title:@"" mainColor:[UIColor blackColor] countColor:[UIColor blackColor] block:^(NSInteger time) {
-        if (time==0) {
-            
-            
-            
-        }
-    }];
     
+    timeOut = 5;
+    
+    queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    _timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue);
 
+    //每秒执行一次
+    dispatch_source_set_timer(_timer, dispatch_walltime(NULL, 0), 1.0 * NSEC_PER_SEC, 0);
+    dispatch_source_set_event_handler(_timer, ^{
+        if (self.timerStop) {
+            dispatch_source_cancel(_timer);
+            _timer = nil;
+            self.timerStop = NO;
+        }
+        //倒计时结束，关闭
+        if (timeOut <= 0) {
+            dispatch_source_cancel(_timer);
+            _timer = nil;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.doneBtn.backgroundColor = [UIColor blackColor];
+                [self.doneBtn setTitle:@"" forState:UIControlStateNormal];
+                self.doneBtn.userInteractionEnabled = YES;
+            });
+        } else {
+            int allTime = (int)5 + 1;
+            int seconds = timeOut % allTime;
+            NSString *timeStr = [NSString stringWithFormat:@"%0.2d", seconds];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.doneBtn.backgroundColor = [UIColor blackColor];
+                [self.doneBtn setTitle:timeStr forState:normal];
+                [self.doneBtn setTitleColor:[UIColor whiteColor] forState:normal];
+                self.doneBtn.userInteractionEnabled = NO;
+                
+                if (timeOut==0) {
+                    [UIView animateWithDuration:0.3f animations:^{
+                        // frame的动画
+                        newImageView.frame = originFrame;
+                        // 透明度的动画
+                        backgroundView.alpha = 0;
+                    } completion:^(BOOL finished) {
+                        [backgroundView removeFromSuperview];
+                        [self.doneBtn removeFromSuperview];
+                    }];
+                }
+                
+            });
+            timeOut--;
+        }
+    });
+    dispatch_resume(_timer);
+    
     
     // 3、执行动画效果
     [UIView animateWithDuration:0.3f animations:^{
@@ -71,18 +135,22 @@ static CGRect originFrame; // 用于记录imageView本来的frame
     }];
 }
 
-+ (void)hideImageBrowser :(UIGestureRecognizer *)sender {
+-(void)hideImageBrowser :(UIGestureRecognizer *)sender {
     UIView *backgroundView = sender.view;
     UIView *imageView = (UIView *)[backgroundView viewWithTag:19];
+    //self.timerStop = YES;
+    [self.doneBtn removeFromSuperview];
+    
     [UIView animateWithDuration:0.3f animations:^{
         // frame的动画
         imageView.frame = originFrame;
         // 透明度的动画
         backgroundView.alpha = 0;
+       
     } completion:^(BOOL finished) {
         [backgroundView removeFromSuperview];
+       
     }];
 }
-
 
 @end

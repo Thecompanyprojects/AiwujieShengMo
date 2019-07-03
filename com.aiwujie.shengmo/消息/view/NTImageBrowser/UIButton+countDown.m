@@ -10,8 +10,8 @@
 #import <objc/runtime.h>
 
 @implementation UIButton (CountDown)
-static NSString *cancelKey = @"cancelKey";
 
+static NSString *cancelKey = @"cancelKey";
 
 - (void)startWithTime:(NSInteger)timeLine
                 title:(NSString *)title
@@ -49,7 +49,6 @@ static NSString *cancelKey = @"cancelKey";
                 weakSelf.backgroundColor = color;
                 [weakSelf setTitle:timeStr forState:normal];
                 [weakSelf setTitleColor:[UIColor whiteColor] forState:normal];
-               // [weakSelf setTitle:[NSString stringWithFormat:@"已发送(%@s)",timeStr] forState:UIControlStateNormal];
                 weakSelf.userInteractionEnabled = NO;
                 block ? block(timeOut) : nil;
                 
@@ -67,6 +66,5 @@ static NSString *cancelKey = @"cancelKey";
 - (void)setTimerStop:(BOOL)timerStop {
     objc_setAssociatedObject(self, &cancelKey, @(timerStop), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
-
 
 @end
