@@ -426,7 +426,6 @@
     
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     
-    //    NSLog(@"%@",groupId);
     
     NSDictionary *parameters;
     

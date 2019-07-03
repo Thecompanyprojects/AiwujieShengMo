@@ -10,13 +10,34 @@
 
 @implementation XYreadoneContent
 
-+ (instancetype)messageWithDict:(NSString *)imageUrl
+/// NSCoding
+- (instancetype)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    if (self) {
+        self.imageUrl = [aDecoder decodeObjectForKey:@"imageUrl"];
+        self.isopen = [aDecoder decodeObjectForKey:@"isopen"];
+    }
+    return self;
+}
+
+/// NSCoding
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:self.imageUrl forKey:@"imageUrl"];
+    [aCoder encodeObject:self.isopen forKey:@"isopen"];
+}
+
++ (instancetype)messageWithDict:(NSDictionary *)dict
 {
     XYreadoneContent *msg = [[XYreadoneContent alloc] init];
-    
+    NSString *imageUrl = dict[@"imageUrl"];
     msg.imageUrl = imageUrl;
-    
+    msg.isopen = dict[@"isopen"];
     return msg;
+}
+
+///消息是否存储，是否计入未读数
++ (RCMessagePersistent)persistentFlag {
+    return (MessagePersistent_ISPERSISTED | MessagePersistent_ISCOUNTED);
 }
 
 
@@ -28,16 +49,30 @@
  @discussion
  消息内容通过此方法，将消息中的所有数据，编码成为json数据，返回的json数据将用于网络传输。
  */
-- (NSData *)encode
-{
-    NSError *err;
+
+///将消息内容编码成json
+- (NSData *)encode {
+    NSMutableDictionary *dataDict = [NSMutableDictionary dictionary];
+    [dataDict setObject:self.imageUrl forKey:@"imageUrl"];
+   
+    [dataDict setObject:self.isopen forKey:@"isopen"];
+   
     
-    NSDictionary *dict = @{@"imageUrl":self.imageUrl};
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&err];
-    if (err) {
-        NSLog(@"encode error %@", err);
+    if (self.senderUserInfo) {
+        NSMutableDictionary *userInfoDic = [[NSMutableDictionary alloc] init];
+        if (self.senderUserInfo.name) {
+            [userInfoDic setObject:self.senderUserInfo.name forKeyedSubscript:@"name"];
+        }
+        if (self.senderUserInfo.portraitUri) {
+            [userInfoDic setObject:self.senderUserInfo.portraitUri forKeyedSubscript:@"portrait"];
+        }
+        if (self.senderUserInfo.userId) {
+            [userInfoDic setObject:self.senderUserInfo.userId forKeyedSubscript:@"id"];
+        }
+        [dataDict setObject:userInfoDic forKey:@"user"];
     }
-    return jsonData;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:kNilOptions error:nil];
+    return data;
 }
 
 /*!
@@ -48,22 +83,18 @@
  @discussion
  网络传输的json数据，会通过此方法解码，获取消息内容中的所有数据，生成有效的消息内容。
  */
-- (void)decodeWithData:(NSData *)data
-{
-    NSError *err;
-    //NSArray<NSString *> *array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&err];
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&err];
-    if (err) {
-        NSLog(@"encode error %@", err);
+- (void)decodeWithData:(NSData *)data {
+    if (data) {
+        __autoreleasing NSError *error = nil;
+        NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+        if (dictionary) {
+            self.isopen = dictionary[@"isopen"];
+            self.imageUrl = dictionary[@"imageUrl"];
+            NSDictionary *userinfoDic = dictionary[@"user"];
+            [self decodeUserInfo:userinfoDic];
+        }
     }
-    if ([dict isKindOfClass:NSArray.class]) {
-        return;
-    }
-
-    self.imageUrl = dict[@"imageUrl"];
-
 }
-
 /*!
  返回消息的类型名
  
@@ -80,17 +111,6 @@
 
 #pragma mark - RCMessagePersistentCompatible
 
-/*!
- 返回消息的存储策略
- 
- @return 消息的存储策略
- 
- @discussion 指明此消息类型在本地是否存储、是否计入未读消息数。
- */
-+ (RCMessagePersistent)persistentFlag
-{
-    return MessagePersistent_ISCOUNTED;
-}
 
 #pragma mark - RCMessageContentView
 
@@ -105,7 +125,7 @@
  */
 - (NSString *)conversationDigest
 {
-    return @"阅后即焚";
+    return @"闪图";
     
 }
 @end

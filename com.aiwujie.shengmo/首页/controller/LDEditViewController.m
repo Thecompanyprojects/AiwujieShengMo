@@ -528,20 +528,10 @@
     [_backGroundView addSubview:rightBtn];
     
     //是否展示图片
-    
-    [leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.pickerView);
-        make.top.equalTo(self.collectionView.mas_bottom).with.offset(6);
-        make.width.mas_offset(WIDTH/2);
-        make.height.mas_offset(20);
-    }];
-    [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.pickerView);
-        make.top.equalTo(leftBtn);
-        make.width.mas_offset(WIDTH/2);
-        make.height.mas_offset(20);
-    }];
 
+    leftBtn.frame = CGRectMake(0, self.collectionView.frame.size.height+157, WIDTH/2, 20);
+    rightBtn.frame = CGRectMake(WIDTH/2, self.collectionView.frame.size.height+157, WIDTH/2, 20);
+    
     if (self.isshowPhoto) {
         [leftBtn setImage:[UIImage imageNamed:@"照片认证空圈"] forState:normal];
         [rightBtn setImage:[UIImage imageNamed:@"照片认证实圈"] forState:normal];

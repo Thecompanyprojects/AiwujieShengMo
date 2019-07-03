@@ -13,11 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  阅后即焚功能content部分
  */
-@interface XYreadoneContent : RCMessageContent
+@interface XYreadoneContent : RCMessageContent<NSCoding>
 @property (copy) NSString *imageUrl;
-
-
-+ (instancetype)messageWithDict:(NSString *)imageUrl;
+@property (copy) NSString *isopen;
++ (instancetype)messageWithDict:(NSDictionary *)dict;
 @end
 
 NS_ASSUME_NONNULL_END

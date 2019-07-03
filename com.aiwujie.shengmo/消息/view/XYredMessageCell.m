@@ -101,19 +101,9 @@
     [self.messageContentView setBounds:CGRectMake(0, 0, 200, 80)];
     [self.bubbleBackgroundView setFrame:CGRectMake(0, 0, 200, 80)];
     if (MessageDirection_RECEIVE == self.messageDirection) {
-//        self.bubbleBackgroundView.image = [self imageNamed:@"chat_from_bg_normal" ofBundle:@"RongCloud.bundle"];
-      //  self.bubbleBackgroundView.backgroundColor = [UIColor colorWithHexString:@"F99D3F" alpha:1];
-//        UIImage *image = self.bubbleBackgroundView.image;
-//        self.bubbleBackgroundView.image = [self.bubbleBackgroundView.image
-//                                           resizableImageWithCapInsets:UIEdgeInsetsMake(image.size.height * 0.8, image.size.width * 0.8,
-//                                                                                        image.size.height * 0.2, image.size.width * 0.2)];
+
     } else {
-//        self.bubbleBackgroundView.image = [self imageNamed:@"chat_to_bg_normal" ofBundle:@"RongCloud.bundle"];
-       // self.bubbleBackgroundView.backgroundColor = [UIColor colorWithHexString:@"F99D3F" alpha:1];
-//        UIImage *image = self.bubbleBackgroundView.image;
-//        self.bubbleBackgroundView.image = [self.bubbleBackgroundView.image
-//                                           resizableImageWithCapInsets:UIEdgeInsetsMake(image.size.height * 0.8, image.size.width * 0.2,
-//                                                                                        image.size.height * 0.2, image.size.width * 0.8)];
+
     }
     
     

@@ -506,7 +506,7 @@
         }];
         UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"去开通" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
-            
+
             [self.navigationController pushViewController:mvc animated:YES];
             
         }];

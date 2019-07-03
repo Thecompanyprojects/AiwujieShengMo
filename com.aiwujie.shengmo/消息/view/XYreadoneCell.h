@@ -12,8 +12,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface XYreadoneCell : RCMessageCell
 @property UIImageView *imageView;
-@property UILabel *titleLabel;
-@property UILabel *detailLabel;
 @end
 
 NS_ASSUME_NONNULL_END

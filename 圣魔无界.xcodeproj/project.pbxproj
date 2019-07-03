@@ -264,7 +264,6 @@
 		5329FC9D22CC556F006092BC /* XYreadoneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5329FC9C22CC556F006092BC /* XYreadoneCell.m */; };
 		5329FCA022CC5586006092BC /* XYreadoneContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5329FC9F22CC5586006092BC /* XYreadoneContent.m */; };
 		5329FCA422CC6AD9006092BC /* NTImageBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5329FCA322CC6AD8006092BC /* NTImageBrowser.m */; };
-		5329FCA722CC8E07006092BC /* UIButton+countDown.m in Sources */ = {isa = PBXBuildFile; fileRef = 5329FCA522CC8E07006092BC /* UIButton+countDown.m */; };
 		5372254B22ABF8E30082472A /* NetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5372254922ABF8E30082472A /* NetManager.m */; };
 		5385593A22C4B15A00980E18 /* XYRichMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385593622C4B15900980E18 /* XYRichMessageContent.m */; };
 		5385593B22C4B15A00980E18 /* XYRichMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385593822C4B15A00980E18 /* XYRichMessageCell.m */; };
@@ -935,8 +934,6 @@
 		5329FC9F22CC5586006092BC /* XYreadoneContent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XYreadoneContent.m; sourceTree = "<group>"; };
 		5329FCA222CC6AD8006092BC /* NTImageBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTImageBrowser.h; sourceTree = "<group>"; };
 		5329FCA322CC6AD8006092BC /* NTImageBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTImageBrowser.m; sourceTree = "<group>"; };
-		5329FCA522CC8E07006092BC /* UIButton+countDown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+countDown.m"; sourceTree = "<group>"; };
-		5329FCA622CC8E07006092BC /* UIButton+countDown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+countDown.h"; sourceTree = "<group>"; };
 		5372254922ABF8E30082472A /* NetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetManager.m; sourceTree = "<group>"; };
 		5372254A22ABF8E30082472A /* NetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetManager.h; sourceTree = "<group>"; };
 		5385593622C4B15900980E18 /* XYRichMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XYRichMessageContent.m; sourceTree = "<group>"; };
@@ -2128,8 +2125,6 @@
 			children = (
 				5329FCA222CC6AD8006092BC /* NTImageBrowser.h */,
 				5329FCA322CC6AD8006092BC /* NTImageBrowser.m */,
-				5329FCA622CC8E07006092BC /* UIButton+countDown.h */,
-				5329FCA522CC8E07006092BC /* UIButton+countDown.m */,
 			);
 			path = NTImageBrowser;
 			sourceTree = "<group>";
@@ -3945,7 +3940,6 @@
 				00E60CD51E2522BD0078779C /* LDRevisePasswordViewController.m in Sources */,
 				003B9A891E06C049006BF162 /* LDMainNavViewController.m in Sources */,
 				0002A57C1E24C1AA0037311C /* LDFeedbackViewController.m in Sources */,
-				5329FCA722CC8E07006092BC /* UIButton+countDown.m in Sources */,
 				0005AB351E326B8C00F605EF /* LDGroupNumberViewController.m in Sources */,
 				003B9A761E06BFC1006BF162 /* LDInformationViewController.m in Sources */,
 				0013A9481E2A5DA5003647EE /* LDConnectUsViewController.m in Sources */,

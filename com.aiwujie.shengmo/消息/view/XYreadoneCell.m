@@ -12,6 +12,10 @@
 @interface XYreadoneCell()
 @property (copy) NSString *imageName;
 @property UIImageView *bubbleBackgroundView;
+@property UIBlurEffect *beffect;
+@property UIVisualEffectView *befview;
+@property (copy,nonatomic) NSString *extra;
+@property (nonatomic,assign) BOOL iscanShow;
 @end
 
 @implementation XYreadoneCell
@@ -21,13 +25,14 @@
       withCollectionViewWidth:(CGFloat)collectionViewWidth
          referenceExtraHeight:(CGFloat)extraHeight {
     //这里我们设定的高度是120，所以加上extraHeight
-    return CGSizeMake(WIDTH , 80 + extraHeight);
+    return CGSizeMake(WIDTH , 120 + extraHeight);
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.iscanShow = YES;
         [self initialize];
     }
     return self;
@@ -39,81 +44,93 @@
     [self.bubbleBackgroundView setUserInteractionEnabled:YES];
     [self.messageContentView addSubview:self.bubbleBackgroundView];
     
-    self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 60, 60)];
-    self.imageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 150, 120)];
+   // self.imageView.contentMode = UIViewContentModeScaleAspectFill;
     self.imageView.clipsToBounds = YES;
-    
-    self.titleLabel = [[UILabel alloc] init] ;
-    self.titleLabel.font = [UIFont boldSystemFontOfSize:15];
-    
-    self.detailLabel = [[UILabel alloc] init] ;
-    self.detailLabel.numberOfLines = 2;
-    self.detailLabel.font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
+    self.imageView.layer.cornerRadius = 10;
     
     [self.bubbleBackgroundView addSubview:self.imageView];
-    [self.bubbleBackgroundView addSubview:self.titleLabel];
-    [self.bubbleBackgroundView addSubview:self.detailLabel];
-    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapMessage:)];
     [self.bubbleBackgroundView addGestureRecognizer:tap];
+    
+    self.beffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+    self.befview = [[UIVisualEffectView alloc] initWithEffect:self.beffect];
+    self.befview.frame = self.imageView.bounds;
+    self.befview.layer.masksToBounds = YES;
+    self.befview.layer.cornerRadius = 10;
+    [self.bubbleBackgroundView addSubview:self.befview];
 }
 
 - (void)tapMessage:(id)sender {
-    NSLog(@"%s", __func__);
-    if ([self.delegate respondsToSelector:@selector(didTapMessageCell:)]) {
-        [self.delegate didTapMessageCell:self.model];
+    if (self.iscanShow) {
+        if ([self.delegate respondsToSelector:@selector(didTapMessageCell:)]) {
+            [self.delegate didTapMessageCell:self.model];
+        }
     }
+
+}
+
+- (void)updateStatusContentView:(RCMessageModel *)model
+{
+    [super updateStatusContentView:model];
+    
 }
 
 - (void)setDataModel:(RCMessageModel *)model {
     [super setDataModel:model];
-    
+    self.extra = model.extra;
     [self setAutoLayout];
-}
-
-- (UIImage *)imageNamed:(NSString *)name ofBundle:(NSString *)bundleName {
-    UIImage *image = nil;
-    NSString *image_name = [NSString stringWithFormat:@"%@.png", name];
-    NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
-    NSString *bundlePath = [resourcePath stringByAppendingPathComponent:bundleName];
-    NSString *image_path = [bundlePath stringByAppendingPathComponent:image_name];
-    image = [[UIImage alloc] initWithContentsOfFile:image_path];
-    
-    return image;
 }
 
 - (void)setAutoLayout
 {
     XYreadoneContent *richMessage = (XYreadoneContent *)self.model.content;
-    //self.dataSource = richMessage.imgArray;
     self.imageName = richMessage.imageUrl;
+    [self.messageContentView setBounds:CGRectMake(0, 0, 160, 120)];
+    [self.bubbleBackgroundView setFrame:CGRectMake(0, 0, 160, 120)];
+   
     
-    [self.messageContentView setBounds:CGRectMake(0, 0, 200, 80)];
-    [self.bubbleBackgroundView setFrame:CGRectMake(0, 0, 200, 80)];
-    if (MessageDirection_RECEIVE == self.messageDirection) {
-        self.bubbleBackgroundView.image = [self imageNamed:@"chat_from_bg_normal" ofBundle:@"RongCloud.bundle"];
-        UIImage *image = self.bubbleBackgroundView.image;
-        self.bubbleBackgroundView.image = [self.bubbleBackgroundView.image
-                                           resizableImageWithCapInsets:UIEdgeInsetsMake(image.size.height * 0.8, image.size.width * 0.8,
-                                                                                        image.size.height * 0.2, image.size.width * 0.2)];
-    } else {
-        self.bubbleBackgroundView.image = [self imageNamed:@"chat_to_bg_normal" ofBundle:@"RongCloud.bundle"];
-        UIImage *image = self.bubbleBackgroundView.image;
-        self.bubbleBackgroundView.image = [self.bubbleBackgroundView.image
-                                           resizableImageWithCapInsets:UIEdgeInsetsMake(image.size.height * 0.8, image.size.width * 0.2,
-                                                                                        image.size.height * 0.2, image.size.width * 0.8)];
+    NSString *str1 = @"";
+    if (self.extra.length!=0) {
+        str1 = [self.extra substringToIndex:1];
+    }
+    else
+    {
+        str1 = @"0";
     }
     
-    CGSize contentViewSize = self.bubbleBackgroundView.bounds.size;
-    [self.titleLabel setFrame:CGRectMake(76, 30, contentViewSize.width - 80, 20)];
-    [self.detailLabel setFrame:CGRectMake(76, 33, contentViewSize.width - 80, 40)];
-    [self.imageView setCenter:CGPointMake(40, 40)];
-     
-    [self.imageView sd_setImageWithURL:[NSURL URLWithString:richMessage.imageUrl]];
-//    NSDateFormatter *objDateformat = [[NSDateFormatter alloc] init];
-//    [objDateformat setDateFormat:@"yyyy-MM-dd HH:mm"];
-//    UIImage *img = [UIImage imageNamed:self.imageName];
-//    [self.imageView setImage:img];
+    NSString *str2 = [richMessage.isopen substringToIndex:1];
+    
+    if (self.extra.length!=0) {
+        if ([str1 isEqualToString:@"1"]) {
+            [self.befview setHidden:YES];
+            self.iscanShow = NO;
+            self.imageView.image = [UIImage imageNamed:@"闪照"];
+        }
+        else
+        {
+            [self.befview setHidden:NO];
+            [self.imageView sd_setImageWithURL:[NSURL URLWithString:richMessage.imageUrl]];
+            self.iscanShow = YES;
+        }
+    }
+    else
+    {
+        if ([str2 isEqualToString:@"0"]) {
+            [self.befview setHidden:NO];
+            self.iscanShow = YES;
+            [self.imageView sd_setImageWithURL:[NSURL URLWithString:richMessage.imageUrl]];
+        }
+        else
+        {
+            [self.befview setHidden:YES];
+            self.iscanShow = NO;
+            self.imageView.image = [UIImage imageNamed:@"闪照"];
+           
+            
+        }
+    }
 }
+
 
 @end
