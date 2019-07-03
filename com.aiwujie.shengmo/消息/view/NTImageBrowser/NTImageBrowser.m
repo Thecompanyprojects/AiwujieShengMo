@@ -7,9 +7,14 @@
 //
 
 #import "NTImageBrowser.h"
+#import "UIButton+countDown.h"
 
 #define NTDeviceSize [UIScreen mainScreen].bounds.size
 #define NTCurrentWindow [[UIApplication sharedApplication].windows lastObject]
+
+@interface NTImageBrowser()
+
+@end
 
 @implementation NTImageBrowser
 
@@ -33,6 +38,22 @@ static CGRect originFrame; // 用于记录imageView本来的frame
     
     [backgroundView addSubview:newImageView];
     [NTCurrentWindow addSubview:backgroundView];
+    
+    UIButton *countDounCode;
+    countDounCode = [UIButton buttonWithType:UIButtonTypeCustom];
+    countDounCode.frame = CGRectMake(WIDTH-60, 10, 40, 40);
+    countDounCode.backgroundColor = [UIColor whiteColor];
+    [NTCurrentWindow addSubview:countDounCode];
+    
+    [countDounCode startWithTime:5 title:@"" mainColor:[UIColor blackColor] countColor:[UIColor blackColor] block:^(NSInteger time) {
+        if (time==0) {
+            
+            
+            
+        }
+    }];
+    
+
     
     // 3、执行动画效果
     [UIView animateWithDuration:0.3f animations:^{
@@ -62,7 +83,6 @@ static CGRect originFrame; // 用于记录imageView本来的frame
         [backgroundView removeFromSuperview];
     }];
 }
-
 
 
 @end
