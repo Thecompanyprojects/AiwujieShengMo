@@ -136,6 +136,10 @@ THE SOFTWARE.
 
 Copyright 2014 Rong Cloud
 
+## RongCloudRTC
+
+Copyright 2018 RongCloud
+
 ## SDAutoLayout
 
 The MIT License (MIT)

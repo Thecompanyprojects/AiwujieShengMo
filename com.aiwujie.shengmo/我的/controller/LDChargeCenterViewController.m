@@ -11,6 +11,7 @@
 #import <AFNetworkReachabilityManager.h>
 #import "AppDelegate.h"
 #import "YQInAppPurchaseTool.h"
+#import "LDBillPresenter.h"
 
 @interface LDChargeCenterViewController ()<YQInAppPurchaseToolDelegate>
 {
@@ -65,27 +66,22 @@
 
 -(void)createData{
 
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getmywallet"];
-    
-    NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
-        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
+    [LDBillPresenter requestsuccess:^(NSDictionary * success) {
+        NSInteger integer = [[success objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[success objectForKey:@"msg"]];
         }else{
             
-            self.accountLabel.text = [NSString stringWithFormat:@"余额 %@ 金魔豆",responseObj[@"data"][@"wallet"]];
-            [[NSUserDefaults standardUserDefaults] setObject:responseObj[@"data"][@"wallet"] forKey:@"walletNum"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
-            
-    
+            self.accountLabel.text = [NSString stringWithFormat:@"余额 %@ 金魔豆",success[@"data"][@"wallet"]];
             NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:self.accountLabel.text];
-            [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:255/255.0 green:157/255.0 blue:0/255.0 alpha:1] range:NSMakeRange(3,[responseObj[@"data"][@"wallet"] length])];
+            [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:255/255.0 green:157/255.0 blue:0/255.0 alpha:1] range:NSMakeRange(3,[success[@"data"][@"wallet"] length])];
             self.accountLabel.attributedText = str;
         }
-    } failed:^(NSString *errorMsg) {
+
+    } failure:^(NSString * failure) {
         
     }];
+
 }
 
 - (void)viewDidLoad {

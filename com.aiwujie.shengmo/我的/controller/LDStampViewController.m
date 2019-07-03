@@ -17,6 +17,7 @@
 #import "AppDelegate.h"
 #import "LDMemberViewController.h"
 #import "LDCertificateViewController.h"
+#import "LDBillPresenter.h"
 
 @interface LDStampViewController ()<UITableViewDelegate,UITableViewDataSource,SKPaymentTransactionObserver,SKProductsRequestDelegate,SKStoreProductViewControllerDelegate>{
     
@@ -88,6 +89,8 @@
     
     [self createData];
  
+    
+    [LDBillPresenter savewakketNum];
 }
 
 -(void)createData{

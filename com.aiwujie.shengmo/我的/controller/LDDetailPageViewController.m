@@ -48,9 +48,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     //创建兑换的按钮
-    [self createButton];
+    
     if (_index == 1) {
         self.navigationItem.title = @"礼物明细";
+        
+        [self createButton];
         NSArray *array = @[@"收到的礼物",@"系统赠送",@"兑换记录"];
         for (int i = 100; i < 103; i++) {
             UIButton *button = (UIButton *)[self.view viewWithTag:i];
@@ -60,6 +62,8 @@
     if (_index == 2){
     
         self.navigationItem.title = @"邮票明细";
+        
+        [self createButton];
         NSArray *array = @[@"购买记录",@"系统赠送",@"使用记录"];
         
         for (int i = 100; i < 103; i++) {
@@ -71,6 +75,7 @@
     if (_index == 3){
         
         self.navigationItem.title = @"推顶明细";
+        [self newcreateRight];
         NSArray *array = @[@"购买记录",@"使用记录",@"被推记录"];
         
         for (int i = 100; i < 103; i++) {
@@ -85,7 +90,17 @@
 }
 
 
-
+-(void)newcreateRight
+{
+    UIButton *rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
+     [rightButton setImage:[UIImage imageNamed: @"其他"] forState:UIControlStateNormal];
+    //[rightButton setTitle:@"兑换" forState:normal];
+    [rightButton setTitleColor:TextCOLOR forState:normal];
+    rightButton.titleLabel.font = [UIFont systemFontOfSize:12];
+    [rightButton addTarget:self action:@selector(backButtonOnClick) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem* rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+}
 
 -(void)createButton{
     
@@ -222,7 +237,7 @@
         UIAlertController *control = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"金魔豆兑换推顶卡" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             
-            NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"1张/400金魔豆", @"3张/1130金魔豆", @"9张/3280金魔豆", @"29张/9980金魔豆", @"81张/25980金魔豆", @"216张/64980金魔豆"];
+            NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"1张/400金魔豆", @"3张/1130金魔豆(9.5折)", @"9张/3280金魔豆(9.1折)", @"29张/9980金魔豆(8.6折)", @"81张/25980金魔豆(8折)", @"216张/64980金魔豆(7.5折)"];
             
             UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
             

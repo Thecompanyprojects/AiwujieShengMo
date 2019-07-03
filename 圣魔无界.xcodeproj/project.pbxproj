@@ -260,6 +260,7 @@
 		531D73A022AF80A600903BB4 /* LdtopHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 531D739F22AF80A600903BB4 /* LdtopHeaderView.m */; };
 		5323946922B90BDE001BF94C /* bottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5323946822B90BDE001BF94C /* bottomView.m */; };
 		5329FC6B22CB0832006092BC /* NSObject+additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 5329FC6A22CB0832006092BC /* NSObject+additions.m */; };
+		5329FC9A22CC441C006092BC /* LDBillPresenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 5329FC9922CC441C006092BC /* LDBillPresenter.m */; };
 		5372254B22ABF8E30082472A /* NetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5372254922ABF8E30082472A /* NetManager.m */; };
 		5385593A22C4B15A00980E18 /* XYRichMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385593622C4B15900980E18 /* XYRichMessageContent.m */; };
 		5385593B22C4B15A00980E18 /* XYRichMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385593822C4B15A00980E18 /* XYRichMessageCell.m */; };
@@ -922,6 +923,8 @@
 		5323946822B90BDE001BF94C /* bottomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = bottomView.m; sourceTree = "<group>"; };
 		5329FC6922CB0832006092BC /* NSObject+additions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+additions.h"; sourceTree = "<group>"; };
 		5329FC6A22CB0832006092BC /* NSObject+additions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+additions.m"; sourceTree = "<group>"; };
+		5329FC9822CC441C006092BC /* LDBillPresenter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LDBillPresenter.h; sourceTree = "<group>"; };
+		5329FC9922CC441C006092BC /* LDBillPresenter.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LDBillPresenter.m; sourceTree = "<group>"; };
 		5372254922ABF8E30082472A /* NetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetManager.m; sourceTree = "<group>"; };
 		5372254A22ABF8E30082472A /* NetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetManager.h; sourceTree = "<group>"; };
 		5385593622C4B15900980E18 /* XYRichMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XYRichMessageContent.m; sourceTree = "<group>"; };
@@ -3136,6 +3139,8 @@
 				531D739122AE879D00903BB4 /* 推顶卡 */,
 				D2C103B01F02503C00B2FFC6 /* 收到的礼物 */,
 				D268C9A11EF12499009AC7D6 /* 充值界面 */,
+				5329FC9822CC441C006092BC /* LDBillPresenter.h */,
+				5329FC9922CC441C006092BC /* LDBillPresenter.m */,
 			);
 			name = "充值礼物";
 			path = controller;
@@ -3666,8 +3671,9 @@
 				"${PODS_ROOT}/RongCloudIM/RongCloudIM/en.lproj",
 				"${PODS_ROOT}/RongCloudIM/RongCloudIM/zh-Hans.lproj",
 				"${PODS_ROOT}/RongCloudIM/RongCloudIM/Emoji.plist",
+				"${PODS_ROOT}/RongCloudIM/RongCloudIM/RCColor.plist",
 				"${PODS_ROOT}/RongCloudIM/RongCloudIM/RCConfig.plist",
-				"${PODS_ROOT}/RongCloudIM/RongCloudIM/BQMM.bundle",
+				"${PODS_ROOT}/RongCloudIM/RongCloudIM/RongSticker.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
@@ -3678,8 +3684,9 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/en.lproj",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/zh-Hans.lproj",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Emoji.plist",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCColor.plist",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCConfig.plist",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/BQMM.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RongSticker.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -4000,6 +4007,7 @@
 				00F9BD641E22752F00F5CD18 /* LDDepositViewController.m in Sources */,
 				53E8CDC322A93EED007E5073 /* LDharassmentCell.m in Sources */,
 				D23A5FEC1ED5795E00FE4AD5 /* LDBindingEmailViewController.m in Sources */,
+				5329FC9A22CC441C006092BC /* LDBillPresenter.m in Sources */,
 				5385595A22C5E44C00980E18 /* XYredMessageContent.m in Sources */,
 				D20016D91F46D4C10045D0A2 /* MatchmakerDetailModel.m in Sources */,
 				5385593E22C5A30A00980E18 /* XYgiftgroupMessageCell.m in Sources */,

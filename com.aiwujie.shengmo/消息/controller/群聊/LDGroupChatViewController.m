@@ -55,6 +55,10 @@
     [self createButton];
    // [self addredEnvelope];
     [RCIM sharedRCIM].receiveMessageDelegate = self;
+    
+    [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:3];
+    [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:3];
+    
 }
 
 /**
@@ -149,8 +153,8 @@
 - (void)didTapMessageCell:(RCMessageModel *)model
 {
     [super didTapMessageCell:model];
-    
-    if (self.isgif) {
+    if ([model.objectName isEqualToString:@"ec:groupgiftinfo"]) {
+        //礼物
         _gifTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod) userInfo:nil repeats:YES];
         //face
         
@@ -162,12 +166,13 @@
         _flowFlower = [FlowFlower flowerFLow:@[faceImage]];
         [_flowFlower startFlyFlowerOnView:self.view];
     }
-    else
-    {
+    
+    if ([model.objectName isEqualToString:@"ec:groupenvelopeinfo"]) {
+        //红包
         XYredMessageContent *mes = [[XYredMessageContent alloc] init];
         mes.senderUserInfo = [RCIM sharedRCIM].currentUserInfo;
         mes.extra = @"1";
-
+        
         mes.extra = [NSString stringWithFormat:@"1/%@",model.messageUId];
         
         RCMessage *oldMess = [[RCIMClient sharedRCIMClient] getMessageByUId:model.messageUId];
@@ -203,7 +208,10 @@
         } finishBlock:^(float money) {
             NSLog(@"领取金额：%f",money);
         }];
+        
     }
+
+    
     
    
     

@@ -11,6 +11,8 @@
 #import "LdtopHeaderView.h"
 #import "LDDetailPageViewController.h"
 #import "YQInAppPurchaseTool.h"
+#import "LDBillPresenter.h"
+
 
 @interface LDtotopViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,YQInAppPurchaseToolDelegate>
 {
@@ -49,6 +51,8 @@ static float AD_height = 180;//头部高度
     [self.view addSubview:self.messageLab];
     [self createRightButton];
     [self createData];
+    
+    [LDBillPresenter savewakketNum];
 }
 
 -(void)createData
@@ -61,6 +65,7 @@ static float AD_height = 180;//头部高度
         if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
             NSDictionary *data = [responseObj objectForKey:@"data"];
             self.numberStr = [data objectForKey:@"wallet_topcard"];
+           
         }
         [self.headView setTextFromurl:self.numberStr?:@"0"];
         [self.collectionView reloadData];
@@ -91,7 +96,7 @@ static float AD_height = 180;//头部高度
         flowLayout.headerReferenceSize = CGSizeMake(WIDTH, AD_height);//头部大小
         _collectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, naviBottom - 50) collectionViewLayout:flowLayout];
         _collectionView.scrollEnabled = YES;
-        flowLayout.itemSize = CGSizeMake(106*W_screen, 100*W_screen);
+        flowLayout.itemSize = CGSizeMake(106*W_screen, 100*W_screen); 
         //定义每个UICollectionView 纵向的间距
         flowLayout.minimumLineSpacing = 14;
         //定义每个UICollectionView 横向的间距
@@ -225,6 +230,7 @@ static float AD_height = 180;//头部高度
     NSString *url = [PICHEADURL stringByAppendingString:topcard_ioshooks];
 
     NSDictionary *parameters = @{@"receipt":receipt?:@"",@"order_no":order?:@"",@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {

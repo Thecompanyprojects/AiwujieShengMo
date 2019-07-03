@@ -65,7 +65,7 @@ typedef NS_ENUM(NSUInteger, RCCustomerServiceStatus) {
 /*!
  目标会话ID
  */
-@property(nonatomic, strong) NSString *targetId;
+@property(nonatomic, copy) NSString *targetId;
 
 /*!
  当前的用户名称（已废弃，请勿使用）
@@ -95,10 +95,7 @@ typedef NS_ENUM(NSUInteger, RCCustomerServiceStatus) {
  */
 @property(nonatomic, strong) UICollectionView *conversationMessageCollectionView;
 
-/*!
- 会话页面的CollectionView Layout
- */
-@property(nonatomic, strong) UICollectionViewFlowLayout *customFlowLayout;
+
 
 #pragma mark 导航栏返回按钮中的未读消息数提示
 /*!
@@ -134,7 +131,7 @@ typedef NS_ENUM(NSUInteger, RCCustomerServiceStatus) {
 /*!
  右上角未读消息数提示的Label
 
- @discussion 当 150 >= unReadMessage > 10  右上角会显示未读消息数。
+ @discussion 当 unReadMessage > 10  右上角会显示未读消息数。
  */
 @property(nonatomic, strong) UILabel *unReadMessageLabel;
 
@@ -192,6 +189,16 @@ typedef NS_ENUM(NSUInteger, RCCustomerServiceStatus) {
             replacementText:(NSString *)text;
 
 /*!
+ 输入工具栏尺寸（高度）发生变化的回调
+ 
+ @param chatInputBar 输入工具栏
+ @param frame        输入工具栏最终需要显示的Frame
+ 
+ @discussion 如重写此方法，请先调用父类方法。
+ */
+- (void)chatInputBar:(RCChatSessionInputBarControl *)chatInputBar shouldChangeFrame:(CGRect)frame;
+
+/*!
  扩展功能板的点击回调
 
  @param pluginBoardView 输入扩展功能板View
@@ -244,6 +251,22 @@ typedef NS_ENUM(NSUInteger, RCCustomerServiceStatus) {
  -1表示不获取任何历史消息，0表示不特殊设置而使用SDK默认的设置（默认为获取10条），0<messageCount<=50为具体获取的消息数量,最大值为50。注：如果是7.x系统获取历史消息数量不要大于30
  */
 @property(nonatomic, assign) int defaultHistoryMessageCountOfChatRoom;
+
+/*!
+ 已经选择的所有消息
+ @discussion 只有在 allowsMessageCellSelection 为 YES,才会有有效值
+ */
+@property(nonatomic, strong, readonly) NSArray<RCMessageModel *> *selectedMessages;
+
+/*!
+ 会话页面消息是否可编辑选择,如果为 YES,消息 cell 会变为多选样式,如果为 NO，页面恢复初始状态。
+ */
+@property(nonatomic, assign) BOOL allowsMessageCellSelection;
+
+/*!
+ 消息编辑选择的状态下页面底部出现的工具视图
+ */
+@property(nonatomic, strong) UIToolbar *messageSelectionToolbar;
 
 /*!
  提示用户信息并推出当前会话界面
@@ -569,9 +592,12 @@ typedef NS_ENUM(NSUInteger, RCCustomerServiceStatus) {
 
  @discussion 自定义消息如果需要显示，则必须先通过RCIM的registerMessageType:注册该自定义消息类型，
  并在会话页面中通过registerClass:forCellWithReuseIdentifier:注册该自定义消息的Cell，否则将此回调将不会被调用。
+ 
+ @warning  **已废弃，请勿使用。**
+ 升级说明：即将显示消息的回调统一使用 willDisplayMessageCell:atIndexPath: 方法。
  */
 - (RCMessageBaseCell *)rcConversationCollectionView:(UICollectionView *)collectionView
-                             cellForItemAtIndexPath:(NSIndexPath *)indexPath;
+                             cellForItemAtIndexPath:(NSIndexPath *)indexPath __deprecated_msg("已废弃，请勿使用。");
 
 /*!
  自定义消息Cell显示的回调
@@ -583,10 +609,13 @@ typedef NS_ENUM(NSUInteger, RCCustomerServiceStatus) {
 
  @discussion 自定义消息如果需要显示，则必须先通过RCIM的registerMessageType:注册该自定义消息类型，
  并在会话页面中通过registerClass:forCellWithReuseIdentifier:注册该自定义消息的Cell，否则将此回调将不会被调用。
+ 
+ @warning  **已废弃，请勿使用。**
+ 升级说明：请实现自定义消息 Cell 的 sizeForMessageModel:withCollectionViewWidth:referenceExtraHeight: 方法来设置 size。
  */
 - (CGSize)rcConversationCollectionView:(UICollectionView *)collectionView
                                 layout:(UICollectionViewLayout *)collectionViewLayout
-                sizeForItemAtIndexPath:(NSIndexPath *)indexPath;
+                sizeForItemAtIndexPath:(NSIndexPath *)indexPath __deprecated_msg("已废弃，请勿使用。");
 
 /*!
  未注册消息Cell显示的回调

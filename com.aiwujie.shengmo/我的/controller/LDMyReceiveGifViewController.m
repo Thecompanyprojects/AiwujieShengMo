@@ -39,6 +39,7 @@
 //礼物可用魔豆数
 @property (nonatomic,copy) NSString *useAmount;
 
+
 @end
 
 @implementation LDMyReceiveGifViewController
