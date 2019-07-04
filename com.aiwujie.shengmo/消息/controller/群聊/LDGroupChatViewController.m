@@ -338,60 +338,56 @@
         NSString *gid = [gidStr substringWithRange:NSMakeRange(1, gidStr.length - 2)];
 
         NSString *state = [[array[1] componentsSeparatedByString:@":"][1] substringToIndex:1];
-
-        AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-
+        
         NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/getGroupinfo"];
 
         NSDictionary *parameters = @{@"gid":gid,@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-        
-        [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-
-            NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-
+        [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+            NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
+            
             if (integer != 2000) {
-
-                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
+                
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
                 
             }else{
-
-                if ([responseObject[@"data"][@"userpower"] intValue] < 1) {
-
-                    if ([responseObject[@"data"][@"userpower"] intValue] == 0) {
-
+                
+                if ([responseObj[@"data"][@"userpower"] intValue] < 1) {
+                    
+                    if ([responseObj[@"data"][@"userpower"] intValue] == 0) {
+                        
                         LDLookOtherGroupInformationViewController *ivc = [[LDLookOtherGroupInformationViewController alloc] init];
-
+                        
                         ivc.gid = gid;
-
+                        
                         [self.navigationController pushViewController:ivc animated:YES];
-
-                    }else if([responseObject[@"data"][@"userpower"] intValue] == -1){
-
+                        
+                    }else if([responseObj[@"data"][@"userpower"] intValue] == -1){
+                        
                         LDLookOtherGroupInformationViewController *ivc = [[LDLookOtherGroupInformationViewController alloc] init];
-
+                        
                         ivc.state = state;
-
+                        
                         ivc.gid = gid;
-
+                        
                         [self.navigationController pushViewController:ivc animated:YES];
-
+                        
                     }
-
+                    
                 }else{
-
+                    
                     LDGroupInformationViewController *fvc = [[LDGroupInformationViewController alloc] init];
-
+                    
                     fvc.gid = gid;
-
+                    
                     [self.navigationController pushViewController:fvc animated:YES];
-
+                    
                 }
-
+                
             }
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-
-            NSLog(@"%@",error);
+        } failed:^(NSString *errorMsg) {
+            
         }];
+
 
     }else{
 
@@ -473,9 +469,6 @@
 
 -(void)createRefreshUserData:(NSString *)groupId{
     
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
-    
     NSDictionary *parameters;
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
@@ -487,24 +480,20 @@
         parameters = @{@"gid":groupId,@"lat":@"",@"lng":@""};
     }
 
-    
-    [manager POST:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Other/getGroupinfo"] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
+    [NetManager afPostRequest:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Other/getGroupinfo"] parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         //        NSLog(@"%@",responseObject);
         if (integer == 2000) {
             
             //此处为了演示写了一个用户信息
             RCGroup *group = [[RCGroup alloc]init];
             group.groupId = groupId;
-            group.groupName = responseObject[@"data"][@"groupname"];
-            group.portraitUri = responseObject[@"data"][@"group_pic"];
+            group.groupName = responseObj[@"data"][@"groupname"];
+            group.portraitUri = responseObj[@"data"][@"group_pic"];
             [[RCIM sharedRCIM] refreshGroupInfoCache:group withGroupId:groupId];
             
         }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        NSLog(@"88888%@",error);
+    } failed:^(NSString *errorMsg) {
         
     }];
 
@@ -555,7 +544,6 @@
     }
 }
 
-
 #pragma mark - TZImagePickerController
 
 - (void)pushImagePickerController {
@@ -586,26 +574,6 @@
 }
 
 #pragma mark - UIImagePickerController
-
-- (void)takePhoto {
-    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    if ((authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied) && iOS7Later) {
-        // 无相机权限 做一个友好的提示
-        UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"无法使用相机" message:@"请在iPhone的""设置-隐私-相机""中允许访问相机" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"设置", nil];
-        [alert show];
-        // 拍照之前还需要检查相册权限
-    } else if ([[TZImageManager manager] authorizationStatus] == 2) { // 已被拒绝，没有相册权限，将无法保存拍的照片
-        UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"无法访问相册" message:@"请在iPhone的""设置-隐私-相册""中允许访问相册" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"设置", nil];
-        alert.tag = 1;
-        [alert show];
-    } else if ([[TZImageManager manager] authorizationStatus] == 0) { // 正在弹框询问用户是否允许访问相册，监听权限状态
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            return [self takePhoto];
-            
-        });
-    }
-}
 
 - (void)imagePickerController:(UIImagePickerController*)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     

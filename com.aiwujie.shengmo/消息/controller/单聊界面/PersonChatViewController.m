@@ -18,7 +18,6 @@
 #import "XYreadoneContent.h"
 #import "NTImageBrowser.h"
 #import "LDMemberViewController.h"
-
 //照片选择
 #import "TZImagePickerController.h"
 #import "UIView+Layout.h"
@@ -118,17 +117,9 @@
         [_upView addSubview:deleteButton];
         
     }
- 
-//    if (![self.state isEqualToString:@"3"]) {
-//        [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:3];
-//        [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:3];
-//    }
-    
     [self createButton];
     [self addredEnvelope];
-   
 }
-
 
 /**
  * 重写方法，过滤消息或者修改消息
@@ -147,8 +138,6 @@
         
     }
 }
-
-
 
 - (void)didLongTouchMessageCell:(RCMessageModel *)model inView:(UIView *)view
 {
@@ -341,26 +330,6 @@
 }
 
 #pragma mark - UIImagePickerController
-
-- (void)takePhoto {
-    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    if ((authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied) && iOS7Later) {
-        // 无相机权限 做一个友好的提示
-        UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"无法使用相机" message:@"请在iPhone的""设置-隐私-相机""中允许访问相机" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"设置", nil];
-        [alert show];
-        // 拍照之前还需要检查相册权限
-    } else if ([[TZImageManager manager] authorizationStatus] == 2) { // 已被拒绝，没有相册权限，将无法保存拍的照片
-        UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"无法访问相册" message:@"请在iPhone的""设置-隐私-相册""中允许访问相册" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"设置", nil];
-        alert.tag = 1;
-        [alert show];
-    } else if ([[TZImageManager manager] authorizationStatus] == 0) { // 正在弹框询问用户是否允许访问相册，监听权限状态
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            
-            return [self takePhoto];
-            
-        });
-    }
-}
 
 - (void)imagePickerController:(UIImagePickerController*)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     
