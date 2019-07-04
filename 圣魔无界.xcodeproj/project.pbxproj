@@ -17,7 +17,6 @@
 		0002A57D1E24C1AA0037311C /* LDFeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0002A57B1E24C1AA0037311C /* LDFeedbackViewController.xib */; };
 		000516031E2E6041007C627C /* LDSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 000516011E2E6041007C627C /* LDSearchViewController.m */; };
 		000516041E2E6041007C627C /* LDSearchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 000516021E2E6041007C627C /* LDSearchViewController.xib */; };
-		000528BB1E265D0900CCBB1B /* PersonChatViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 000528BA1E265D0900CCBB1B /* PersonChatViewController.xib */; };
 		000528BD1E265D1B00CCBB1B /* PersonChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 000528BC1E265D1B00CCBB1B /* PersonChatViewController.m */; };
 		000528C11E26682F00CCBB1B /* LDGeneralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 000528BF1E26682F00CCBB1B /* LDGeneralViewController.m */; };
 		000528C21E26682F00CCBB1B /* LDGeneralViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 000528C01E26682F00CCBB1B /* LDGeneralViewController.xib */; };
@@ -548,7 +547,6 @@
 		000516011E2E6041007C627C /* LDSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDSearchViewController.m; sourceTree = "<group>"; };
 		000516021E2E6041007C627C /* LDSearchViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LDSearchViewController.xib; sourceTree = "<group>"; };
 		000528B91E265D0900CCBB1B /* PersonChatViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonChatViewController.h; sourceTree = "<group>"; };
-		000528BA1E265D0900CCBB1B /* PersonChatViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PersonChatViewController.xib; sourceTree = "<group>"; };
 		000528BC1E265D1B00CCBB1B /* PersonChatViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonChatViewController.m; sourceTree = "<group>"; };
 		000528BE1E26682F00CCBB1B /* LDGeneralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LDGeneralViewController.h; sourceTree = "<group>"; };
 		000528BF1E26682F00CCBB1B /* LDGeneralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LDGeneralViewController.m; sourceTree = "<group>"; };
@@ -2713,7 +2711,6 @@
 			children = (
 				000528B91E265D0900CCBB1B /* PersonChatViewController.h */,
 				000528BC1E265D1B00CCBB1B /* PersonChatViewController.m */,
-				000528BA1E265D0900CCBB1B /* PersonChatViewController.xib */,
 			);
 			path = "单聊界面";
 			sourceTree = "<group>";
@@ -3504,7 +3501,6 @@
 				5385596422C5F7C100980E18 /* close_btn@2x.png in Resources */,
 				D232FA701E73C11C001D4018 /* WUGesturesUnlockViewController.xib in Resources */,
 				00EC58CB1E1E952E00B06073 /* LDAttentOtherViewController.xib in Resources */,
-				000528BB1E265D0900CCBB1B /* PersonChatViewController.xib in Resources */,
 				D2FB6BBF1EBB2D4800167FFA /* AtCell.xib in Resources */,
 				000BFA111E04106900E23998 /* LDRegisterViewController.xib in Resources */,
 				0013A9491E2A5DA5003647EE /* LDConnectUsViewController.xib in Resources */,
