@@ -888,16 +888,7 @@
 -(void)serviceButtonClick:(UIButton *)button{
 
     if (button.tag - 19 <= _serviceArray.count) {
-        
-//        PersonChatViewController *conversationVC = [[PersonChatViewController alloc]init];
-//        conversationVC.conversationType = ConversationType_PRIVATE;
-//        conversationVC.targetId = [NSString stringWithFormat:@"%@",_serviceArray[button.tag - 20][@"uid"]];
-//        conversationVC.mobile = [NSString stringWithFormat:@"%@",_serviceArray[button.tag - 20][@"uid"]];
-//        conversationVC.title = [NSString stringWithFormat:@"%@",_serviceArray[button.tag - 20][@"nickname"]];
-//        //conversationVC.unReadMessage = model.unreadMessageCount;
-//        conversationVC.enableUnreadMessageIcon = YES;
-//        [self.navigationController pushViewController:conversationVC animated:YES];
-        
+
         LDOwnInformationViewController *InfoVC = [LDOwnInformationViewController new];
         InfoVC.userID = [NSString stringWithFormat:@"%@",_serviceArray[button.tag - 20][@"uid"]];
         [self.navigationController pushViewController:InfoVC animated:YES];

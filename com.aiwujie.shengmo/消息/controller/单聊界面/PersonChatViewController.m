@@ -48,7 +48,7 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    
+    self.view.backgroundColor = [UIColor whiteColor];
     //注册自定义消息Cell
     [self registerClass:[XYRichMessageCell class] forMessageClass:[XYRichMessageContent class]];
     [self registerClass:[XYreadoneCell classForKeyedArchiver] forMessageClass:[XYreadoneContent class]];
