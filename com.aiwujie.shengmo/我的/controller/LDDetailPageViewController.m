@@ -174,8 +174,15 @@
 
         UIAlertController *control = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"金魔豆兑换邮票" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            
-            NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"3张/80金魔豆", @"11张/300金魔豆", @"38张/980金魔豆", @"105张/2730金魔豆", @"200张/5180金魔豆", @"385张/9980金魔豆"];
+            NSString *newStr = @"";
+            if (numStr.length==0) {
+                newStr = @"0";
+            }
+            else
+            {
+                newStr = numStr;
+            }
+            NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",newStr,@"金魔豆)"],@"3张/80金魔豆", @"11张/300金魔豆", @"38张/980金魔豆", @"105张/2730金魔豆", @"200张/5180金魔豆", @"385张/9980金魔豆"];
             
             UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
             
@@ -236,8 +243,15 @@
         
         UIAlertController *control = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"金魔豆兑换推顶卡" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            
-            NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"1张/400金魔豆", @"3张/1130金魔豆(9.5折)", @"9张/3280金魔豆(9.1折)", @"29张/9980金魔豆(8.6折)", @"81张/25980金魔豆(8折)", @"216张/64980金魔豆(7.5折)"];
+            NSString *newStr = @"";
+            if (numStr.length==0) {
+                newStr = @"0";
+            }
+            else
+            {
+                newStr = numStr;
+            }
+            NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",newStr,@"金魔豆)"],@"1张/400金魔豆", @"3张/1130金魔豆(9.5折)", @"9张/3280金魔豆(9.1折)", @"29张/9980金魔豆(8.6折)", @"81张/25980金魔豆(8折)", @"216张/64980金魔豆(7.5折)"];
             
             UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
             

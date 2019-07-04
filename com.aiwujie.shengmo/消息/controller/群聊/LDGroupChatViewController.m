@@ -21,8 +21,23 @@
 #import "WSRedPacketView.h"
 #import "WSRewardConfig.h"
 #import "FlowFlower.h"
+#import "XYreadoneCell.h"
+#import "XYreadoneContent.h"
+#import "NTImageBrowser.h"
+#import "LDMemberViewController.h"
 
-@interface LDGroupChatViewController ()<RCPluginBoardViewDelegate,RCIMReceiveMessageDelegate>
+//照片选择
+#import "TZImagePickerController.h"
+#import "UIView+Layout.h"
+#import "TZTestCell.h"
+#import <AssetsLibrary/AssetsLibrary.h>
+#import <Photos/Photos.h>
+#import "LxGridViewFlowLayout.h"
+#import "TZImageManager.h"
+#import "TZVideoPlayerController.h"
+#import "TZPhotoPreviewController.h"
+
+@interface LDGroupChatViewController ()<RCPluginBoardViewDelegate,RCIMReceiveMessageDelegate,TZImagePickerControllerDelegate>
 //礼物界面
 @property (nonatomic,strong) GifView *gif;
 @property (nonatomic,assign) BOOL isgif;
@@ -38,7 +53,7 @@
 @property (nonatomic,strong) UIImage *gifImage;
 //掉落的时间
 @property (nonatomic,assign) int second;
-
+@property (nonatomic,copy) NSString *sendimgUrl;
 @end
 
 @implementation LDGroupChatViewController
@@ -50,6 +65,8 @@
     //注册自定义消息Cell
     [self registerClass:[XYgiftgroupMessageCell class] forMessageClass:[XYgiftMessageContent class]];
     [self registerClass:[XYredMessageCell class] forMessageClass:[XYredMessageContent class]];
+    [self registerClass:[XYreadoneCell classForKeyedArchiver] forMessageClass:[XYreadoneContent class]];
+    
     [self createRefreshUserData:self.groupId];
     self.view.backgroundColor = [UIColor whiteColor];
     [self createButton];
@@ -58,7 +75,7 @@
     
     [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:3];
     [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:3];
-    
+    [self addredEnvelope];
 }
 
 /**
@@ -69,7 +86,10 @@
     self.chatSessionInputBarControl.pluginBoardView.pluginBoardDelegate = self;
     [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"聊天-礼物"] title:@"礼物" atIndex:6 tag:2001];
     [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"聊天-红包"] title:@"红包" atIndex:7 tag:2002];
+    [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"闪照"] title:@"闪照" atIndex:8 tag:2003];
 }
+
+
 
 - (void)pluginBoardView:(RCPluginBoardView *)pluginBoardView clickedItemWithTag:(NSInteger)tag
 {
@@ -131,6 +151,20 @@
         };
         [self presentViewController:nav animated:YES completion:nil];
     }
+    if (tag==2003) {
+        //阅后即焚
+        self.isgif = YES;
+        self.sendimgUrl = [NSString new];
+        TZImagePickerController *imagePC=[[TZImagePickerController alloc]initWithMaxImagesCount:1 delegate:self];
+        [imagePC setDidFinishPickingVideoHandle:^(UIImage *coverImage, id asset) {
+            
+            
+            
+        }];
+        [self presentViewController:imagePC animated:YES completion:^{
+            
+        }];
+    }
 }
 
 /**
@@ -142,6 +176,7 @@
  */
 - (RCMessageContent *)willSendMessage:(RCMessageContent *)messageCotent{
     [super willSendMessage:messageCotent];
+    
     if (!self.isgif) {
         RCTextMessage *message = (RCTextMessage *)messageCotent;
         message.extra = @"0";
@@ -210,11 +245,29 @@
         }];
         
     }
+    if ([model.objectName isEqualToString:@"ec:messagereadone"]) {
+        
+        XYreadoneContent *content = (XYreadoneContent*)model.content;
+        [[NTImageBrowser sharedShow] showImageBrowserWithImageView:content.imageUrl];
 
-    
-    
-   
-    
+        XYreadoneContent *mes = [[XYreadoneContent alloc] init];
+        mes.senderUserInfo = [RCIM sharedRCIM].currentUserInfo;
+        mes.isopen = @"1";
+        mes.isopen = [NSString stringWithFormat:@"1/%@",model.messageUId];
+        RCMessage *oldMess = [[RCIMClient sharedRCIMClient] getMessageByUId:model.messageUId];
+        [[RCIMClient sharedRCIMClient] setMessageExtra:oldMess.messageId value:mes.isopen];
+        
+        for (RCMessageModel *model in self.conversationDataRepository) {
+            if (model.messageId == oldMess.messageId) {
+                if (model.messageId == oldMess.messageId) {
+                    XYreadoneContent *oldHongBao = (XYreadoneContent *)model.content;
+                    oldHongBao.isopen = mes.isopen;
+                    model.content = oldHongBao;
+                }
+            }
+        }
+        [self.conversationMessageCollectionView reloadData];
+    }
 }
 
 /**
@@ -234,30 +287,6 @@
 - (void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left {
     if ([message.content isKindOfClass:[XYredMessageContent class]]) {
         
-        
-//        XYredMessageContent *mes = (XYredMessageContent *)message.content;
-//        NSString *ex = mes.isopen;
-//
-//        NSString *sta = [ex componentsSeparatedByString:@"/"][0];
-//        NSString *oldMessID = [ex componentsSeparatedByString:@"/"][1];
-//        if ([sta isEqualToString:@"1"])  {//已接收
-//            dispatch_sync(dispatch_get_main_queue(), ^{
-//                RCMessage *oldMess = [[RCIMClient sharedRCIMClient] getMessageByUId:oldMessID];
-//
-//                for (RCMessageModel *model in self.conversationDataRepository) {
-//                    if (model.messageId == oldMess.messageId) {
-//                        XYredMessageContent *oldHongBao = (XYredMessageContent *)model.content;
-//                        oldHongBao.isopen = ex;
-//                        model.content = oldHongBao;
-//                    }
-//                }
-//
-//                //[[RCIMClient sharedRCIMClient] setMessageExtra:oldMess.messageId value:mes.isopen];
-//
-//                [self.conversationMessageCollectionView reloadData];
-//            });
-//
-//        }
     }
 }
 
@@ -336,27 +365,19 @@
 
 }
 
-- (void)showChooseUserViewController:(void (^)(RCUserInfo *selectedUserInfo))selectedBlock cancel:(void (^)())cancelBlock{
-
+- (void)showChooseUserViewController:(void (^)(RCUserInfo *selectedUserInfo))selectedBlock
+                              cancel:(void (^)(void))cancelBlock{
     LDGroupAtPersonViewController *atPerson = [[LDGroupAtPersonViewController alloc] init];
-
     atPerson.groupId = self.groupId;
-
     atPerson.block = ^(RCUserInfo *user) {
-
         selectedBlock(user);
-
     };
-
     [self.navigationController pushViewController:atPerson animated:YES];
 }
 
 -(void)createButton{
-    
     UIButton * rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    
     [rightButton setBackgroundImage:[UIImage imageNamed:@"群组图标"] forState:UIControlStateNormal];
-    
     [rightButton addTarget:self action:@selector(backButtonOnClick:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
     self.navigationItem.rightBarButtonItem = rightBarButtonItem;
@@ -471,6 +492,193 @@
     [self.navigationController pushViewController:avc animated:YES];
 }
 
+
+
+#pragma mark - 发送及时消息
+
+-(void)sendoneimage:(NSString *)urls
+{
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue]==1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue]==1) {
+        NSString *img = urls;
+        NSDictionary *para = @{@"imageUrl":img,@"isopen":@"0"};
+        XYreadoneContent *content = [XYreadoneContent messageWithDict:para];
+        content.imageUrl = urls;
+        
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:para options:0 error:0];
+        NSString *dataStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        
+        [self sendMessage:content pushContent:dataStr];
+    }
+    else
+    {
+        UIAlertController *control = [UIAlertController alertControllerWithTitle:@"提示" message:@"该功能仅限VIP可用" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"去开通" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
+            [self.navigationController pushViewController:mvc animated:YES];
+        }];
+        [control addAction:action0];
+        [control addAction:action1];
+        [self presentViewController:control animated:YES completion:^{
+            
+        }];
+    }
+}
+
+
+#pragma mark - TZImagePickerController
+
+- (void)pushImagePickerController {
+    
+    TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:1 columnNumber:3 delegate:self pushPhotoPickerVc:YES];
+    
+#pragma mark - 四类个性化设置，这些参数都可以不传，此时会走默认设置
+    imagePickerVc.isSelectOriginalPhoto = NO;
+    
+    imagePickerVc.allowTakePicture = YES; // 在内部显示拍照按钮
+    
+    // 3. Set allow picking video & photo & originalPhoto or not
+    // 3. 设置是否可以选择视频/图片/原图
+    imagePickerVc.allowPickingVideo = NO;
+    imagePickerVc.allowPickingImage = YES;
+    imagePickerVc.allowPickingOriginalPhoto = NO;
+    
+    // 4. 照片排列按修改时间升序
+    imagePickerVc.sortAscendingByModificationDate = YES;
+    
+    /// 5. Single selection mode, valid when maxImagesCount = 1
+    /// 5. 单选模式,maxImagesCount为1时才生效
+    imagePickerVc.showSelectBtn = NO;
+    imagePickerVc.allowCrop = YES;
+    //    imagePickerVc.cropRect = CGRectMake(0, (HEIGHT - WIDTH)/2, WIDTH, WIDTH);
+    
+    [self presentViewController:imagePickerVc animated:YES completion:nil];
+}
+
+#pragma mark - UIImagePickerController
+
+- (void)takePhoto {
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    if ((authStatus == AVAuthorizationStatusRestricted || authStatus == AVAuthorizationStatusDenied) && iOS7Later) {
+        // 无相机权限 做一个友好的提示
+        UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"无法使用相机" message:@"请在iPhone的""设置-隐私-相机""中允许访问相机" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"设置", nil];
+        [alert show];
+        // 拍照之前还需要检查相册权限
+    } else if ([[TZImageManager manager] authorizationStatus] == 2) { // 已被拒绝，没有相册权限，将无法保存拍的照片
+        UIAlertView * alert = [[UIAlertView alloc]initWithTitle:@"无法访问相册" message:@"请在iPhone的""设置-隐私-相册""中允许访问相册" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"设置", nil];
+        alert.tag = 1;
+        [alert show];
+    } else if ([[TZImageManager manager] authorizationStatus] == 0) { // 正在弹框询问用户是否允许访问相册，监听权限状态
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            return [self takePhoto];
+            
+        });
+    }
+}
+
+- (void)imagePickerController:(UIImagePickerController*)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
+    
+    NSString *type = [info objectForKey:UIImagePickerControllerMediaType];
+    
+    if ([type isEqualToString:@"public.image"]) {
+        
+        TZImagePickerController *tzImagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:1 delegate:self];
+        tzImagePickerVc.sortAscendingByModificationDate = YES;
+        [tzImagePickerVc showProgressHUD];
+        UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        // save photo and get asset / 保存图片，获取到asset
+        [[TZImageManager manager] savePhotoWithImage:image completion:^(NSError *error){
+            if (error) {
+                [tzImagePickerVc hideProgressHUD];
+                NSLog(@"图片保存失败 %@",error);
+            } else {
+                
+                [[TZImageManager manager] getCameraRollAlbum:NO allowPickingImage:YES completion:^(TZAlbumModel *model) {
+                    [[TZImageManager manager] getAssetsFromFetchResult:model.result allowPickingVideo:NO allowPickingImage:YES completion:^(NSArray<TZAssetModel *> *models) {
+                        [tzImagePickerVc hideProgressHUD];
+                        TZAssetModel *assetModel = [models firstObject];
+                        if (tzImagePickerVc.sortAscendingByModificationDate) {
+                            assetModel = [models lastObject];
+                        }
+                        if (/* DISABLES CODE */ (YES)) { // 允许裁剪,去裁剪
+                            TZImagePickerController *imagePicker = [[TZImagePickerController alloc] initCropTypeWithAsset:assetModel.asset photo:image completion:^(UIImage *cropImage, id asset) {
+                                [self refreshCollectionViewWithAddedAsset:asset image:cropImage];
+                            }];
+                            
+                            imagePicker.allowCrop = YES;
+                            imagePicker.needCircleCrop = NO;
+                            //                            imagePicker.circleCropRadius = 100;
+                            [self presentViewController:imagePicker animated:YES completion:nil];
+                            
+                        } else {
+                            
+                            [self refreshCollectionViewWithAddedAsset:assetModel.asset image:image];
+                        }
+                    }];
+                }];
+            }
+        }];
+    }
+}
+
+- (void)refreshCollectionViewWithAddedAsset:(id)asset image:(UIImage *)image {
+    
+    NSArray *photos = @[image];
+    [self thumbnaiWithImage:photos andAssets:nil];
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    
+    if ([picker isKindOfClass:[UIImagePickerController class]]) {
+        
+        [picker dismissViewControllerAnimated:YES completion:nil];
+    }
+}
+
+#pragma mark - TZImagePickerControllerDelegate
+
+/// User click cancel button
+/// 用户点击了取消
+- (void)tz_imagePickerControllerDidCancel:(TZImagePickerController *)picker {
+    // NSLog(@"cancel");
+}
+
+
+- (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingPhotos:(NSArray *)photos sourceAssets:(NSArray *)assets isSelectOriginalPhoto:(BOOL)isSelectOriginalPhoto {
+    [self thumbnaiWithImage:photos andAssets:assets];
+}
+//上传图片
+-(void)thumbnaiWithImage:(NSArray*)imageArray andAssets:(NSArray *)assets{
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
+    [manager POST:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Api/fileUpload"] parameters: nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        
+        NSData *imageData = UIImageJPEGRepresentation(imageArray[0], 0.1);
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"yyyyMMddHHmmss";
+        NSString *str = [formatter stringFromDate:[NSDate date]];
+        NSString *fileName = [NSString stringWithFormat:@"%@.jpg", str];
+        
+        //上传的参数(上传图片，以文件流的格式)
+        [formData appendPartWithFileData:imageData
+                                    name:@"file"
+                                fileName:fileName
+                                mimeType:@"image/jpeg"];
+        
+    } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSString *str = [responseObject objectForKey:@"data"];
+        self.sendimgUrl = [PICHEADURL stringByAppendingString:str];
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [self sendoneimage:self.sendimgUrl];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+}
 
 
 - (void)didReceiveMemoryWarning {

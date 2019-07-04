@@ -115,10 +115,10 @@
         
     }
  
-    if (![self.state isEqualToString:@"3"]) {
-        [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:3];
-        [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:3];
-    }
+//    if (![self.state isEqualToString:@"3"]) {
+//        [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:3];
+//        [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:3];
+//    }
     
     [self createButton];
     [self addredEnvelope];
@@ -187,6 +187,24 @@
 - (void)pluginBoardView:(RCPluginBoardView *)pluginBoardView clickedItemWithTag:(NSInteger)tag
 {
     [super pluginBoardView:pluginBoardView clickedItemWithTag:tag];
+    if (tag==1101||tag==1102) {
+        if (![self.state isEqualToString:@"3"]) {
+            UIAlertController *control = [UIAlertController alertControllerWithTitle:@"提示" message:@"您和对方还不是好友" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *acion0 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                
+            }];
+            UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"加好友" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self attentButtonClick];
+            }];
+            [control addAction:acion0];
+            [control addAction:action1];
+            [self presentViewController:control animated:YES completion:^{
+                 
+            }];
+            
+            
+        }
+    }
     if (tag==2001) {
         //红包功能
         
@@ -247,7 +265,6 @@
         
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:para options:0 error:0];
         NSString *dataStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        
         [self sendMessage:content pushContent:dataStr];
     }
     else
@@ -643,11 +660,8 @@
 }
 
 -(void)backButtonOnClick:(UIButton *)button{
-    
     LDOwnInformationViewController *avc = [[LDOwnInformationViewController alloc] init];
-    
     avc.userID = self.mobile;
-    
     [self.navigationController pushViewController:avc animated:YES];
 }
 

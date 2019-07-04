@@ -195,7 +195,7 @@ static CGRect originFrame; // 用于记录imageView本来的frame
     UIView *imageView = (UIView *)[backgroundView viewWithTag:19];
     //self.timerStop = YES;
     [self.doneBtn removeFromSuperview];
-    
+    [self.messageLab removeFromSuperview];
     [UIView animateWithDuration:0.3f animations:^{
         // frame的动画
         imageView.frame = originFrame;

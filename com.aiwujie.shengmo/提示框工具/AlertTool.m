@@ -44,7 +44,15 @@ static NSString *_stampNum;
         
         NSArray *SVIPArray = @[@"1个月/1280金魔豆", @"3个月/3480金魔豆(优惠9%)", @"8个月/8980金魔豆(优惠13%)", @"12个月/12980金魔豆(优惠16%)"];
         NSMutableArray *arrs = [NSMutableArray new];
-        [arrs addObject:[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"]];
+        NSString *newStr = @"";
+        if (numStr.length==0) {
+            newStr = @"0";
+        }
+        else
+        {
+            newStr = numStr;
+        }
+        [arrs addObject:[NSString stringWithFormat:@"%@%@%@",@"(剩余",newStr,@"金魔豆)"]];
         [arrs addObjectsFromArray:SVIPArray];
         
         UIAlertController *SVIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
@@ -69,8 +77,15 @@ static NSString *_stampNum;
     }];
     
     UIAlertAction * VIPAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换VIP"] style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
-     
-        NSArray *VIPArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"1个月/300金魔豆", @"3个月/880金魔豆(优惠3%)", @"6个月/1680金魔豆(优惠7%)", @"12个月/2980金魔豆(优惠%18)"];
+        NSString *newStr = @"";
+        if (numStr.length==0) {
+            newStr = @"0";
+        }
+        else
+        {
+            newStr = numStr;
+        }
+        NSArray *VIPArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",newStr,@"金魔豆)"],@"1个月/300金魔豆", @"3个月/880金魔豆(优惠3%)", @"6个月/1680金魔豆(优惠7%)", @"12个月/2980金魔豆(优惠%18)"];
         
         UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
         
@@ -101,8 +116,15 @@ static NSString *_stampNum;
     }];
     
     UIAlertAction *topcareAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换推顶卡"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-        NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"1张/400金魔豆", @"3张/1130金魔豆(9.5折)", @"9张/3280金魔豆(9.1折)", @"29张/9980金魔豆(8.6折)", @"81张/25980金魔豆(8折)", @"216张/64980金魔豆(7.5折)"];
+        NSString *newStr = @"";
+        if (numStr.length==0) {
+            newStr = @"0";
+        }
+        else
+        {
+            newStr = numStr;
+        }
+        NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",newStr,@"金魔豆)"],@"1张/400金魔豆", @"3张/1130金魔豆(9.5折)", @"9张/3280金魔豆(9.1折)", @"29张/9980金魔豆(8.6折)", @"81张/25980金魔豆(8折)", @"216张/64980金魔豆(7.5折)"];
         
         UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
         
@@ -128,8 +150,15 @@ static NSString *_stampNum;
     
 
     UIAlertAction *chargeAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换邮票"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-        NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"金魔豆)"],@"3张/80金魔豆", @"11张/300金魔豆", @"38张/980金魔豆", @"105张/2730金魔豆", @"200张/5180金魔豆", @"385张/9980金魔豆"];
+        NSString *newStr = @"";
+        if (numStr.length==0) {
+            newStr = @"0";
+        }
+        else
+        {
+            newStr = numStr;
+        }
+        NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",newStr,@"金魔豆)"],@"3张/80金魔豆", @"11张/300金魔豆", @"38张/980金魔豆", @"105张/2730金魔豆", @"200张/5180金魔豆", @"385张/9980金魔豆"];
         
         UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
         
