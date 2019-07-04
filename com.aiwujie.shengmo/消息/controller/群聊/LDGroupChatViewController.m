@@ -36,6 +36,8 @@
 #import "TZImageManager.h"
 #import "TZVideoPlayerController.h"
 #import "TZPhotoPreviewController.h"
+#import "groupinfoModel.h"
+
 
 @interface LDGroupChatViewController ()<RCPluginBoardViewDelegate,RCIMReceiveMessageDelegate,TZImagePickerControllerDelegate>
 //礼物界面
@@ -57,6 +59,7 @@
 
 @property (nonatomic,assign) NSInteger messageId;
 @property (nonatomic,assign) BOOL isadmin;
+@property (nonatomic,strong) groupinfoModel *infoModel;
 @end
 
 @implementation LDGroupChatViewController
@@ -412,6 +415,10 @@
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/getGroupinfo"];
     NSDictionary *parameters = @{@"gid":self.groupId,@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        
+        self.infoModel = [[groupinfoModel alloc] init];
+        self.infoModel = [groupinfoModel yy_modelWithJSON:responseObj];
+        
         NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (integer==2000) {
             
@@ -436,40 +443,32 @@
 
 -(void)backButtonOnClick:(UIButton *)button{
 
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/getGroupinfo"];
-    NSDictionary *parameters = @{@"gid":self.groupId,@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
-        NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
-        if (integer != 2000) {
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
-        }else{
-            
-            if ([responseObj[@"data"][@"userpower"] intValue] < 1) {
-                
-                LDLookOtherGroupInformationViewController *ivc = [[LDLookOtherGroupInformationViewController alloc] init];
-                ivc.gid = self.groupId;
-                [self.navigationController pushViewController:ivc animated:YES];
-                
-            }else{
-                
-                LDGroupInformationViewController *fvc = [[LDGroupInformationViewController alloc] init];
-                self.isadmin = YES;
-                fvc.gid = self.groupId;
-                fvc.chatStsate = @"yes";
-                [self.navigationController pushViewController:fvc animated:YES];
-            }
+    if (!([self.infoModel.retcode intValue]==2000)) {
+        NSString *msg = self.infoModel.msg;
+        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:msg];
+    }
+    else
+    {
+        if ([self.infoModel.data.userpower intValue]<1) {
+            LDLookOtherGroupInformationViewController *ivc = [[LDLookOtherGroupInformationViewController alloc] init];
+            ivc.gid = self.groupId;
+            [self.navigationController pushViewController:ivc animated:YES];
         }
-    } failed:^(NSString *errorMsg) {
-        
-    }];
+        else
+        {
+            LDGroupInformationViewController *fvc = [[LDGroupInformationViewController alloc] init];
+            self.isadmin = YES;
+            fvc.gid = self.groupId;
+            fvc.chatStsate = @"yes";
+            [self.navigationController pushViewController:fvc animated:YES];
+        }
+    }
 }
 
 //点击聊天头像查看个人信息
 - (void)didTapCellPortrait:(NSString *)userId{
     //    NSLog(@"%@",userId);
-    
     [self createData:userId];
-    
 }
 
 -(void)createRefreshUserData:(NSString *)groupId{

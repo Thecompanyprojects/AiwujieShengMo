@@ -263,6 +263,7 @@
 		5329FC9D22CC556F006092BC /* XYreadoneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5329FC9C22CC556F006092BC /* XYreadoneCell.m */; };
 		5329FCA022CC5586006092BC /* XYreadoneContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5329FC9F22CC5586006092BC /* XYreadoneContent.m */; };
 		5329FCA422CC6AD9006092BC /* NTImageBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 5329FCA322CC6AD8006092BC /* NTImageBrowser.m */; };
+		5329FCAA22CDEDAE006092BC /* groupinfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 5329FCA922CDEDAE006092BC /* groupinfoModel.m */; };
 		5372254B22ABF8E30082472A /* NetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5372254922ABF8E30082472A /* NetManager.m */; };
 		5385593A22C4B15A00980E18 /* XYRichMessageContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385593622C4B15900980E18 /* XYRichMessageContent.m */; };
 		5385593B22C4B15A00980E18 /* XYRichMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385593822C4B15A00980E18 /* XYRichMessageCell.m */; };
@@ -932,6 +933,8 @@
 		5329FC9F22CC5586006092BC /* XYreadoneContent.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = XYreadoneContent.m; sourceTree = "<group>"; };
 		5329FCA222CC6AD8006092BC /* NTImageBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NTImageBrowser.h; sourceTree = "<group>"; };
 		5329FCA322CC6AD8006092BC /* NTImageBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NTImageBrowser.m; sourceTree = "<group>"; };
+		5329FCA822CDEDAE006092BC /* groupinfoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = groupinfoModel.h; sourceTree = "<group>"; };
+		5329FCA922CDEDAE006092BC /* groupinfoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = groupinfoModel.m; sourceTree = "<group>"; };
 		5372254922ABF8E30082472A /* NetManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetManager.m; sourceTree = "<group>"; };
 		5372254A22ABF8E30082472A /* NetManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetManager.h; sourceTree = "<group>"; };
 		5385593622C4B15900980E18 /* XYRichMessageContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XYRichMessageContent.m; sourceTree = "<group>"; };
@@ -1792,6 +1795,8 @@
 				5385595922C5E44C00980E18 /* XYredMessageContent.m */,
 				5329FC9E22CC5586006092BC /* XYreadoneContent.h */,
 				5329FC9F22CC5586006092BC /* XYreadoneContent.m */,
+				5329FCA822CDEDAE006092BC /* groupinfoModel.h */,
+				5329FCA922CDEDAE006092BC /* groupinfoModel.m */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -3752,6 +3757,7 @@
 				00E9DBC71E23B91E00ED2CB6 /* BankCell.m in Sources */,
 				00EF77E61E37A50700FDF998 /* LDZanViewController.m in Sources */,
 				D20E4B221F1F087D00232E08 /* TopicModel.m in Sources */,
+				5329FCAA22CDEDAE006092BC /* groupinfoModel.m in Sources */,
 				004B2C8D1E33260000EDCCC1 /* LDPublishDynamicViewController.m in Sources */,
 				000BFA151E0410CA00E23998 /* LDIamCell.m in Sources */,
 				53157EBA22BA1A350041B582 /* TopcardView.m in Sources */,

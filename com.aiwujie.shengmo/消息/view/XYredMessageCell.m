@@ -153,7 +153,6 @@
     [objDateformat setDateFormat:@"yyyy-MM-dd HH:mm"];
     UIImage *img = [UIImage imageNamed:@"大红包顶部"];
     [self.imageView setImage:img];
-
 }
 
 @end
