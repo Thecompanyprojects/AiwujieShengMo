@@ -8,6 +8,8 @@
 
 #import "XYredMessageContent.h"
 
+static NSString *groupenvelopeinfo = @"groupenvelopeinfo";
+
 @implementation XYredMessageContent
 
 /// NSCoding
@@ -38,7 +40,6 @@
 + (RCMessagePersistent)persistentFlag {
     return (MessagePersistent_ISPERSISTED | MessagePersistent_ISCOUNTED);
 }
-
 
 #pragma mark - RCMessageCoding
 
@@ -105,7 +106,7 @@
  */
 + (NSString *)getObjectName
 {
-    return @"ec:groupenvelopeinfo";
+    return groupenvelopeinfo;
 }
 
 #pragma mark - RCMessageContentView

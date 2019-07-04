@@ -118,14 +118,10 @@ static CGRect originFrame; // 用于记录imageView本来的frame
 
 - (void)longPress:(UILongPressGestureRecognizer *)longPress
 {
-    // 一般开发中,长按操作只会做一次
-    // 假设在一开始长按的时候就做一次操作
-    
     if (longPress.state == UIGestureRecognizerStateBegan) {
-        NSLog(@"%ld",longPress.state);
         [self showanimation];
     }
-    if (longPress.state==UIGestureRecognizerStateChanged) {
+    if (longPress.state==UIGestureRecognizerStateEnded) {
         
         [self.doneBtn removeFromSuperview];
         [self.showImage removeFromSuperview];

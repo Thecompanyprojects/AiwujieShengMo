@@ -8,6 +8,8 @@
 
 #import "XYgiftMessageContent.h"
 
+static NSString *groupgiftinfo = @"groupgiftinfo";
+
 @implementation XYgiftMessageContent
 
 + (instancetype)messageWithDict:(NSDictionary *)dict
@@ -84,7 +86,7 @@
  */
 + (NSString *)getObjectName
 {
-    return @"ec:groupgiftinfo";
+    return groupgiftinfo;
 }
 
 #pragma mark - RCMessagePersistentCompatible

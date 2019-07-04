@@ -8,6 +8,8 @@
 
 #import "XYreadoneContent.h"
 
+static NSString *messagereadone = @"ec:messagereadone";
+
 @implementation XYreadoneContent
 
 /// NSCoding
@@ -106,7 +108,7 @@
  */
 + (NSString *)getObjectName
 {
-    return @"ec:messagereadone";
+    return messagereadone;
 }
 
 #pragma mark - RCMessagePersistentCompatible
