@@ -420,12 +420,7 @@
         [AlertTool alertWithViewController:_viewController andTitle:@"提示" andMessage:@"请输入正确的赠送数量"];
         
     }else{
-        
-        if (self.sendmessageBlock) {
-            NSDictionary *dic = @{@"num":self.buyField.text,@"image":self.imageName};
-            self.sendmessageBlock(dic);
-        }
-        
+
         MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:_viewController.view animated:YES];
         HUD.mode = MBProgressHUDModeIndeterminate;
         
@@ -490,13 +485,19 @@
                         HUD.labelText = @"赠送成功";
                         HUD.removeFromSuperViewOnHide = YES;
                         [HUD hide:YES afterDelay:1];
-                        
+                        if (self.sendmessageBlock) {
+                            NSDictionary *dic = @{@"num":self.buyField.text,@"image":self.imageName};
+                            self.sendmessageBlock(dic);
+                        }
                     }else{
                         
                         HUD.labelText = @"打赏成功";
                         HUD.removeFromSuperViewOnHide = YES;
                         [HUD hide:YES afterDelay:1];
-                    
+                        if (self.sendmessageBlock) {
+                            NSDictionary *dic = @{@"num":self.buyField.text,@"image":self.imageName};
+                            self.sendmessageBlock(dic);
+                        }
                         if ([_sign isEqualToString:@"动态"]) {
                             
                             [[NSNotificationCenter defaultCenter] postNotificationName:@"打赏成功" object:nil userInfo:@{@"section":[NSString stringWithFormat:@"%ld",(long)_indexPath.section]}];

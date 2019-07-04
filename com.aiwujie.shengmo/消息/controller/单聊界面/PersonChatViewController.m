@@ -180,7 +180,6 @@
         XYreadoneContent *content = (XYreadoneContent*)model.content;
         [[NTImageBrowser sharedShow] showImageBrowserWithImageView:content.imageUrl];
 
-        
         XYreadoneContent *mes = [[XYreadoneContent alloc] init];
         mes.senderUserInfo = [RCIM sharedRCIM].currentUserInfo;
         mes.isopen = @"1";
@@ -233,7 +232,7 @@
         }
     }
     if (tag==2001) {
-        //红包功能
+        //礼物功能
         
         _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) andisMine:NO :^{
             LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
@@ -257,7 +256,6 @@
             NSString *dataStr = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
             
             [weakSelf sendMessage:addcontent pushContent:dataStr];
-
             
         };
         [self.tabBarController.view addSubview:_gif];

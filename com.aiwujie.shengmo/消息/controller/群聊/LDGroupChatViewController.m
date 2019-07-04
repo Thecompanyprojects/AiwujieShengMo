@@ -78,16 +78,20 @@
     [self createRefreshUserData:self.groupId];
     self.view.backgroundColor = [UIColor whiteColor];
     [self createButton];
-   // [self addredEnvelope];
+    
+   
     [RCIM sharedRCIM].receiveMessageDelegate = self;
     
-    [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:3];
-    [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:3];
+//    [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:3];
+//    [self.chatSessionInputBarControl.pluginBoardView removeItemAtIndex:3];
+    //根据tag删除
+    [self.chatSessionInputBarControl.pluginBoardView removeItemWithTag:1101];
+    [self.chatSessionInputBarControl.pluginBoardView removeItemWithTag:1102];
     [self addredEnvelope];
 }
 
 /**
- 聊天页面发红包
+ 聊天页面发红包 礼物  闪照
  */
 -(void)addredEnvelope
 {
@@ -97,16 +101,12 @@
     [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"闪照"] title:@"闪照" atIndex:8 tag:2003];
 }
 
-
-
 - (void)pluginBoardView:(RCPluginBoardView *)pluginBoardView clickedItemWithTag:(NSInteger)tag
 {
     [super pluginBoardView:pluginBoardView clickedItemWithTag:tag];
     if (tag==2001) {
         //红包功能
-        
         self.isgif = YES;
-        
         _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) andisMine:NO :^{
             LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
             cvc.type = @"0";
