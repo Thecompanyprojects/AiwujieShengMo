@@ -20,7 +20,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "com.aiwujie.shengmo/&#x9996;&#x9875;/controller/LDEditViewController.m"
-            timestampString = "583903555.386227"
+            timestampString = "583905220.1265579"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "15"
@@ -52,7 +52,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "com.aiwujie.shengmo/&#x6211;&#x7684;/controller/LDtotopViewController.m"
-            timestampString = "583903555.386649"
+            timestampString = "583905220.127049"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "232"
@@ -68,12 +68,12 @@
                   moduleName = "&#x5723;&#x9b54;&#x65e0;&#x754c;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/wangjungang/Desktop/%E6%9C%AA%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6%E5%A4%B9%206/AiwujieShengMo/com.aiwujie.shengmo/%E6%88%91%E7%9A%84/controller/LDtotopViewController.m"
-                  timestampString = "583903556.428122"
+                  timestampString = "583920284.289957"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "232"
                   endingLineNumber = "232"
-                  offsetFromSymbolStart = "674">
+                  offsetFromSymbolStart = "668">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -83,12 +83,12 @@
                   moduleName = "&#x5723;&#x9b54;&#x65e0;&#x754c;"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/wangjungang/Desktop/%E6%9C%AA%E5%91%BD%E5%90%8D%E6%96%87%E4%BB%B6%E5%A4%B9%206/AiwujieShengMo/com.aiwujie.shengmo/%E6%88%91%E7%9A%84/controller/LDtotopViewController.m"
-                  timestampString = "583903556.437941"
+                  timestampString = "583920284.293941"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "233"
                   endingLineNumber = "233"
-                  offsetFromSymbolStart = "51">
+                  offsetFromSymbolStart = "64">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -100,7 +100,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "com.aiwujie.shengmo/&#x6211;&#x7684;/controller/LDtotopViewController.m"
-            timestampString = "583903555.386919"
+            timestampString = "583905220.127406"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "244"
@@ -116,28 +116,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "com.aiwujie.shengmo/&#x6211;&#x7684;/controller/LDtotopViewController.m"
-            timestampString = "583903555.386982"
+            timestampString = "583905220.127483"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "234"
             endingLineNumber = "234"
             landmarkName = "-IAPToolBoughtProductSuccessedWithProductID:andInfo:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "com.aiwujie.shengmo/&#x6d88;&#x606f;/controller/&#x7fa4;&#x804a;/LDGroupChatViewController.m"
-            timestampString = "583903555.3870389"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "181"
-            endingLineNumber = "181"
-            landmarkName = "-willSendMessage:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

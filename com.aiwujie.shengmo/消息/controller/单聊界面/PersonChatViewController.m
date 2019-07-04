@@ -31,10 +31,14 @@
 #import "TZPhotoPreviewController.h"
 
 @interface PersonChatViewController ()<RCPluginBoardViewDelegate,TZImagePickerControllerDelegate>
+{
+    CGRect viewRect;
+}
 @property (strong, nonatomic) UIView *upView;
 //礼物界面
 @property (nonatomic,strong) GifView *gif;
 @property (nonatomic,copy) NSString *sendimgUrl;
+
 @end
 
 @implementation PersonChatViewController
@@ -141,8 +145,31 @@
 - (void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left {
     if ([message.content isKindOfClass:[XYreadoneContent class]]) {
         
-        
     }
+}
+
+
+
+- (void)didLongTouchMessageCell:(RCMessageModel *)model inView:(UIView *)view
+{
+    [super didLongTouchMessageCell:model inView:view];
+//    view.userInteractionEnabled = true;
+//    viewRect = view.bounds;
+//    UILongPressGestureRecognizer * recognizer = [[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(longPressEvent:)];
+//    [view addGestureRecognizer:recognizer];
+}
+
+-(void)longPressEvent:(UILongPressGestureRecognizer *)longPress {
+    if (longPress.state == UIGestureRecognizerStateBegan) {
+        [self becomeFirstResponder];//一定要写
+        UIMenuController * menuController = [UIMenuController sharedMenuController];
+        [menuController setTargetRect:viewRect inView:self.view];
+        [menuController setMenuVisible:YES animated:YES];
+    }
+}
+
+- (BOOL)canBecomeFirstResponder{
+    return true;
 }
 
 - (void)didTapMessageCell:(RCMessageModel *)model
@@ -510,70 +537,42 @@
     if ([model.content isKindOfClass:[RCRichContentMessage class]]) {
         
         RCRichContentMessage *message = (RCRichContentMessage *)model.content;
-        
         NSArray *array = [message.extra componentsSeparatedByString:@","];
-        
         NSString *gidStr = [array[0] componentsSeparatedByString:@":"][1] ;
-        
         NSString *gid = [gidStr substringWithRange:NSMakeRange(1, gidStr.length - 2)];
-        
         NSString *state = [[array[1] componentsSeparatedByString:@":"][1] substringToIndex:1];
-        
-        AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-        
         NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/getGroupinfo"];
-        
         NSDictionary *parameters;
-        
         parameters = @{@"gid":gid,@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-
-        [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
-            NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-
+        [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+            NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
             if (integer != 2000) {
-                
-                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-                
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }else{
-                
-                if ([responseObject[@"data"][@"userpower"] intValue] < 1) {
-                    
-                    if ([responseObject[@"data"][@"userpower"] intValue] == 0) {
-                        
+                if ([responseObj[@"data"][@"userpower"] intValue] < 1) {
+                    if ([responseObj[@"data"][@"userpower"] intValue] == 0) {
                         LDLookOtherGroupInformationViewController *ivc = [[LDLookOtherGroupInformationViewController alloc] init];
-                        
                         ivc.gid = gid;
-                        
                         [self.navigationController pushViewController:ivc animated:YES];
-                        
-                    }else if([responseObject[@"data"][@"userpower"] intValue] == -1){
-                        
+                    }else if([responseObj[@"data"][@"userpower"] intValue] == -1){
                         LDLookOtherGroupInformationViewController *ivc = [[LDLookOtherGroupInformationViewController alloc] init];
-                        
                         ivc.state = state;
-                        
                         ivc.gid = gid;
-                        
                         [self.navigationController pushViewController:ivc animated:YES];
-                        
                     }
-                    
                 }else{
                     
                     LDGroupInformationViewController *fvc = [[LDGroupInformationViewController alloc] init];
-                    
                     fvc.gid = gid;
-                    
                     [self.navigationController pushViewController:fvc animated:YES];
-                    
                 }
                 
             }
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        } failed:^(NSString *errorMsg) {
             
         }];
         
+     
     }else{
         
         [super didTapUrlInMessageCell:url model:model];
@@ -621,16 +620,11 @@
 
 //删除上方view
 -(void)deleteButtonClick{
-    
     if (ISIPHONEX) {
-        
         self.conversationMessageCollectionView.frame = CGRectMake(0, 88, WIDTH, HEIGHT - 172);
-        
     }else{
-        
         self.conversationMessageCollectionView.frame = CGRectMake(0, 64, WIDTH, HEIGHT - 114);
     }
-
     [_upView removeFromSuperview];
 }
 
@@ -675,11 +669,9 @@
 
 
 -(void)createData:(NSString *)userId{
-
+    
     LDOwnInformationViewController *avc = [[LDOwnInformationViewController alloc] init];
-    
     avc.userID = userId;
-    
     [self.navigationController pushViewController:avc animated:YES];
 }
 

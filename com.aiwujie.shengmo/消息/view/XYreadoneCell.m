@@ -53,6 +53,10 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapMessage:)];
     [self.bubbleBackgroundView addGestureRecognizer:tap];
     
+    
+    UILongPressGestureRecognizer *longtap = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longtapMessage:)];
+    [self.bubbleBackgroundView addGestureRecognizer:longtap];
+    
     self.beffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
     self.befview = [[UIVisualEffectView alloc] initWithEffect:self.beffect];
     self.befview.frame = self.imageView.bounds;
@@ -68,6 +72,17 @@
         }
     }
 
+}
+
+-(void)longtapMessage:(id)sender
+{
+    UILongPressGestureRecognizer *press = (UILongPressGestureRecognizer *)sender;
+    if (press.state == UIGestureRecognizerStateEnded) {
+        return;
+    } else if (press.state == UIGestureRecognizerStateBegan) {
+        [self.delegate didLongTouchMessageCell:self.model
+                                        inView:self.bubbleBackgroundView];
+    }
 }
 
 - (void)updateStatusContentView:(RCMessageModel *)model

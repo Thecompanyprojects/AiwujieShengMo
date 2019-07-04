@@ -54,6 +54,9 @@
 //掉落的时间
 @property (nonatomic,assign) int second;
 @property (nonatomic,copy) NSString *sendimgUrl;
+
+@property (nonatomic,assign) NSInteger messageId;
+@property (nonatomic,assign) BOOL isadmin;
 @end
 
 @implementation LDGroupChatViewController
@@ -61,6 +64,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    [self getgroupinfo];
     
     //注册自定义消息Cell
     [self registerClass:[XYgiftgroupMessageCell class] forMessageClass:[XYgiftMessageContent class]];
@@ -164,6 +169,33 @@
         [self presentViewController:imagePC animated:YES completion:^{
             
         }];
+    }
+}
+
+
+#pragma mark - 撤回消息
+
+- (NSArray<UIMenuItem *> *)getLongTouchMessageCellMenuList:(RCMessageModel *)model{
+    
+    NSMutableArray<UIMenuItem *> *menuList = [[super getLongTouchMessageCellMenuList:model] mutableCopy];
+    if (self.isadmin) {
+        UIMenuItem *withdrawItem = [[UIMenuItem alloc] initWithTitle:@"管理员撤回" action:@selector(withdrawMenuItem)];
+        [menuList addObject:withdrawItem];
+        self.messageId = model.messageId;
+    }
+    return menuList;
+}
+
+- (void)withdrawMenuItem{
+    //该方法必须是存在的方法不然无法显示出menu
+    [self recallMessage:self.messageId];
+}
+
+- (void)didLongTouchMessageCell:(RCMessageModel *)model inView:(UIView *)view
+{
+    [super didLongTouchMessageCell:model inView:view];
+    if ([model.objectName isEqualToString:@"ec:messagereadone"]) {
+
     }
 }
 
@@ -375,6 +407,25 @@
     [self.navigationController pushViewController:atPerson animated:YES];
 }
 
+-(void)getgroupinfo
+{
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/getGroupinfo"];
+    NSDictionary *parameters = @{@"gid":self.groupId,@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
+        if (integer==2000) {
+            
+            //2 管理员 1  群主
+            if ([responseObj[@"data"][@"userpower"] intValue] ==2||[responseObj[@"data"][@"userpower"] intValue] ==3)
+            {
+                self.isadmin = YES;
+            }
+        }
+    } failed:^(NSString *errorMsg) {
+        
+    }];
+}
+
 -(void)createButton{
     UIButton * rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
     [rightButton setBackgroundImage:[UIImage imageNamed:@"群组图标"] forState:UIControlStateNormal];
@@ -384,55 +435,33 @@
 }
 
 -(void)backButtonOnClick:(UIButton *)button{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/getGroupinfo"];
-    
-    NSDictionary *parameters = @{@"gid":self.groupId,@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    //    NSLog(@"%@",role);
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-        //        NSLog(@"%@",responseObject);
-        
-        if (integer != 2000) {
-            
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
 
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/getGroupinfo"];
+    NSDictionary *parameters = @{@"gid":self.groupId,@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
+        if (integer != 2000) {
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
         }else{
             
-            if ([responseObject[@"data"][@"userpower"] intValue] < 1) {
+            if ([responseObj[@"data"][@"userpower"] intValue] < 1) {
                 
                 LDLookOtherGroupInformationViewController *ivc = [[LDLookOtherGroupInformationViewController alloc] init];
-                
                 ivc.gid = self.groupId;
-                
                 [self.navigationController pushViewController:ivc animated:YES];
-                
                 
             }else{
                 
                 LDGroupInformationViewController *fvc = [[LDGroupInformationViewController alloc] init];
-                
+                self.isadmin = YES;
                 fvc.gid = self.groupId;
-                
                 fvc.chatStsate = @"yes";
-                
                 [self.navigationController pushViewController:fvc animated:YES];
-                
             }
-            
         }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        NSLog(@"%@",error);
-        
+    } failed:^(NSString *errorMsg) {
         
     }];
-
 }
 
 //点击聊天头像查看个人信息
