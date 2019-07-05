@@ -232,9 +232,10 @@
 
 - (void)pluginBoardView:(RCPluginBoardView *)pluginBoardView clickedItemWithTag:(NSInteger)tag
 {
-    [super pluginBoardView:pluginBoardView clickedItemWithTag:tag];
+    
     if (tag==1101||tag==1102) {
         if (![self.state isEqualToString:@"3"]) {
+            
             UIAlertController *control = [UIAlertController alertControllerWithTitle:@"提示" message:@"您和对方还不是好友" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *acion0 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                 
@@ -245,11 +246,16 @@
             [control addAction:acion0];
             [control addAction:action1];
             [self presentViewController:control animated:YES completion:^{
-                 
+
             }];
-            
-            
         }
+        else
+        {
+            [super pluginBoardView:pluginBoardView clickedItemWithTag:tag];
+        }
+    }
+    if (tag==1001||tag==1002||tag==1003) {
+        [super pluginBoardView:pluginBoardView clickedItemWithTag:tag];
     }
     if (tag==2001) {
         //礼物功能
@@ -295,10 +301,6 @@
         }];
     }
 }
-
-
-
-
 
 #pragma mark - 发送及时消息
 

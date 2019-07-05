@@ -22,7 +22,7 @@ typedef enum : NSUInteger {
 
 @property (nonatomic,copy) NSString *mobile;
 
-@property (nonatomic,copy) NSString *state;
+@property (nonatomic,copy) NSString *state;  //值为3的情况下为好友
 
 @property (nonatomic,assign) VIPType type;
 

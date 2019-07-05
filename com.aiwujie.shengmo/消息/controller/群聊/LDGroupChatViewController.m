@@ -103,7 +103,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     self.iscanPush = YES;
 }
 
@@ -265,9 +264,7 @@
         XYredMessageContent *mes = [[XYredMessageContent alloc] init];
         mes.senderUserInfo = [RCIM sharedRCIM].currentUserInfo;
         mes.extra = @"1";
-        
         mes.extra = [NSString stringWithFormat:@"1/%@",model.messageUId];
-        
         RCMessage *oldMess = [[RCIMClient sharedRCIMClient] getMessageByUId:model.messageUId];
         [[RCIMClient sharedRCIMClient] setMessageExtra:oldMess.messageId value:mes.extra];
         

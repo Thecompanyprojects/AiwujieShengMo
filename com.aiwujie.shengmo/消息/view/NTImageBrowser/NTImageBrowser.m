@@ -55,8 +55,9 @@ static CGRect originFrame; // 用于记录imageView本来的frame
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
     [self.showImage addGestureRecognizer: longPress];
     self.urls = imageUrl.copy;
-    
-    
+    //self.showImage.contentMode =  UIViewContentModeScaleAspectFill;
+    self.showImage.contentMode =  UIViewContentModeCenter;
+    self.showImage.clipsToBounds  = YES;
     //
     self.showImage.tag = 19; // 这个标记用于在hide方法中获取到backgroundView（如果不想采用这个方法也可以将backgroundView变成全局变量）
     
