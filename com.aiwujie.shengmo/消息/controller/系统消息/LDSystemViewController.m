@@ -17,22 +17,14 @@
 -(void)viewWillAppear:(BOOL)animated{
     
     [super viewWillAppear:animated];
-    
     self.navigationController.navigationBar.hidden = NO;
-    
     if ([self.navigationItem.title isEqualToString:@"系统消息"]) {
-        
        [self scrollToBottomAnimated:YES];
-        
     }else{
-    
         self.conversationMessageCollectionView.frame = CGRectMake(0, 64, WIDTH, HEIGHT - 64);
-        
         [self scrollToBottomAnimated:YES];
-        
         self.chatSessionInputBarControl.hidden = YES;
     }
-  
 }
 
 

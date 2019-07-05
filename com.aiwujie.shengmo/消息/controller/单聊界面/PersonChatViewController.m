@@ -407,28 +407,30 @@
 //上传图片
 -(void)thumbnaiWithImage:(NSArray*)imageArray andAssets:(NSArray *)assets{
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
+
     [manager POST:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Api/fileUpload"] parameters: nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        
+
         NSData *imageData = UIImageJPEGRepresentation(imageArray[0], 0.1);
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"yyyyMMddHHmmss";
         NSString *str = [formatter stringFromDate:[NSDate date]];
         NSString *fileName = [NSString stringWithFormat:@"%@.jpg", str];
-        
+
         //上传的参数(上传图片，以文件流的格式)
         [formData appendPartWithFileData:imageData
                                     name:@"file"
                                 fileName:fileName
                                 mimeType:@"image/jpeg"];
-        
+
     } progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSString *str = [responseObject objectForKey:@"data"];
         self.sendimgUrl = [PICHEADURL stringByAppendingString:str];
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [self sendoneimage:self.sendimgUrl];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+
     }];
 }
 
