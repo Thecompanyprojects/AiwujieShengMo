@@ -230,9 +230,8 @@
     [self.chatSessionInputBarControl.pluginBoardView insertItemWithImage:[UIImage imageNamed:@"闪照"] title:@"闪照" atIndex:7 tag:2002];
 }
 
-- (void)pluginBoardView:(RCPluginBoardView *)pluginBoardView clickedItemWithTag:(NSInteger)tag
+-(void)pluginBoardView:(RCPluginBoardView *)pluginBoardView clickedItemWithTag:(NSInteger)tag
 {
-    
     if (tag==1101||tag==1102) {
         if (![self.state isEqualToString:@"3"]) {
             
@@ -289,16 +288,34 @@
     }
     if (tag==2002) {
         //阅后即焚
-        self.sendimgUrl = [NSString new];
-        TZImagePickerController *imagePC=[[TZImagePickerController alloc]initWithMaxImagesCount:1 delegate:self];
-        [imagePC setDidFinishPickingVideoHandle:^(UIImage *coverImage, id asset) {
-            
-            
-            
-        }];
-        [self presentViewController:imagePC animated:YES completion:^{
-            
-        }];
+        if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue]==1||[[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue]==1) {
+            self.sendimgUrl = [NSString new];
+            TZImagePickerController *imagePC=[[TZImagePickerController alloc]initWithMaxImagesCount:1 delegate:self];
+            [imagePC setDidFinishPickingVideoHandle:^(UIImage *coverImage, id asset) {
+                
+                
+                
+            }];
+            [self presentViewController:imagePC animated:YES completion:^{
+                
+            }];
+        }else
+        {
+            UIAlertController *control = [UIAlertController alertControllerWithTitle:@"提示" message:@"闪图限vip可用" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"闪图" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                
+            }];
+            UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"开通vip" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
+                [self.navigationController pushViewController:mvc animated:YES];
+            }];
+            [control addAction:action0];
+            [control addAction:action1];
+            [self presentViewController:control animated:YES completion:^{
+                
+            }];
+        }
+        
     }
 }
 
@@ -679,12 +696,9 @@
     [self.navigationController pushViewController:avc animated:YES];
 }
 
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
 
 @end

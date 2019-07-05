@@ -1852,7 +1852,13 @@
             messageLab.font = [UIFont systemFontOfSize:14];
             messageLab.textAlignment = NSTextAlignmentRight;
         }
-
+        if ([self.inmodel.char_rule intValue]==1) {
+            [self.chatButton setImage:[UIImage imageNamed:@"聊天22"] forState:normal];
+        }
+        else
+        {
+             [self.chatButton setImage:[UIImage imageNamed:@"聊天"] forState:normal];
+        }
         //获取礼物的接口
         [self getPersonReceiveGifData];
 

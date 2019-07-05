@@ -69,6 +69,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic , copy) NSString              * reg_time;
 @property (nonatomic , copy) NSString              * charm_val;
 @property (nonatomic , copy) NSString              * monthly;
+@property (nonatomic , copy) NSString              * char_rule;
 @end
 
 NS_ASSUME_NONNULL_END

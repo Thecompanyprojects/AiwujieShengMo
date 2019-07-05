@@ -288,16 +288,11 @@
         
             [MBProgressHUD showHUDAddedTo:self.tabBarController.view animated:YES];
             
-            AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-            [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
-            manager.requestSerializer.timeoutInterval = 10.f;
-            [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
             NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getOpenChatRestrictAndInfoUrl];
             NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"otheruid":model.targetId};
             
-            [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                
-                NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
+            [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+                NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
                 
                 if (integer == 2000 || integer == 2001) {
                     
@@ -310,30 +305,30 @@
                     
                     if (integer == 2000) {
                         
-                        conversationVC.state = [NSString stringWithFormat:@"%d",[responseObject[@"data"][@"filiation"] intValue]];
+                        conversationVC.state = [NSString stringWithFormat:@"%d",[responseObj[@"data"][@"filiation"] intValue]];
                     }
                     
-                    if ([responseObject[@"data"][@"info"][@"is_admin"] integerValue] == 1) {
+                    if ([responseObj[@"data"][@"info"][@"is_admin"] integerValue] == 1) {
                         
                         conversationVC.type = personIsADMIN;
                         
-                    }else if ([responseObject[@"data"][@"info"][@"is_volunteer"] integerValue] == 1){
+                    }else if ([responseObj[@"data"][@"info"][@"is_volunteer"] integerValue] == 1){
                         
                         conversationVC.type = personIsVOLUNTEER;
                         
-                    }else if ([responseObject[@"data"][@"info"][@"svipannual"] integerValue] == 1){
+                    }else if ([responseObj[@"data"][@"info"][@"svipannual"] integerValue] == 1){
                         
                         conversationVC.type = personIsSVIPANNUAL;
                         
-                    }else if ([responseObject[@"data"][@"info"][@"svip"] integerValue] == 1) {
+                    }else if ([responseObj[@"data"][@"info"][@"svip"] integerValue] == 1) {
                         
                         conversationVC.type = personIsSVIP;
                         
-                    }else if ([responseObject[@"data"][@"info"][@"vipannual"] integerValue] == 1) {
+                    }else if ([responseObj[@"data"][@"info"][@"vipannual"] integerValue] == 1) {
                         
                         conversationVC.type = personIsVIPANNUAL;
                         
-                    }else if ([responseObject[@"data"][@"info"][@"vip"] integerValue] == 1){
+                    }else if ([responseObj[@"data"][@"info"][@"vip"] integerValue] == 1){
                         
                         conversationVC.type = personIsVIP;
                         
@@ -353,7 +348,7 @@
                     
                     _stampView = [[LDStampChatView alloc] initWithFrame:CGRectMake(0, 0 , WIDTH, HEIGHT)];
                     _stampView.viewController = self;
-                    _stampView.data = responseObject[@"data"];
+                    _stampView.data = responseObj[@"data"];
                     _stampView.delegate = self;
                     [self.tabBarController.view addSubview:_stampView];
                     
@@ -362,13 +357,9 @@
                     [MBProgressHUD hideHUDForView:self.tabBarController.view animated:YES];
                     
                 }
-             
-            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                
+            } failed:^(NSString *errorMsg) {
                 [MBProgressHUD hideHUDForView:self.tabBarController.view animated:YES];
-                
                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"网络请求超时,请重试~"];
-                
             }];
         }
     }else if (model.conversationType == ConversationType_GROUP){
