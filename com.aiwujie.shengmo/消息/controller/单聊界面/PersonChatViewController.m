@@ -49,6 +49,14 @@
 
 }
 
+-(void)notifyUpdateUnreadMessageCount
+{
+    [super notifyUpdateUnreadMessageCount];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self createButton];
+    });
+}
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -172,7 +180,19 @@
         vc.imageUrl = content.imageUrl;
         vc.returnBlock = ^{
             //监测到截图之后的操作
-            
+            RCInformationNotificationMessage *warningMsg = [RCInformationNotificationMessage notificationWithMessage:@"您进行了截图" extra:nil];
+//            RCInformationNotificationMessage *warningMsg2 = [RCInformationNotificationMessage notificationWithMessage:@"对方进行了截图" extra:nil];
+            BOOL saveToDB = YES; //是否保存到数据库中
+            RCMessage *savedMsg;
+//            RCMessage *sendMsg;
+            if (saveToDB) {
+                savedMsg = [[RCIMClient sharedRCIMClient] insertIncomingMessage:self.conversationType targetId:self.targetId senderUserId:[RCIMClient sharedRCIMClient].currentUserInfo.userId receivedStatus:(RCReceivedStatus)SentStatus_SENT content:warningMsg];
+//                sendMsg = [[RCIMClient sharedRCIMClient] insertOutgoingMessage:sendMsg.conversationType targetId:self.targetId sentStatus:SentStatus_SENT  content:warningMsg2];
+            } else {
+                savedMsg =[[RCMessage alloc] initWithType:self.conversationType targetId:self.targetId direction:MessageDirection_SEND messageId:-1 content:warningMsg];
+            }
+//            [self appendAndDisplayMessage:sendMsg];
+            [self appendAndDisplayMessage:savedMsg];
             
         };
         [self presentViewController:vc animated:NO completion:^{

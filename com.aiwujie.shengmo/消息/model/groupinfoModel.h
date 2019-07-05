@@ -23,7 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic , copy) NSString              * city;
 @property (nonatomic , copy) NSString              * introduce;
 @property (nonatomic , copy) NSString              * managerStr;
-
 @end
 
 

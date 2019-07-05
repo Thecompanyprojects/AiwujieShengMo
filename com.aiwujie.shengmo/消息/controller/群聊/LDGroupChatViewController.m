@@ -60,6 +60,8 @@
 @property (nonatomic,assign) NSInteger messageId;
 @property (nonatomic,assign) BOOL isadmin;
 @property (nonatomic,strong) groupinfoModel *infoModel;
+
+@property (nonatomic,assign) BOOL iscanPush;
 @end
 
 @implementation LDGroupChatViewController
@@ -77,8 +79,8 @@
     
     [self createRefreshUserData:self.groupId];
     self.view.backgroundColor = [UIColor whiteColor];
+   
     [self createButton];
-    
    
     [RCIM sharedRCIM].receiveMessageDelegate = self;
     
@@ -87,7 +89,28 @@
     //根据tag删除
     [self.chatSessionInputBarControl.pluginBoardView removeItemWithTag:1101];
     [self.chatSessionInputBarControl.pluginBoardView removeItemWithTag:1102];
-    [self addredEnvelope];
+   // [self addredEnvelope];
+}
+
+-(void)notifyUpdateUnreadMessageCount
+{
+    [super notifyUpdateUnreadMessageCount];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self createButton];
+    });
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.iscanPush = YES;
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
 }
 
 /**
@@ -278,7 +301,6 @@
         } finishBlock:^(float money) {
             NSLog(@"领取金额：%f",money);
         }];
-        
     }
     if ([model.objectName isEqualToString:@"ec:messagereadone"]) {
         
@@ -317,7 +339,6 @@
         _gifTimer = nil;
     }
 }
-
 
 - (void)onRCIMReceiveMessage:(RCMessage *)message left:(int)left {
     if ([message.content isKindOfClass:[XYredMessageContent class]]) {
@@ -387,23 +408,22 @@
         } failed:^(NSString *errorMsg) {
             
         }];
-
-
     }else{
-
         [super didTapUrlInMessageCell:url model:model];
     }
-
 }
 
 - (void)showChooseUserViewController:(void (^)(RCUserInfo *selectedUserInfo))selectedBlock
                               cancel:(void (^)(void))cancelBlock{
-    LDGroupAtPersonViewController *atPerson = [[LDGroupAtPersonViewController alloc] init];
-    atPerson.groupId = self.groupId;
-    atPerson.block = ^(RCUserInfo *user) {
-        selectedBlock(user);
-    };
-    [self.navigationController pushViewController:atPerson animated:YES];
+    if (self.iscanPush) {
+        LDGroupAtPersonViewController *atPerson = [[LDGroupAtPersonViewController alloc] init];
+        atPerson.groupId = self.groupId;
+        atPerson.block = ^(RCUserInfo *user) {
+            selectedBlock(user);
+        };
+        self.iscanPush = NO;
+        [self.navigationController pushViewController:atPerson animated:YES];
+    }
 }
 
 -(void)getgroupinfo
@@ -438,27 +458,36 @@
 }
 
 -(void)backButtonOnClick:(UIButton *)button{
-
-    if (!([self.infoModel.retcode intValue]==2000)) {
-        NSString *msg = self.infoModel.msg;
-        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:msg];
-    }
-    else
-    {
-        if ([self.infoModel.data.userpower intValue]<1) {
-            LDLookOtherGroupInformationViewController *ivc = [[LDLookOtherGroupInformationViewController alloc] init];
-            ivc.gid = self.groupId;
-            [self.navigationController pushViewController:ivc animated:YES];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/getGroupinfo"];
+    NSDictionary *parameters = @{@"gid":self.groupId,@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        
+        if (!([[responseObj objectForKey:@"retcode"] intValue]==2000)) {
+            NSString *msg = [responseObj objectForKey:@"msg"];
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:msg];
         }
         else
         {
-            LDGroupInformationViewController *fvc = [[LDGroupInformationViewController alloc] init];
-            self.isadmin = YES;
-            fvc.gid = self.groupId;
-            fvc.chatStsate = @"yes";
-            [self.navigationController pushViewController:fvc animated:YES];
+            NSString *userpower = [[responseObj objectForKey:@"data"] objectForKey:@"userpower"];
+            if ([userpower intValue]<1) {
+                LDLookOtherGroupInformationViewController *ivc = [[LDLookOtherGroupInformationViewController alloc] init];
+                ivc.gid = self.groupId;
+                [self.navigationController pushViewController:ivc animated:YES];
+            }
+            else
+            {
+                LDGroupInformationViewController *fvc = [[LDGroupInformationViewController alloc] init];
+                self.isadmin = YES;
+                fvc.gid = self.groupId;
+                fvc.chatStsate = @"yes";
+                [self.navigationController pushViewController:fvc animated:YES];
+            }
         }
-    }
+       
+    } failed:^(NSString *errorMsg) {
+        
+    }];
 }
 
 //点击聊天头像查看个人信息
@@ -482,7 +511,7 @@
 
     [NetManager afPostRequest:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Other/getGroupinfo"] parms:parameters finished:^(id responseObj) {
         NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
-        //        NSLog(@"%@",responseObject);
+        
         if (integer == 2000) {
             
             //此处为了演示写了一个用户信息
@@ -501,15 +530,10 @@
 
 
 -(void)createData:(NSString *)userId{
-    
     LDOwnInformationViewController *avc = [[LDOwnInformationViewController alloc] init];
-    
     avc.userID = userId;
-    
     [self.navigationController pushViewController:avc animated:YES];
 }
-
-
 
 #pragma mark - 发送及时消息
 
@@ -681,15 +705,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
