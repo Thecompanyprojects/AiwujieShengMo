@@ -36,6 +36,7 @@
     dispatch_once(&onceToken, ^{
         _show = [[NTImageBrowser alloc]init];
     });
+   
     return _show;
 }
 
@@ -43,19 +44,6 @@
 static CGRect originFrame; // 用于记录imageView本来的frame
 
 -(void)showImageBrowserWithImageView:(NSString *)imageUrl {
-    
-    
-    NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
-    [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationUserDidTakeScreenshotNotification
-                                                      object:nil
-                                                       queue:mainQueue
-                                                  usingBlock:^(NSNotification *note) {
-                                                      //截屏已经发生,可进行相关提示处理
-                                                     
-                                                      
-                                                      
-                                                  }];
-    
     
     originFrame = CGRectMake(100, 100, WIDTH/2-50, 200); // 这个方法用于将imageView原来在父控件中的位置对应到NTCurrentWindow中来
     
@@ -122,7 +110,9 @@ static CGRect originFrame; // 用于记录imageView本来的frame
         [self showanimation];
     }
     if (longPress.state==UIGestureRecognizerStateEnded) {
-        
+        if (self.returnBlock) {
+            self.returnBlock();
+        }
         [self.doneBtn removeFromSuperview];
         [self.showImage removeFromSuperview];
         [self.backgroundView removeFromSuperview];
@@ -146,8 +136,12 @@ static CGRect originFrame; // 用于记录imageView本来的frame
         }
         //倒计时结束，关闭
         if (timeOut <= 0) {
+            if (self.returnBlock) {
+                self.returnBlock();
+            }
             dispatch_source_cancel(_timer);
             _timer = nil;
+            
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.doneBtn.backgroundColor = [UIColor blackColor];
                 [self.doneBtn setTitle:@"" forState:UIControlStateNormal];
@@ -191,6 +185,9 @@ static CGRect originFrame; // 用于记录imageView本来的frame
 
 
 -(void)hideImageBrowser :(UIGestureRecognizer *)sender {
+    if (self.returnBlock) {
+        self.returnBlock();
+    }
     UIView *backgroundView = sender.view;
     UIView *imageView = (UIView *)[backgroundView viewWithTag:19];
     //self.timerStop = YES;

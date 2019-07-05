@@ -141,8 +141,6 @@
             [self.befview setHidden:YES];
             self.iscanShow = NO;
             self.imageView.image = [UIImage imageNamed:@"闪照"];
-           
-            
         }
     }
 }

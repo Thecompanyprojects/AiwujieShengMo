@@ -280,6 +280,7 @@
 		5385596522C5F7C100980E18 /* redpacket_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5385596022C5F7C000980E18 /* redpacket_bg@2x.png */; };
 		5385596622C5F7C100980E18 /* WSRedPacketView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5385596122C5F7C000980E18 /* WSRedPacketView.m */; };
 		5385596722C5F7C100980E18 /* redpacket_open_btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5385596222C5F7C000980E18 /* redpacket_open_btn@2x.png */; };
+		539831F722CEF3940005E4F0 /* imagebrowserVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 539831F622CEF3940005E4F0 /* imagebrowserVC.m */; };
 		53A2E6B622BC793700403D83 /* infoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A2E6B522BC793700403D83 /* infoModel.m */; };
 		53A7138A22BDD4F9009839E6 /* changeAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53A7138922BDD4F9009839E6 /* changeAlertView.m */; };
 		53B7C0EC22B3418800113F50 /* EditinfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 53B7C0EB22B3418800113F50 /* EditinfoModel.m */; };
@@ -964,6 +965,8 @@
 		5385596022C5F7C000980E18 /* redpacket_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redpacket_bg@2x.png"; sourceTree = "<group>"; };
 		5385596122C5F7C000980E18 /* WSRedPacketView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSRedPacketView.m; sourceTree = "<group>"; };
 		5385596222C5F7C000980E18 /* redpacket_open_btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "redpacket_open_btn@2x.png"; sourceTree = "<group>"; };
+		539831F522CEF3940005E4F0 /* imagebrowserVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = imagebrowserVC.h; sourceTree = "<group>"; };
+		539831F622CEF3940005E4F0 /* imagebrowserVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = imagebrowserVC.m; sourceTree = "<group>"; };
 		53A2E6B422BC793700403D83 /* infoModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = infoModel.h; sourceTree = "<group>"; };
 		53A2E6B522BC793700403D83 /* infoModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = infoModel.m; sourceTree = "<group>"; };
 		53A7138822BDD4F9009839E6 /* changeAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = changeAlertView.h; sourceTree = "<group>"; };
@@ -2128,6 +2131,8 @@
 			children = (
 				5329FCA222CC6AD8006092BC /* NTImageBrowser.h */,
 				5329FCA322CC6AD8006092BC /* NTImageBrowser.m */,
+				539831F522CEF3940005E4F0 /* imagebrowserVC.h */,
+				539831F622CEF3940005E4F0 /* imagebrowserVC.m */,
 			);
 			path = NTImageBrowser;
 			sourceTree = "<group>";
@@ -3823,6 +3828,7 @@
 				00E85EAC1E02BA6F004AB146 /* AppDelegate.m in Sources */,
 				D2E1CEF51E83D8EF008D8BF0 /* ShowBadgeCell.m in Sources */,
 				00EC29821E18F2670066273A /* TZTestCell.m in Sources */,
+				539831F722CEF3940005E4F0 /* imagebrowserVC.m in Sources */,
 				D232FA6F1E73C11C001D4018 /* WUGesturesUnlockViewController.m in Sources */,
 				D29AF6EE1FBD632C001098B3 /* HJTabViewController.m in Sources */,
 				D22E00181EC1BF7A00381D86 /* LDGroupSpuarePageViewController.m in Sources */,

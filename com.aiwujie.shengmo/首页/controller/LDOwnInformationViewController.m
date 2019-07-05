@@ -1620,6 +1620,8 @@
         NSDictionary *dict = responseObj[@"data"];
         self.inmodel = [infoModel yy_modelWithDictionary:dict];
 
+        self.blackLabel.text = [responseObj objectForKey:@"msg"];
+        
         [self showBasicData:self.inmodel andIsShow:self.isLahei];
         _headBackView.hidden = NO;
         [self.tableView.mj_header endRefreshing];

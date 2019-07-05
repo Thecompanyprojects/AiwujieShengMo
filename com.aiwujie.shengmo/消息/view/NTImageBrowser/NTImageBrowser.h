@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+
+typedef void (^ReturnBlock) (void);
 @interface NTImageBrowser : NSObject
 + (instancetype)sharedShow;
 /*
@@ -17,5 +19,5 @@
  * @param imageView : 需要进行图片放大的imageView
  */
 -(void)showImageBrowserWithImageView :(NSString *)imageUrl;
-
+@property(nonatomic, copy) ReturnBlock returnBlock;
 @end

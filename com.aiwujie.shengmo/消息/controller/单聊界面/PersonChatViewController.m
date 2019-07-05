@@ -28,6 +28,7 @@
 #import "TZImageManager.h"
 #import "TZVideoPlayerController.h"
 #import "TZPhotoPreviewController.h"
+#import "imagebrowserVC.h"
 
 @interface PersonChatViewController ()<RCPluginBoardViewDelegate,TZImagePickerControllerDelegate>
 {
@@ -167,7 +168,17 @@
     if ([model.objectName isEqualToString:@"ec:messagereadone"]) {
         
         XYreadoneContent *content = (XYreadoneContent*)model.content;
-        [[NTImageBrowser sharedShow] showImageBrowserWithImageView:content.imageUrl];
+        imagebrowserVC *vc = [imagebrowserVC new];
+        vc.imageUrl = content.imageUrl;
+        vc.returnBlock = ^{
+            //监测到截图之后的操作
+            
+            
+        };
+        [self presentViewController:vc animated:NO completion:^{
+            
+        }];
+
 
         XYreadoneContent *mes = [[XYreadoneContent alloc] init];
         mes.senderUserInfo = [RCIM sharedRCIM].currentUserInfo;
@@ -264,6 +275,8 @@
         }];
     }
 }
+
+
 
 
 
