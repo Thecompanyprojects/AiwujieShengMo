@@ -188,9 +188,8 @@
         UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:nil destructiveButtonTitle:@"保存图片" otherButtonTitles:@"取消", nil];
         
         [sheet showInView:self];
-
+        
     }
-
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{

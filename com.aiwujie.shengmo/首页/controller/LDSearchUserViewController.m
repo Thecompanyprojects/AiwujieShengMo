@@ -28,13 +28,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.navigationItem.title = @"搜索用户";
-    
     _dataArray = [NSMutableArray array];
-    
     [self createTableView];
-    
     _searchBar.text = self.searchString;
     
     [self searchBar:_searchBar textDidChange:self.searchString];
@@ -83,7 +79,6 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
     return 1;
 }
 

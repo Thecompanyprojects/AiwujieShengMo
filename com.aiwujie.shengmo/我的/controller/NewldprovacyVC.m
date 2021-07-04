@@ -80,7 +80,7 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
 
 -(void)createStatusData{
 
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getSecretSit"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getSecretSitUrl];
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
@@ -161,7 +161,7 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
 
 -(void)afterstaticData
 {
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getSecretSit"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getSecretSitUrl];
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         if ([responseObj[@"data"][@"photo_lock"] intValue] == 1) {
@@ -310,6 +310,7 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
             {
                 cell.contentLab.text = @"未开放";
             }
+            
             cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
             return cell;
         }
@@ -317,7 +318,7 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
             LDProvacyCell1 *cell = [tableView dequeueReusableCellWithIdentifier:ldprovacyidentfity5];
             cell = [[LDProvacyCell1 alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:  ldprovacyidentfity5];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.leftLab.text = @"相册查看权限";
+            cell.leftLab.text = @"主页相册查看权限";
             if (!self.isshowalbum) {
                 cell.contentLab.text = @"所有人可见";
             }
@@ -325,6 +326,11 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
             {
                 cell.contentLab.text = @"好友/会员可见";
             }
+            UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 17, 45, 13)];
+            newLabel.text = @"new";
+            newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
+            newLabel.textColor = [UIColor redColor];
+            [cell addSubview:newLabel];
             cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
             return cell;
         }
@@ -340,6 +346,11 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
             {
                 cell.contentLab.text = @"好友/会员可见";
             }
+            UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 17, 45, 13)];
+            newLabel.text = @"new";
+            newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
+            newLabel.textColor = [UIColor redColor];
+            [cell addSubview:newLabel];
             cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
             return cell;
         }
@@ -355,7 +366,11 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
             {
                 cell.contentLab.text = @"好友/会员可见";
             }
-            
+            UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(160, 17, 45, 13)];
+            newLabel.text = @"new";
+            newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
+            newLabel.textColor = [UIColor redColor];
+            [cell addSubview:newLabel];
             cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
             return cell;
         }
@@ -367,7 +382,7 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.leftLab.text = @"黑名单";
             cell.contentLab.text = self.blackNumStr?:@"";
-            cell.contentLab.font = [UIFont systemFontOfSize:15];
+            cell.contentLab.font = [UIFont systemFontOfSize:13];
             cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
             return cell;
         }
@@ -384,7 +399,7 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue] == 0) {
         
-        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"您现在还不是会员,不能设置相册的开启~"];
+        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"您现在还不是会员,不能设置相册密码~"];
         
     }else if([[[NSUserDefaults standardUserDefaults] objectForKey:@"vip"] intValue] == 1){
         
@@ -514,7 +529,7 @@ static NSString *ldprovacyidentfity8 = @"ldprovacyidentfity8";
 
 -(void)changeldprovacyClick
 {
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/setSecretSit"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setSecretSitUrl];
     NSString *attentString = [NSString new];
     if (self.isFocuson) {
         attentString = @"0";

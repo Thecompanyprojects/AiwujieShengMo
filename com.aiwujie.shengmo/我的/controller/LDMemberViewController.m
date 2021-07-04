@@ -12,6 +12,8 @@
 #import "LDMemberPageViewController.h"
 #import <StoreKit/StoreKit.h>
 #import <AFNetworkReachabilityManager.h>
+#import "LDBillPageViewController.h"
+#import "LDBillPresenter.h"
 
 @interface LDMemberViewController ()<SKPaymentTransactionObserver,SKProductsRequestDelegate,UIPageViewControllerDelegate,UIPageViewControllerDataSource>{
     
@@ -104,6 +106,7 @@
         self.giveHeadView.clipsToBounds = YES;
         
         self.buyView.hidden = YES;
+        [self newcreatButton];
         
     }else{
     
@@ -115,6 +118,7 @@
         self.giveView.hidden = YES;
 
         [self createInfoData];
+        [self createRightButton];
     }
     
     _shopArray = @[@"pay7",@"pay8",@"pay9",@"pay10"];
@@ -148,6 +152,180 @@
     
     //创建购买的按钮
     [self createBuyButton];
+    
+    [LDBillPresenter savewakketNum];
+}
+
+#pragma mark - 魔豆兑换
+
+-(void)newcreatButton
+{
+    //右侧下拉列表
+    UIButton *rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    [rightButton setTitle:@"魔豆兑换" forState:UIControlStateNormal];
+    rightButton.titleLabel.font = [UIFont systemFontOfSize:12];
+    [rightButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [rightButton addTarget:self action:@selector(newrightButtonOnClic) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+}
+
+
+-(void)newrightButtonOnClic
+{
+    
+    NSString *numStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"walletNum"];
+    
+    //会员明细 兑换 SVIP 和 vip
+    UIAlertController *control = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"金魔豆兑换VIP" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSString *newStr = @"";
+        if (numStr.length==0) {
+            newStr = @"0";
+        }
+        else
+        {
+            newStr = numStr;
+        }
+        NSArray *VIPArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",newStr,@"金魔豆)"],@"1个月/300金魔豆", @"3个月/880金魔豆(优惠3%)", @"6个月/1680金魔豆(优惠7%)", @"12个月/2980金魔豆(优惠%18)"];
+        
+        UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        for (int i = 0; i < VIPArray.count; i++) {
+            
+            UIAlertAction *month = [UIAlertAction actionWithTitle:VIPArray[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+                if (i!=0) {
+                    NSString *urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/vip_beans"];
+                    NSDictionary *parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"viptype":[NSString stringWithFormat:@"%d",i], @"beanstype":@"0",@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"uid":self.userID};
+                    [self startExchangeWithUrl:urlString parameters:parameters];
+                    
+                };
+            }];
+            
+            [VIPAlert addAction:month];
+            
+            if (PHONEVERSION.doubleValue >= 8.3&&i!=0) {
+                [month setValue:MainColor forKey:@"_titleTextColor"];
+            }
+            if (PHONEVERSION.doubleValue >= 8.3&&i==0) {
+                [month setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
+            }
+        }
+        
+        [self cancelActionWithAlert:VIPAlert];
+        
+        [self presentViewController:VIPAlert animated:YES completion:nil];
+        
+    }];
+    
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"金魔豆兑换SVIP" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSString *newStr = @"";
+        if (numStr.length==0) {
+            newStr = @"0";
+        }
+        else
+        {
+            newStr = numStr;
+        }
+        NSArray *SVIPArray = @[@"1个月/1280金魔豆", @"3个月/3480金魔豆(优惠9%)", @"8个月/8980金魔豆(优惠13%)", @"12个月/12980金魔豆(优惠16%)"];
+        NSMutableArray *arrs = [NSMutableArray new];
+        [arrs addObject:[NSString stringWithFormat:@"%@%@%@",@"(剩余",newStr,@"金魔豆)"]];
+        [arrs addObjectsFromArray:SVIPArray];
+        
+        UIAlertController *SVIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        for (int i = 0; i < arrs.count; i++) {
+            UIAlertAction *month = [UIAlertAction actionWithTitle:arrs[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+                if (i!=0) {
+                    NSString *urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/svip_beans"];
+                    NSDictionary *parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"subject":[NSString stringWithFormat:@"%d",i], @"channel":@"1",@"vuid":self.userID};
+                    [self startExchangeWithUrl:urlString parameters:parameters];
+                }
+            }];
+            
+            [SVIPAlert addAction:month];
+            if (PHONEVERSION.doubleValue >= 8.3&&i!=0) {
+                [month setValue:MainColor forKey:@"_titleTextColor"];
+            }
+            if (PHONEVERSION.doubleValue >= 8.3&&i==0) {
+                [month setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
+            }
+        }
+        [self cancelActionWithAlert:SVIPAlert];
+        [self presentViewController:SVIPAlert animated:YES completion:nil];
+        
+    }];
+    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    
+    if (PHONEVERSION.doubleValue >= 8.3) {
+        [action0 setValue:MainColor forKey:@"_titleTextColor"];
+        [action1 setValue:MainColor forKey:@"_titleTextColor"];
+        [action2 setValue:MainColor forKey:@"_titleTextColor"];
+    }
+    
+    [control addAction:action0];
+    [control addAction:action1];
+    [control addAction:action2];
+    [self presentViewController:control animated:YES completion:^{
+        
+    }];
+}
+
+- (void)startExchangeWithUrl:(NSString *)url parameters:(NSDictionary *)parameters{
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeIndeterminate;
+    
+    [LDAFManager postDataWithDictionary:parameters andUrlString:url success:^(NSString *msg) {
+        
+        hud.labelText = msg;
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:YES afterDelay:1];
+        
+    } fail:^(NSString *errorMsg){
+        
+        hud.labelText = errorMsg;
+        hud.removeFromSuperViewOnHide = YES;
+        [hud hide:YES afterDelay:1];
+        
+    }];
+}
+
+//创建取消的按钮
+-(void)cancelActionWithAlert:(UIAlertController *)alert{
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+    }];
+    [alert addAction:cancelAction];
+    if (PHONEVERSION.doubleValue >= 8.3) {
+        [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
+    }
+}
+
+
+#pragma mark - 明细列表
+
+-(void)createRightButton{
+    //右侧下拉列表
+    UIButton *rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];
+    [rightButton setTitle:@"明细" forState:UIControlStateNormal];
+    rightButton.titleLabel.font = [UIFont systemFontOfSize:12];
+    [rightButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [rightButton addTarget:self action:@selector(rightButtonOnClic) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+    self.navigationItem.rightBarButtonItem = rightBarButtonItem;
+}
+
+
+-(void)rightButtonOnClic
+{
+    LDBillPageViewController *vc = [LDBillPageViewController new];
+    vc.isfromVip = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 /**

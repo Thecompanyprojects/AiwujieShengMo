@@ -89,11 +89,8 @@
                 
                 self.vipView.hidden = YES;
             }
-
         }
-        
     }
-
     
     if ([_model.realname intValue] == 0) {
         
@@ -107,8 +104,6 @@
         
         self.idViewW.constant = 16;
     }
-    
-    //    NSLog(@"jjjjjjjjjjjjj%ld",_integer);
     
     if ([_model.role isEqualToString:@"S"]) {
         
@@ -153,9 +148,9 @@
         self.aSexView.backgroundColor = DOUBLECOLOR;
     }
     
-    NSArray *colorArray = @[@"握手紫",@"黄瓜紫",@"玫瑰紫",@"送吻紫",@"红酒紫",@"对戒紫",@"蛋糕紫",@"跑车紫",@"游轮紫" ,@"棒棒糖",@"狗粮",@"秋裤",@"黄瓜",@"心心相印",@"香蕉",@"口红",@"亲一个",@"玫瑰花",@"眼罩",@"心灵束缚",@"黄金",@"拍之印",@"鞭之痕",@"老司机",@"一生一世",@"水晶高跟",@"恒之光",@"666",@"红酒",@"蛋糕",@"钻戒",@"皇冠",@"跑车",@"直升机",@"游轮",@"城堡",@"幸运草",@"糖果",@"玩具狗",@"内内",@"TT"];
+    NSArray *colorArray = @[@"握手紫",@"黄瓜紫",@"玫瑰紫",@"送吻紫",@"红酒紫",@"对戒紫",@"蛋糕紫",@"跑车紫",@"游轮紫" ,@"棒棒糖",@"狗粮",@"雪糕",@"黄瓜",@"心心相印",@"香蕉",@"口红",@"亲一个",@"玫瑰花",@"眼罩",@"心灵束缚",@"黄金",@"拍之印",@"鞭之痕",@"老司机",@"一生一世",@"水晶高跟",@"恒之光",@"666",@"红酒",@"蛋糕",@"钻戒",@"皇冠",@"跑车",@"直升机",@"游轮",@"城堡",@"幸运草",@"糖果",@"玩具狗",@"内内",@"TT"];
     
-    NSArray *giftArray = @[@"握手",@"黄瓜",@"玫瑰",@"送吻",@"红酒",@"对戒",@"蛋糕",@"跑车",@"游轮",@"棒棒糖",@"狗粮",@"秋裤",@"黄瓜",@"心心相印",@"香蕉",@"口红",@"亲一个",@"玫瑰花",@"眼罩",@"心灵束缚",@"黄金",@"拍之印",@"鞭之痕",@"老司机",@"一生一世",@"水晶高跟",@"恒之光",@"666",@"红酒",@"蛋糕",@"钻戒",@"皇冠",@"跑车",@"直升机",@"游轮",@"城堡",@"幸运草",@"糖果",@"玩具狗",@"内内",@"TT"];
+    NSArray *giftArray = @[@"握手",@"黄瓜",@"玫瑰",@"送吻",@"红酒",@"对戒",@"蛋糕",@"跑车",@"游轮",@"棒棒糖",@"狗粮",@"雪糕",@"黄瓜",@"心心相印",@"香蕉",@"口红",@"亲一个",@"玫瑰花",@"眼罩",@"心灵束缚",@"黄金",@"拍之印",@"鞭之痕",@"老司机",@"一生一世",@"水晶高跟",@"恒之光",@"666",@"红酒",@"蛋糕",@"钻戒",@"皇冠",@"跑车",@"直升机",@"游轮",@"城堡",@"幸运草",@"糖果",@"玩具狗",@"内内",@"TT"];
     
     if ([_model.amount intValue] == 0) {
         
@@ -178,26 +173,26 @@
             
             if (_model.city.length == 0) {
                 
-                if (giftArray.count >= [_model.psid intValue]) {
-                    
-                    self.introduceLabel.text = [NSString stringWithFormat:@"%@ 打赏礼物%@",_model.sendtime,giftArray[[_model.psid intValue] - 1]];
-                    
-                }else{
-                
-                    self.introduceLabel.text = [NSString stringWithFormat:@"%@ 打赏%@魔豆礼物",_model.sendtime,_model.amount];
-                }
+//                if (giftArray.count >= [_model.psid intValue]) {
+//
+//                    self.introduceLabel.text = [NSString stringWithFormat:@"%@ 打赏礼物%@",_model.sendtime,giftArray[[_model.psid intValue] - 1]];
+//
+//                }else{
+//
+//                    self.introduceLabel.text = [NSString stringWithFormat:@"%@ 打赏%@魔豆礼物",_model.sendtime,_model.amount];
+//                }
 
             }else{
                 
-                if (giftArray.count >= [_model.psid intValue]) {
-                
-                     self.introduceLabel.text = [NSString stringWithFormat:@"%@ %@ 打赏礼物%@",_model.city,_model.sendtime,giftArray[[_model.psid intValue] - 1]];
-                    
-                }else{
-                
-                    self.introduceLabel.text = [NSString stringWithFormat:@"%@ %@ 打赏%@魔豆礼物",_model.city,_model.sendtime,_model.amount];
-                }
- 
+//                if (giftArray.count >= [_model.psid intValue]) {
+//                
+//                     self.introduceLabel.text = [NSString stringWithFormat:@"%@ %@ 打赏礼物%@",_model.city,_model.sendtime,giftArray[[_model.psid intValue] - 1]];
+//                    
+//                }else{
+//                
+//                    self.introduceLabel.text = [NSString stringWithFormat:@"%@ %@ 打赏%@魔豆礼物",_model.city,_model.sendtime,_model.amount];
+//                }
+// 
             }
 
         }else{
@@ -214,182 +209,92 @@
     }
     
     self.ageLabel.text = [NSString stringWithFormat:@"%@",_model.age];
-    
     if ([self.otherType intValue] == 0) {
-        
         if ([_model.state intValue] == 0) {
-            
             [self.attentButton setBackgroundImage:[UIImage imageNamed:@"关注"] forState:UIControlStateNormal];
-            
             if (_model.psid != nil && [_model.psid intValue] != 0) {
-                
                 self.modouView.hidden = NO;
-                
                 self.numLabel.hidden = NO;
-                
                 self.modouView.image = [UIImage imageNamed:colorArray[[_model.psid intValue] - 1]];
-                
                 self.numLabel.text = [NSString stringWithFormat:@"×%@",_model.num];
-                
                 [self.numLabel sizeToFit];
-                
             }else{
-            
                 self.modouView.hidden = YES;
-                
                 self.numLabel.hidden = YES;
-
-                
             }
-            
             self.attentW.constant = 56;
-            
         }else if ([_model.state intValue] == 1){
-            
             [self.attentButton setBackgroundImage:[UIImage imageNamed:@"取消关注"] forState:UIControlStateNormal];
-            
             if (_model.psid != nil && [_model.psid intValue] != 0) {
-                
                 if (giftArray.count >= [_model.psid intValue]) {
-                
                     self.modouView.hidden = NO;
-                    
                     self.numLabel.hidden = NO;
-                    
                     self.modouView.image = [UIImage imageNamed:colorArray[[_model.psid intValue] - 1]];
-                    
                     self.numLabel.text = [NSString stringWithFormat:@"×%@",_model.num];
-                    
                     [self.numLabel sizeToFit];
                     
                 }else{
-                
                     self.modouView.hidden = YES;
-                    
                     self.numLabel.hidden = YES;
-
                 }
-
             }else{
-                
                 self.modouView.hidden = YES;
-                
                 self.numLabel.hidden = YES;
-
-                
             }
-            
             self.attentW.constant = 56;
-            
         }else if ([_model.state intValue] == 2){
-            
             [self.attentButton setBackgroundImage:[UIImage imageNamed:@"被关注"] forState:UIControlStateNormal];
-            
             if (_model.psid != nil && [_model.psid intValue] != 0) {
-                
                 if (giftArray.count >= [_model.psid intValue]) {
-                    
                     self.modouView.hidden = NO;
-                    
                     self.numLabel.hidden = NO;
-                    
                     self.modouView.image = [UIImage imageNamed:colorArray[[_model.psid intValue] - 1]];
-                    
                     self.numLabel.text = [NSString stringWithFormat:@"×%@",_model.num];
-                    
                     [self.numLabel sizeToFit];
-                    
                 }else{
-                    
                     self.modouView.hidden = YES;
-                    
                     self.numLabel.hidden = YES;
-
                 }
-                
             }else{
-                
                 self.modouView.hidden = YES;
-                
                 self.numLabel.hidden = YES;
-
-                
             }
-            
             self.attentW.constant = 56;
-            
         }else if ([_model.state intValue] == 3){
-            
             [self.attentButton setBackgroundImage:[UIImage imageNamed:@"互相关注"] forState:UIControlStateNormal];
-            
             if (_model.psid != nil && [_model.psid intValue] != 0) {
-                
                 if (giftArray.count >= [_model.psid intValue]) {
-                    
                     self.modouView.hidden = NO;
-                    
                     self.numLabel.hidden = NO;
-                    
                     self.modouView.image = [UIImage imageNamed:colorArray[[_model.psid intValue] - 1]];
-                    
                     self.numLabel.text = [NSString stringWithFormat:@"×%@",_model.num];
-                    
                     [self.numLabel sizeToFit];
-                    
                 }else{
-                    
                     self.modouView.hidden = YES;
-                    
                     self.numLabel.hidden = YES;
-
                 }
-                
             }else{
-                
                 self.modouView.hidden = YES;
-                
                 self.numLabel.hidden = YES;
-
-                
             }
-            
             self.attentW.constant = 56;
-            
         }else if ([_model.state intValue] == 4){
-            
             [self.attentButton setBackgroundImage:nil forState:UIControlStateNormal];
-            
             if (_model.psid != nil && [_model.psid intValue] != 0) {
-                
                 if (giftArray.count >= [_model.psid intValue]) {
-                    
                     self.modouView.hidden = NO;
-                    
                     self.numLabel.hidden = NO;
-                    
                     self.modouView.image = [UIImage imageNamed:colorArray[[_model.psid intValue] - 1]];
-                    
                     self.numLabel.text = [NSString stringWithFormat:@"×%@",_model.num];
-                    
                     [self.numLabel sizeToFit];
-                    
                 }else{
-                    
                     self.modouView.hidden = YES;
-                    
                     self.numLabel.hidden = YES;
-
                 }
-                
             }else{
-                
                 self.modouView.hidden = YES;
-                
                 self.numLabel.hidden = YES;
-
-                
             }
-            
             self.attentW.constant = 0;
         }
     }
@@ -431,171 +336,96 @@
             self.vipView.image = [UIImage imageNamed:@"年svip标识"];
             
         }else if ([_model.userInfo[@"svip"] intValue] == 1){
-            
             self.vipView.hidden = NO;
-            
             self.vipView.image = [UIImage imageNamed:@"svip标识"];
-            
         }else if ([_model.userInfo[@"vipannual"] intValue] == 1) {
-            
             self.vipView.hidden = NO;
-            
             self.vipView.image = [UIImage imageNamed:@"年费会员"];
-            
         }else{
-        
             if ([_model.userInfo[@"vip"] intValue] == 1) {
-                
                 self.vipView.hidden = NO;
-                
                 self.vipView.image = [UIImage imageNamed:@"高级紫"];
-                
             }else{
-                
                 self.vipView.hidden = YES;
             }
         }
     }
-
-    
     if ([_model.userInfo[@"realname"] intValue] == 0) {
-        
         self.idImageView.hidden = YES;
-        
         self.idViewW.constant = 0;
-        
     }else{
-        
         self.idImageView.hidden = NO;
-        
         self.idViewW.constant = 16;
     }
-    
-    //    NSLog(@"jjjjjjjjjjjjj%ld",_integer);
-    
     if ([_model.userInfo[@"role"] isEqualToString:@"S"]) {
-        
         self.sexualLabel.text = @"斯";
-        
         self.sexualLabel.backgroundColor = BOYCOLOR;
-        
     }else if ([_model.userInfo[@"role"] isEqualToString:@"M"]){
-        
         self.sexualLabel.text = @"慕";
-        
         self.sexualLabel.backgroundColor = GIRLECOLOR;
-        
     }else if ([_model.userInfo[@"role"] isEqualToString:@"SM"]){
-        
         self.sexualLabel.text = @"双";
         self.sexualLabel.backgroundColor = DOUBLECOLOR;
     }else{
-    
         self.sexualLabel.text = @"~";
         self.sexualLabel.backgroundColor = GREENCOLORS;
     }
-    
     if ([_model.userInfo[@"sex"] intValue] == 1) {
-        
         self.sexLabel.image = [UIImage imageNamed:@"男"];
-        
         self.aSexView.backgroundColor = BOYCOLOR;
-        
     }else if ([_model.userInfo[@"sex"] intValue] == 2){
-        
         self.sexLabel.image = [UIImage imageNamed:@"女"];
-        
         self.aSexView.backgroundColor = GIRLECOLOR;
-        
     }else{
-        
         self.sexLabel.image = [UIImage imageNamed:@"双性"];
-        
         self.aSexView.backgroundColor = DOUBLECOLOR;
     }
-    
     self.ageLabel.text = [NSString stringWithFormat:@"%@",_model.userInfo[@"age"]];
-    
     if (![_model.userInfo[@"city"] isEqual:[NSNull null]] && ![_model.userInfo[@"province"] isEqual:[NSNull null]]) {
-    
         if ([_model.userInfo[@"city"] length] != 0) {
-            
             if ([_model.userInfo[@"city"] isEqualToString:_model.userInfo[@"province"]]) {
-                
                 self.introduceLabel.text = _model.userInfo[@"city"];
-                
             }else{
-                
                 if ([_model.userInfo[@"province"] length] != 0) {
-                    
                     self.introduceLabel.text = [NSString stringWithFormat:@"%@ %@",_model.userInfo[@"province"],_model.userInfo[@"city"]];
-                    
                 }else{
-                    
                     self.introduceLabel.text = [NSString stringWithFormat:@"%@",_model.userInfo[@"city"]];
                 }
             }
-            
         }else{
-            
             self.introduceLabel.text = @"隐身";
         }
-
     }else{
-    
         self.introduceLabel.text = @"隐身";
     }
-    
-    
     if ([self.otherType intValue] == 0 ||[self.otherType intValue] == 1) {
-        
         if ([_model.state intValue] == 0) {
-            
             [self.attentButton setBackgroundImage:[UIImage imageNamed:@"关注"] forState:UIControlStateNormal];
-            
         }else if ([_model.state intValue] == 1){
-        
             [self.attentButton setBackgroundImage:[UIImage imageNamed:@"取消关注"] forState:UIControlStateNormal];
-            
         }else if ([_model.state intValue] == 2){
-        
             [self.attentButton setBackgroundImage:[UIImage imageNamed:@"被关注"] forState:UIControlStateNormal];
-            
         }else if ([_model.state intValue] == 3){
-        
             [self.attentButton setBackgroundImage:[UIImage imageNamed:@"互相关注"] forState:UIControlStateNormal];
-            
         }else if ([_model.state intValue] == 4){
-        
             [self.attentButton setBackgroundImage:nil forState:UIControlStateNormal];
         }
     }
-    
     if ([self.type intValue] == 0 && self.type.length != 0) {
         
         if ([_model.state intValue] == 0) {
-            
             [self.attentButton setBackgroundImage:[UIImage imageNamed:@"取消关注"] forState:UIControlStateNormal];
-            
         }else if ([_model.state intValue] == 1){
-        
             [self.attentButton setBackgroundImage:[UIImage imageNamed:@"互相关注"] forState:UIControlStateNormal];
         }
         
     }else if ([self.type intValue] == 1){
-    
         if ([_model.state intValue] == 0) {
-            
            [self.attentButton setBackgroundImage:[UIImage imageNamed:@"被关注"] forState:UIControlStateNormal];
-            
         }else if ([_model.state intValue] == 1){
-            
              [self.attentButton setBackgroundImage:[UIImage imageNamed:@"互相关注"] forState:UIControlStateNormal];
-            
         }
-    
     }
-    
     [self getWealthAndCharmState:_wealthLabel andView:_wealthView andText:_model.userInfo[@"wealth_val"] andNSLayoutConstraint:_wealthW andType:@"财富"];
     
     [self getWealthAndCharmState:_charmLabel andView:_charmView andText:_model.userInfo[@"charm_val"]andNSLayoutConstraint:_charmW andType:@"魅力"];

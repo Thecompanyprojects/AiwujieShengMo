@@ -11,7 +11,9 @@
 
 @interface GifView : UIView
 
-@property (nonatomic,strong) void (^MyBlock)();
+@property (nonatomic,strong) void (^MyBlock)(void);
+@property (nonatomic,strong) void (^successBlock)(void);
+@property (nonatomic,strong) void (^sendmessageBlock)(NSDictionary *dic);
 
 //获取界面传过来的动态id.位置,及从哪个界面传过来的标记
 -(void)getDynamicDid:(NSString *)did andIndexPath:(NSIndexPath *)indexPath andSign:(NSString *)sign andUIViewController:(UIViewController *)controller;
@@ -20,7 +22,7 @@
 -(void)getPersonUid:(NSString *)userId andSign:(NSString *)sign andUIViewController:(UIViewController *)controller;
 
 //显示送礼物
--(instancetype)initWithFrame:(CGRect)frame :(void (^)())block;
+-(instancetype)initWithFrame:(CGRect)frame andisMine:(BOOL )ismine :(void (^)(void))block;
 
 //移除送礼物页面
 -(void)removeView;

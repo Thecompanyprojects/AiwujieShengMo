@@ -27,9 +27,11 @@
 @property (weak, nonatomic) IBOutlet UIView *zanView;
 @property (weak, nonatomic) IBOutlet UIButton *recommendButton;
 @property (weak, nonatomic) IBOutlet UIView *recommendView;
+
 @property (weak, nonatomic) IBOutlet UIButton *dayButton;
 @property (weak, nonatomic) IBOutlet UIButton *weekButton;
 @property (weak, nonatomic) IBOutlet UIButton *monthButton;
+@property (weak, nonatomic) IBOutlet UIButton *allButton;
 
 @end
 
@@ -45,22 +47,34 @@
         LDRewardRankingPageViewController *v2 = [[LDRewardRankingPageViewController alloc] init];
         LDRewardRankingPageViewController *v3 = [[LDRewardRankingPageViewController alloc] init];
         LDRewardRankingPageViewController *v4 = [[LDRewardRankingPageViewController alloc] init];
+        
+        
         LDRewardRankingPageViewController *v5 = [[LDRewardRankingPageViewController alloc] init];
         LDRewardRankingPageViewController *v6 = [[LDRewardRankingPageViewController alloc] init];
         LDRewardRankingPageViewController *v7 = [[LDRewardRankingPageViewController alloc] init];
         LDRewardRankingPageViewController *v8 = [[LDRewardRankingPageViewController alloc] init];
+        
         LDRewardRankingPageViewController *v9 = [[LDRewardRankingPageViewController alloc] init];
+        LDRewardRankingPageViewController *v10 = [[LDRewardRankingPageViewController alloc] init];
+        LDRewardRankingPageViewController *v11 = [[LDRewardRankingPageViewController alloc] init];
+        LDRewardRankingPageViewController *v12 = [[LDRewardRankingPageViewController alloc] init];
         
         [arrayM addObject:v1];
         [arrayM addObject:v2];
         [arrayM addObject:v3];
         [arrayM addObject:v4];
+ 
         [arrayM addObject:v5];
         [arrayM addObject:v6];
         [arrayM addObject:v7];
         [arrayM addObject:v8];
-        [arrayM addObject:v9];
         
+        [arrayM addObject:v9];
+        [arrayM addObject:v10];
+        [arrayM addObject:v11];
+        [arrayM addObject:v12];
+        
+      
         _pageContentArray = [[NSArray alloc] initWithArray:arrayM];
         
     }
@@ -108,22 +122,21 @@
     if ([self.rankType isEqualToString:@"popularity"]) {
         
         self.navigationItem.title = @"人气榜";
-        
+
         [self.commentButton setTitle:@"热评榜" forState:UIControlStateNormal];
-        
         [self.zanButton setTitle:@"热赞榜" forState:UIControlStateNormal];
-        
         [self.recommendButton setTitle:@"热推榜" forState:UIControlStateNormal];
         
     }else if ([self.rankType isEqualToString:@"diligence"]){
         
         self.navigationItem.title = @"活跃榜";
-    
-        [self.commentButton setTitle:@"动态榜" forState:UIControlStateNormal];
         
-        [self.zanButton setTitle:@"点评榜" forState:UIControlStateNormal];
+        [self.commentButton setTitle:@"点评榜" forState:UIControlStateNormal];
         
-        [self.recommendButton setTitle:@"点赞榜" forState:UIControlStateNormal];
+        [self.zanButton setTitle:@"点赞榜" forState:UIControlStateNormal];
+        
+        [self.recommendButton setTitle:@"动态榜" forState:UIControlStateNormal];
+
         
     }
     
@@ -151,9 +164,9 @@
     
     _commentIndex = 0;
     
-    _zanIndex = 3;
+    _zanIndex = 4;
     
-    _recommendIndex = 6;
+    _recommendIndex = 8;
     
     // 设置UIPageViewController 尺寸
     _pageViewController.view.frame = CGRectMake(0, 90, self.view.frame.size.width, self.view.frame.size.height);
@@ -199,9 +212,7 @@
         return nil;
     }
     
-    
     return [self viewControllerAtIndex:index];
-    
 }
 
 //翻页视图控制器将要翻页时执行的方法
@@ -219,7 +230,7 @@
             
             NSInteger index = [self.pageContentArray indexOfObject:_rewardRankingPageViewController];
             
-            if (index > 2 && index < 6) {
+            if (index > 3 && index < 8) {
                 
                 self.commentView.hidden = YES;
                 
@@ -229,9 +240,9 @@
                 
                 _zanIndex = index;
                 
-                [self changeButtonClick:index - 3];
+                [self changeButtonClick:index - 4];
                 
-            }else if(index > 5 && index <9){
+            }else if(index > 7 && index <12){
                 
                 self.commentView.hidden = YES;
                 
@@ -241,10 +252,11 @@
                 
                 _recommendIndex = index;
                 
-                [self changeButtonClick:index - 6];
+                [self changeButtonClick:index - 8];
                 
             }else{
             
+                //评论榜单
                 self.commentView.hidden = NO;
                 
                 self.zanView.hidden = YES;
@@ -273,7 +285,7 @@
 //改变日榜,周榜,月榜的颜色
 -(void)changeButtonClick:(NSInteger)index{
     
-    for (int i = 14; i < 17; i++) {
+    for (int i = 14; i < 18; i++) {
         
         UIButton *btn = (UIButton *)[self.view viewWithTag:i];
         
@@ -299,19 +311,12 @@
     }
     
     LDRewardRankingPageViewController *contentVC = self.pageContentArray[index];
-    
     contentVC.content = [NSString stringWithFormat:@"%ld",(long)index];
-    
     if ([self.rankType isEqualToString:@"popularity"]) {
-        
         contentVC.type = @"popularity";
-        
     }else if ([self.rankType isEqualToString:@"diligence"]){
-        
         contentVC.type = @"diligence";
-        
     }
-    
     return contentVC;
 }
 
@@ -322,6 +327,7 @@
     return [viewController.content integerValue];
     
 }
+
 - (IBAction)commentButtonClick:(id)sender {
     
     self.commentView.hidden = NO;
@@ -338,7 +344,7 @@
 }
 - (IBAction)zanButtonClick:(id)sender {
     
-    [self changeButtonClick:_zanIndex - 3];
+    [self changeButtonClick:_zanIndex - 4];
     
     LDRewardRankingPageViewController *initialViewController = [self viewControllerAtIndex:_zanIndex];// 得到当前页
     
@@ -357,13 +363,14 @@
     self.zanView.hidden = NO;
     self.recommendView.hidden = YES;
 }
+
 - (IBAction)recommendButtonClick:(id)sender {
     
     self.commentView.hidden = YES;
     self.zanView.hidden = YES;
     self.recommendView.hidden = NO;
     
-    [self changeButtonClick:_recommendIndex - 6];
+    [self changeButtonClick:_recommendIndex - 8];
     
     LDRewardRankingPageViewController *initialViewController = [self viewControllerAtIndex:_recommendIndex];// 得到当前页
     
@@ -439,14 +446,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

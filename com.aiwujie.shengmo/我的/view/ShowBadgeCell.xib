@@ -18,9 +18,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="49.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="89w-P2-bQU">
-                        <rect key="frame" x="16" y="11" width="27" height="27"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="89w-P2-bQU">
+                        <rect key="frame" x="16" y="15" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="20" id="9bh-Jd-k8C"/>
+                            <constraint firstAttribute="width" constant="20" id="EAV-zu-g36"/>
+                            <constraint firstAttribute="height" constant="20" id="aiR-5h-jgu"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="20" id="sdC-Vi-4k4"/>
+                        </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="访问记录" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nk1-kE-1WQ">
                         <rect key="frame" x="57" y="14" width="127" height="21"/>
@@ -58,6 +63,8 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="5Ra-Gx-9Cc" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="57" id="7bG-12-Pk8"/>
+                    <constraint firstItem="89w-P2-bQU" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="CgG-NH-O7w"/>
+                    <constraint firstItem="89w-P2-bQU" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" id="Jfz-6B-lvG"/>
                     <constraint firstAttribute="trailing" secondItem="5Ra-Gx-9Cc" secondAttribute="trailing" id="UfU-Ls-Kns"/>
                     <constraint firstAttribute="bottom" secondItem="5Ra-Gx-9Cc" secondAttribute="bottom" id="fV6-bf-Yuh"/>
                 </constraints>
@@ -68,8 +75,9 @@
                 <outlet property="headView" destination="89w-P2-bQU" id="dgy-i7-Oss"/>
                 <outlet property="lineView" destination="5Ra-Gx-9Cc" id="1il-O2-1nO"/>
                 <outlet property="nameLabel" destination="Nk1-kE-1WQ" id="kWR-jM-vXg"/>
+                <outlet property="youjiantou" destination="ns7-HP-d51" id="eOS-Zn-d92"/>
             </connections>
-            <point key="canvasLocation" x="68" y="48"/>
+            <point key="canvasLocation" x="158" y="116"/>
         </tableViewCell>
     </objects>
     <resources>

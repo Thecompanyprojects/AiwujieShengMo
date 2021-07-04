@@ -22,8 +22,8 @@
 #import "TZAssetModel.h"
 #import "LDPrivacyPhotoViewController.h"
 #import "LDAlertNameandIntroduceViewController.h"
-#import "UIButton+ImageTitleSpace.h"
 #import "EditinfoModel.h"
+#import "LDMemberViewController.h"
 
 @interface LDEditViewController ()<TZImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate,UINavigationControllerDelegate,UITextViewDelegate,UITableViewDataSource,UITableViewDelegate,RegisterNextCellDelegate,UIPickerViewDelegate,UIPickerViewDataSource,LDIamCellDelegate,UIImagePickerControllerDelegate>{
     
@@ -528,20 +528,10 @@
     [_backGroundView addSubview:rightBtn];
     
     //是否展示图片
-    
-    [leftBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.pickerView);
-        make.top.equalTo(self.collectionView.mas_bottom).with.offset(6);
-        make.width.mas_offset(WIDTH/2);
-        make.height.mas_offset(20);
-    }];
-    [rightBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(self.pickerView);
-        make.top.equalTo(leftBtn);
-        make.width.mas_offset(WIDTH/2);
-        make.height.mas_offset(20);
-    }];
 
+    leftBtn.frame = CGRectMake(0, self.collectionView.frame.size.height+157, WIDTH/2, 20);
+    rightBtn.frame = CGRectMake(WIDTH/2, self.collectionView.frame.size.height+157, WIDTH/2, 20);
+    
     if (self.isshowPhoto) {
         [leftBtn setImage:[UIImage imageNamed:@"照片认证空圈"] forState:normal];
         [rightBtn setImage:[UIImage imageNamed:@"照片认证实圈"] forState:normal];
@@ -606,8 +596,20 @@
 
     if ([_vipString isEqualToString:@"非会员"]) {
         
-        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"您现在还不是会员,不能设置相册的开启~"];
-        
+//        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"您现在还不是会员,不能设置相册密码~"];
+        UIAlertController *control = [UIAlertController alertControllerWithTitle:@"提示" message:@"您现在还不是会员,不能设置相册密码~" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"去开通" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
+            [self.navigationController pushViewController:mvc animated:YES];
+        }];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [control addAction:action1];
+        [control addAction:action0];
+        [self presentViewController:control animated:YES completion:^{
+            
+        }];
     }else{
         
         LDPrivacyPhotoViewController *ppvc = [[LDPrivacyPhotoViewController alloc] init];
@@ -619,15 +621,11 @@
         ppvc.block = ^(NSString *string){
         
             if ([string intValue] == 1) {
-                
+
                 [_picButton setTitle:@"已开放" forState:UIControlStateNormal];
-                
                 self.infoModel.photo_lock = @"1";
-                
             }else{
-            
                 [_picButton setTitle:@"未开放" forState:UIControlStateNormal];
-                
                 self.infoModel.photo_lock = @"2";
             }
         
@@ -1798,6 +1796,9 @@
         NSString *str = [formatter stringFromDate:[NSDate date]];
         NSString *fileName = [NSString stringWithFormat:@"%@.jpg", str];
         
+        NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+        
         AFHTTPSessionManager *manager = [LDAFManager sharedManager];
         self.headImgisChange = YES;
         [manager POST:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Api/fileUpload"] parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
@@ -2334,7 +2335,7 @@
 
 -(void)getphototIscanlookInfo
 {
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getSecretSit"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getSecretSitUrl];
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
       

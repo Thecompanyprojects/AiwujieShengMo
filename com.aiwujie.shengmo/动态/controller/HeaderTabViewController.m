@@ -46,8 +46,6 @@
     
     _dict = [NSMutableDictionary dictionary];
     
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getTopicDetail"];
     
     if (self.tid.length == 0) {
@@ -57,21 +55,15 @@
     
     NSDictionary *parameters = @{@"tid":self.tid};
     
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-       // NSLog(@"%@",responseObject);
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer == 3000) {
-            
-             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-            
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             _headerView.frame = CGRectMake(0, 0, WIDTH, 44);
-
+            
         }else if(integer == 2000){
             
-            [_dict setDictionary:responseObject[@"data"]];
+            [_dict setDictionary:responseObj[@"data"]];
             
             _headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, 210)];
             _headerView.backgroundColor = [UIColor whiteColor];
@@ -104,7 +96,7 @@
             topicIntroduceLabel.font = [UIFont systemFontOfSize:14];
             topicIntroduceLabel.numberOfLines = 0;
             topicIntroduceLabel.lineBreakMode = NSLineBreakByWordWrapping;
-           CGSize size = [topicIntroduceLabel sizeThatFits:CGSizeMake(CGRectGetWidth(topicLabel.frame), MAXFLOAT)];
+            CGSize size = [topicIntroduceLabel sizeThatFits:CGSizeMake(CGRectGetWidth(topicLabel.frame), MAXFLOAT)];
             topicIntroduceLabel.frame = CGRectMake(CGRectGetMinX(topicLabel.frame), CGRectGetMaxY(topicLabel.frame) + 20, CGRectGetWidth(topicLabel.frame), size.height);
             [_headerView addSubview:topicIntroduceLabel];
             
@@ -128,21 +120,14 @@
             _headerView.frame = CGRectMake(0, 0, WIDTH, CGRectGetMaxY(dynamicLabel.frame) + 44 + 20);
             alphaView.frame = _headerView.frame;
             headerBackImage.frame = _headerView.frame;
-
             if ([_dict[@"is_admin"] intValue] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue] == 1) {
-
                 [self createJoinTopicButton];
-
             }
-            
             [self reloadData];
         }
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         _headerView.frame = CGRectMake(0, 0, WIDTH, 44);
-        
+
     }];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideJoinTopicButton) name:@"参与话题按钮隐藏" object:nil];

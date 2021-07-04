@@ -15,6 +15,8 @@
 @property (nonatomic, strong) UIPageViewController *pageViewController;
 @property (nonatomic, strong) NSArray *pageContentArray;
 @property (nonatomic, strong) LDBillViewController *billViewController;
+@property (weak, nonatomic) IBOutlet UIButton *rightBtn;
+@property (weak, nonatomic) IBOutlet UIButton *leftBtn;
 
 @end
 
@@ -28,7 +30,8 @@
         
         LDBillViewController *v1 = [[LDBillViewController alloc] init];
         LDBillViewController *v2 = [[LDBillViewController alloc] init];
-        
+        v1.isfromVip = self.isfromVip;
+        v2.isfromVip = self.isfromVip;
         [arrayM addObject:v1];
         [arrayM addObject:v2];
         
@@ -42,8 +45,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    self.navigationItem.title = @"充值明细";
-    
+    if (self.isfromVip) {
+        self.navigationItem.title = @"会员明细";
+        [self.rightBtn setTitle:@"获赠记录" forState:normal];
+        [self.leftBtn setTitle:@"购买记录" forState:normal];
+    }
+    else
+    {
+        self.navigationItem.title = @"充值明细";
+    }
     //生成翻页控制器
     [self createPageViewController];
     
@@ -54,7 +64,10 @@
 -(void)createButton{
     
     UIButton *rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
-    [rightButton setImage:[UIImage imageNamed: @"其他"] forState:UIControlStateNormal];
+//    [rightButton setImage:[UIImage imageNamed: @"其他"] forState:UIControlStateNormal];
+    [rightButton setTitle:@"兑换" forState:normal];
+    [rightButton setTitleColor:TextCOLOR forState:normal];
+    rightButton.titleLabel.font = [UIFont systemFontOfSize:12];
     [rightButton addTarget:self action:@selector(backButtonOnClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
     self.navigationItem.rightBarButtonItem = rightBarButtonItem;
@@ -62,43 +75,188 @@
 
 - (void)backButtonOnClick{
     
-    //兑换VIP和SVIP
-    [AlertTool alertWithViewController:self type:@"充值魔豆" andAlertDidSelectItem:^(int index, NSString *viptype) {
+    NSString *numStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"walletNum"];
+    
+    if (self.isfromVip) {
+        //会员明细 兑换 SVIP 和 vip
+        UIAlertController *control = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"金魔豆兑换VIP" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSString *newStr = @"";
+            if (numStr.length==0) {
+                newStr = @"0";
+            }
+            else
+            {
+                newStr = numStr;
+            }
+            NSArray *VIPArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",newStr,@"金魔豆)"],@"1个月/300金魔豆", @"3个月/880金魔豆(优惠3%)", @"6个月/1680金魔豆(优惠7%)", @"12个月/2980金魔豆(优惠%18)"];
+            
+            UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
+            
+            for (int i = 0; i < VIPArray.count; i++) {
+                
+                UIAlertAction *month = [UIAlertAction actionWithTitle:VIPArray[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    
+                    if (i!=0) {
+                        NSString *urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/vip_beans"];
+                        NSDictionary *parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"viptype":[NSString stringWithFormat:@"%d",i], @"beanstype":@"0",@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+                        [self startExchangeWithUrl:urlString parameters:parameters];
+                        
+                    };
+                }];
+                
+                [VIPAlert addAction:month];
+                
+                if (PHONEVERSION.doubleValue >= 8.3&&i!=0) {
+                    [month setValue:MainColor forKey:@"_titleTextColor"];
+                }
+                if (PHONEVERSION.doubleValue >= 8.3&&i==0) {
+                    [month setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
+                }
+            }
+            
+            [self cancelActionWithAlert:VIPAlert];
+            
+            [self presentViewController:VIPAlert animated:YES completion:nil];
+            
+        }];
         
-        __block NSString *urlString;
-        __block NSDictionary *parameters;
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"金魔豆兑换SVIP" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSString *newStr = @"";
+            if (numStr.length==0) {
+                newStr = @"0";
+            }
+            else
+            {
+                newStr = numStr;
+            }
+            NSArray *SVIPArray = @[@"1个月/1280金魔豆", @"3个月/3480金魔豆(优惠9%)", @"8个月/8980金魔豆(优惠13%)", @"12个月/12980金魔豆(优惠16%)"];
+            NSMutableArray *arrs = [NSMutableArray new];
+            [arrs addObject:[NSString stringWithFormat:@"%@%@%@",@"(剩余",newStr,@"金魔豆)"]];
+            [arrs addObjectsFromArray:SVIPArray];
+            
+            UIAlertController *SVIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
+            
+            for (int i = 0; i < arrs.count; i++) {
+                UIAlertAction *month = [UIAlertAction actionWithTitle:arrs[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    
+                    if (i!=0) {
+                        NSString *urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/svip_beans"];
+                        NSDictionary *parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"subject":[NSString stringWithFormat:@"%d",i], @"channel":@"1",@"vuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+                        [self startExchangeWithUrl:urlString parameters:parameters];
+                    }
+                }];
+                
+                [SVIPAlert addAction:month];
+                if (PHONEVERSION.doubleValue >= 8.3&&i!=0) {
+                    [month setValue:MainColor forKey:@"_titleTextColor"];
+                }
+                if (PHONEVERSION.doubleValue >= 8.3&&i==0) {
+                    [month setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
+                }
+            }
+            [self cancelActionWithAlert:SVIPAlert];
+            [self presentViewController:SVIPAlert animated:YES completion:nil];
+            
+        }];
+        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
         
-        if ([viptype isEqualToString:@"VIP"]) {
-            
-            urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/vip_beans"];
-            
-            parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"viptype":[NSString stringWithFormat:@"%d",index + 1], @"beanstype":@"0",@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-            
-            [self startExchangeWithUrl:urlString parameters:parameters];
-            
-        }else if ([viptype isEqualToString:@"SVIP"]){
-            
-            urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/svip_beans"];
-            
-            parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"subject":[NSString stringWithFormat:@"%d",index + 1], @"channel":@"1",@"vuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-            
-            [self startExchangeWithUrl:urlString parameters:parameters];
-            
-        }else{
-            
-            //兑换邮票
-            [AlertTool alertWithViewController:self type:@"充值魔豆" andAlertInputStampsNumber:^(NSString *stampNumbers, NSString *channel) {
-                
-                urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/stamp_baans"];
-                
-                parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"num":stampNumbers, @"channel":channel};
-                
-                [self startExchangeWithUrl:urlString parameters:parameters];
-                
-            }];
+        if (PHONEVERSION.doubleValue >= 8.3) {
+            [action0 setValue:MainColor forKey:@"_titleTextColor"];
+            [action1 setValue:MainColor forKey:@"_titleTextColor"];
+            [action2 setValue:MainColor forKey:@"_titleTextColor"];
         }
-    }];
+        
+        [control addAction:action0];
+        [control addAction:action1];
+        [control addAction:action2];
+        [self presentViewController:control animated:YES completion:^{
+            
+        }];
+        
+    }
+    else
+    {
+        //兑换VIP和SVIP
+        NSString *numStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"walletNum"];
+        [AlertTool alertWithViewController:self type:@"金魔豆" num:numStr andAlertDidSelectItem:^(int index, NSString *viptype) {
+            __block NSString *urlString;
+            __block NSDictionary *parameters;
+            
+            if ([viptype isEqualToString:@"VIP"]) {
+                if (index!=0) {
+                    urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/vip_beans"];
+                    parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"viptype":[NSString stringWithFormat:@"%d",index], @"beanstype":@"0",@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+                    [self startExchangeWithUrl:urlString parameters:parameters];
+                }
+            }
+            if ([viptype isEqualToString:@"SVIP"]){
+                if (index!=0) {
+                    urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/svip_beans"];
+                    
+                    parameters = @{@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"subject":[NSString stringWithFormat:@"%d",index], @"channel":@"1",@"vuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+                    
+                    [self startExchangeWithUrl:urlString parameters:parameters];
+                }
+            }
+            if ([viptype isEqualToString:@"YOUPIAO"]){
+                
+                //兑换邮票
+                
+                if (index!=0) {
+                    NSArray *array = @[@"3",@"11",@"38",@"105",@"200",@"385"];
+                    urlString = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/stamp_baans"];
+                    
+                    __block NSString *numStr = @"";
+                    [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                        
+                        if (idx==index) {
+                            numStr=[array objectAtIndex:idx+1];
+                            *stop = YES;
+                        }
+                    }];
+                    NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"num":numStr, @"channel":@"0"};
+                    [self startExchangeWithUrl:urlString parameters:parameters];
+                }
+            }
+            if ([viptype isEqualToString:@"TOPCARD"])
+            {
+                //兑换推顶卡 channel 充值为0
+                if (index!=0) {
+                    NSString *urlString = [PICHEADURL stringByAppendingString:@"Api/Ping/topcard_baans"];
+                    NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
+                    NSArray *array = @[@"1",@"3",@"9",@"29",@"81",@"216"];
+                    __block NSString *numStr = @"";
+                    [array enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                        
+                        if (idx==index) {
+                            numStr=[array objectAtIndex:idx+1];
+                            *stop = YES;
+                        }
+                    }];
+                    NSDictionary *parameters = @{@"uid":uid,@"num":numStr,@"channel":@"0"};
+                    [self startExchangeWithUrl:urlString parameters:parameters];
+                }
+            }
+        }];
+
+    }
+    
 }
+
+//创建取消的按钮
+-(void)cancelActionWithAlert:(UIAlertController *)alert{
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
+    }];
+    [alert addAction:cancelAction];
+    if (PHONEVERSION.doubleValue >= 8.3) {
+        [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
+    }
+}
+
 
 - (void)startExchangeWithUrl:(NSString *)url parameters:(NSDictionary *)parameters{
     
@@ -284,14 +442,5 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

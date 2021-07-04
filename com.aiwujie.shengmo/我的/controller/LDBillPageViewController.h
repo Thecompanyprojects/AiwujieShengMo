@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface LDBillPageViewController : UIViewController
-
+@property (nonatomic,copy) NSString *numStr;
+@property (nonatomic,assign) BOOL isfromVip;
 @end

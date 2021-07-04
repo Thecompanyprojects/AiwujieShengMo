@@ -29,14 +29,9 @@
     
     TencentOAuth *_tencentOAuth;
 }
-
-
 @property (nonatomic,strong) UITableView *tableView;
-
 @property (nonatomic,strong) NSArray *dataArray;
-
 @property (nonatomic,copy) NSString *status;
-
 //绑定的状态
 @property (nonatomic,copy) NSString *bindPhoneState;
 @property (nonatomic,copy) NSString *bindEmailState;
@@ -58,25 +53,23 @@
 
 -(void)getBindState{
 
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
-    manager.requestSerializer.timeoutInterval = 10.f;
-    [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
+//    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
+//    [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
+//    manager.requestSerializer.timeoutInterval = 10.f;
+//    [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
+    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getBindingState"];
-    NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //NSLog(@"%@",responseObject);
+    NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]?:@""};
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         
         if (integer != 2000) {
             
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             
         }else{
             
-            if ([responseObject[@"data"][@"mobile"] length] == 0) {
+            if ([responseObj[@"data"][@"mobile"] length] == 0) {
                 
                 _bindPhoneState = @"";
                 
@@ -84,15 +77,15 @@
                 
             }else{
                 
-                _phoneNum = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"mobile"]];
-            
-                NSString *str = [responseObject[@"data"][@"mobile"] stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
+                _phoneNum = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"mobile"]];
+                
+                NSString *str = [responseObj[@"data"][@"mobile"] stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
                 
                 _bindPhoneState = str;
                 
             }
             
-            if ([responseObject[@"data"][@"email"] length] == 0) {
+            if ([responseObj[@"data"][@"email"] length] == 0) {
                 
                 _bindEmailState = @"";
                 
@@ -100,9 +93,9 @@
                 
             }else{
                 
-                _emailNum = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"email"]];
+                _emailNum = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"email"]];
                 
-                NSArray *array = [responseObject[@"data"][@"email"] componentsSeparatedByString:@"@"];
+                NSArray *array = [responseObj[@"data"][@"email"] componentsSeparatedByString:@"@"];
                 
                 NSString *string = [NSString string];
                 
@@ -111,39 +104,35 @@
                     string = [string stringByAppendingString:@"*"];
                 }
                 
-                NSString *str = [responseObject[@"data"][@"email"] stringByReplacingCharactersInRange:NSMakeRange(1, [array[0] length] - 2) withString:string];
+                NSString *str = [responseObj[@"data"][@"email"] stringByReplacingCharactersInRange:NSMakeRange(1, [array[0] length] - 2) withString:string];
                 
                 _bindEmailState = str;
                 
             }
-
-            if ([responseObject[@"data"][@"openid"] length] == 0) {
+            
+            if ([responseObj[@"data"][@"openid"] length] == 0) {
                 
                 _bindOpenidState = @"";
                 
             }else{
-            
-                if ([responseObject[@"data"][@"channel"] intValue] == 1) {
+                
+                if ([responseObj[@"data"][@"channel"] intValue] == 1) {
                     
                     _bindOpenidState = @"已绑定微信";
                     
-                }else if([responseObject[@"data"][@"channel"] intValue] == 2){
-                
+                }else if([responseObj[@"data"][@"channel"] intValue] == 2){
+                    
                     _bindOpenidState = @"已绑定QQ";
                     
-                }else if([responseObject[@"data"][@"channel"] intValue] == 3){
-                
+                }else if([responseObj[@"data"][@"channel"] intValue] == 3){
+                    
                     _bindOpenidState = @"已绑定微博";
                 }
             }
             
             [self.tableView reloadData];
         }
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-      
+    } failed:^(NSString *errorMsg) {
         
     }];
 
@@ -156,8 +145,6 @@
     
     self.tabBarController.tabBar.hidden = YES;
 
-//    _dataArray = @[@[@"绑定手机"],@[@"绑定邮箱"],@[@"绑定第三方"],@[@"密码设置"],@[@"手势密码"],@[@"声音设置"],@[@"消息设置"],@[@"隐私"],@[@"通用"],@[@"意见反馈"],@[@"帮助中心"],@[@"关于圣魔APP"]];
-    
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue] == 1 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"svip"] intValue] == 1) {
         self.isSvip = YES;
     }
@@ -235,14 +222,27 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 3 && indexPath.row == 2) {
-        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
-        cell.detailTextLabel.text = [NSString stringWithFormat:@"V%@", [[[NSBundle mainBundle]infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
-        cell.imageView.image = [UIImage imageNamed:_dataArray[indexPath.section][indexPath.row]];
-        cell.detailTextLabel.font = [UIFont italicSystemFontOfSize:15];//设置字体为斜体
-        cell.textLabel.text = _dataArray[indexPath.section][indexPath.row];
-        cell.textLabel.font = [UIFont systemFontOfSize:15];
-        cell.textLabel.textColor = TextCOLOR;
+//        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell"];
+//        cell.detailTextLabel.text = [NSString stringWithFormat:@"V%@", [[[NSBundle mainBundle]infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+//        cell.imageView.image = [UIImage imageNamed:_dataArray[indexPath.section][indexPath.row]];
+//        [cell.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.width.mas_offset(17);
+//            make.height.mas_offset(17);
+//            make.centerY.equalTo(cell.contentView);
+//            make.left.equalTo(cell.contentView).with.offset(15*W_SCREEN);
+//        }];
+//        cell.detailTextLabel.font = [UIFont italicSystemFontOfSize:15];//设置字体为斜体
+//        cell.textLabel.text = _dataArray[indexPath.section][indexPath.row];
+//        cell.textLabel.font = [UIFont systemFontOfSize:15];
+//        cell.textLabel.textColor = TextCOLOR;
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        ShowBadgeCell *cell = [[NSBundle mainBundle] loadNibNamed:@"ShowBadgeCell" owner:self options:nil].lastObject;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.headView.image = [UIImage imageNamed:@"版本号"];
+        cell.detailLabel.text = [NSString stringWithFormat:@"V%@", [[[NSBundle mainBundle]infoDictionary] objectForKey:@"CFBundleShortVersionString"]];
+        cell.detailLabel.font = [UIFont italicSystemFontOfSize:15];//设置字体为斜体
+        cell.nameLabel.text = @"版本号";
+        [cell.youjiantou setHidden:YES];
         return cell;
     }else{
         ShowBadgeCell *cell = [[NSBundle mainBundle] loadNibNamed:@"ShowBadgeCell" owner:self options:nil].lastObject;
@@ -310,7 +310,14 @@
         }
         if (indexPath.section==2) {
             if (self.isSvip) {
-                if (indexPath.row==2) {
+                if (indexPath.row==1) {
+                    UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(cell.nameLabel.frame)-85, CGRectGetMinY(cell.nameLabel.frame)+5, 50, 13)];
+                    newLabel.text = @"new";
+                    newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
+                    newLabel.textColor = [UIColor redColor];
+                    [cell addSubview:newLabel];
+                }
+                else if (indexPath.row==2) {
                     if (self.ischar_rule) {
                         cell.detailLabel.text = @"好友/邮票/SVIP";
                     }
@@ -318,11 +325,22 @@
                     {
                         cell.detailLabel.text = @"所有人";
                     }
+                    
+                    UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(cell.nameLabel.frame)-55, CGRectGetMinY(cell.nameLabel.frame)+5, 50, 13)];
+                    newLabel.text = @"new";
+                    newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
+                    newLabel.textColor = [UIColor redColor];
+                    [cell addSubview:newLabel];
                    
                 }
-                if (indexPath.row==3) {
+                else  if (indexPath.row==3) {
                     cell.lineView.hidden = YES;
                     
+                    UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(cell.nameLabel.frame)-85, CGRectGetMinY(cell.nameLabel.frame)+5, 50, 13)];
+                    newLabel.text = @"new";
+                    newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
+                    newLabel.textColor = [UIColor redColor];
+                    [cell addSubview:newLabel];
                 }
                 else
                 {
@@ -331,8 +349,17 @@
             }
             else
             {
-                if (indexPath.row==2) {
+                if (indexPath.row==1) {
+                    UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(cell.nameLabel.frame)-85, CGRectGetMinY(cell.nameLabel.frame)+5, 50, 13)];
+                    newLabel.text = @"new";
+                    newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
+                    newLabel.textColor = [UIColor redColor];
+                    [cell addSubview:newLabel];
+                }
+                else if (indexPath.row==2) {
                     cell.lineView.hidden = YES;
+                    
+                   
                 }
                 else
                 {
@@ -372,33 +399,19 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     if (indexPath.section == 0) {
-        
         if (indexPath.row == 0){
-            
             LDBindingPhoneNumViewController * pvc = [[LDBindingPhoneNumViewController alloc] init];
-            
             pvc.phoneNum = _phoneNum;
-            
             [self.navigationController pushViewController:pvc animated:YES];
-            
         }else if (indexPath.row == 1){
-            
             LDBindingEmailViewController *evc = [[LDBindingEmailViewController alloc] init];
-            
             evc.emailNum = _emailNum;
-            
             [self.navigationController pushViewController:evc animated:YES];
-            
         }else if (indexPath.row == 2){
-            
             if (_bindOpenidState.length == 0) {
-                
                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
-                
                 UIAlertAction * wechatAction = [UIAlertAction actionWithTitle:@"绑定微信" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
-                    
                     //构造SendAuthReq结构体
                     SendAuthReq* req =[[SendAuthReq alloc ] init];
                     
@@ -693,7 +706,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:nil forKey:@"uid"];
     [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"hideLocation"];
     [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"lookBadge"];
-    
+    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"walletNum"];
     [[RCIM sharedRCIM] disconnect:NO];
     
     [self.tabBarController.tabBar hideBadgeOnItemIndex:0];
@@ -713,7 +726,7 @@
 
 -(void)getsvipSendMessage
 {
-    NSString *url = [PICHEADURL stringByAppendingString:getVipSecretSit];
+    NSString *url = [PICHEADURL stringByAppendingString:getVipSecretSitUrl];
     NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
     NSDictionary *parms = @{@"uid":uid?:@""};
     [NetManager afPostRequest:url parms:parms finished:^(id responseObj) {

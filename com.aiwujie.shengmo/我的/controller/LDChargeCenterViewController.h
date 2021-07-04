@@ -10,5 +10,4 @@
 
 @interface LDChargeCenterViewController : UIViewController
 
-
 @end

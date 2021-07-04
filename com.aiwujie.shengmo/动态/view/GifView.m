@@ -70,11 +70,13 @@
 //掉落的时间
 @property (nonatomic,assign) int second;
 
+//图片字符串
+@property (nonatomic,copy) NSString *imageName;
 @end
 
 @implementation GifView
 
--(instancetype)initWithFrame:(CGRect)frame :(void (^)())block{
+-(instancetype)initWithFrame:(CGRect)frame andisMine:(BOOL )ismine :(void (^)(void))block{
 
     _MyBlock = block;
     
@@ -85,20 +87,20 @@
         _systemArray = @[@"幸运草",@"糖果",@"玩具狗",@"内内",@"TT"];
         _systemAmountArray = @[@"1",@"3",@"5",@"10",@"8"];
         
-        _grayArray = @[@[@"棒棒糖",@"狗粮",@"秋裤",@"黄瓜",@"心心相印",@"香蕉",@"口红",@"亲一个",@"玫瑰花"],@[@"眼罩",@"心灵束缚",@"黄金",@"拍之印",@"鞭之痕",@"老司机",@"一生一世",@"水晶高跟",@"恒之光"],@[@"666",@"红酒",@"蛋糕",@"钻戒",@"皇冠",@"跑车",@"直升机",@"游轮",@"城堡"]];
+        _grayArray = @[@[@"棒棒糖",@"狗粮",@"雪糕",@"黄瓜",@"心心相印",@"香蕉",@"口红",@"亲一个",@"玫瑰花"],@[@"眼罩",@"心灵束缚",@"黄金",@"拍之印",@"鞭之痕",@"老司机",@"一生一世",@"水晶高跟",@"恒之光"],@[@"666",@"红酒",@"蛋糕",@"钻戒",@"皇冠",@"跑车",@"直升机",@"游轮",@"城堡"]];
         
         _amountArray = @[@[@"2",@"6",@"10",@"38",@"99",@"88",@"123",@"166",@"199"],@[@"520",@"666",@"250",@"777",@"888",@"999",@"1314",@"1666",@"1999"],@[@"666",@"999",@"1888",@"2899",@"3899",@"6888",@"9888",@"52000",@"99999"]];
         
         //获取我的系统礼物
-        [self createOwnSystemGifData:frame];
-
+        
+        [self createOwnSystemGifData:frame andismine:ismine];
+       
     }
-    
     return self;
 }
 
 //获取我的系统礼物
--(void)createOwnSystemGifData:(CGRect)frame{
+-(void)createOwnSystemGifData:(CGRect)frame andismine:(BOOL )ismine{
 
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     
@@ -110,7 +112,6 @@
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
         
-//                NSLog(@"%@",responseObject);
         
         if (integer == 2000) {
             
@@ -123,8 +124,7 @@
             }   
         }
         
-        [self createUI:frame];
-        
+        [self createUI:frame wihtismine:ismine];
         [self createData];
         
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -167,15 +167,11 @@
     
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getmywallet"];
     
-    
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    
     
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //        NSLog(@"%@",responseObject);
         
         if (integer != 2000) {
             
@@ -197,7 +193,7 @@
 }
 
 
--(void)createUI:(CGRect)frame{
+-(void)createUI:(CGRect)frame wihtismine:(BOOL) ismine{
 
     self.backgroundColor = [UIColor clearColor];
     
@@ -232,6 +228,14 @@
     [_giveSystemGifButton addTarget:self action:@selector(giveSystemGifButtonClick) forControlEvents:UIControlEventTouchUpInside];
     _giveSystemGifButton.titleLabel.font = [UIFont systemFontOfSize:13];
     [_backView addSubview:_giveSystemGifButton];
+   
+    if (ismine) {
+        [self.giveSystemGifButton setHidden:YES];
+    }
+    else
+    {
+        [self.giveSystemGifButton setHidden:NO];
+    }
 
     _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 45, WIDTH - 10, WIDTH - 10)];
     _scrollView.contentSize = CGSizeMake(_grayArray.count * (WIDTH - 10), WIDTH - 20);
@@ -416,11 +420,11 @@
         [AlertTool alertWithViewController:_viewController andTitle:@"提示" andMessage:@"请输入正确的赠送数量"];
         
     }else{
-        
-       MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:_viewController.view animated:YES];
+
+        MBProgressHUD *HUD = [MBProgressHUD showHUDAddedTo:_viewController.view animated:YES];
         HUD.mode = MBProgressHUDModeIndeterminate;
         
-        NSURL* url;
+        NSURL *url;
         
         NSDictionary *d;
         
@@ -462,7 +466,6 @@
         
         [postRequest setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
         
-        //    ViewController * __weak weakSelf = self;
         NSOperationQueue *queue = [[NSOperationQueue alloc] init];
         
         [NSURLConnection sendAsynchronousRequest:postRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
@@ -471,12 +474,10 @@
                 
                 NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
                 
-                //            NSLog(@"服务器返回：%@",result);
-                
+
                 NSDictionary *responseDic = [self parseJSONStringToNSDictionary:result];
                 
-//                NSLog(@"%@",responseDic);
-                
+
                 if ([responseDic[@"retcode"] intValue] == 2000) {
                     
                     if ([_sign isEqualToString:@"赠送给某人"]) {
@@ -484,13 +485,19 @@
                         HUD.labelText = @"赠送成功";
                         HUD.removeFromSuperViewOnHide = YES;
                         [HUD hide:YES afterDelay:1];
-                    
+                        if (self.sendmessageBlock) {
+                            NSDictionary *dic = @{@"num":self.buyField.text,@"image":self.imageName};
+                            self.sendmessageBlock(dic);
+                        }
                     }else{
                         
                         HUD.labelText = @"打赏成功";
                         HUD.removeFromSuperViewOnHide = YES;
                         [HUD hide:YES afterDelay:1];
-                    
+                        if (self.sendmessageBlock) {
+                            NSDictionary *dic = @{@"num":self.buyField.text,@"image":self.imageName};
+                            self.sendmessageBlock(dic);
+                        }
                         if ([_sign isEqualToString:@"动态"]) {
                             
                             [[NSNotificationCenter defaultCenter] postNotificationName:@"打赏成功" object:nil userInfo:@{@"section":[NSString stringWithFormat:@"%ld",(long)_indexPath.section]}];
@@ -547,50 +554,31 @@
 }
 
 -(void)timeFireMethod{
-    
     _second ++;
-    
     if (_second == 3) {
-        
         [_flowFlower endFlyFlower];
-        
         [_gifTimer invalidate];
-        
         _flowFlower = nil;
-        
         _gifTimer = nil;
     }
 }
 
 -(NSDictionary *)parseJSONStringToNSDictionary:(NSString *)JSONString {
-    
     NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
-    
     NSDictionary *responseJSON = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableLeaves error:nil];
-    
     return responseJSON;
 }
 
-
 -(void)buttonClick1:(UIButton *)button{
-    
     if (_giveView) {
-        
         [self giveCancelButtonClick];
     }
-    
     CGFloat space = (WIDTH - 200 - (WIDTH - 50)/3)/4;
-    
     _giveView = [[UIView alloc] initWithFrame:CGRectMake(20, (3 * (WIDTH - 50)/3 + 190 - WIDTH)/2, WIDTH - 50, WIDTH - 60)];
-    
     _giveView.backgroundColor = [UIColor whiteColor];
-    
     _giveView.layer.cornerRadius = 4;
-    
     _giveView.clipsToBounds = YES;
-    
     [_backView addSubview:_giveView];
-    
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hideKeyboard)];
     [_giveView addGestureRecognizer:tap];
 
@@ -600,12 +588,12 @@
     if (_isSelect) {
         
         image.image = [UIImage imageNamed:_grayArray[button.tag/1000 - 1][button.tag%1000]];
-
+        self.imageName = _grayArray[button.tag/1000 - 1][button.tag%1000];
     }else{
     
             
         image.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@",_systemArray[[_systemGifArray[button.tag%1000][@"type"] intValue] - 37]]];
-        
+        self.imageName = _systemArray[[_systemGifArray[button.tag%1000][@"type"] intValue] - 37];
     }
     
     _gifImage = image.image;
@@ -685,11 +673,11 @@
     
     if (_isSelect) {
         
-        _giveAllNumLabel.text = [NSString stringWithFormat:@"总价值: %@魔豆",_amountArray[button.tag/1000 - 1][button.tag%1000]];
+        _giveAllNumLabel.text = [NSString stringWithFormat:@"总价值:  %@ 魔豆",_amountArray[button.tag/1000 - 1][button.tag%1000]];
         
     }else{
         
-        _giveAllNumLabel.text = [NSString stringWithFormat:@"总价值: %@魔豆",_systemAmountArray[[_systemGifArray[button.tag%1000][@"type"] intValue] - 37]];
+        _giveAllNumLabel.text = [NSString stringWithFormat:@"总价值:  %@ 魔豆",_systemAmountArray[[_systemGifArray[button.tag%1000][@"type"] intValue] - 37]];
     }
     
     [_giveView addSubview:_giveAllNumLabel];
@@ -726,11 +714,11 @@
 
     if (_buyField.text.length != 0 && [_buyField.text intValue] > 0) {
         
-        _giveAllNumLabel.text = [NSString stringWithFormat:@"总价值: %d魔豆",[_buyField.text intValue] * [_money intValue]];
+        _giveAllNumLabel.text = [NSString stringWithFormat:@"总价值:  %d 魔豆",[_buyField.text intValue] * [_money intValue]];
         
     }else{
     
-        _giveAllNumLabel.text = [NSString stringWithFormat:@"总价值: %d魔豆",[_money intValue]];
+        _giveAllNumLabel.text = [NSString stringWithFormat:@"总价值:  %d 魔豆",[_money intValue]];
     }
 
 }

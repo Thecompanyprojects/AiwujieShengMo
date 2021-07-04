@@ -21,4 +21,5 @@
 @property (nonatomic,copy) NSString *num;
 @property (nonatomic,copy) NSString *addtime;
 
+
 @end

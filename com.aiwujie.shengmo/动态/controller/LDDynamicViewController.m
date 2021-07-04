@@ -15,9 +15,7 @@
 #import "LDMyTopicViewController.h"
 #import "UITabBar+badge.h"
 
-
 @interface LDDynamicViewController ()<UIPageViewControllerDelegate,UIPageViewControllerDataSource>
-
 //翻页控制器
 @property (nonatomic, strong) UIPageViewController *pageViewController;
 @property (nonatomic, strong) NSArray *pageContentArray;
@@ -149,15 +147,11 @@
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"recommendBadge"] integerValue] > 0) {
         
         _recommendDogLabel.text = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"recommendBadge"]];
-        
         _recommendDogLabel.hidden = NO;
-        
         [self.tabBarController.tabBar showBadgeOnItemIndex:3];
         
     }else{
-        
         _recommendDogLabel.hidden = YES;
-        
         [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
     }
     
@@ -921,7 +915,6 @@
     }
 }
 
-
 //生成翻页控制器
 -(void)createPageViewController{
     
@@ -954,8 +947,7 @@
     // 在页面上，显示UIPageViewController对象的View
     [self addChildViewController:_pageViewController];
     [self.view addSubview:_pageViewController.view];
-}
-
+} 
 /**
  * 创建第四页话题页
  */
@@ -1478,18 +1470,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

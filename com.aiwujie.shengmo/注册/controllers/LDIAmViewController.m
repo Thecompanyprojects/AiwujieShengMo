@@ -80,40 +80,37 @@
 }
 
 - (void)keyboardWasShown:(NSNotification*)aNotification
-
 {
     //键盘高度
-    CGRect keyBoardFrame = [[[aNotification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
-    
-    if (@available(iOS 11.0, *)){
-        
-        
-        [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height - keyBoardFrame.size.height - 400) animated:YES];
-        
-    }else{
-        
-        if (HEIGHT == 568) {
-            
-            [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height - keyBoardFrame.size.height - 150) animated:YES];
-            
-            //        NSLog(@"%lf",keyBoardFrame.size.height);
-            
-        }else if (HEIGHT == 667){
-            
-            [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height - keyBoardFrame.size.height - 220) animated:YES];
-            
-            
-        }else if (HEIGHT == 736){
-            
-            
-            [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height - keyBoardFrame.size.height - 270) animated:YES];
-            
-        }
-        
-    }
-    
-    
-     self.tableView.scrollEnabled = NO;
+//    CGRect keyBoardFrame = [[[aNotification userInfo] objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue];
+//
+//    if (@available(iOS 11.0, *)){
+//
+//        [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height - keyBoardFrame.size.height - 400) animated:YES];
+//
+//    }else{
+//
+//        if (HEIGHT == 568) {
+//
+//            [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height - keyBoardFrame.size.height - 150) animated:YES];
+//
+//
+//        }else if (HEIGHT == 667){
+//
+//            [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height - keyBoardFrame.size.height - 220) animated:YES];
+//
+//
+//        }else if (HEIGHT == 736){
+//
+//
+//            [self.tableView setContentOffset:CGPointMake(0, self.tableView.contentSize.height - keyBoardFrame.size.height - 270) animated:YES];
+//
+//        }
+//
+//    }
+//
+//
+//     self.tableView.scrollEnabled = NO;
     
 }
 
@@ -124,28 +121,28 @@
 {
     
      [self status];
-        
-    CGRect keyBoardFrame = [[[aNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
-    
-    if (HEIGHT == 568) {
-        
-        [self.tableView setContentOffset:CGPointMake(0,keyBoardFrame.size.height + 140) animated:YES];
-        
-    }else if (HEIGHT == 667){
-        
-        [self.tableView setContentOffset:CGPointMake(0,keyBoardFrame.size.height) animated:YES];
-        
-    }else if (HEIGHT == 736){
-        
-        [self.tableView setContentOffset:CGPointMake(0,keyBoardFrame.size.height - 30) animated:YES];
-        
-    }else if(HEIGHT == 812){
-        
-        [self.tableView setContentOffset:CGPointMake(0,keyBoardFrame.size.height - 150) animated:YES];
-    }
-   
-    
-    self.tableView.scrollEnabled = YES;
+//
+//    CGRect keyBoardFrame = [[[aNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+//
+//    if (HEIGHT == 568) {
+//
+//        [self.tableView setContentOffset:CGPointMake(0,keyBoardFrame.size.height + 140) animated:YES];
+//
+//    }else if (HEIGHT == 667){
+//
+//        [self.tableView setContentOffset:CGPointMake(0,keyBoardFrame.size.height) animated:YES];
+//
+//    }else if (HEIGHT == 736){
+//
+//        [self.tableView setContentOffset:CGPointMake(0,keyBoardFrame.size.height - 30) animated:YES];
+//
+//    }else if(HEIGHT == 812){
+//
+//        [self.tableView setContentOffset:CGPointMake(0,keyBoardFrame.size.height - 150) animated:YES];
+//    }
+//
+//
+//    self.tableView.scrollEnabled = YES;
     
 }
 
@@ -897,14 +894,5 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -21,6 +21,13 @@ typedef void (^RequestFailedBlock)(NSString *errorMsg);
 
 + (void)afGetRequest:(NSString *)urlString parms:(NSDictionary *)dic finished:(RequestFinishedBlock)finishedBlock failed:(RequestFailedBlock)failedBlock;
 
+/**图片上传*/
++(void)uploadImages:(NSString *)url
+              images:(NSArray *)images
+          parameters:(id)parameters
+            progress:(void(^)(NSProgress *progress))progress
+             success:(void(^)(id responseObject))success
+             failure:(void(^)(NSError *error))failure;
 
 
 + (void)SetCalcaultorRequest:(NSString *)urlString parms:(id )dicData finished:(RequestFinishedBlock)finishedBlock failed:(RequestFailedBlock)failedBlock;

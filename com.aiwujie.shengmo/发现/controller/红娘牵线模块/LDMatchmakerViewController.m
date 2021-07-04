@@ -129,49 +129,32 @@
 }
 
 -(void)createButtonTitle{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
+
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Matchmaker/getMatchState"];
-    
     NSDictionary *parameters = @{@"uid": [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //NSLog(@"%@",responseObject);
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer == 2000) {
-            
-            if ([responseObject[@"data"][@"match_state"] intValue] == 0) {
-                
+            if ([responseObj[@"data"][@"match_state"] intValue] == 0) {
                 [self.applyButton setTitle:@"申请服务" forState:UIControlStateNormal];
                 
             }else{
                 
                 [self.applyButton setTitle:@"个人中心" forState:UIControlStateNormal];
             }
-            
-            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",responseObject[@"data"][@"match_state"]] forKey:@"match_state"];
-            
+            [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%@",responseObj[@"data"][@"match_state"]] forKey:@"match_state"];
         }else{
             
             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"获取服务状态失败~"];
-            
             [self.applyButton setTitle:@"申请服务" forState:UIControlStateNormal];
-            
             [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"match_state"];
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"网络连接失败,请检查网络设置~"];
-        
         [self.applyButton setTitle:@"申请服务" forState:UIControlStateNormal];
-        
         [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:@"match_state"];
     }];
+
 }
 
 //生成翻页控制器

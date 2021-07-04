@@ -34,18 +34,14 @@
  * 数据请求类初始化,返回data格式的数据
  */
 + (AFHTTPSessionManager *)sharedDataManager {
-    
     static AFHTTPSessionManager *manager = nil;
-    
     static dispatch_once_t onceToken;
-    
     dispatch_once(&onceToken, ^{
         
         manager = [AFHTTPSessionManager manager];
         manager.responseSerializer=[AFHTTPResponseSerializer serializer];
         manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json",@"text/plain", nil];
     });
-    
     return manager;
 }
 
@@ -105,11 +101,8 @@
  * 服务器返回的数据转换成字典
  */
 + (NSDictionary *)parseJSONStringToNSDictionary:(NSString *)JSONString {
-    
     NSData *JSONData = [JSONString dataUsingEncoding:NSUTF8StringEncoding];
-    
     NSDictionary *responseJSON = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableLeaves error:nil];
-    
     return responseJSON;
 }
 

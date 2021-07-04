@@ -14,6 +14,13 @@
 @property (nonatomic, strong) UIPageViewController *pageViewController;
 @property (nonatomic, strong) NSArray *pageContentArray;
 @property (nonatomic, strong) LDGiveGifListPageViewController *GiveGifListPageViewController;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *leftLineW;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *rightLineW;
+
+@property (weak, nonatomic) IBOutlet UIButton *Button0;
+@property (weak, nonatomic) IBOutlet UIButton *Button1;
+@property (weak, nonatomic) IBOutlet UIButton *Button2;
+
 @property (nonatomic, weak) UIView *navLine;
 @end
 
@@ -26,8 +33,10 @@
         NSMutableArray *arrayM = [[NSMutableArray alloc] init];
         LDGiveGifListPageViewController *v1 = [[LDGiveGifListPageViewController alloc] init];
         LDGiveGifListPageViewController *v2 = [[LDGiveGifListPageViewController alloc] init];
+        LDGiveGifListPageViewController *v3 = [[LDGiveGifListPageViewController alloc] init];
         [arrayM addObject:v1];
         [arrayM addObject:v2];
+        [arrayM addObject:v3];
         _pageContentArray = [[NSArray alloc] initWithArray:arrayM];
     }
     return _pageContentArray;
@@ -44,6 +53,7 @@
                            barMetrics:UIBarMetricsDefault];
     [navigationBar setShadowImage:nil];
     
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
@@ -56,16 +66,18 @@
                        forBarPosition:UIBarPositionAny
                            barMetrics:UIBarMetricsDefault];
     [navigationBar setShadowImage:[UIImage new]];
+    
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.title = @"大喇叭";
-    
     //生成翻页控制器
     [self createPageViewController];
+
 }
+
 
 //生成翻页控制器
 -(void)createPageViewController{
@@ -142,19 +154,12 @@
     if (finished) {
         
         if (completed) {
-            
             NSInteger index = [self.pageContentArray indexOfObject:_GiveGifListPageViewController];
-            
-//            _index = index;
-            
             [self changeNavButtonColor:index];
             
         }else{
             
             NSInteger index = [self.pageContentArray indexOfObject:previousViewControllers[0]];
-            
-//            _index = index;
-            
             [self changeNavButtonColor:index];
         }
     }
@@ -163,16 +168,12 @@
 #pragma mark - 根据index得到对应的UIViewController
 
 - (LDGiveGifListPageViewController *)viewControllerAtIndex:(NSUInteger)index {
-    
     if (([self.pageContentArray count] == 0) || (index >= [self.pageContentArray count])) {
         
         return nil;
     }
-    
     LDGiveGifListPageViewController *contentVC = self.pageContentArray[index];
-    
     contentVC.content = [NSString stringWithFormat:@"%ld",(long)index];
-    
     return contentVC;
 }
 
@@ -187,7 +188,7 @@
 -(void)changeNavButtonColor:(NSInteger)index{
     
     UIButton *button = (UIButton *)[self.view viewWithTag:index + 100];
-    for (int i = 100; i < 102; i++) {
+    for (int i = 100; i < 103; i++) {
         UIButton *btn = (UIButton *)[self.view viewWithTag:i];
         UIView *view = (UIView *)[self.view viewWithTag:i + 100];
         if (button.tag == btn.tag) {
@@ -204,21 +205,16 @@
 - (IBAction)buttonClick:(UIButton *)sender {
     
     LDGiveGifListPageViewController *initialViewController = [self viewControllerAtIndex:sender.tag - 100];// 得到对应页
-    
     NSArray *viewControllers = [NSArray arrayWithObject:initialViewController];
-    
     if (sender.tag == 100) {
-        
         [_pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionReverse animated:YES completion:nil];
-        
-    }else{
-    
+    }
+    else
+    {
         [_pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionForward animated:YES completion:nil];
     }
-    
     [self changeNavButtonColor:sender.tag - 100];
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

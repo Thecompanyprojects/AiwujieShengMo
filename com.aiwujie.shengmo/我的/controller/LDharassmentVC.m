@@ -108,12 +108,22 @@ static NSString *LDharassmentIdentfity = @"LDharassmentIdentfity";
     }
 }
 
+- (void)didMoveToParentViewController:(UIViewController*)parent{
+    [super didMoveToParentViewController:parent];
+    if(!parent){
+        if (self.returnValueBlock) {
+            //将自己的值传出去，完成传值
+            self.returnValueBlock(self.isAll);
+        }
+    }
+}
+
 /**
  修改SVIP消息设置情况
  */
 -(void)choosesvipsendMessage
 {
-    NSString *url = [PICHEADURL stringByAppendingString:setVipSecretSit];
+    NSString *url = [PICHEADURL stringByAppendingString:setVipSecretSitUrl];
     NSString *uid = [[NSUserDefaults standardUserDefaults] objectForKey:@"uid"];
     NSString *char_rule = [NSString new];
     if (self.isAll) {

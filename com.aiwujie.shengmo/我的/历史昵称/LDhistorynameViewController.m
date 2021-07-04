@@ -8,10 +8,12 @@
 
 #import "LDhistorynameViewController.h"
 #import "LDhistorynameModel.h"
+#import "LDhistoryViewModel.h"
+
 
 @interface LDhistorynameViewController ()<UITableViewDataSource,UITableViewDelegate,DZNEmptyDataSetSource,DZNEmptyDataSetDelegate>
-@property (nonatomic,strong) NSMutableArray *dataSource;
 @property (nonatomic,strong) UITableView *table;
+@property (nonatomic,strong) LDhistoryViewModel *viewModel;
 @end
 
 @implementation LDhistorynameViewController
@@ -20,25 +22,20 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"历史昵称";
-    self.dataSource = [NSMutableArray array];
     [self createData];
     [self.view addSubview:self.table];
+
 }
 
 -(void)createData
 {
-    NSString *url = [PICHEADURL stringByAppendingString:getEditnicknameList];
-    NSDictionary *para = @{@"uid":self.uid};
-    
-    [NetManager afPostRequest:url parms:para finished:^(id responseObj) {
-        if ([[responseObj objectForKey:@"retcode"] intValue]==2000) {
-            NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[LDhistorynameModel class] json:responseObj[@"data"]]];
-            [self.dataSource addObjectsFromArray:data];
-        }
-        [self.table reloadData];
-    } failed:^(NSString *errorMsg) {
-        
-    }];
+    self.viewModel = [[LDhistoryViewModel alloc] init];
+    self.viewModel.uid = self.uid;
+    [self.viewModel getNewsList];
+    __weak typeof(self) weakSelf = self;
+    self.viewModel.newsListBlock = ^{
+        [weakSelf.table reloadData];
+    };
 }
 
 #pragma mark - getters
@@ -57,13 +54,11 @@
     return _table;
 }
 
-
-
 #pragma mark -UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.dataSource.count?:0;
+    return self.self.viewModel.news.count?:0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -71,7 +66,7 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"historyname"];
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"historyname"];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    LDhistorynameModel *model = self.dataSource[indexPath.row];
+    LDhistorynameModel *model = self.viewModel.news[indexPath.row];
     cell.textLabel.text = model.nickname;
     cell.textLabel.font = [UIFont systemFontOfSize:14];
     cell.textLabel.textColor = TextCOLOR;

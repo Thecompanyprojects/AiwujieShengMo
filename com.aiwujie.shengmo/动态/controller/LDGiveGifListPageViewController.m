@@ -55,106 +55,74 @@
 
 -(void)createDatatype:(NSString *)type{
     
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
+    NSString *url;
     
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getPresentMsg"];
+    NSDictionary *parameters;
+    NSString *contentss = [NSString new];
+    if ([self.content isEqualToString:@"0"]) {
+        contentss = @"0";
+        parameters = @{@"page":[NSString stringWithFormat:@"%d",_tablePage],@"type":contentss};
+        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getPresentMsg"];
+    }
+    if ([self.content isEqualToString:@"1"]) {
+        url = [PICHEADURL stringByAppendingString:getTopcardUsedLb];
+    }
+    if ([self.content isEqualToString:@"2"]) {
+        contentss = @"1";
+        parameters = @{@"page":[NSString stringWithFormat:@"%d",_tablePage],@"type":contentss};
+        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getPresentMsg"];
+    }
     
-    NSDictionary *parameters = @{@"page":[NSString stringWithFormat:@"%d",_tablePage],@"type":self.content};
-
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-
+    
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000 && integer != 2001) {
-            
             if (integer == 4000) {
-                
                 if ([type intValue] == 1) {
-                    
                     [_dataArray removeAllObjects];
-                    
                     [_tableView reloadData];
-                    
                     self.tableView.mj_footer.hidden = YES;
-                    
                 }else{
-                
                     [self.tableView.mj_footer endRefreshingWithNoMoreData];
-                    
                 }
-
             }else{
-                
-                 [self.tableView.mj_footer endRefreshing];
-                
-                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
+                [self.tableView.mj_footer endRefreshing];
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }
-            
         }else{
-            
             if ([type intValue] == 1) {
-                
                 [_dataArray removeAllObjects];
             }
-            
-            for (NSDictionary *dic in responseObject[@"data"]) {
-                
-                GiveGifModel *model = [[GiveGifModel alloc] init];
-                
-                [model setValuesForKeysWithDictionary:dic];
-                
-                [_dataArray addObject:model];
-            }
+            NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[GiveGifModel class] json:responseObj[@"data"]]];
+            [self.dataArray addObjectsFromArray:data];
             
             self.tableView.mj_footer.hidden = NO;
-            
             [self.tableView reloadData];
-            
             [self.tableView.mj_footer endRefreshing];
-            
         }
-        
         [self.tableView.mj_header endRefreshing];
-       
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
-        
     }];
-    
 }
 
 -(void)createTableView{
-    
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX] - 44) style:UITableViewStylePlain];
-    
     self.tableView.backgroundColor = [UIColor blackColor];
-    
     if (@available(iOS 11.0, *)) {
-        
         self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
-        
         self.tableView.estimatedRowHeight = 0;
         self.tableView.estimatedSectionHeaderHeight = 0;
         self.tableView.estimatedSectionFooterHeight = 0;
-        
     }else {
-        
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
     self.tableView.delegate = self;
-    
     self.tableView.dataSource = self;
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     self.tableView.tableFooterView = [[UIView alloc] init];
-    
     self.tableView.showsHorizontalScrollIndicator = NO;
-    
     [self.view addSubview:self.tableView];
     self.tableView.tableHeaderView = self.headerView;
 }
@@ -167,25 +135,19 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     GiveGifCell *cell = [tableView dequeueReusableCellWithIdentifier:@"GiveGif"];
-    
     if (!cell) {
-        
         cell = [[NSBundle mainBundle] loadNibNamed:@"GiveGifCell" owner:self options:nil].lastObject;
     }
-    
+    if ([self.content isEqualToString:@"1"]) {
+        cell.isTopcard = YES;
+    }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     if (_dataArray.count > 0) {
-        
         GiveGifModel *model = _dataArray[indexPath.row];
-        
         cell.model = model;
     }
-    
     [cell.giveButton addTarget:self action:@selector(giveButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
     [cell.givenButton addTarget:self action:@selector(givenButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
     return cell;
 }
 
@@ -221,20 +183,23 @@
     if(!_headerView)
     {
         _headerView = [[UIView  alloc] init];
-        _headerView.frame = CGRectMake(0, 0, WIDTH, 20);
+        _headerView.frame = CGRectMake(0, 0, WIDTH, 44);
         UILabel *lab = [UILabel new];
         [_headerView addSubview:lab];
-        lab.frame = CGRectMake(0, 0, WIDTH, 20);
+        lab.frame = CGRectMake(0, 15, WIDTH, 20);
         lab.font = [UIFont systemFontOfSize:13];
         lab.textAlignment = NSTextAlignmentCenter;
         lab.textColor = [UIColor whiteColor];
         if ([self.content isEqualToString:@"0"]) {
             lab.text = @"送500魔豆以上的礼物可上大喇叭";
         }
-        else{
+        if ([self.content isEqualToString:@"1"]) {
+            lab.text = @"推顶动态可上大喇叭,可获魅力值";
+        }
+        if ([self.content isEqualToString:@"2"]) {
             lab.text = @"送会员可上大喇叭";
         }
-        
+  
     }
     return _headerView;
 }
@@ -243,6 +208,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 @end

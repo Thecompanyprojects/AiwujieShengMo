@@ -14,15 +14,16 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import "UMMobClick/MobClick.h"
 #import <Bugly/Bugly.h>
+#import "XYRichMessageContent.h"
+#import "XYgiftMessageContent.h"
+#import "XYredMessageContent.h"
+#import "XYreadoneContent.h"
+
 
 @interface AppDelegate ()<CLLocationManagerDelegate,RCIMConnectionStatusDelegate,UIAlertViewDelegate,RCIMReceiveMessageDelegate,WXApiDelegate,WeiboSDKDelegate,QQApiInterfaceDelegate>
-
 @property (nonatomic,strong) CLLocationManager *locationManager;
-
 @property (nonatomic,strong) LDMainTabViewController *mvc;
-
 @property (nonatomic,strong) UIAlertView *alert;
-
 @end
 
 @implementation AppDelegate
@@ -35,31 +36,25 @@
     self.window.backgroundColor = [UIColor whiteColor];
     
     //bugly
-     [Bugly startWithAppId:@"0b279600f2"];
+    [Bugly startWithAppId:@"3fec6eff57"];
     
     //@{}代表Dictionary  设置title颜色
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1],NSFontAttributeName:[UIFont systemFontOfSize:17]}];
-    
     [UINavigationBar appearance].translucent = NO;
-    
-    [[UINavigationBar appearance]
-     setBarTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
     
     //用keychain存储用户的唯一标示uuid,用于封设备
     UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"com.aiwujie.shengmoApp"];
     
     if ([keychain[@"device_token"] length] == 0) {
-        
         NSString *IDFV = [UIDevice currentDevice].identifierForVendor.UUIDString;
-        
         [keychain setString:[NSString stringWithFormat:@"%@",IDFV] forKey:@"device_token"];
-        
     }
 
     //友盟统计
     UMConfigInstance.appKey = @"591a7b45677baa4928000098";
     UMConfigInstance.channelId = @"App Store";
-//    UMConfigInstance.eSType = E_UM_GAME; //仅适用于游戏场景，应用统计不用设置
+    //UMConfigInstance.eSType = E_UM_GAME; //仅适用于游戏场景，应用统计不用设置
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     [MobClick setAppVersion:version];
     [MobClick startWithConfigure:UMConfigInstance];
@@ -111,27 +106,25 @@
     
     [RCIMClient sharedRCIMClient].logLevel = RC_Log_Level_Info;
     
+    // 注册自定义测试消息
+    [[RCIM sharedRCIM] registerMessageType:[XYRichMessageContent class]];
+    [[RCIM sharedRCIM] registerMessageType:[XYgiftMessageContent class]];
+    [[RCIM sharedRCIM] registerMessageType:[XYredMessageContent class]];
+    [[RCIM sharedRCIM] registerMessageType:[XYreadoneContent class]];
+    
     //前台提示音开关
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"voiceSwitch"] == nil || [[[NSUserDefaults standardUserDefaults] objectForKey:@"voiceSwitch"] isEqualToString:@"no"]) {
-        
         [RCIM sharedRCIM].disableMessageAlertSound = NO;
-        
     }else{
-        
         [RCIM sharedRCIM].disableMessageAlertSound = YES;
     }
     
     //本地通知提示音开关
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"notificationSwitch"] == nil || [[[NSUserDefaults standardUserDefaults] objectForKey:@"notificationSwitch"] isEqualToString:@"no"]) {
-        
         [RCIM sharedRCIM].disableMessageNotificaiton = NO;
-        
     }else{
-        
         [RCIM sharedRCIM].disableMessageNotificaiton = YES;
-        
     }
-    
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue] == 0) {
         
         //为在底部控制器上添加红点或消息数
@@ -243,8 +236,7 @@
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
         
-//        NSLog(@"%@",responseObject);
-        
+
         if (integer == 2000){
             
             if ([responseObject[@"data"][@"dynamic"] integerValue] > 0) {
@@ -330,7 +322,6 @@
             
              [[NSNotificationCenter defaultCenter] postNotificationName:@"lookBadge" object:nil];
 
-            
         }else if([message.senderUserId intValue] == 3){//监听是否有新的点赞评论打赏的消息
         
             [[NSNotificationCenter defaultCenter] postNotificationName:@"消息接收" object:nil];

@@ -410,6 +410,7 @@
                 <outlet property="commentH" destination="Bbw-dW-v53" id="65L-KX-twp"/>
                 <outlet property="commentLabel" destination="duH-Io-XUK" id="gBl-Wh-0Gw"/>
                 <outlet property="commentTopH" destination="ReE-l4-Gtt" id="QLL-vD-XqA"/>
+                <outlet property="commentView" destination="96Q-sk-TGS" id="l6d-ql-9B4"/>
                 <outlet property="contentLabel" destination="SZe-04-Wha" id="HwW-qX-aIj"/>
                 <outlet property="distanceLabel" destination="elV-0f-dbn" id="pqr-6h-Leg"/>
                 <outlet property="distanceY" destination="LED-ud-ZW6" id="fzO-rl-fsf"/>
@@ -425,6 +426,7 @@
                 <outlet property="recommendView" destination="d3o-s2-uVM" id="e1t-ma-q4H"/>
                 <outlet property="rewardButton" destination="RJs-zd-4bO" id="cWp-8T-AbO"/>
                 <outlet property="rewardLabel" destination="AQ4-i0-20w" id="5Sx-Zm-eyX"/>
+                <outlet property="rewardView" destination="vEu-BY-eD3" id="fjN-lm-hzn"/>
                 <outlet property="scanLabel" destination="Jb4-12-Xin" id="uVW-jc-4nv"/>
                 <outlet property="sexLabel" destination="Mx4-dm-uoh" id="jRe-Pw-eRF"/>
                 <outlet property="sexualLabel" destination="Rdq-Zc-dpB" id="KdP-Vm-VeW"/>

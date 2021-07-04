@@ -17,7 +17,7 @@
 /**
  * 兑换会员的弹框提示
  */
-+ (void)alertWithViewController:(UIViewController *)controller type:(NSString *)type andAlertDidSelectItem:(void(^)(int index, NSString *viptype))selectBlock;
++(void)alertWithViewController:(UIViewController *)controller type:(NSString *)type num:(NSString *)numStr andAlertDidSelectItem:(void(^)(int index, NSString *viptype))selectBlock;
 
 /**
  * 兑换邮票的弹框提示

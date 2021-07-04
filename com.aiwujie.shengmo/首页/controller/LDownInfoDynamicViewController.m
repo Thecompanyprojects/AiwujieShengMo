@@ -26,9 +26,7 @@
 @interface LDownInfoDynamicViewController ()<UITableViewDelegate,UITableViewDataSource,DynamicDelegate,YBAttributeTapActionDelegate>
 
 @property (nonatomic,strong) UITableView *tableView;
-
 @property (nonatomic,strong) NSMutableArray *dataArray;
-
 @property (nonatomic,strong) NSIndexPath *indexPath;
 @property (nonatomic,strong) DynamicModel *model;
 @property (nonatomic,strong) DynamicCell *cell;
@@ -65,6 +63,7 @@
 
 //提示的view
 @property (nonatomic,strong) UIView *warnView;
+@property (nonatomic,strong) UIImageView *rocketsView;
 
 @end
 
@@ -443,77 +442,79 @@
 -(void)attentButtonClickState:(BOOL)state{
     
     if (state) {
-        
-        _url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/overfollow"];
-        
+        _url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setoverfollow];
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否取消关注此人"    preferredStyle:UIAlertControllerStyleAlert];
-        
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
-            
             [self blackData];
         }];
-        
         UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault  handler:nil];
-        
         if (PHONEVERSION.doubleValue >= 8.3) {
-            
             [action setValue:MainColor forKey:@"_titleTextColor"];
-            
             [cancelAction setValue:MainColor forKey:@"_titleTextColor"];
         }
-        
         [alert addAction:action];
-        
         [alert addAction:cancelAction];
-        
         [self presentViewController:alert animated:YES completion:nil];
-        
-        
     }else{
-        
-        _url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/followOneBox"];
-        
+        _url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setfollowOne];
         [self blackData];
-        
     }
 }
 
+/**
+ 关注好友 / 取消关注好友
+ */
 -(void)blackData{
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"fuid":self.personUid};
     
-    [manager POST:_url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //                NSLog(@"%@",responseObject);
-        
+    [NetManager afPostRequest:_url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
             
             hud.removeFromSuperViewOnHide = YES;
-            
             [hud hide:YES];
-            
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
+            if (integer==8881||integer==8882) {
+                NSString *msg = [responseObj objectForKey:@"msg"];
+                UIAlertController *control = [UIAlertController alertControllerWithTitle:@"提示" message:msg preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"开会员" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
+                    [self.navigationController pushViewController:mvc animated:YES];
+                }];
+                UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"去认证" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    LDCertificateViewController *cvc = [[LDCertificateViewController alloc] init];
+                    cvc.where = @"2";
+                    [self.navigationController pushViewController:cvc animated:YES];
+                }];
+                UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    
+                }];
+                [control addAction:action1];
+                [control addAction:action0];
+                [control addAction:action2];
+                [self presentViewController:control animated:YES completion:^{
+                    
+                }];
+            }else
+            {
+                
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
+            }
             
         }else{
-            
             if (_attentStatus) {
                 
                 hud.mode = MBProgressHUDModeText;
-                hud.labelText = [responseObject objectForKey:@"msg"];
+                hud.labelText = [responseObj objectForKey:@"msg"];
                 hud.removeFromSuperViewOnHide = YES;
                 [hud hide:YES afterDelay:3];
                 
                 _attentStatus = NO;
                 
             }else{
-                
-                if ([responseObject[@"data"] intValue] == 1) {
+                if ([responseObj[@"data"] intValue] == 1) {
                     
                     hud.mode = MBProgressHUDModeText;
                     hud.labelText = @"已互为好友，可以免费无限畅聊了~";
@@ -527,51 +528,32 @@
                     hud.removeFromSuperViewOnHide = YES;
                     [hud hide:YES afterDelay:3];
                 }
-                
                 _attentStatus = YES;
-                
             }
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         hud.removeFromSuperViewOnHide = YES;
-        
         [hud hide:YES];
-        
     }];
 }
 
 
 -(void)createTableView{
-    
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX]) style:UITableViewStyleGrouped];
-    
     if (@available(iOS 11.0, *)) {
-        
         self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
-        
         self.tableView.estimatedRowHeight = 0;
         self.tableView.estimatedSectionHeaderHeight = 0;
         self.tableView.estimatedSectionFooterHeight = 0;
-        
     }else {
-        
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
     self.tableView.delegate = self;
-    
     self.tableView.dataSource = self;
-    
     self.tableView.fd_debugLogEnabled = YES;
-    
     [self.tableView registerNib:[UINib nibWithNibName:@"DynamicCell" bundle:nil] forCellReuseIdentifier:@"DynamicCell"];
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     self.tableView.showsHorizontalScrollIndicator = NO;
-    
     [self.view addSubview:self.tableView];
 }
 
@@ -588,27 +570,13 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     DynamicCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DynamicCell" forIndexPath:indexPath];
-    
     cell.delegate = self;
-    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     cell.integer = _integer;
-    
     cell.indexPath = indexPath;
-    
-    [self configureCell:cell atIndexPath:indexPath];
-    
-    [_sectionArray addObject:indexPath];
-    
-    [cell.zanButton addTarget:self action:@selector(zanButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [cell.rewardButton addTarget:self action:@selector(rewardButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [cell.commentButton addTarget:self action:@selector(commentButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
     [cell.headButton addTarget:self action:@selector(headButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
+    [self configureCell:cell atIndexPath:indexPath];
+    [_sectionArray addObject:indexPath];
     return cell;
 }
 
@@ -685,158 +653,141 @@
     
 }
 
--(void)commentButtonClick:(UIButton *)button{
-    
-    DynamicCell *cell = (DynamicCell *)button.superview.superview.superview;
-    
+-(void)zanTabVClick:(UITableViewCell *)cell
+{
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
-    DynamicModel *model = _dataArray[indexPath.section];
-    
-    LDDynamicDetailViewController *dvc = [[LDDynamicDetailViewController alloc] init];
-    
-    dvc.did = model.did;
-    
-    dvc.ownUid = model.uid;
-    
-    _indexPath = indexPath;
-    
-    dvc.clickState = @"comment";
-    
-    [self.navigationController pushViewController:dvc animated:YES];
-}
-
--(void)rewardButtonClick:(UIButton *)button{
-    
-    DynamicCell *cell = (DynamicCell *)button.superview.superview.superview;
-    
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
-    DynamicModel *model = _dataArray[indexPath.section];
-    
-    _cell = cell;
-    
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue] == [model.uid intValue]) {
-        
-        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"不能对自己打赏~"];
-        
-    }else{
-        
-        _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) :^{
-            
-            LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
-            
-            cvc.type = @"0";
-            
-            [self.navigationController pushViewController:cvc animated:YES];
-            
-        }];
-        
-        [_gif getDynamicDid:model.did andIndexPath:indexPath andSign:@"个人主页动态" andUIViewController:self];
-        
-        [self.tabBarController.view addSubview:_gif];
-    }
-}
-
--(void)zanButtonClick:(UIButton *)button{
-    
-    DynamicCell *cell = (DynamicCell *)button.superview.superview.superview;
-    
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
     DynamicModel *model = _dataArray[indexPath.section];
     
     if ([model.laudstate intValue] == 0) {
         
-        AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-        
-        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/laudDynamicNewrd"];
+        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,laudDynamicNewrd];
         
         NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":model.did};
-  
         
-        [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
-            NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-
-            
+        [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+            NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
             if (integer != 2000) {
                 
-                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-                
-                
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }else{
-                
-                cell.zanLabel.text = [NSString stringWithFormat:@"%d",[cell.zanLabel.text intValue] + 1];
-                
-                cell.zanImageView.image = [UIImage imageNamed:@"赞紫"];
-                
+                int oldstrs = [model.laudnum intValue]+1;
+                model.laudnum = [NSString stringWithFormat:@"%d",oldstrs].mutableCopy;
                 model.laudstate = @"1";
-                
-                model.laudnum = [NSString stringWithFormat:@"%d",[cell.zanLabel.text intValue]];
-                
+                [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
                 [_dataArray replaceObjectAtIndex:indexPath.section withObject:model];
-                
             }
-            
-            
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
-            
-        }];
-        
-    }
-    /*
-    else{
-        
-        AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-        
-        NSString *url = [NSString stringWithFormat:@"%@%@",URL,@"Api/Dynamic/cancelLaud"];
-        
-        NSDictionary *parameters = [NSDictionary dictionary];
-        
-        parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":model.did};
-        //    NSLog(@"%@",role);
-        
-        [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
-            NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-            
-            //        NSLog(@"%@",responseObject);
-            
-            if (integer != 2000) {
-                
-                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:[responseObject objectForKey:@"msg"]    preferredStyle:UIAlertControllerStyleAlert];
-                
-                UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault  handler:nil];
-                
-                [alert addAction:action];
-                
-                [self presentViewController:alert animated:YES completion:nil];
-                
-                
-            }else{
-                
-                cell.zanLabel.text = [NSString stringWithFormat:@"%d",[cell.zanLabel.text intValue] - 1];
-                
-                cell.zanImageView.image = [UIImage imageNamed:@"赞灰"];
-                
-                model.laudstate = @"0";
-                
-                model.laudnum = [NSString stringWithFormat:@"%d",[cell.zanLabel.text intValue]];
-                
-                [_dataArray replaceObjectAtIndex:indexPath.section withObject:model];
-                
-            }
-            
-            
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
+        } failed:^(NSString *errorMsg) {
             
         }];
     }
-     */
 }
+
+-(void)commentTabVClick:(UITableViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    DynamicModel *model = _dataArray[indexPath.section];
+    LDDynamicDetailViewController *dvc = [[LDDynamicDetailViewController alloc] init];
+    dvc.did = model.did;
+    dvc.ownUid = model.uid;
+    _indexPath = indexPath;
+    dvc.clickState = @"comment";
+    [self.navigationController pushViewController:dvc animated:YES];
+}
+
+-(void)replyTabVClick:(UITableViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    DynamicModel *model = _dataArray[indexPath.section];
+    BOOL ismines = NO;
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]==[model.uid intValue]) {
+        ismines = YES;
+    }
+    _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) andisMine:ismines :^{
+        LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
+        cvc.type = @"0";
+        [self.navigationController pushViewController:cvc animated:YES];
+        
+    }];
+    [_gif getDynamicDid:model.did andIndexPath:indexPath andSign:@"个人主页动态" andUIViewController:self];
+    [self.tabBarController.view addSubview:_gif];
+}
+
+-(void)topTabVClick:(UITableViewCell *)cell
+{
+    NSIndexPath *index = [self.tableView indexPathForCell:cell];
+
+    DynamicModel *model = self.dataArray[index.section];
+    TopcardView *view = [TopcardView new];
+    view.did = model.did;
+    [view withBuyClick:^(NSString * _Nonnull string) {
+        LDtotopViewController *VC = [LDtotopViewController new];
+        [self.navigationController pushViewController:VC animated:YES];
+    }];
+    [view withAlertClick:^(NSString * _Nonnull string) {
+        UIAlertController *control = [UIAlertController alertControllerWithTitle:@"提示" message:@"您的推顶卡不足，请购买" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"去购买" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            LDtotopViewController *VC = [LDtotopViewController new];
+            [self.navigationController pushViewController:VC animated:YES];
+        }];
+        [control addAction:action0];
+        [control addAction:action1];
+        [self presentViewController:control animated:YES completion:^{
+            
+        }];
+    }];
+    [view withSureClick:^(NSString * _Nonnull string) {
+        //推顶操作成功
+        
+        NSString *newStr = model.topnum;
+        newStr = [NSString stringWithFormat:@"%d",[newStr intValue]+1].copy;
+        model.topnum = newStr.copy;
+        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:index,nil] withRowAnimation:UITableViewRowAnimationNone];
+        [self.dataArray replaceObjectAtIndex:index.section withObject:model];
+        self.rocketsView = [UIImageView new];
+        self.rocketsView.frame = CGRectMake(WIDTH/2-150, HEIGHT-450, 300, 300);
+        self.rocketsView.image = [UIImage imageNamed:@"推顶火箭"];
+        [self.view addSubview:self.rocketsView];
+        [self spring];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self move];
+        });
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.8 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.rocketsView removeFromSuperview];
+        });
+    }];
+}
+
+
+// 移动
+- (void)move
+{
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+    animation.beginTime = CACurrentMediaTime();
+    animation.duration = 1;
+    animation.repeatCount = 0;
+    animation.fromValue = [NSValue valueWithCGPoint:self.rocketsView.layer.position];
+    animation.toValue = [NSValue valueWithCGPoint:CGPointMake(self.rocketsView.layer.position.x, self.rocketsView.layer.position.y-HEIGHT)];
+    [self.rocketsView.layer addAnimation:animation forKey:@"move"];
+}
+
+// 弹簧
+- (void)spring
+{
+    CASpringAnimation *animation = [CASpringAnimation animationWithKeyPath:@"position"];
+    animation.beginTime = CACurrentMediaTime();
+    animation.damping = 2;
+    animation.stiffness = 50;
+    animation.mass = 1;
+    animation.initialVelocity = 10;
+    [animation setFromValue:[NSValue valueWithCGPoint:self.rocketsView.layer.position]];
+    [animation setToValue:[NSValue valueWithCGPoint:CGPointMake(self.rocketsView.layer.position.x, self.rocketsView.layer.position.y + 50)]];
+    animation.duration = animation.settlingDuration;
+    [self.rocketsView.layer addAnimation:animation forKey:@"spring"];
+}
+
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
@@ -1236,24 +1187,15 @@
 -(void)createPublishCommentData{
     
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
     manager.requestSerializer.timeoutInterval = 10.f;
-    
     [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/judgeDynamicNewrd"];
-    
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    
-    //    NSLog(@"%@",role);
-    
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-        //        NSLog(@"%@",responseObject);
-        
+
         if (integer == 4003  || integer == 4004) {
             
             _publishComment = @"NO";
@@ -1346,12 +1288,8 @@
 
 -(void)createDataType:(NSString *)type{
 
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getDynamicListNewFive];
-
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getDynamicListNewFiveUrl];
     NSDictionary *parameters;
-
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
 
         parameters = @{@"uid":self.personUid,@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"type":@"3",@"page":[NSString stringWithFormat:@"%d",_page],@"loginuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
@@ -1360,29 +1298,17 @@
 
         parameters = @{@"uid":self.personUid,@"lat":@"",@"lng":@"",@"type":@"3",@"page":[NSString stringWithFormat:@"%d",_page],@"loginuid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     }
-
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        _integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-//        NSLog(@"%@",responseObject);
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        _integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (_integer != 2000 && _integer != 2001) {
-            
             if (_integer == 4001) {
-                
                 if ([type intValue] == 1) {
-                    
                     [_dataArray removeAllObjects];
-                    
                     [self.tableView reloadData];
-                    
-               }
-                
+                }
                 [self.tableView.mj_footer endRefreshingWithNoMoreData];
                 
             }else{
-                
                 if (_integer == 4344 || _integer == 4343) {
                     
                     [_dataArray removeAllObjects];
@@ -1397,44 +1323,30 @@
                     
                     [self.tableView.mj_footer endRefreshing];
                     
-                    [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
+                    [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
                 }
             }
             
         }else{
-            
             if ([type intValue] == 1) {
-                
                 [_dataArray removeAllObjects];
-                
             }
             
             if (_warnView != nil) {
-                
                 [_warnView removeFromSuperview];
             }
-            
-            for (NSDictionary *dic in responseObject[@"data"]) {
-                
-                DynamicModel *model = [[DynamicModel alloc] init];
-                
-                [model setValuesForKeysWithDictionary:dic];
-                
-                [_dataArray addObject:model];
-            }
-            
+            NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[DynamicModel class] json:responseObj[@"data"]]];
+            [self.dataArray addObjectsFromArray:data];
             [self.tableView reloadData];
-            
             [self.tableView.mj_footer endRefreshing];
-            
         }
         
         [self.tableView.mj_header endRefreshing];
+    } failed:^(NSString *errorMsg) {
         
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        NSLog(@"%@",error);
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
+
     }];
 }
 

@@ -16,11 +16,13 @@
     
     self.badgeLabel.layer.cornerRadius = 10;
     self.badgeLabel.clipsToBounds = YES;
+    self.headView.layer.masksToBounds = YES;
+    self.headView.layer.cornerRadius = 6;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

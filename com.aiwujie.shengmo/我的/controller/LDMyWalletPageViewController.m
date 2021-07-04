@@ -29,7 +29,8 @@
 
 @property (nonatomic,strong) UIButton *rightButton;
 @property (nonatomic,assign) int index;
-
+@property (nonatomic,copy) NSString *num0;
+@property (nonatomic,copy) NSString *num1;
 @end
 
 @implementation LDMyWalletPageViewController
@@ -42,20 +43,18 @@
         
         LDChargeCenterViewController *v1 = [[LDChargeCenterViewController alloc] init];
         LDMyReceiveGifViewController *v2 = [[LDMyReceiveGifViewController alloc] init];
-        
+        v2.returnValueBlock = ^(NSString *numStr) {
+            self.num1 = numStr;
+        };
         [arrayM addObject:v1];
         [arrayM addObject:v2];
-        
         _pageContentArray = [[NSArray alloc] initWithArray:arrayM];
-        
     }
     return _pageContentArray;
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-
     [super viewWillAppear:animated];
-    
     _navView.hidden = NO;
 }
 
@@ -94,9 +93,8 @@
     }else{
     
         LDDetailPageViewController *pvc = [[LDDetailPageViewController alloc] init];
-        
+        pvc.numStr = self.num1;
         pvc.index = _index;
-        
         [self.navigationController pushViewController:pvc animated:YES];
     }
 }
@@ -106,9 +104,7 @@
     
     // 设置UIPageViewController的配置项
     NSDictionary *options = @{UIPageViewControllerOptionInterPageSpacingKey : @(1)};
-    //    NSDictionary *options = @{UIPageViewControllerOptionSpineLocationKey : @(UIPageViewControllerSpineLocationMin)};
-    
-    // 根据给定的属性实例化UIPageViewController
+
     _pageViewController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll navigationOrientation: UIPageViewControllerNavigationOrientationHorizontal options:options];
     // 设置UIPageViewController代理和数据源
     _pageViewController.delegate = self;
@@ -136,8 +132,6 @@
         
         [_pageViewController setViewControllers:viewControllers direction:UIPageViewControllerNavigationDirectionReverse animated:NO completion:nil];
     }
-    
-    
     // 设置UIPageViewController 尺寸
     _pageViewController.view.frame = self.view.frame;
     
@@ -177,13 +171,9 @@
     }
     
     index++;
-    
     if (index == [self.pageContentArray count]) {
-        
         return nil;
     }
-    
-    
     return [self viewControllerAtIndex:index];
     
 }
@@ -252,77 +242,43 @@
 -(void)createNavView{
 
     if (ISIPHONEX) {
-    
          _navView = [[UIView alloc] initWithFrame:CGRectMake(60, 0, WIDTH - 120, 88)];
-        
     }else{
-        
          _navView = [[UIView alloc] initWithFrame:CGRectMake(60, 0, WIDTH - 120, 64)];
     }
     _navView.backgroundColor = [UIColor clearColor];
-    
     [self.navigationController.view addSubview:_navView];
-    
     CGFloat spotW = 38;
     CGFloat spotH = 2;
-    
     _chargeButton = [[UIButton alloc] initWithFrame:CGRectMake(0, [self getIsIphoneXNAV:ISIPHONEX], _navView.frame.size.width/2, 30)];
-    
     [_chargeButton setTitle:@"充值" forState:UIControlStateNormal];
-    
     [_chargeButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    
     _chargeButton.tag = 100;
-    
     [_chargeButton addTarget:self action:@selector(navButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
     _chargeButton.titleLabel.font = [UIFont systemFontOfSize:17];
-    
     [_navView addSubview:_chargeButton];
-    
     _chargeView = [[UIView alloc] initWithFrame:CGRectMake(_navView.frame.size.width/4 - spotW/2, [self getIsIphoneXNAVBottom:ISIPHONEX], spotW, spotH)];
-    
     _chargeView.backgroundColor = [UIColor blackColor];
-    
     _chargeView.layer.cornerRadius = spotH/2;
-    
     _chargeView.tag = 200;
-    
     _chargeView.hidden = NO;
-    
     _chargeView.clipsToBounds = YES;
-    
     [_navView addSubview:_chargeView];
-    
-    
     _gifButton = [[UIButton alloc] initWithFrame:CGRectMake(_navView.frame.size.width/2, [self getIsIphoneXNAV:ISIPHONEX],_navView.frame.size.width/2, 30)];
-    
     [_gifButton setTitle:@"礼物" forState:UIControlStateNormal];
-    
     _gifButton.titleLabel.font = [UIFont systemFontOfSize:17];
-    
     _gifButton.tag = 101;
-    
     [_gifButton addTarget:self action:@selector(navButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
     [_gifButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    
     [_navView addSubview:_gifButton];
-    
     _gifView = [[UIView alloc] initWithFrame:CGRectMake(_navView.frame.size.width/2 + _navView.frame.size.width/4 - spotW/2, [self getIsIphoneXNAVBottom:ISIPHONEX], spotW, spotH)];
-    
     _gifView.backgroundColor = [UIColor blackColor];
-    
     _gifView.layer.cornerRadius = spotH/2;
-    
     _gifView.hidden = YES;
-    
     _gifView.tag = 201;
-    
     _gifView.clipsToBounds = YES;
-    
     [_navView addSubview:_gifView];
-    
+
 }
 
 //点击导航栏处的按钮

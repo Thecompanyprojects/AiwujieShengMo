@@ -24,63 +24,41 @@
 #import "UITabBar+badge.h"
 
 @interface LDInformationViewController ()<RCIMUserInfoDataSource,RCIMGroupInfoDataSource,RCIMGroupMemberDataSource,StampChatDelete>
-
 @property (nonatomic,strong) UIView *groupDogView;
-
 @property (nonatomic,strong) RCConversationModel* model;
-
 @property (nonatomic,strong) LDStampChatView *stampView;
-
 @end
 
 @implementation LDInformationViewController
 
 -(void)viewWillAppear:(BOOL)animated{
-
     [super viewWillAppear:animated];
-    
     self.tabBarController.tabBar.hidden = NO;
-    
-     [self createDataLat:[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"] andLng:[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"]];
-    
+    [self createDataLat:[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"] andLng:[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"]];
     //获取消息列表未读消息数
     UITabBarItem * item=[self.tabBarController.tabBar.items objectAtIndex:2];
-    
     NSInteger badge = [[RCIMClient sharedRCIMClient] getTotalUnreadCount];
-    
     dispatch_async(dispatch_get_main_queue(), ^{
         
         if (badge <= 0) {
-            
             item.badgeValue = 0;
-            
         }else{
-            
             item.badgeValue = [NSString stringWithFormat:@"%ld",(long)badge];
         }
     });
-    
     //判断是不是有新建的群
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"groupBadge"] length] == 0) {
-
         _groupDogView.hidden = YES;
-
     }else{
-
         _groupDogView.hidden = NO;
-
     }
 }
 
 //上传实时位置
 -(void)createDataLat:(NSString *)lat andLng:(NSString *)lng{
     
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Other/setLogintimeAndLocation"];
-    
     NSDictionary *parameters;
-    
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
         
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"province"] length] == 0) {
@@ -123,20 +101,16 @@
         
         parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":@"",@"lng":@"",@"city":@"",@"addr":@"",@"province":@""};
     }
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
         
-        //NSLog(@"%@",responseObject);
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failed:^(NSString *errorMsg) {
         
     }];
 }
 
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+     self.view.backgroundColor = [UIColor whiteColor];
     //设置需要显示哪些类型的会话
     [self setDisplayConversationTypes:@[@(ConversationType_PRIVATE),@(ConversationType_GROUP),@(ConversationType_SYSTEM),@(ConversationType_PUSHSERVICE),@(ConversationType_CUSTOMERSERVICE)]];
 //    //设置需要将哪些类型的会话在会话列表中聚合显示
@@ -170,6 +144,7 @@
     //监听是否清空了聊天记录
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(deleteChatCache) name:@"清空聊天记录" object:nil];
 }
+
 
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -244,8 +219,18 @@
                              atIndexPath:(NSIndexPath *)indexPath{
 
     RCConversationCell *messageCell = (RCConversationCell *)cell;
-    
     messageCell.lastSendMessageStatusView.image = [UIImage imageNamed:@"已读"];
+    
+//    UIImageView *vipImg = [UIImageView new];
+//    vipImg.backgroundColor = [UIColor redColor];
+//    [messageCell addSubview:vipImg];
+//    [vipImg mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(messageCell.headerImageView);
+//        make.bottom.equalTo(messageCell.headerImageView);
+//        make.width.mas_offset(20);
+//        make.height.mas_offset(20);
+//    }];
+    
 }
 
 //重写RCConversationListViewController的onSelectedTableRow事件
@@ -303,16 +288,11 @@
         
             [MBProgressHUD showHUDAddedTo:self.tabBarController.view animated:YES];
             
-            AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-            [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
-            manager.requestSerializer.timeoutInterval = 10.f;
-            [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
-            NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getOpenChatRestrictAndInfo];
+            NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getOpenChatRestrictAndInfoUrl];
             NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"otheruid":model.targetId};
             
-            [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                
-                NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
+            [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+                NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
                 
                 if (integer == 2000 || integer == 2001) {
                     
@@ -325,30 +305,30 @@
                     
                     if (integer == 2000) {
                         
-                        conversationVC.state = [NSString stringWithFormat:@"%d",[responseObject[@"data"][@"filiation"] intValue]];
+                        conversationVC.state = [NSString stringWithFormat:@"%d",[responseObj[@"data"][@"filiation"] intValue]];
                     }
                     
-                    if ([responseObject[@"data"][@"info"][@"is_admin"] integerValue] == 1) {
+                    if ([responseObj[@"data"][@"info"][@"is_admin"] integerValue] == 1) {
                         
                         conversationVC.type = personIsADMIN;
                         
-                    }else if ([responseObject[@"data"][@"info"][@"is_volunteer"] integerValue] == 1){
+                    }else if ([responseObj[@"data"][@"info"][@"is_volunteer"] integerValue] == 1){
                         
                         conversationVC.type = personIsVOLUNTEER;
                         
-                    }else if ([responseObject[@"data"][@"info"][@"svipannual"] integerValue] == 1){
+                    }else if ([responseObj[@"data"][@"info"][@"svipannual"] integerValue] == 1){
                         
                         conversationVC.type = personIsSVIPANNUAL;
                         
-                    }else if ([responseObject[@"data"][@"info"][@"svip"] integerValue] == 1) {
+                    }else if ([responseObj[@"data"][@"info"][@"svip"] integerValue] == 1) {
                         
                         conversationVC.type = personIsSVIP;
                         
-                    }else if ([responseObject[@"data"][@"info"][@"vipannual"] integerValue] == 1) {
+                    }else if ([responseObj[@"data"][@"info"][@"vipannual"] integerValue] == 1) {
                         
                         conversationVC.type = personIsVIPANNUAL;
                         
-                    }else if ([responseObject[@"data"][@"info"][@"vip"] integerValue] == 1){
+                    }else if ([responseObj[@"data"][@"info"][@"vip"] integerValue] == 1){
                         
                         conversationVC.type = personIsVIP;
                         
@@ -368,7 +348,7 @@
                     
                     _stampView = [[LDStampChatView alloc] initWithFrame:CGRectMake(0, 0 , WIDTH, HEIGHT)];
                     _stampView.viewController = self;
-                    _stampView.data = responseObject[@"data"];
+                    _stampView.data = responseObj[@"data"];
                     _stampView.delegate = self;
                     [self.tabBarController.view addSubview:_stampView];
                     
@@ -377,13 +357,9 @@
                     [MBProgressHUD hideHUDForView:self.tabBarController.view animated:YES];
                     
                 }
-             
-            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                
+            } failed:^(NSString *errorMsg) {
                 [MBProgressHUD hideHUDForView:self.tabBarController.view animated:YES];
-                
                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"网络请求超时,请重试~"];
-                
             }];
         }
     }else if (model.conversationType == ConversationType_GROUP){
@@ -421,73 +397,54 @@
         [self.navigationController pushViewController :chatService animated:YES];
     }
     
+    
 }
 
 //stampChat的代理方法
 -(void)didSelectStamp:(NSString *)stamptype{
     
     [MBProgressHUD showHUDAddedTo:self.tabBarController.view animated:YES];
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
-    [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
-    manager.requestSerializer.timeoutInterval = 10.f;
-    [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Restrict/useStampToChatNew"];
-    
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"otheruid":_model.targetId,@"stamptype":stamptype};
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            
             [MBProgressHUD hideHUDForView:self.tabBarController.view animated:YES];
-            
             if (integer == 4001 || integer == 3000) {
-                
-                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-                
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }else{
-                
                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"发生错误,请稍后再试~"];
-                
             }
         }else if(integer == 2000){
-            
             [MBProgressHUD hideHUDForView:self.tabBarController.view animated:YES];
-            
             PersonChatViewController *conversationVC = [[PersonChatViewController alloc]init];
             [RCIM sharedRCIM].globalConversationAvatarStyle=RC_USER_AVATAR_CYCLE;
             [RCIM sharedRCIM].globalMessageAvatarStyle=RC_USER_AVATAR_CYCLE;
             conversationVC.conversationType = ConversationType_PRIVATE;
             conversationVC.targetId = _model.targetId;
             conversationVC.mobile = _model.targetId;
-            conversationVC.state = [NSString stringWithFormat:@"%d",[responseObject[@"data"][@"filiation"] intValue]];
-            
-            if ([responseObject[@"data"][@"info"][@"is_admin"] integerValue] == 1) {
-                
+            conversationVC.state = [NSString stringWithFormat:@"%d",[responseObj[@"data"][@"filiation"] intValue]];
+            if ([responseObj[@"data"][@"info"][@"is_admin"] integerValue] == 1) {
+
                 conversationVC.type = personIsADMIN;
                 
-            }else if ([responseObject[@"data"][@"info"][@"is_volunteer"] integerValue] == 1){
+            }else if ([responseObj[@"data"][@"info"][@"is_volunteer"] integerValue] == 1){
                 
                 conversationVC.type = personIsVOLUNTEER;
                 
-            }else if ([responseObject[@"data"][@"info"][@"svipannual"] integerValue] == 1){
+            }else if ([responseObj[@"data"][@"info"][@"svipannual"] integerValue] == 1){
                 
                 conversationVC.type = personIsSVIPANNUAL;
                 
-            }else if ([responseObject[@"data"][@"info"][@"svip"] integerValue] == 1) {
+            }else if ([responseObj[@"data"][@"info"][@"svip"] integerValue] == 1) {
                 
                 conversationVC.type = personIsSVIP;
                 
-            }else if ([responseObject[@"data"][@"info"][@"vipannual"] integerValue] == 1) {
+            }else if ([responseObj[@"data"][@"info"][@"vipannual"] integerValue] == 1) {
                 
                 conversationVC.type = personIsVIPANNUAL;
                 
-            }else if ([responseObject[@"data"][@"info"][@"vip"] integerValue] == 1){
+            }else if ([responseObj[@"data"][@"info"][@"vip"] integerValue] == 1){
                 
                 conversationVC.type = personIsVIP;
                 
@@ -500,11 +457,8 @@
             [self.navigationController pushViewController:conversationVC animated:YES];
             
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [MBProgressHUD hideHUDForView:self.tabBarController.view animated:YES];
-        
     }];
 }
 
@@ -519,107 +473,99 @@
 -(void)didSelectAttentButton:(UIView *)backView andButton:(UIButton *)button{
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:backView animated:YES];
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"fuid":_model.targetId};
-    
-    [manager POST:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/followOneBox"] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
+    [NetManager afPostRequest:[PICHEADURL stringByAppendingString:setfollowOne] parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            
             hud.removeFromSuperViewOnHide = YES;
-            
             [hud hide:YES];
-            
             button.userInteractionEnabled = NO;
-            
             if (integer == 4787 || integer == 4002) {
-                
                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"已关注对方,请不要重复操作~"];
-            }else{
-            
-                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
+            }
+            else if (integer==8881||integer==8882)
+            {
+                NSString *msg = [responseObj objectForKey:@"msg"];
+                UIAlertController *control = [UIAlertController alertControllerWithTitle:@"提示" message:msg preferredStyle:UIAlertControllerStyleAlert];
+                UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"开会员" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
+                    [self.navigationController pushViewController:mvc animated:YES];
+                }];
+                UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"去认证" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    LDCertificateViewController *cvc = [[LDCertificateViewController alloc] init];
+                    cvc.where = @"2";
+                    [self.navigationController pushViewController:cvc animated:YES];
+                }];
+                UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    
+                }];
+                [control addAction:action1];
+                [control addAction:action0];
+                [control addAction:action2];
+                [self presentViewController:control animated:YES completion:^{
+                    
+                }];
+            }
+            else{
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }
         }else{
-            
-            if ([responseObject[@"data"] intValue] == 1) {
-                
+            if ([responseObj[@"data"] intValue] == 1) {
                 hud.mode = MBProgressHUDModeText;
                 hud.labelText = @"已互为好友，可以免费无限畅聊了~";
                 hud.removeFromSuperViewOnHide = YES;
                 [hud hide:YES afterDelay:3];
-                
             }else{
-                
                 hud.mode = MBProgressHUDModeText;
                 hud.labelText = @"已关注成功！互为好友即可免费畅聊~";
                 hud.removeFromSuperViewOnHide = YES;
                 [hud hide:YES afterDelay:3];
             }
-            
             [button setTitle:@"已关注" forState:UIControlStateNormal];
-            
             button.userInteractionEnabled = NO;
-            
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         button.userInteractionEnabled = NO;
-        
         hud.removeFromSuperViewOnHide = YES;
-        
         [hud hide:YES];
- 
     }];
-    
 }
 
 //点击去开通按钮跳转到会员页面
 -(void)stampOpenSvipButtonClick{
-    
     LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
-    
     [self.navigationController pushViewController:mvc animated:YES];
 }
 
-///**
-// *此方法中要提供给融云用户的信息，建议缓存到本地，然后改方法每次从您的缓存返回
-//// */
+/**
+ *此方法中要提供给融云用户的信息，建议缓存到本地，然后改方法每次从您的缓存返回
+ **/
 - (void)getUserInfoWithUserId:(NSString *)userId completion:(void(^)(RCUserInfo* userInfo))completion
 {
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getmineinfo"];
 
     NSDictionary *parameters = @{@"uid":userId};
     
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         
         if (integer == 2000) {
             
             //此处为了演示写了一个用户信息
             RCUserInfo *user = [[RCUserInfo alloc] init];;
             user.userId = userId;
-            user.name = responseObject[@"data"][@"nickname"];
-            user.portraitUri = responseObject[@"data"][@"head_pic"];
+            user.name = responseObj[@"data"][@"nickname"];
+            user.portraitUri = responseObj[@"data"][@"head_pic"];
             
             return completion(user);
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failed:^(NSString *errorMsg) {
         
     }];
 }
 
 -(void)getGroupInfoWithGroupId:(NSString *)groupId completion:(void (^)(RCGroup *))completion{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     
     NSDictionary *parameters;
     
@@ -634,68 +580,56 @@
 
     }
     
-    //    NSLog(@"gsgggggdgdggdgsgssgdgs%@",groupId);
-    
-    [manager POST:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Other/getGroupinfo"] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [NetManager afPostRequest:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Other/getGroupinfo"] parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        //NSLog(@"%@",responseObject);
         if (integer == 2000) {
             
             //此处为了演示写了一个用户信息
             RCGroup *group = [[RCGroup alloc]init];
             group.groupId = groupId;
-            group.groupName = responseObject[@"data"][@"groupname"];
-            group.portraitUri = responseObject[@"data"][@"group_pic"];
+            group.groupName = responseObj[@"data"][@"groupname"];
+            group.portraitUri = responseObj[@"data"][@"group_pic"];
             //            NSLog(@"%@",responseObject[@"data"][@"head_pic"]);
             return completion(group);
             
-        }        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        NSLog(@"88888%@",error);
+        }     
+    } failed:^(NSString *errorMsg) {
         
     }];
     
 }
 
 -(void)getAllMembersOfGroup:(NSString *)groupId result:(void (^)(NSArray<NSString *> *))resultBlock{
-
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/other/getGroupMember"];
     
     NSDictionary *parameters = @{@"gid":groupId};
     
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-//        NSLog(@"%@",responseObject);
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
         
         if (integer == 2000) {
             
-            NSArray *members = responseObject[@"data"];
+            NSArray *members = responseObj[@"data"];
             
             NSMutableArray *tempArr = [NSMutableArray new];
             
             for (int i = 0; i < members.count ; i++) {
-    
+                
                 RCUserInfo *member = [[RCUserInfo alloc] init];
                 
                 member.userId = members[i];
                 
                 [tempArr addObject:member.userId];
             }
-
+            
             resultBlock(tempArr);
             
         }
-
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failed:^(NSString *errorMsg) {
         
     }];
-
 }
 
 -(void)createButton{
@@ -739,8 +673,7 @@
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
             
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"忽略未读消息" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
-            
-//            ConversationType_GROUP
+
             
             for (int i = 0; i < [self.conversationListDataSource count] ; i++) {
                 
@@ -856,14 +789,5 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

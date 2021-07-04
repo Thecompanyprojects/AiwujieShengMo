@@ -117,8 +117,6 @@
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
         
-        //                NSLog(@"%@",responseObject);
-        
         if (integer != 2000) {
             
             [MBProgressHUD hideHUDForView:self.view animated:YES];

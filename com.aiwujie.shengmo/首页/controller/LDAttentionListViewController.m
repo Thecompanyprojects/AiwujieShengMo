@@ -48,8 +48,6 @@
     
     _dataArray = [NSMutableArray array];
     
-//    self.type = @"0";
-    
     [self createTableView];
     
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -180,41 +178,25 @@
 }
 
 -(void)nearButtonClick{
-    
     self.type = @"0";
-    
     [self.tableView.mj_header beginRefreshing];
-    
     [_nearButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    
     _nearView.hidden = NO;
-    
     [_hotButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    
     _hotView.hidden = YES;
-    
     [_friendButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    
     _friendView.hidden = YES;
-    
 }
 
 -(void)hotButtonClick{
     
     self.type = @"1";
-    
     [self.tableView.mj_header beginRefreshing];
-    
     [_hotButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    
     _hotView.hidden = NO;
-    
     [_nearButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    
     _nearView.hidden = YES;
-    
     [_friendButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    
     _friendView.hidden = YES;
 }
 
@@ -446,84 +428,75 @@
 -(void)fansButtonClick:(UIButton *)button{
 
     attentionCell *cell = (attentionCell *)button.superview.superview;
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
     TableModel *model = _dataArray[indexPath.section];
-    
     if ([model.state intValue] == 0) {
-        
-        AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-        
         NSString *url;
-        
-        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/followOneBox"];
-        
+        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setfollowOne];
         NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"fuid":model.uid};
-        
-        
-        [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
-            NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-            
-//                    NSLog(@"%@",responseObject);
-            
+        [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+            NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
             if (integer != 2000) {
+          
+                if (integer==8881||integer==8882) {
+                    NSString *msg = [responseObj objectForKey:@"msg"];
+                    UIAlertController *control = [UIAlertController alertControllerWithTitle:@"提示" message:msg preferredStyle:UIAlertControllerStyleAlert];
+                    UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"开会员" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
+                        [self.navigationController pushViewController:mvc animated:YES];
+                    }];
+                    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"去认证" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        LDCertificateViewController *cvc = [[LDCertificateViewController alloc] init];
+                        cvc.where = @"2";
+                        [self.navigationController pushViewController:cvc animated:YES];
+                    }];
+                    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                        
+                    }];
+                    [control addAction:action1];
+                    [control addAction:action0];
+                    [control addAction:action2];
+                    [self presentViewController:control animated:YES completion:^{
+                        
+                    }];
+                }else
+                {
+                    
+                    [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
+                }
                 
-                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-                
+               
             }else{
-                
                 model.state = @"1";
-                
                 [_dataArray replaceObjectAtIndex:indexPath.section withObject:model];
-                
                 [self.tableView reloadData];
-                
             }
-            
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
-            NSLog(@"%@",error);
+        } failed:^(NSString *errorMsg) {
             
         }];
-
-        
     }else{
     
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确定不再关注此人"    preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
             
-            AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-            
             NSString *url;
             
-            url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/overfollow"];
+            url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setoverfollow];
             
             NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"fuid":model.uid};
             
-            
-            [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                
-                NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-                
-                //        NSLog(@"%@",responseObject);
+            [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+                NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
                 
                 if (integer != 2000) {
-                    
-                   [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-                    
+                    [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
                 }else{
-                    
                     model.state = @"0";
-                    
                     [_dataArray replaceObjectAtIndex:indexPath.section withObject:model];
-                    
                     [self.tableView reloadData];
                 }
-                
-            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            } failed:^(NSString *errorMsg) {
                 
             }];
             
@@ -537,7 +510,6 @@
         
         [self presentViewController:alert animated:YES completion:nil];
 
-        
     }
 }
 
@@ -552,36 +524,20 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确定不再关注此人"    preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
-        
-        AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-        
-        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/overfollow"];
-            
+
+        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setoverfollow];
         NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"fuid":model.uid};
-        
-        
-        [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
-            NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-            
-            //        NSLog(@"%@",responseObject);
-            
+        [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+            NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
             if (integer != 2000) {
-                
-                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-                
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }else{
-            
                 [_dataArray removeObject:model];
-                
                 [self.tableView reloadData];
-                
             }
-            
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        } failed:^(NSString *errorMsg) {
             
         }];
-
     }];
     
     UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault  handler:nil];

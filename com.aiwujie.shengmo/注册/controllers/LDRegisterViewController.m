@@ -9,6 +9,7 @@
 #import "LDRegisterViewController.h"
 #import "LDResigerNextViewController.h"
 #import "LDProtocolViewController.h"
+#import "LDIAmViewController.h"
 
 @interface LDRegisterViewController ()<UITextFieldDelegate>
 
@@ -40,6 +41,7 @@
     [super viewDidLoad];
     
     self.navigationItem.title = @"手机注册";
+    
     
     self.phoneView.layer.cornerRadius = 2;
     self.phoneView.clipsToBounds = YES;
@@ -119,9 +121,7 @@
 
 -(void)keyboardWillBeHidden:(NSNotification*)aNotification
 {
-    
     [self status];
-    
 }
 
 //textField代理方法
@@ -167,7 +167,6 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-//        NSLog(@"%@",responseObject);
         if (integer != 2000) {
             
             [MBProgressHUD hideHUDForView:self.view animated:YES];

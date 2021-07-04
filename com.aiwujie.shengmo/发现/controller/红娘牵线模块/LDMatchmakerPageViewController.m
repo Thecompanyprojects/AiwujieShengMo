@@ -12,20 +12,13 @@
 #import "MatchmakerModel.h"
 
 @interface LDMatchmakerPageViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UIScrollViewDelegate>
-
-
 @property (strong, nonatomic) UILabel *mobileLabel;
 @property (strong, nonatomic) UILabel *phoneLabel;
-
 @property (nonatomic,strong) UICollectionView *collectionView;
-
 @property (nonatomic,strong) NSMutableArray *collectArray;
-
 @property (nonatomic,assign) int collectPage;
-
 //保存最初的偏移量
 @property (nonatomic,assign) CGFloat lastScrollOffset;
-
 @end
 
 @implementation LDMatchmakerPageViewController
@@ -37,47 +30,29 @@
     if ([self.content intValue] == 0) {
         
 //        [self setupIntroduce];
-        
         UIWebView *web = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX] - 50)];
-        
         web.scrollView.delegate = self;
-        
         if (@available(iOS 11.0, *)) {
-            
             web.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
-            
         }else {
-            
             self.automaticallyAdjustsScrollViewInsets = NO;
         }
-        
         NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Home/Info/hongniang"]]];
         [web loadRequest:request];
-        
         [self.view addSubview:web];
-        
     }else{
-        
-        _collectArray = [NSMutableArray array];
-    
+        self.collectArray = [NSMutableArray array];
         [self setUpCollectionView];
-        
         self.collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-            
             _collectPage = 0;
-            
             [self createDataType:@"1"];
-            
         }];
         
         [self.collectionView.mj_header beginRefreshing];
         
         self.collectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-            
             _collectPage++;
-            
             [self createDataType:@"2"];
-            
         }];
     }
     
@@ -112,71 +87,42 @@
 
 -(void)createDataType:(NSString *)type{
 
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Matchmaker/getMatchUsersList"];
-
     NSDictionary *parameters = @{@"page":[NSString stringWithFormat:@"%d",_collectPage],@"sex":[NSString stringWithFormat:@"%d",[self.content intValue] - 1]};
     
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//        NSLog(@"%@",responseObject);
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         
         if (integer != 2000) {
             
             if (integer == 3000 || integer == 3001) {
                 
                 if ([type intValue] == 1) {
-                    
-                    [_collectArray removeAllObjects];
-                    
+                    [self.collectArray removeAllObjects];
                     [self.collectionView reloadData];
-                    
                     self.collectionView.mj_footer.hidden = YES;
-                    
                 }else{
-                    
-                    [self.collectionView.mj_footer endRefreshingWithNoMoreData];  
+                    [self.collectionView.mj_footer endRefreshingWithNoMoreData];
                 }
             }
-            
         }else{
             
             if ([type intValue] == 1) {
-                
-                [_collectArray removeAllObjects];
-                
+                [self.collectArray removeAllObjects];
                 [self.collectionView reloadData];
-
             }
-            
-            for (NSDictionary *dic in responseObject[@"data"]) {
-                
-                MatchmakerModel *model = [[MatchmakerModel alloc] init];
-                
-                [model setValuesForKeysWithDictionary:dic];
-                
-                [_collectArray addObject:model];
-            }
-            
+            NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[MatchmakerModel class] json:responseObj[@"data"]]];
+            [self.collectArray addObjectsFromArray:data];
             self.collectionView.mj_footer.hidden = NO;
-            
             [self.collectionView reloadData];
-            
             [self.collectionView.mj_footer endRefreshing];
             
         }
         
         [self.collectionView.mj_header endRefreshing];
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [self.collectionView.mj_header endRefreshing];
         [self.collectionView.mj_footer endRefreshing];
-        
     }];
 
 }
@@ -184,81 +130,54 @@
 //创建collectionView,展示斯慕才俊和斯慕佳丽界面
 -(void)setUpCollectionView{
 
-    
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    
     self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(10, 0, WIDTH - 20, [self getIsIphoneX:ISIPHONEX] - 50) collectionViewLayout:layout];
-    
     self.collectionView.backgroundColor = [UIColor whiteColor];
-    
     if (@available(iOS 11.0, *)) {
-        
         self.collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
-        
     }else {
-        
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
     //设置布局方向为垂直流布局
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-        
     //设置每个item的大小
     layout.itemSize = CGSizeMake((WIDTH - 30)/2,(WIDTH - 30)/2 + 45);
-    
     // 设置最小行间距
     layout.minimumLineSpacing = 10;
-    
     // 设置垂直间距
     layout.minimumInteritemSpacing = 10;
-    
     self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, 10, 0);
-    
     self.collectionView.alwaysBounceVertical = YES;
-    
     self.collectionView.showsVerticalScrollIndicator = NO;
-    
     self.collectionView.delegate =  self;
-    
     self.collectionView.dataSource = self;
-    
     [self.collectionView registerNib:[UINib nibWithNibName:@"MatchmakerCell" bundle:nil] forCellWithReuseIdentifier:@"Matchmaker"];
-    
     [self.view addSubview:self.collectionView];
 }
 
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     
-    return _collectArray.count;
+    return self.collectArray.count?:0;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     MatchmakerCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"Matchmaker" forIndexPath:indexPath];
-    
     if (!cell) {
-        
         cell = [[NSBundle mainBundle] loadNibNamed:@"MatchmakerCell" owner:self options:nil].lastObject;
     }
-    
-    MatchmakerModel *model = _collectArray[indexPath.row];
-    
+    MatchmakerModel *model = self.collectArray[indexPath.row];
     cell.model = model;
-    
     return cell;
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
 
     LDMatchmasterDetailViewController *dvc = [[LDMatchmasterDetailViewController alloc] init];
-    
     MatchmakerModel *model = _collectArray[indexPath.row];
-    
     dvc.userId = model.uid;
-    
     dvc.title = model.match_num;
-    
     [self.navigationController pushViewController:dvc animated:YES];
 }
 

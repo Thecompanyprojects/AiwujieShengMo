@@ -25,6 +25,9 @@
 #import "LDSoundControlViewController.h"
 #import "HeaderTabViewController.h"
 #import "LDOwnInformationViewController.h"
+#import "LDDynamicDetailViewController.h"
+
+#define NewUIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:0.25]
 
 @interface LDDiscoverViewController ()<SDCycleScrollViewDelegate>
 
@@ -71,27 +74,16 @@
  * 判断视图顶部是否有广告栏
  */
 -(void)createHeadData{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Other/getSlideMore"];
-    
     NSDictionary *parameters = @{@"type":@"3"};
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer == 2000) {
-            
-            [_slideArray addObjectsFromArray:responseObject[@"data"]];
-            
+            [_slideArray addObjectsFromArray:responseObj[@"data"]];
         }
-        
         //获取客服的数据
         [self createServiceData];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failed:^(NSString *errorMsg) {
         //获取客服的数据
         [self createServiceData];
     }];
@@ -103,33 +95,18 @@
  * 获取客服的数据
  */
 -(void)createServiceData{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Index/getServiceInfo"];
-    
-    [manager POST:url parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        
+    [NetManager afPostRequest:url parms:nil finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer == 2000) {
-            
-            [_serviceArray addObjectsFromArray:responseObject[@"data"]];
-            
+            [_serviceArray addObjectsFromArray:responseObj[@"data"]];
             [self createPublishGood];
-            
         }else{
-        
             [self createPublishGood];
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        [self createPublishGood];
-        
+    } failed:^(NSString *errorMsg) {
+         [self createPublishGood];
     }];
-    
 }
 
 /**
@@ -197,27 +174,36 @@
 }
 
 /** 点击图片回调 */
+/** 点击图片回调 */
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
+    
+    //link_type 0:url,1:话题,2:动态,3:主页,
     
     if ([_slideArray[index][@"link_type"] intValue] == 0) {
         
         LDBulletinViewController *bvc = [[LDBulletinViewController alloc] init];
-        
         bvc.url = _slideArray[index][@"url"];
-        
         bvc.title = _slideArray[index][@"title"];
-        
         [self.navigationController pushViewController:bvc animated:YES];
-        
-    }else{
-        
+    }
+    if ([_slideArray[index][@"link_type"] intValue] == 1) {
         HeaderTabViewController *tvc = [[HeaderTabViewController alloc] init];
-        
         tvc.tid = [NSString stringWithFormat:@"%@",_slideArray[index][@"link_id"]];
-        
         [self.navigationController pushViewController:tvc animated:YES];
     }
+    if ([_slideArray[index][@"link_type"] intValue] == 2) {
+        LDDynamicDetailViewController *vc = [LDDynamicDetailViewController new];
+        vc.did = [NSString stringWithFormat:@"%@",_slideArray[index][@"link_id"]];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    if ([_slideArray[index][@"link_type"] intValue] == 3) {
+        LDOwnInformationViewController *VC = [LDOwnInformationViewController new];
+        VC.userID = [NSString stringWithFormat:@"%@",_slideArray[index][@"link_id"]];
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+    
 }
+
 
 /**
  * 创建九宫格
@@ -257,6 +243,7 @@
         UIImageView *itemImageView = [[UIImageView alloc] initWithFrame:CGRectMake((itemW - itemH)/2, 0, itemH, itemH)];
         itemImageView.image = [UIImage imageNamed:itemArray[i]];
         [backView addSubview:itemImageView];
+        itemImageView.alpha = 0.8;
         
         //添加按钮使其可点击
         UIButton *itemButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, itemW, itemH)];
@@ -327,7 +314,13 @@
                 btn.titleLabel.font = [UIFont systemFontOfSize:15.0];
                 
                 [btn setTitle:[NSString stringWithFormat:@"#%@#",_topicArray[i][@"title"]] forState:UIControlStateNormal];
-                [btn setTitleColor:UIColorFromRGB(strtoul([colorArray[i%7] UTF8String], 0, 0)) forState:UIControlStateNormal];
+//                [btn setTitleColor:UIColorFromRGB(strtoul([colorArray[i%7] UTF8String], 0, 0)) forState:UIControlStateNormal];
+                btn.backgroundColor = NewUIColorFromRGB((strtoul([colorArray[i%7] UTF8String], 0, 0)));
+                [btn setTitleColor:[UIColor whiteColor] forState:normal];
+                btn.layer.masksToBounds = YES;
+                btn.layer.cornerRadius = 14;
+                
+                
                 btn.tag = 100 + i;
                 
                 [btn addTarget:self action:@selector(btnButtonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -338,9 +331,9 @@
                 titleSize.height = 44;
                 titleSize.width += 20;
                 
-                btn.frame = CGRectMake(btnX + 40, 0, titleSize.width, titleSize.height);
-                
-                btnX = btnX + titleSize.width;
+                //btn.frame = CGRectMake(btnX + 40, 0, titleSize.width, titleSize.height);
+                btn.frame = CGRectMake(btnX + 40, 7, titleSize.width, 30);
+                btnX = btnX + titleSize.width+6;
                 
                 if (i == [responseObject[@"data"] count] - 1) {
                     
@@ -895,16 +888,7 @@
 -(void)serviceButtonClick:(UIButton *)button{
 
     if (button.tag - 19 <= _serviceArray.count) {
-        
-//        PersonChatViewController *conversationVC = [[PersonChatViewController alloc]init];
-//        conversationVC.conversationType = ConversationType_PRIVATE;
-//        conversationVC.targetId = [NSString stringWithFormat:@"%@",_serviceArray[button.tag - 20][@"uid"]];
-//        conversationVC.mobile = [NSString stringWithFormat:@"%@",_serviceArray[button.tag - 20][@"uid"]];
-//        conversationVC.title = [NSString stringWithFormat:@"%@",_serviceArray[button.tag - 20][@"nickname"]];
-//        //conversationVC.unReadMessage = model.unreadMessageCount;
-//        conversationVC.enableUnreadMessageIcon = YES;
-//        [self.navigationController pushViewController:conversationVC animated:YES];
-        
+
         LDOwnInformationViewController *InfoVC = [LDOwnInformationViewController new];
         InfoVC.userID = [NSString stringWithFormat:@"%@",_serviceArray[button.tag - 20][@"uid"]];
         [self.navigationController pushViewController:InfoVC animated:YES];

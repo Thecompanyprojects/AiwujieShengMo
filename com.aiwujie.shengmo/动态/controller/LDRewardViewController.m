@@ -31,92 +31,49 @@
     // Do any additional setup after loading the view from its nib.
     
     self.navigationItem.title = @"打赏过我的";
-    
     _dataArray = [NSMutableArray array];
-    
     [self createTableView];
-    
     _page = 0;
-    
     [self createCommentData];
-    
     self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        
         _page++;
-        
         [self createCommentData];
-        
     }];
-
 }
 
 -(void)createCommentData{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url;
-    
     NSDictionary *parameters;
-    
     parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"page":[NSString stringWithFormat:@"%d",_page]};
-    
     url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/getRewardedList"];
     
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-//        NSLog(@"%@",responseObject);
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (integer == 2000){
-            
-            for (NSDictionary *dic in responseObject[@"data"]) {
-                
-                CommentedModel *model = [[CommentedModel alloc] init];
-                
-                [model setValuesForKeysWithDictionary:dic];
-                
-                [_dataArray addObject:model];
-            }
-            
+            NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[CommentedModel class] json:responseObj[@"data"]]];
+            [self.dataArray addObjectsFromArray:data];
             [self.tableView reloadData];
         }
-        
         [self.tableView.mj_footer endRefreshing];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        [self.tableView.mj_footer endRefreshing];
-        
-        NSLog(@"%@",error);
-        
+    } failed:^(NSString *errorMsg) {
+         [self.tableView.mj_footer endRefreshing];
     }];
-    
 }
 
 -(void)createTableView{
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX]) style:UITableViewStyleGrouped];
-    
     if (@available(iOS 11.0, *)) {
-        
         self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
-        
         self.tableView.estimatedRowHeight = 0;
         self.tableView.estimatedSectionHeaderHeight = 0;
         self.tableView.estimatedSectionFooterHeight = 0;
-        
     }else {
-        
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
     self.tableView.delegate = self;
-    
     self.tableView.dataSource = self;
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     [self.view addSubview:self.tableView];
 }
 
@@ -218,14 +175,5 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

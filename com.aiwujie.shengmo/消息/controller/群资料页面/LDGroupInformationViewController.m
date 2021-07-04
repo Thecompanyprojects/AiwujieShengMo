@@ -844,61 +844,36 @@
 
     }
 }
+
 - (IBAction)introduceButtonClick:(id)sender {
     
     LDAlertNameViewController *nvc = [[LDAlertNameViewController alloc] init];
-    
     nvc.groupName = self.introduceLabel.text;
-    
     nvc.gid = self.gid;
-    
     nvc.type = @"1";
-    
     [self.navigationController pushViewController:nvc animated:YES];
 }
+
 - (IBAction)startChatButtonClick:(id)sender {
     
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"ableOrDisable"] intValue] == 0 && [[[NSUserDefaults standardUserDefaults] objectForKey:@"ableOrDisable"] length] != 0) {
-        
         [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"您因违规被系统禁用聊天功能,解封时间请查看系统通知,如有疑问请与客服联系!"];
-        
-        
     }else{
-    
-        AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-        
-        //    NSLog(@"%@",groupId);
         
         NSDictionary *parameters = @{@"gid":self.gid};
-        
-        //    NSLog(@"gsgggggdgdggdgsgssgdgs%@",groupId);
-        
-        [manager POST:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Other/getGroupinfo"] parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
-            NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-            //        NSLog(@"%@",responseObject);
+        [NetManager afPostRequest:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Other/getGroupinfo"] parms:parameters finished:^(id responseObj) {
+            NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
             if (integer == 2000) {
-                
                 LDGroupChatViewController *cvc = [[LDGroupChatViewController alloc] init];
-                
                 cvc.conversationType = ConversationType_GROUP;
-                
                 cvc.targetId = self.gid;
-                
-                cvc.title = responseObject[@"data"][@"groupname"];
-                
+                cvc.title = responseObj[@"data"][@"groupname"];
                 cvc.groupId = self.gid;
-                
                 [self.navigationController pushViewController:cvc animated:YES];
-                
             }
-            
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
-            NSLog(@"88888%@",error);
+        } failed:^(NSString *errorMsg) {
             
         }];
-
     }
 }
 

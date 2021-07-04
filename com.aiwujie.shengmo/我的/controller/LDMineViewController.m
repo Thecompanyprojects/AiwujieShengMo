@@ -30,6 +30,9 @@
 #import "UITabBar+badge.h"
 #import "LDtotopViewController.h"
 #import "LDhistorynameViewController.h"
+#import "LDDynamicDetailViewController.h"
+
+
 
 @interface LDMineViewController ()<UITableViewDelegate,UITableViewDataSource,SDCycleScrollViewDelegate>
 
@@ -68,7 +71,7 @@
 @implementation LDMineViewController
 
 -(void)viewWillAppear:(BOOL)animated{
-
+    
     [super viewWillAppear:animated];
     
     [self createPersonInformationData];
@@ -119,18 +122,12 @@
     self.headImageView.clipsToBounds = YES;
     
     _slideArray = [NSMutableArray array];
-    
     [self createRightButton];
-    
-    _dataArray = @[@[@"充值礼物",@"消息邮票",@"会员中心",@"红娘牵线"],@[@"自拍认证",@"分享APP"],@[@"设置"]];
-    
+    _dataArray = @[@[@"充值礼物",@"会员中心",@"动态推顶",@"消息邮票",@"红娘牵线"],@[@"自拍认证",@"分享APP"],@[@"设置"]];
     [self createHeadData];
-    
     _shareView = [[LDShareView alloc] init];
-    
     //分享视图
     [self.tabBarController.view addSubview:[_shareView createBottomView:@"Mine" andNickName:nil andPicture:nil andId:nil]];
-    
     //监听谁看过我
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(lookFangBadge) name:@"lookBadge" object:nil];
 }
@@ -141,11 +138,8 @@
 -(void)lookFangBadge{
     
     _lookBadge = [[NSUserDefaults standardUserDefaults] objectForKey:@"lookBadge"];
-    
     dispatch_async(dispatch_get_main_queue(), ^{
-        
         [self.tableView reloadData];
-        
     });
  
 }
@@ -170,36 +164,21 @@
 }
 
 -(void)liftButtonOnClick{
-
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Draw/getSignTimesInWeeks"];
-    
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer == 2002) {
-            
             LDSignView *signView = [[LDSignView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
-            
-            [signView getSignDays:[NSString stringWithFormat:@"%@",responseObject[@"data"][@"signtimes"]] andsignState:@"未签到"];
-            
+            [signView getSignDays:[NSString stringWithFormat:@"%@",responseObj[@"data"][@"signtimes"]] andsignState:@"未签到"];
             [self.tabBarController.view addSubview:signView];
-            
         }else if (integer == 2001){
-            
             LDSignView *signView = [[LDSignView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
-            
-            [signView getSignDays:[NSString stringWithFormat:@"%@",responseObject[@"data"][@"signtimes"]] andsignState:@"已签到"];
-            
+            [signView getSignDays:[NSString stringWithFormat:@"%@",responseObj[@"data"][@"signtimes"]] andsignState:@"已签到"];
             [self.tabBarController.view addSubview:signView];
         }
+    } failed:^(NSString *errorMsg) {
         
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-
     }];
 }
 
@@ -210,105 +189,66 @@
 }
 
 -(void)createHeadData{
-
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
+    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Other/getSlideMore"];
     NSDictionary *parameters = @{@"type":@"4"};
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            
             self.headerH.constant = 0;
-            
             self.backW.constant = WIDTH;
-            
             self.backH.constant = self.backView.frame.size.height - 98;
-            
             self.backView.frame = CGRectMake(0, 0, self.backW.constant, self.backH.constant);
-            
             [self createPersonInformationData];
-            
         }else{
-            
             self.headerH.constant = ADVERTISEMENT;
-            
             self.backW.constant = WIDTH;
-            
             self.backH.constant = 155 + self.headerH.constant;
-            
             self.backView.frame = CGRectMake(0, 0, self.backW.constant, 155 + self.headerH.constant);
-            
-            [_slideArray addObjectsFromArray:responseObject[@"data"]];
-            
+            [_slideArray addObjectsFromArray:responseObj[@"data"]];
             NSMutableArray *pathArray = [NSMutableArray array];
-            
-            for (NSDictionary *dic in responseObject[@"data"]) {
-               
+            for (NSDictionary *dic in responseObj[@"data"]) {
                 [pathArray addObject:dic[@"path"]];
-                
             }
-            
             SDCycleScrollView *cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, WIDTH, ADVERTISEMENT) delegate:self placeholderImage:[UIImage imageNamed:@"动态图片默认"]];
             cycleScrollView.pageControlAliment = SDCycleScrollViewPageContolAlimentCenter;
             cycleScrollView.imageURLStringsGroup = pathArray;
             cycleScrollView.autoScrollTimeInterval = 3.0;
             [_headerImageView addSubview:cycleScrollView];
-            
             UIButton *deleteButton = [[UIButton alloc] initWithFrame:CGRectMake(WIDTH - 25, 5, 20, 20)];
-            
             [deleteButton setBackgroundImage:[UIImage imageNamed:@"删除按钮"] forState:UIControlStateNormal];
-            
             [deleteButton addTarget:self action:@selector(deleteButtonClick) forControlEvents:UIControlEventTouchUpInside];
-            
             [self.headerImageView addSubview:deleteButton];
-            
         }
-        
         [self createTableView];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         self.headerH.constant = 0;
-        
         self.backW.constant = WIDTH;
-        
         self.backH.constant = self.backView.frame.size.height - 98;
-        
         self.backView.frame = CGRectMake(0, 0, self.backW.constant, self.backH.constant);
-        
         [self createTableView];
-        
         [self createPersonInformationData];
-        
     }];
-
 }
 
 //删除上面的广告
 -(void)deleteButtonClick{
-    
     for (UIView *view in self.headerImageView.subviews) {
-        
         [view removeFromSuperview];
-        
     }
-    
     self.headerH.constant = 0;
-    
     self.backW.constant = WIDTH;
-    
     self.backH.constant = 155;
-    
     self.backView.frame = CGRectMake(0, 0, self.backW.constant, 155);
-    
     self.tableView.tableHeaderView = self.backView;
-    
     [self.tableView reloadData];
 }
 
 /** 点击图片回调 */
+/** 点击图片回调 */
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
+    
+    //link_type 0:url,1:话题,2:动态,3:主页,
     
     if ([_slideArray[index][@"link_type"] intValue] == 0) {
         
@@ -316,14 +256,25 @@
         bvc.url = _slideArray[index][@"url"];
         bvc.title = _slideArray[index][@"title"];
         [self.navigationController pushViewController:bvc animated:YES];
-        
-    }else{
-        
+    }
+    if ([_slideArray[index][@"link_type"] intValue] == 1) {
         HeaderTabViewController *tvc = [[HeaderTabViewController alloc] init];
         tvc.tid = [NSString stringWithFormat:@"%@",_slideArray[index][@"link_id"]];
         [self.navigationController pushViewController:tvc animated:YES];
     }
+    if ([_slideArray[index][@"link_type"] intValue] == 2) {
+        LDDynamicDetailViewController *vc = [LDDynamicDetailViewController new];
+        vc.did = [NSString stringWithFormat:@"%@",_slideArray[index][@"link_id"]];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    if ([_slideArray[index][@"link_type"] intValue] == 3) {
+        LDOwnInformationViewController *VC = [LDOwnInformationViewController new];
+        VC.userID = [NSString stringWithFormat:@"%@",_slideArray[index][@"link_id"]];
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+    
 }
+
 
 -(void)createTableView{
     
@@ -358,57 +309,48 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     ShowBadgeCell *cell = [[NSBundle mainBundle] loadNibNamed:@"ShowBadgeCell" owner:self options:nil].lastObject;
-    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
     cell.headView.image = [UIImage imageNamed:_dataArray[indexPath.section][indexPath.row]];
-    
     cell.nameLabel.text = _dataArray[indexPath.section][indexPath.row];
+    cell.headView.alpha = 0.5;
+    if (indexPath.row==2) {
+
+        UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(cell.nameLabel.frame)-55, CGRectGetMinY(cell.nameLabel.frame)+5, 50, 13)];
+        newLabel.text = @"new";
+        newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
+        newLabel.textColor = [UIColor redColor];
+        [cell addSubview:newLabel];
+        
+    }
     
     if (indexPath.section == 0 && indexPath.row == 0) {
-        
         if (_lookBadge.length != 0) {
-            
             cell.badgeLabel.hidden = NO;
-            
             if ([_lookBadge intValue] > 99) {
-                
                 cell.badgeLabel.text = @"99+";
-                
             }else{
-                
                 cell.badgeLabel.text = _lookBadge;
-                
             }
-
         }else{
-        
             cell.badgeLabel.hidden = YES;
         }
-        
     }
-    if (indexPath.section == 1 && indexPath.row == 1) {
-        
+    if (indexPath.section == 1 && indexPath.row == 0) {
         cell.detailLabel.text = _status;
-        
         cell.detailLabel.font = [UIFont systemFontOfSize:15];
-        
     }
-
-    if (indexPath.section == 0 && indexPath.row == 3) {
-        
+    if (indexPath.section == 0 && indexPath.row == 4) {
         cell.lineView.hidden = YES;
-        
     }else if (indexPath.section == 1 && indexPath.row == 1){
-        
         cell.lineView.hidden = YES;
-        
     }else if (indexPath.section == 2 && indexPath.row == 0){
-        
         cell.lineView.hidden = YES;
-        
+        UILabel *newLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(cell.nameLabel.frame)-85, CGRectGetMinY(cell.nameLabel.frame)+5, 50, 13)];
+        newLabel.text = @"new";
+        newLabel.font = [UIFont italicSystemFontOfSize:13];//设置字体为斜体
+        newLabel.textColor = [UIColor redColor];
+        [cell addSubview:newLabel];
     }else{
-        
         cell.lineView.hidden = NO;
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -436,28 +378,29 @@
             LDMyWalletPageViewController *mvc = [[LDMyWalletPageViewController alloc] init];
             [self.navigationController pushViewController:mvc animated:YES];
         }else if (indexPath.row == 1){
-            LDStampViewController *svc = [[LDStampViewController alloc] init];
-            [self.navigationController pushViewController:svc animated:YES];
-        }
-//            else if (indexPath.row==2){
-//            LDtotopViewController *vc = [LDtotopViewController new];
-//            [self.navigationController pushViewController:vc animated:YES];
-//        }
-        else if (indexPath.row == 2) {
             LDMemberViewController *mvc = [[LDMemberViewController alloc] init];
             [self.navigationController pushViewController:mvc animated:YES];
+        }
+            else if (indexPath.row==2){
+            LDtotopViewController *vc = [LDtotopViewController new];
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        else if (indexPath.row == 3) {
+            LDStampViewController *svc = [[LDStampViewController alloc] init];
+            [self.navigationController pushViewController:svc animated:YES];
+         
             
-        }else if (indexPath.row == 3){
+        }else if (indexPath.row == 4){
             LDMatchmakerViewController *match = [[LDMatchmakerViewController alloc] init];
             [self.navigationController pushViewController:match animated:YES];
             
         }else if(indexPath.row == 5){
             
             
-        }else if (indexPath.row == 5){
+        }else if (indexPath.row == 6){
             
             
-        }else if(indexPath.row == 6){
+        }else if(indexPath.row == 7){
         
         } else {
             
@@ -515,38 +458,22 @@
 }
 
 -(void)createPersonInformationData{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/users/getmineinfo"];
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-            
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
         }else{
-            
-            [self.headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",responseObject[@"data"][@"head_pic"]]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
-
-            self.nameLabel.text = responseObject[@"data"][@"nickname"];
-            
-            self.attentionLabel.text = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"follow_num"]];
-            
-            self.fansLabel.text = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"fans_num"]];
-            
-            self.groupLabel.text = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"group_num"]];
-            
+            [self.headImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",responseObj[@"data"][@"head_pic"]]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
+            self.nameLabel.text = responseObj[@"data"][@"nickname"];
+            self.attentionLabel.text = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"follow_num"]];
+            self.fansLabel.text = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"fans_num"]];
+            self.groupLabel.text = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"group_num"]];
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        NSLog(@"%@",error);
+    } failed:^(NSString *errorMsg) {
         
     }];
-
 }
 
 - (void)didReceiveMemoryWarning {

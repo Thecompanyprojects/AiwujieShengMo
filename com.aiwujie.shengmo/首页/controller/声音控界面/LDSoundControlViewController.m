@@ -38,29 +38,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.title = @"声音控";
-    
     _dataArray = [NSMutableArray array];
-    
     [self createTableView];
-    
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        
         _tablePage = 0;
-        
         [self createDatatype:@"1"];
-        
     }];
     
     [self.tableView.mj_header beginRefreshing];
     
     self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        
         _tablePage++;
-        
         [self createDatatype:@"2"];
-        
     }];
-    
     [self createButton];
 }
 
@@ -78,117 +68,60 @@
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/getUserInfo"];
-    
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":@"",@"lng":@"",@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //        NSLog(@"%@",responseObject);
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-            
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
         }else{
-            
             [MBProgressHUD hideHUDForView:self.view animated:YES];
-            
             RecordViewController *rvc = [[RecordViewController alloc] init];
-            
-            rvc.mediaString = responseObject[@"data"][@"media"];
-            
+            rvc.mediaString = responseObj[@"data"][@"media"];
             [self.navigationController pushViewController:rvc animated:YES];
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
-        NSLog(@"%@",error);
-        
     }];
-    
 }
-
 
 -(void)createDatatype:(NSString *)type{
 
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,userListNewthUrl];
     
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,userListNewth];
-    
-    NSDictionary *parameters = @{@"page":[NSString stringWithFormat:@"%d",_tablePage],@"layout":@"1",@"type":@"4"};
-       //NSLog(@"%@",parameters);
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//        NSLog(@"%@",responseObject);
-        
+    NSDictionary *parameters = @{@"page":[NSString stringWithFormat:@"%d",_tablePage],@"layout":@"1",@"type":@"4",@"loginid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]?:@""};
+
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000 && integer != 2001) {
-            
             if (integer == 4001) {
-                
                 if ([type intValue] == 1) {
-                  
                     [_dataArray removeAllObjects];
-                    
                     [_tableView reloadData];
-                    
                     self.tableView.mj_footer.hidden = YES;
-                    
                 }else{
-                    
                     [self.tableView.mj_footer endRefreshingWithNoMoreData];
                 }
-          
             }else{
-                
-                 [self.tableView.mj_footer endRefreshing];
-                
-                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
+                [self.tableView.mj_footer endRefreshing];
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }
-            
         }else{
-            
             if ([type intValue] == 1) {
-                
-                    [_dataArray removeAllObjects];
-                }
-
-            for (NSDictionary *dic in responseObject[@"data"]) {
-                
-                SoundControlModel *model = [[SoundControlModel alloc] init];
-                
-                [model setValuesForKeysWithDictionary:dic];
-                
-                [_dataArray addObject:model];
+                [_dataArray removeAllObjects];
             }
-            
+            NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[SoundControlModel class] json:responseObj[@"data"]]];
+            [self.dataArray addObjectsFromArray:data];
             self.tableView.mj_footer.hidden = NO;
-            
             [self.tableView reloadData];
-            
             [self.tableView.mj_footer endRefreshing];
-  
         }
-        
         [self.tableView.mj_header endRefreshing];
-       
-
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
-       
     }];
 
 }
@@ -229,98 +162,55 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     SoundControlCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SoundControl"];
-
     if (!cell) {
-        
         cell = [[NSBundle mainBundle] loadNibNamed:@"SoundControlCell" owner:self options:nil].lastObject;
     }
-    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
     if (_dataArray.count > 0) {
-        
         SoundControlModel *model = _dataArray[indexPath.row];
-        
         cell.model = model;
-        
         if ([_media isEqualToString:model.media] && _audioPlayer != nil) {
-            
             if (_audioPlayer.rate == 1) {
-                
                 [cell.playButton setBackgroundImage:[UIImage imageNamed:@"正在播放"] forState:UIControlStateNormal];
-                
             }else if (_audioPlayer.rate == 0){
-                
                 [cell.playButton setBackgroundImage:[UIImage imageNamed:@"播放暂停"] forState:UIControlStateNormal];
-                
             }
-            
         }else{
-            
             [cell.playButton setBackgroundImage:[UIImage imageNamed:@"录音"] forState:UIControlStateNormal];
-            
         }
-
     }
-    
     [cell.playButton addTarget:self action:@selector(playButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-    
     return cell;
 }
 
 -(void)playButtonClick:(UIButton *)button{
-
     SoundControlCell *cell = (SoundControlCell *)button.superview.superview;
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
     SoundControlModel *model = _dataArray[indexPath.row];
-    
     if ([_media isEqualToString:model.media]) {
-        
         _selectCell = cell;
-        
         if (_audioPlayer.rate == 1) {
-            
             [cell.playButton setBackgroundImage:[UIImage imageNamed:@"播放暂停"] forState:UIControlStateNormal];
-            
             [_audioPlayer pause];
-            
         }else if (_audioPlayer.rate == 0){
-        
             [cell.playButton setBackgroundImage:[UIImage imageNamed:@"正在播放"] forState:UIControlStateNormal];
-            
             [_audioPlayer play];
         }
-
     }else{
-        
         if (_audioPlayer != nil) {
-            
             [self playDidFinish];
-            
         }
-        
         _media = model.media;
-        
         _selectCell = cell;
-        
         [cell.playButton setBackgroundImage:[UIImage imageNamed:@"正在播放"] forState:UIControlStateNormal];
-        
         self.audioPlayer = [self myAudioPlayer];
-        
         [self addDistanceNotification];
-        
         [self setAudioSessionPlay];
-        
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
         [self.audioPlayer play];
-        
         //播放完毕发出通知
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playDidFinish) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
     }
-
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -329,13 +219,9 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     LDOwnInformationViewController *ivc = [[LDOwnInformationViewController alloc] init];
-    
     SoundControlModel *model = _dataArray[indexPath.row];
-    
     ivc.userID = model.uid;
-    
     [self.navigationController pushViewController:ivc animated:YES];
 }
 
@@ -343,29 +229,19 @@
  *  设置音频会话
  */
 -(void)setAudioSessionPlay{
-    
     AVAudioSession *audioSession=[AVAudioSession sharedInstance];
-    
     [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
-    
     [audioSession setActive:YES error:nil];
 }
 
 -(void)playDidFinish{
-    
     _audioPlayer = nil;
-    
     _media = @"";
-    
     if (_selectCell != nil) {
-        
         [_selectCell.playButton setBackgroundImage:[UIImage imageNamed:@"录音"] forState:UIControlStateNormal];
-        
         _selectCell = nil;
     }
-
     [self removeDistanceNotification];
-    
     NSLog(@"播放完毕");
 }
 
@@ -375,25 +251,16 @@
  *  @return 播放器
  */
 -(AVPlayer *)myAudioPlayer{
-    
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
     NSLog(@"AVPlayer初始化了");
-    
     NSError *error=nil;
-    
     if (error || _media.length == 0) {
-        
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
         [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"创建播放器过程中发生错误~"];
-        
         NSLog(@"创建播放器过程中发生错误，错误信息：%@",error.localizedDescription);
         return nil;
     }
-    
     _audioPlayer=[[AVPlayer alloc]initWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_media]]];
-    
     return _audioPlayer;
 }
 
@@ -403,9 +270,7 @@
 - (void)addDistanceNotification{
     //添加近距离事件监听，添加前先设置为YES，如果设置完后还是NO的读话，说明当前设备没有近距离传感器
     [[UIDevice currentDevice] setProximityMonitoringEnabled:YES];
-    
     if ([UIDevice currentDevice].proximityMonitoringEnabled == YES) {
-        
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sensorStateChange:)name:UIDeviceProximityStateDidChangeNotification object:nil];
     }
 }
@@ -416,11 +281,8 @@
 - (void)removeDistanceNotification{
     //添加近距离事件监听，添加前先设置为YES，如果设置完后还是NO的读话，说明当前设备没有近距离传感器
     [[UIDevice currentDevice] setProximityMonitoringEnabled:YES];
-    
     if ([UIDevice currentDevice].proximityMonitoringEnabled == YES) {
-        
         [[UIDevice currentDevice] setProximityMonitoringEnabled:NO];
-        
         [[NSNotificationCenter defaultCenter] removeObserver:self name:UIDeviceProximityStateDidChangeNotification object:nil];
     }
 }

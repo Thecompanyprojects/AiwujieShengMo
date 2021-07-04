@@ -35,53 +35,38 @@
     _dataArray = [NSMutableArray array];
     
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        
         _page = 0;
-            
         [self createData:@"1"];
-
-        
     }];
     
     [self.tableView.mj_header beginRefreshing];
     
     self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        
         _page++;
-        
         [self createData:@"2"];
-        
     }];
-    
-    
 }
 
 -(void)createData:(NSString *)str{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
+
     NSDictionary *parameters;
-    
     NSString *url;
-    
     NSString *type;
-    
     if ([self.type isEqualToString:@"popularity"]) {
         
-        if ([self.content intValue] >2 && [self.content intValue] < 6) {
-            
+        if ([self.content intValue] >3 && [self.content intValue] < 8) {
+            //点赞排行版  0 1 2 3
             url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getBeLaudedRankingList"];
             
-            
-            type = [NSString stringWithFormat:@"%d",[self.content intValue] - 3];
+            type = [NSString stringWithFormat:@"%d",[self.content intValue] - 4];
             
             parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":type};
             
-        }else if ([self.content intValue] > 5 && [self.content intValue] < 9){
+        }else if ([self.content intValue] > 7 && [self.content intValue] < 12){
         
             url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getSendDynamicRandkingList"];
             
-            type = [NSString stringWithFormat:@"%d",[self.content intValue] - 6];
+            type = [NSString stringWithFormat:@"%d",[self.content intValue] - 8];
             
             parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":type,@"recommend":@"1"};
             
@@ -95,153 +80,93 @@
         
     }else if ([self.type isEqualToString:@"diligence"]){
     
-        if ([self.content intValue] >2 && [self.content intValue] < 6) {
-            
-            url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getCommentRankingList"];
-            
-            type = [NSString stringWithFormat:@"%d",[self.content intValue] - 3];
-            
-            parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":type};
-            
-        }else if ([self.content intValue] > 5 && [self.content intValue] < 9){
-            
+        if ([self.content intValue] >3 && [self.content intValue] < 8) {
+            //点赞排行榜单
             url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getLaudRankingList"];
-            
-            type = [NSString stringWithFormat:@"%d",[self.content intValue] - 6];
-            
+            type = [NSString stringWithFormat:@"%d",[self.content intValue]-4];
             parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":type};
             
-        }else{
-            
+        }else if ([self.content intValue] > 7 && [self.content intValue] < 12){
+            //动态排行榜单
             url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getSendDynamicRandkingList"];
-            
-             type = self.content;
-            
+            type = [NSString stringWithFormat:@"%d",[self.content intValue]-8];
             parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":type,@"recommend":@"0"};
             
-           
+        }else{
+ 
+            //点评排行榜单
+            url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getCommentRankingList"];
+            type = [NSString stringWithFormat:@"%d",[self.content intValue]];
+            parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":type};
         }
         
     }else{
-    
         if ([self.content intValue] > 2) {
-            
             if ([self.content intValue] == 5) {
-                
                 url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getGiftAllList"];
-                
                 type = @"1";
-                
             }else{
-            
                 url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getCharmRankingList"];
-                
                 type = [NSString stringWithFormat:@"%d",[self.content intValue] - 3];
             }
 
         }else{
-            
             if([self.content intValue] == 2){
-            
                 url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getGiftAllList"];
-                
                 type = @"0";
-                
             }else{
-            
                 url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"api/dynamic/getWealthRankingList"];
-                
                 type = self.content;
             }
-            
         }
-
         parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":type};
     }
     
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-//        NSLog(@"%@",responseObject);
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (integer != 2000) {
-            
             if (integer == 4000) {
-                
                 if ([str intValue] == 1) {
-                    
                     [_dataArray removeAllObjects];
-                    
                     [self.tableView reloadData];
-                    
                     self.tableView.mj_footer.hidden = YES;
-                    
                 }else{
-                
                     [self.tableView.mj_footer endRefreshingWithNoMoreData];
-                    
                 }
-                
             }else{
-                
                 [self.tableView.mj_footer endRefreshing];
-                
-                 [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }
-            
         }else{
             
             if ([str intValue] == 1) {
-                
                 [_dataArray removeAllObjects];
             }
             
-            for (NSDictionary *dic in responseObject[@"data"]) {
-                
+            for (NSDictionary *dic in responseObj[@"data"]) {
                 if ([_type isEqualToString:@"popularity"] || [self.type isEqualToString:@"diligence"]) {
-                    
                     RankingModel *model = [[RankingModel alloc] init];
-                    
                     [model setValuesForKeysWithDictionary:dic];
-                    
                     [_dataArray addObject:model];
                     
                 }else{
-                
                     RewardRankingModel *model = [[RewardRankingModel alloc] init];
-                    
                     [model setValuesForKeysWithDictionary:dic];
-                    
                     [_dataArray addObject:model];
                     
                 }
-
             }
             
             self.tableView.mj_footer.hidden = NO;
-            
             [self.tableView reloadData];
-            
             if (_page == 4) {
-                
                 [self.tableView.mj_footer endRefreshingWithNoMoreData];
-                
             }else{
-                
                 [self.tableView.mj_footer endRefreshing];
-                
             }
-
         }
-        
         [self.tableView.mj_header endRefreshing];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        NSLog(@"%@",error);
-        
+    } failed:^(NSString *errorMsg) {
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
         
@@ -292,7 +217,6 @@
             
             cell = [[NSBundle mainBundle] loadNibNamed:@"RankingCell" owner:self options:nil].lastObject;
         }
-        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         RankingModel *model = _dataArray[indexPath.row];
