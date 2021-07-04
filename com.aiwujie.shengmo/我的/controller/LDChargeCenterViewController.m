@@ -49,7 +49,7 @@
 
 //选择了哪个充值选项
 @property (nonatomic,copy) NSString *exchangeString;
-
+@property (nonatomic,copy) NSString *walletNumber;
 @end
 
 @implementation LDChargeCenterViewController
@@ -71,38 +71,29 @@
 }
 
 -(void)createData{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
+
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getmywallet"];
     
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //        NSLog(@"%@",responseObject);
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         if (integer != 2000) {
-            
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-            
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
         }else{
             
-            self.accountLabel.text = [NSString stringWithFormat:@"余额 %@ 魔豆",responseObject[@"data"][@"wallet"]];
-            
+            self.accountLabel.text = [NSString stringWithFormat:@"余额 %@ 魔豆",responseObj[@"data"][@"wallet"]];
+            self.walletNumber = responseObj[@"data"][@"wallet"];
+            if (self.returnValueBlock) {
+                self.returnValueBlock(self.walletNumber);
+            }
             NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:self.accountLabel.text];
-            [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:255/255.0 green:157/255.0 blue:0/255.0 alpha:1] range:NSMakeRange(3,[responseObject[@"data"][@"wallet"] length])];
-            
+            [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:255/255.0 green:157/255.0 blue:0/255.0 alpha:1] range:NSMakeRange(3,[responseObj[@"data"][@"wallet"] length])];
             self.accountLabel.attributedText = str;
-            
-            
         }
+    } failed:^(NSString *errorMsg) {
         
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-
     }];
+
     
 }
 

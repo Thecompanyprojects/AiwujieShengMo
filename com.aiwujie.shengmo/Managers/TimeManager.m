@@ -18,7 +18,6 @@ static TimeManager *defaultTool = nil;
 
 +(TimeManager*)defaultTool{
     
-    
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         if (defaultTool == nil) {
@@ -86,7 +85,7 @@ static TimeManager *defaultTool = nil;
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[timeStamp doubleValue]/ 1000.0];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[timeStamp doubleValue]];
     NSString *dateString = [dateFormatter stringFromDate:date];
     
     return dateString;
@@ -112,7 +111,7 @@ static TimeManager *defaultTool = nil;
     [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
     [dateFormatter setDateFormat:@"MM月dd日HH:mm"];
     
-    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[timeStamp doubleValue]/ 1000.0];
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[timeStamp doubleValue]];
     NSString *dateString = [dateFormatter stringFromDate:date];
     
     return dateString;

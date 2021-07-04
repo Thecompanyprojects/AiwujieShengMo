@@ -224,7 +224,7 @@
     
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/stamp_ioshooks"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,stamp_ioshooks];
     
     NSDictionary *parameters = @{@"receipt":[[NSUserDefaults standardUserDefaults] objectForKey:@"邮票凭证"],@"order_no":[[NSUserDefaults standardUserDefaults] objectForKey:@"邮票订单"],@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
     
@@ -232,8 +232,6 @@
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//                NSLog(@"%@",responseObject[@"data"]);
         
         if (integer != 2000) {
             
@@ -248,9 +246,7 @@
             [hud hide:YES afterDelay:3];
             
             [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"邮票凭证"];
-            
             [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"邮票订单"];
-            
             [self createData];
             
         }
@@ -560,7 +556,6 @@
             
     }
     
-    
 }
 
 -(void)warning:(SKPaymentTransaction *)transaction{
@@ -573,9 +568,7 @@
 //交易结束
 - (void)completeTransaction:(SKPaymentTransaction *)transaction{
     NSLog(@"交易结束");
-    
-    //[SVProgressHUD dismiss];
-    
+
     NSURL *receiptUrl=[[NSBundle mainBundle] appStoreReceiptURL];
     NSData *receiptData=[NSData dataWithContentsOfURL:receiptUrl];
     
@@ -586,14 +579,12 @@
         
         AFHTTPSessionManager *manager = [LDAFManager sharedManager];
         
-        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Ping/stamp_ioshooks"];
+        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,stamp_ioshooks];
         NSDictionary *parameters = @{@"receipt":productIdentifier,@"order_no":transaction.transactionIdentifier,@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
         
         [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             
             NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-            
-//            NSLog(@"%@",responseObject[@"data"]);
             
             if (integer != 2000) {
                 
@@ -612,7 +603,6 @@
                 [HUD hide:YES afterDelay:3];
                 
                 [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"邮票凭证"];
-                
                 [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:@"邮票订单"];
                 
                 [self createData];
@@ -623,7 +613,6 @@
         
             NSLog(@"%@",error);
         }];
-        
     }
 }
 
@@ -632,18 +621,14 @@
     
     NSURL *receiptUrl=[[NSBundle mainBundle] appStoreReceiptURL];
     NSData *receiptData=[NSData dataWithContentsOfURL:receiptUrl];
-    
     NSString * productIdentifier = [receiptData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
-    
     [[NSUserDefaults standardUserDefaults] setObject:productIdentifier forKey:@"邮票凭证"];
-    
     [[NSUserDefaults standardUserDefaults] setObject:transaction.transactionIdentifier forKey:@"邮票订单"];
 }
 
 -(void)dealloc{
 
     [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
-    
 }
 
 -(void)createTableView{
@@ -764,38 +749,7 @@
             }
             
         }
-//        else if (indexPath.row == 1){
-//
-//            if ([_commentdynamic intValue] >= 5) {
-//
-//                [self didComplete:cell andTitle:@"已完成"];
-//
-//                cell.completeLabel.text = [NSString stringWithFormat:@"5/5"];
-//
-//            }else{
-//
-//               [self goComplete:cell andTitle:@"去完成"];
-//
-//                cell.completeLabel.text = [NSString stringWithFormat:@"%@/5",_commentdynamic];
-//            }
-//
-//        }else if (indexPath.row == 2){
-//
-//            if ([_senddynamic intValue] >= 2) {
-//
-//                [self didComplete:cell andTitle:@"已完成"];
-//
-//                cell.completeLabel.text = [NSString stringWithFormat:@"2/2"];
-//
-//
-//            }else{
-//
-//                [self goComplete:cell andTitle:@"去完成"];
-//
-//                cell.completeLabel.text = [NSString stringWithFormat:@"%@/2",_senddynamic];
-//            }
-//
-//        }
+
         else if (indexPath.row == 1){
             
             if ([_shareapp intValue] >= 1) {

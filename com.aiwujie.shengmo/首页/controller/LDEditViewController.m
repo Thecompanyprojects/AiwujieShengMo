@@ -22,7 +22,6 @@
 #import "TZAssetModel.h"
 #import "LDPrivacyPhotoViewController.h"
 #import "LDAlertNameandIntroduceViewController.h"
-#import "UIButton+ImageTitleSpace.h"
 #import "EditinfoModel.h"
 
 @interface LDEditViewController ()<TZImagePickerControllerDelegate,UICollectionViewDataSource,UICollectionViewDelegate,UIActionSheetDelegate,UIImagePickerControllerDelegate,UIAlertViewDelegate,UINavigationControllerDelegate,UITextViewDelegate,UITableViewDataSource,UITableViewDelegate,RegisterNextCellDelegate,UIPickerViewDelegate,UIPickerViewDataSource,LDIamCellDelegate,UIImagePickerControllerDelegate>{
@@ -606,7 +605,7 @@
 
     if ([_vipString isEqualToString:@"非会员"]) {
         
-        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"您现在还不是会员,不能设置相册的开启~"];
+        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"您现在还不是会员,不能设置相册密码~"];
         
     }else{
         
@@ -1797,6 +1796,9 @@
         formatter.dateFormat = @"yyyyMMddHHmmss";
         NSString *str = [formatter stringFromDate:[NSDate date]];
         NSString *fileName = [NSString stringWithFormat:@"%@.jpg", str];
+        
+        NSNotification *notification = [NSNotification notificationWithName:EditChangepost object:nil];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
         
         AFHTTPSessionManager *manager = [LDAFManager sharedManager];
         self.headImgisChange = YES;

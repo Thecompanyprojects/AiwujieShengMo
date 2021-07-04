@@ -175,13 +175,13 @@
     label.text = @"参与话题(可选,正确分类将被优先被推荐)";
     [self.backView addSubview:label];
     
-    UIButton *createTopicButton = [[UIButton alloc] initWithFrame:CGRectMake(WIDTH - 80, 10, 80, 21)];
-    [createTopicButton setTitle:@"创建话题" forState:UIControlStateNormal];
-    [createTopicButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    [createTopicButton addTarget:self action:@selector(createTopicButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    createTopicButton.titleLabel.font = [UIFont systemFontOfSize:14];
-    
-    [self.backView addSubview:createTopicButton];
+//    UIButton *createTopicButton = [[UIButton alloc] initWithFrame:CGRectMake(WIDTH - 80, 10, 80, 21)];
+//    [createTopicButton setTitle:@"创建话题" forState:UIControlStateNormal];
+//    [createTopicButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+//    [createTopicButton addTarget:self action:@selector(createTopicButtonClick) forControlEvents:UIControlEventTouchUpInside];
+//    createTopicButton.titleLabel.font = [UIFont systemFontOfSize:14];
+//    
+//    [self.backView addSubview:createTopicButton];
     
     [self.scrollView addSubview:self.backView];
     

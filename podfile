@@ -17,4 +17,5 @@ pod 'IQKeyboardManager'
 pod 'Bugly'
 pod 'YYModel'
 pod 'DZNEmptyDataSet'
+pod 'SDAutoLayout'
 end

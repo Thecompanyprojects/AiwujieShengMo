@@ -22,6 +22,7 @@
 #import "LDShareView.h"
 #import "GifView.h"
 #import "LDChargeCenterViewController.h"
+#import "bottomView.h"
 
 @interface LDDynamicDetailViewController ()<UITableViewDelegate,UITableViewDataSource,UITextViewDelegate,YBAttributeTapActionDelegate>
 
@@ -66,8 +67,11 @@
 @property (weak, nonatomic) IBOutlet UIButton *zanButton;
 @property (weak, nonatomic) IBOutlet UIButton *commentButton;
 @property (weak, nonatomic) IBOutlet UIButton *rewardButton;
+
 @property (weak, nonatomic) IBOutlet UIImageView *zanImageView;
 @property (weak, nonatomic) IBOutlet UILabel *zanLabel;
+
+@property (weak, nonatomic) IBOutlet UIButton *totopButton;
 
 //发送评论
 @property (weak, nonatomic) IBOutlet UIView *sendView;
@@ -139,6 +143,9 @@
 //动态数与推荐动态数
 @property (weak, nonatomic) IBOutlet UILabel *dyAndRdNumLabel;
 
+@property (nonatomic,strong) bottomView *bottom;
+
+@property (nonatomic,copy) NSString *topnumStr;
 @end
 
 @implementation LDDynamicDetailViewController
@@ -149,12 +156,9 @@
     // Do any additional setup after loading the view from its nib.
     self.navigationItem.title = @"动态详情";
     [self.tableView addSubview:self.sendView];
-    if ([_clickState isEqualToString:@"comment"]) {
-        
-        [self.textView becomeFirstResponder];
-    }
+    
     _dataArray = [NSMutableArray array];
-    //点赞,评论,打赏状态
+    //点赞,评论,打赏 推顶状态
     _status = @"2";
     [self createTableView];
     _backView.hidden = YES;
@@ -196,6 +200,10 @@
     
     [self createButton];
     
+    if ([_clickState isEqualToString:@"comment"]) {
+        //[self.textView becomeFirstResponder];
+    }
+    [self createBottomView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rewardSuccess) name:@"动态详情打赏成功" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindPhoneNumSuccess) name:@"绑定手机号码成功" object:nil];
@@ -206,6 +214,66 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardChangeFrame:) name:UIKeyboardWillHideNotification object:nil];
     
+    [self createBottomView];
+}
+
+-(void)createBottomView
+{
+    self.bottom= [bottomView new];
+    self.bottom.isfromDis = YES;
+    [self.view addSubview:self.bottom];
+    [self.bottom mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.view);
+        make.right.equalTo(self.view);
+        make.top.equalTo(self.tableView.mas_bottom);
+        if (ISIPHONEX) {
+            make.bottom.equalTo(self.view).with.offset(-22);
+        }
+        else
+        {
+            make.bottom.equalTo(self.view).with.offset(-12);
+        }
+    }];
+    [self.bottom.lineView0 setHidden:YES];
+    [self.bottom.lineView1 setHidden:YES];
+    [self.bottom.lineView2 setHidden:YES];
+    [self.bottom.zanBtn setTitleColor:[UIColor lightGrayColor] forState:normal];
+    [self.bottom.commentBtn setTitleColor:MainColor forState:normal];
+    [self.bottom.replyBtn setTitleColor:MainColor forState:normal];
+    [self.bottom.topBtn setTitleColor:MainColor forState:normal];
+    [self.bottom.commentBtn setImage:[UIImage imageNamed:@"评论紫"] forState:normal];
+    [self.bottom.replyBtn setImage:[UIImage imageNamed:@"打赏紫"] forState:normal];
+    [self.bottom.topBtn setImage:[UIImage imageNamed:@"推顶紫"] forState:normal];
+    [self.bottom.zanBtn setTitle:@"赞" forState:normal];
+    [self.bottom.commentBtn setTitle:@"评论" forState:normal];
+    [self.bottom.replyBtn setTitle:@"打赏" forState:normal];
+    [self.bottom.topBtn setTitle:@"推顶" forState:normal];
+    [self.bottom.zanBtn addTarget:self action:@selector(dianzanClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.bottom.commentBtn addTarget:self action:@selector(commentClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.bottom.replyBtn addTarget:self action:@selector(replyClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.bottom.topBtn addTarget:self action:@selector(topcardClick) forControlEvents:UIControlEventTouchUpInside];
+}
+
+#pragma mark - 禁用IQKeyboardManager
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    IQKeyboardManager *keyboardManager =  [IQKeyboardManager sharedManager];
+    keyboardManager.enable = NO;
+    keyboardManager.enableAutoToolbar = NO;
+}
+
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    IQKeyboardManager *keyboardManager =  [IQKeyboardManager sharedManager];
+    keyboardManager.enable = YES;
+    keyboardManager.enableAutoToolbar = YES;
+    if (_gif) {
+        [_gif removeView];
+    }
 }
 
 /**
@@ -232,14 +300,11 @@
 -(void)rewardSuccess{
     
     [self.rewardButton setTitle:[NSString stringWithFormat:@"打赏 %@",[NSString stringWithFormat:@"%d",[_rewordNum intValue] + 1]] forState:UIControlStateNormal];
-    
     _rewordNum = [NSString stringWithFormat:@"%d",[_rewordNum intValue] + 1];
-    
     if (_rewordBlock) {
-    
         self.rewordBlock([NSString stringWithFormat:@"%d",[_rewordNum intValue]]);
-        
     }
+    
 }
 
 /**
@@ -248,78 +313,46 @@
 
 -(void)createPublishCommentData{
     
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
-    [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
-    manager.requestSerializer.timeoutInterval = 10.f;
-    
-    [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/judgeDynamicNewrd"];
-    
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-        //        NSLog(@"%@",responseObject);
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (integer == 4003) {
-            
             _publishComment = @"NO";
-            
-            
         }else  if(integer == 2000 || integer == 4004){
-            
             _publishComment = @"YES";
-            
         }else if(integer == 3001){
-        
             _publishComment = @"";
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        _publishComment = @"NO";
-        
+    } failed:^(NSString *errorMsg) {
+         _publishComment = @"NO";
     }];
-
 }
 
 -(void)textViewDidChange:(UITextView *)textView{
-    
     if (textView.text.length == 0) {
-        
         [self.introduceLabel setHidden:NO];
-        
     }else{
-        
         [self.introduceLabel setHidden:YES];
     }
-
     UITextRange *selectedRange = [textView markedTextRange];
     //获取高亮部分
     UITextPosition *position = [textView positionFromPosition:selectedRange.start offset:0];
     // 没有高亮选择的字，则对已输入的文字进行字数统计和限制
     if (!position) {
-        
         if(textView.text.length > 256){
-            
             textView.text = [textView.text substringToIndex:256];
-            
         }
     }
 }
 
+/**
+ 获取用户数据
+ */
 -(void)createScanData{
     
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/getDynamicdetailFive"];
-    
     NSDictionary *parameters;
-    
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
         
         parameters = @{@"did":_did,@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":[[NSUserDefaults standardUserDefaults]objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults]objectForKey:@"longitude"]};
@@ -328,171 +361,112 @@
         
         parameters = @{@"did":_did,@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":@"",@"lng":@""};
     }
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (integer != 2000 && integer != 2001) {
-            
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             self.tableView.mj_footer.hidden = YES;
             self.tableView.mj_header.hidden = YES;
             
         }else{
-            
-            [self createUI:responseObject[@"data"] andInteger:integer];
-
+            [self createUI:responseObj[@"data"] andInteger:integer];
         }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failed:^(NSString *errorMsg) {
         
         self.tableView.mj_footer.hidden = YES;
         self.tableView.mj_header.hidden = YES;
-        
     }];
     
 }
 
+/**
+ 请求赞，评论，打赏 推顶数据
 
-//请求赞，评论，打赏数据
+ @param str 接口
+ */
 -(void)createData:(NSString *)str{
-    
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
-    NSString *url = [NSString string];
-    
-    NSDictionary *parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":_did};
-    
-    if ([_status intValue] == 1) {
-        
-        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/getLaudListNew"];
-        
-    }else if ([_status intValue] == 2){
-    
-        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/getCommentListNew"];
-        
-    }else if ([_status intValue] == 3){
-    
-        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/getRewardListNew"];
-    }
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-//       NSLog(@"%@",responseObject);
-        
-        if (integer != 2000) {
-            
-            if (integer == 4002) {
-                
-                if ([str intValue] == 1) {
-                    
-                    [_dataArray removeAllObjects];
-                    
-                    [self.tableView reloadData];
-                    
-                    self.tableView.mj_footer.hidden = YES;
-                    
-                }else{
-                
-                    [self.tableView.mj_footer endRefreshingWithNoMoreData];
-                    
-                }
 
+    NSString *url = [NSString string];
+    NSDictionary *parameters;
+    //查询推顶列表 不传UID
+
+    parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":_did};
+    if ([_status intValue] == 1)
+    {
+        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getLaudListNew];
+    }else if ([_status intValue] == 2)
+    {
+        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getCommentListNew];
+    }else if ([_status intValue] == 3)
+    {
+        url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getRewardListNew];
+    }
+    else if ([_status intValue]==4)
+    {
+         url = [NSString stringWithFormat:@"%@%@",PICHEADURL,getTopcardUsedRs];
+    }
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
+        if (integer != 2000) {
+            if (integer == 4002||integer == 3000) {
+                if ([str intValue] == 1) {
+                    [_dataArray removeAllObjects];
+                    [self.tableView reloadData];
+                    self.tableView.mj_footer.hidden = YES;
+                }else{
+                    [self.tableView.mj_footer endRefreshingWithNoMoreData];
+                }
             }else{
-                
                 [self.tableView.mj_footer endRefreshing];
-            
-               [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }
-            
         }else{
-            
             if ([str intValue] == 1) {
-                
                 [_dataArray removeAllObjects];
-                
             }
-            
             if ([_status intValue] == 2) {
                 
-                for (NSDictionary *dic in responseObject[@"data"]) {
-                    
-                    commentModel *model = [[commentModel alloc] init];
-                    
-                    [model setValuesForKeysWithDictionary:dic];
-                    
-                    [_dataArray addObject:model];
-                }
-
+                NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[commentModel class] json:responseObj[@"data"]]];
+                [self.dataArray addObjectsFromArray:data];
+                
             }else{
-            
-                for (NSDictionary *dic in responseObject[@"data"]) {
-                    
-                    TableModel *model = [[TableModel alloc] init];
-                    
-                    [model setValuesForKeysWithDictionary:dic];
-                    
-                    [_dataArray addObject:model];
-                }
+                NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[TableModel class] json:responseObj[@"data"]]];
+                [self.dataArray addObjectsFromArray:data];
+
             }
-            
             self.tableView.mj_footer.hidden = NO;
-            
             [self.tableView reloadData];
-            
             [self.tableView.mj_footer endRefreshing];
         }
-        
         [MBProgressHUD hideHUDForView:self.view animated:YES];
-        
         [self.tableView.mj_header endRefreshing];
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
-        
     }];
-    
-    
 }
 
 -(void)createTableView{
-    
     if (ISIPHONEX) {
-        
         self.bottomY.constant = IPHONEXBOTTOMH;
-        
         self.tableViewBottomY.constant = self.tableViewBottomY.constant + IPHONEXBOTTOMH;
-        
     }
-    
     self.tableView.delegate = self;
-    
     self.tableView.dataSource = self;
-    
     if (@available(iOS 11.0, *)) {
-        
         self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;//UIScrollView也适用
-        
     }else {
-        
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    
     self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = 80;
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    
     self.tableView.showsHorizontalScrollIndicator = NO;
-    
     [self.view addSubview:self.tableView];
 }
+
+#pragma mark - UITableViewDataSource
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
@@ -506,130 +480,89 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if ([_status intValue] == 1 || [_status intValue] == 3) {
-        
+    if ([_status intValue] == 1 || [_status intValue] == 3||[_status intValue] == 4) {
         attentionCell *cell = [tableView dequeueReusableCellWithIdentifier:@"attention"];
-        
         if (!cell) {
-            
             cell = [[NSBundle mainBundle] loadNibNamed:@"attentionCell" owner:self options:nil].lastObject;
         }
-        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
         TableModel *model;
-        
         if (_dataArray.count > 0) {
-            
             model = _dataArray[indexPath.section];
-            
             cell.otherType = @"0";
-            
             cell.model = model;
         }
-
-       [cell.attentButton addTarget:self action:@selector(attentButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        
+        [cell.attentButton addTarget:self action:@selector(attentButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+        if([_status intValue]==4)
+        {
+            cell.introduceLabel.text = [[TimeManager defaultTool] getDateFormatStrFromTimeStampWithSeconds:model.addtime];
+            [cell.modouView setHidden:NO];
+            cell.numLabel.text = @"";
+            cell.modouView.image = [UIImage imageNamed:@"推顶火箭"];
+        }
         return cell;
-
     }else if([_status intValue] == 2){
-    
         CommentCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Comment"];
-        
         if (!cell) {
-            
             cell = [[NSBundle mainBundle] loadNibNamed:@"CommentCell" owner:self options:nil].lastObject;
         }
-        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
         commentModel *model = [[commentModel alloc] init];
-        
         if (_dataArray.count > 0) {
-            
             model = _dataArray[indexPath.section];
-            
             cell.model = model;
-            
         }
-        
         [cell.headButton addTarget:self action:@selector(headButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-        
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"is_admin"] intValue] == 1) {
-            
             cell.deleteButton.hidden = NO;
-            
             [cell.deleteButton addTarget:self action:@selector(deleteButtonClick:) forControlEvents:UIControlEventTouchUpInside];
-            
         }else{
         
             if ([_ownUid intValue] == [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue] || [model.uid intValue] == [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]) {
-                
                 cell.deleteButton.hidden = NO;
-                
                 [cell.deleteButton addTarget:self action:@selector(deleteButtonClick:) forControlEvents:UIControlEventTouchUpInside];
                 
             }else{
-                
                 cell.deleteButton.hidden = YES;
-                
             }
-
         }
-
         _cellH = cell.contentView.frame.size.height;
-        
         return cell;
     }
-    
-    return nil;
+    return [UITableViewCell new];
     
 }
 
-//删除评论
+
+/**
+ 删除评论
+
+ @param button 删除评论Button
+ */
 -(void)deleteButtonClick:(UIButton *)button{
 
     CommentCell *cell = (CommentCell *)button.superview.superview;
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
     commentModel *model = _dataArray[indexPath.section];
     
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
-    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/delComment"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,delComment];
     
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":_did,@"cmid":model.cmid};
-    
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        //                NSLog(@"%@",responseObject);
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-
-        
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
         if (integer != 2000) {
-            
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             
         }else{
-            
             [_dataArray removeObjectAtIndex:indexPath.section];
-        
             [self.commentButton setTitle:[NSString stringWithFormat:@"评论 %@",[NSString stringWithFormat:@"%d",[_commentNum intValue] - 1]] forState:UIControlStateNormal];
-            
             _commentNum = [NSString stringWithFormat:@"%d",[_commentNum intValue] - 1];
-            
             if (_commentBlock) {
-                
-                 self.commentBlock([NSString stringWithFormat:@"%d",[_commentNum intValue]]);
+                self.commentBlock([NSString stringWithFormat:@"%d",[_commentNum intValue]]);
             }
-            
             [self.tableView reloadData];
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         
     }];
 
@@ -638,118 +571,67 @@
 -(void)headButtonClick:(UIButton *)button{
 
     CommentCell *cell = (CommentCell *)button.superview.superview;
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
     commentModel *model = _dataArray[indexPath.section];
-
     LDOwnInformationViewController *ivc = [[LDOwnInformationViewController alloc] init];
-    
     ivc.userID = model.uid;
-    
     [self.navigationController pushViewController:ivc animated:YES];
 }
 
 -(void)attentButtonClick:(UIButton *)button{
-    
     attentionCell *cell = (attentionCell *)button.superview.superview;
-    
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    
     TableModel *model = _dataArray[indexPath.section];
     
     if ([model.state intValue] == 0 || [model.state intValue] == 2) {
-        
-        AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-        
-        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/followOneBox"];
-        
-        NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"fuid":model.uid};
-        
-        
-        [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
-            NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-            
-            //        NSLog(@"%@",responseObject);
-            
+        NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setfollowOne];
+        NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]?:@"",@"fuid":model.uid?:@""};
+        [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+            NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
             if (integer != 2000) {
-                
-                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-                
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }else{
-                
                 if ([model.state intValue] == 0) {
-                    
                     model.state = @"1";
-                    
                     [_dataArray replaceObjectAtIndex:indexPath.section withObject:model];
-                    
                     [self.tableView reloadData];
-                    
                 }else if ([model.state intValue] == 2){
-                    
                     model.state = @"3";
-                    
                     [_dataArray replaceObjectAtIndex:indexPath.section withObject:model];
-                    
                     [self.tableView reloadData];
                 }
             }
-            
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-
+        } failed:^(NSString *errorMsg) {
             
         }];
-        
-    }else if([model.state intValue] == 1 || [model.state intValue] == 3){
+    }
+    else if([model.state intValue] == 1 || [model.state intValue] == 3){
         
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确定不再关注此人"    preferredStyle:UIAlertControllerStyleAlert];
         
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
             
-            AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-            
-            NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/friend/overfollow"];
-            
+            NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,setoverfollow];
             NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"fuid":model.uid};
-            
-            
-            [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                
-                NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-                
-//                        NSLog(@"%@",responseObject);
-                
+            [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+                NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
                 if (integer != 2000) {
-                    
-                    [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-                    
+                    [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
                 }else{
-                    
                     if ([model.state intValue] == 1) {
-                        
                         model.state = @"0";
-                        
                         [_dataArray replaceObjectAtIndex:indexPath.section withObject:model];
-                        
                         [self.tableView reloadData];
-                        
                     }else if ([model.state intValue] == 3){
-                        
                         model.state = @"2";
-                        
                         [_dataArray replaceObjectAtIndex:indexPath.section withObject:model];
-                        
                         [self.tableView reloadData];
                     }
-                    
                 }
-                
-            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            } failed:^(NSString *errorMsg) {
                 
             }];
-            
+
         }];
         
         UIAlertAction * cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault  handler:nil];
@@ -762,14 +644,11 @@
     }
 }
 
-
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if ([_status intValue] == 2) {
-        
         return _cellH;
     }
-    
     return 88;
 }
 
@@ -786,42 +665,24 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if ([_status intValue] == 1 || [_status intValue] == 3) {
-        
+    if ([_status intValue] == 1 || [_status intValue] == 3|| [_status intValue] == 4) {
         LDOwnInformationViewController *ivc = [[LDOwnInformationViewController alloc] init];
-        
         TableModel *model = _dataArray[indexPath.section];
-        
         ivc.userID = model.uid;
-        
         [self.navigationController pushViewController:ivc animated:YES];
-        
     }else if ([_status intValue] == 2){
-        
         commentModel *model = _dataArray[indexPath.section];
-        
         if ([model.uid intValue] != [[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]) {
-            
             _replyUid = model.uid;
-            
             [self.textView becomeFirstResponder];
-            
             if (self.textView.text.length != 0) {
-                
                 self.textView.text = @"";
             }
-            
             self.introduceLabel.hidden = NO;
-            
             self.introduceLabel.text = [NSString stringWithFormat:@"回复 %@:",model.nickname];
-            
-            
         }else{
-            
             self.introduceLabel.hidden = YES;
-            
             self.introduceLabel.text = @"";
-        
             _replyUid = @"";
         }
     }
@@ -1265,13 +1126,18 @@
     
     if ([dic[@"laudstate"] intValue] == 0) {
         
-        self.zanImageView.image = [UIImage imageNamed:@"赞灰"];
-        self.zanLabel.textColor = [UIColor lightGrayColor];
+        [self.bottom.zanBtn setImage:[UIImage imageNamed:@"赞灰"] forState:normal];
+        [self.bottom.zanBtn setTitleColor:[UIColor lightGrayColor] forState:normal];
+        
+//        self.zanImageView.image = [UIImage imageNamed:@"赞灰"];
+//        self.zanLabel.textColor = [UIColor lightGrayColor];
         
     }else{
         
-        self.zanImageView.image = [UIImage imageNamed:@"赞紫"];
-        self.zanLabel.textColor = [UIColor colorWithHexString:@"#c450d6" alpha:1];
+        [self.bottom.zanBtn setImage:[UIImage imageNamed:@"赞紫"] forState:normal];
+        [self.bottom.zanBtn setTitleColor:[UIColor colorWithHexString:@"#c450d6" alpha:1] forState:normal];
+//        self.zanImageView.image = [UIImage imageNamed:@"赞紫"];
+//        self.zanLabel.textColor = [UIColor colorWithHexString:@"#c450d6" alpha:1];
     }
     
     _zanNum = dic[@"laudnum"];
@@ -1287,6 +1153,10 @@
     
     [self.rewardButton setTitle:[NSString stringWithFormat:@"打赏 %@",dic[@"rewardnum"]] forState:UIControlStateNormal];
     [self.rewardButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    
+    self.topnumStr = dic[@"topnum"];
+    [self.totopButton setTitle:[NSString stringWithFormat:@"推顶 %@",self.topnumStr] forState:normal];
+    [self.totopButton setTitleColor:[UIColor darkGrayColor] forState:normal];
     
     //获取展示的财富值和魅力值
     [self getWealthAndCharmState:_wealthLabel andView:_wealthView andText:dic[@"wealth_val"] andNSLayoutConstraint:_wealthW andType:@"财富"];
@@ -1360,15 +1230,11 @@
 }
 
 -(CGSize)fitLabelWidth:(NSString *)string{
-    
     CGSize size = [string sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:10.0]}];
     // ceilf()向上取整函数, 只要大于1就取整数2. floor()向下取整函数, 只要小于2就取整数1.
     CGSize labelSize = CGSizeMake(ceilf(size.width), ceilf(size.height));
-    
     return labelSize;
-    
 }
-
 
 -(void)tap:(UITapGestureRecognizer *)tap{
     
@@ -1377,168 +1243,185 @@
     __weak typeof(self) weakSelf=self;
     
     [ImageBrowserViewController show:self type:PhotoBroswerVCTypeModal index:img.tag imagesBlock:^NSArray *{
-        
         return weakSelf.picArray;
     }];
-    
-    
 }
 
-//切换查看点赞列表
+#pragma mark - 点赞 评论 打赏 推顶 列表
+
+/**
+ 查看点赞列表
+
+ @param sender 查看点赞列表
+ */
 - (IBAction)zanButtonClick:(id)sender {
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
     _status = @"1";
-    
     [self.zanButton setTitle:[NSString stringWithFormat:@"赞 %@",_zanNum] forState:UIControlStateNormal];
-    
-    [self.zanButton setTitleColor:MainColor forState:UIControlStateNormal];
-    
+    [self.zanButton setTitleColor:MainColor forState:normal];
     [self.commentButton setTitle:[NSString stringWithFormat:@"评论 %@",_commentNum] forState:UIControlStateNormal];
-    
-    [self.commentButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    
+    [self.commentButton setTitleColor:[UIColor darkGrayColor] forState:normal];
     [self.rewardButton setTitle:[NSString stringWithFormat:@"打赏 %@",_rewordNum] forState:UIControlStateNormal];
-    
-    [self.rewardButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    
+    [self.rewardButton setTitleColor:[UIColor darkGrayColor] forState:normal];
+    [self.totopButton setTitleColor:[UIColor darkGrayColor] forState:normal];
     _page = 0;
-    
     [self createData:@"1"];
 }
 
-//切换查看评论列表
+
+/**
+ 查看评论列表
+
+ @param sender 查看评论列表
+ */
 - (IBAction)commentButtonCllick:(id)sender {
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
     _status = @"2";
-    
     [self.zanButton setTitle:[NSString stringWithFormat:@"赞 %@",_zanNum] forState:UIControlStateNormal];
-    
     [self.zanButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    
     [self.commentButton setTitle:[NSString stringWithFormat:@"评论 %@",_commentNum] forState:UIControlStateNormal];
-    
     [self.commentButton setTitleColor:MainColor forState:UIControlStateNormal];
-    
     [self.rewardButton setTitle:[NSString stringWithFormat:@"打赏 %@",_rewordNum] forState:UIControlStateNormal];
-    
     [self.rewardButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    
+    [self.totopButton setTitleColor:[UIColor darkGrayColor] forState:normal];
     _page = 0;
     
     [self createData:@"1"];
 }
 
-//切换查看打赏列表
+
+/**
+ 查看打赏列表
+
+ @param sender 查看打赏列表
+ */
 - (IBAction)rewardButtonClick:(id)sender {
     
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
     _status = @"3";
-    
     [self.zanButton setTitle:[NSString stringWithFormat:@"赞 %@",_zanNum] forState:UIControlStateNormal];
-    
     [self.zanButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    
     [self.commentButton setTitle:[NSString stringWithFormat:@"评论 %@",_commentNum] forState:UIControlStateNormal];
-    
     [self.commentButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    
     [self.rewardButton setTitle:[NSString stringWithFormat:@"打赏 %@",_rewordNum] forState:UIControlStateNormal];
-    
     [self.rewardButton setTitleColor:MainColor forState:UIControlStateNormal];
-    
+    [self.totopButton setTitleColor:[UIColor darkGrayColor] forState:normal];
     _page = 0;
-    
     [self createData:@"1"];
 }
-- (IBAction)rewardClick:(id)sender {
-    
-    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue] == [_ownUid intValue]) {
-        
-        [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"不能对自己打赏~"];
-        
-    }else{
-        
-        _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) :^{
-            
-            LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
-            
-            cvc.type = @"0";
-            
-            [self.navigationController pushViewController:cvc animated:YES];
-            
-        }];
-        
-        [_gif getDynamicDid:self.did andIndexPath:nil andSign:@"动态详情" andUIViewController:self];
-        
-        [self.tabBarController.view addSubview:_gif];
 
-    }
-
+- (IBAction)topcardClick:(id)sender {
+    [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    _status = @"4";
+    [self.zanButton setTitle:[NSString stringWithFormat:@"赞 %@",_zanNum] forState:UIControlStateNormal];
+    [self.zanButton setTitleColor:[UIColor darkGrayColor] forState:normal];
+    [self.commentButton setTitle:[NSString stringWithFormat:@"评论 %@",_commentNum] forState:UIControlStateNormal];
+    [self.commentButton setTitleColor:[UIColor darkGrayColor] forState:normal];
+    [self.rewardButton setTitle:[NSString stringWithFormat:@"打赏 %@",_rewordNum] forState:UIControlStateNormal];
+    [self.rewardButton setTitleColor:[UIColor darkGrayColor] forState:normal];
+    [self.totopButton setTitleColor:MainColor forState:normal];
+    _page = 0;
+    [self createData:@"1"];
 }
+
+
 //动态详情页点赞
-- (IBAction)dianzanButtonClick:(id)sender {
-    
+
+-(void)dianzanClick
+{
     if ([_zanState intValue] == 0) {
-        
-        AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-        
         NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Dynamic/laudDynamicNewrd"];
-        
         NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"did":_did};
-        //    NSLog(@"%@",role);
-        
-        [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            
-            NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-            
-            //        NSLog(@"%@",responseObject);
-            
+        [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+            NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
             if (integer != 2000) {
-                
-                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
-                
-                
+                [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             }else{
-                
-                self.zanLabel.textColor = MainColor;
-                
-                self.zanImageView.image = [UIImage imageNamed:@"赞紫"];
+                //                self.zanLabel.textColor = MainColor;
+                //                self.zanImageView.image = [UIImage imageNamed:@"赞紫"];
+                [self.zanButton setTitle:[NSString stringWithFormat:@"赞 %@",[NSString stringWithFormat:@"%d",[_zanNum intValue] + 1]] forState:UIControlStateNormal];
+                [self.bottom.zanBtn setTitleColor:MainColor forState:normal];
+                [self.bottom.zanBtn setImage:[UIImage imageNamed:@"赞紫"] forState:normal];
                 
                 _zanState = @"1";
                 
-                [self.zanButton setTitle:[NSString stringWithFormat:@"赞 %@",[NSString stringWithFormat:@"%d",[_zanNum intValue] + 1]] forState:UIControlStateNormal];
-                
                 _zanNum = [NSString stringWithFormat:@"%@",[NSString stringWithFormat:@"%d",[_zanNum intValue] + 1]];
-                
                 if (_block) {
-                    
                     self.block([NSString stringWithFormat:@"%@",[NSString stringWithFormat:@"%d",[_zanNum intValue]]],_zanState);
                 }
-  
             }
-            
-            
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
+        } failed:^(NSString *errorMsg) {
             
         }];
-        
     }
+}
+//评论动态
 
+-(void)commentClick
+{
+    [self.textView becomeFirstResponder];
 }
 
-//评论动态
-- (IBAction)commentDynamicClick:(id)sender {
-    
-//    _replyUid = @"";
-    
-    
-    [self.textView becomeFirstResponder];
+/**
+ 打赏功能
+
+ @param sender 打赏功能
+ */
+
+-(void)replyClick
+{
+
+    BOOL ismines = NO;
+    if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"] intValue]==[self.ownUid intValue]) {
+        ismines = YES;
+    }
+    _gif = [[GifView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT) andisMine:ismines :^{
+        LDMyWalletPageViewController *cvc = [[LDMyWalletPageViewController alloc] init];
+        cvc.type = @"0";
+        [self.navigationController pushViewController:cvc animated:YES];
+        
+    }];
+    [_gif getDynamicDid:self.did andIndexPath:nil andSign:@"动态详情" andUIViewController:self];
+    [self.tabBarController.view addSubview:_gif];
+}
+
+
+/**
+ 推顶功能
+ */
+-(void)topcardClick
+{
+    TopcardView *view = [TopcardView new];
+    view.did = self.did;
+    [view withBuyClick:^(NSString * _Nonnull string) {
+        LDtotopViewController *VC = [LDtotopViewController new];
+        [self.navigationController pushViewController:VC animated:YES];
+    }];
+    [view withAlertClick:^(NSString * _Nonnull string) {
+        UIAlertController *control = [UIAlertController alertControllerWithTitle:@"提示" message:@"您的推顶卡不足，请购买" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action0 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"去购买" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            LDtotopViewController *VC = [LDtotopViewController new];
+            [self.navigationController pushViewController:VC animated:YES];
+        }];
+        [control addAction:action0];
+        [control addAction:action1];
+        [self presentViewController:control animated:YES completion:^{
+            
+        }];
+    }];
+    [view withSureClick:^(NSString * _Nonnull string) {
+        //推顶操作成功
+        NSString *newStr = self.topnumStr;
+        newStr = [NSString stringWithFormat:@"%d",[newStr intValue]+1].copy;
+        self.topnumStr = newStr.copy;
+        [self.totopButton setTitle:[NSString stringWithFormat:@"推顶 %@",self.topnumStr] forState:normal];
+        [MBProgressHUD showMessage:@"推顶成功"];
+    }];
 }
 
 - (IBAction)sendButtonClick:(id)sender {
@@ -1552,11 +1435,9 @@
         UIAlertAction * action = [UIAlertAction actionWithTitle:@"立即绑定" style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
             
             LDBindingPhoneNumViewController *bpnc = [[LDBindingPhoneNumViewController alloc] init];
-            
             [self.navigationController pushViewController:bpnc animated:YES];
             
         }];
-        
         
         UIAlertAction * cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel  handler:nil];
         
@@ -1658,15 +1539,14 @@
                 } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
                     
                     [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:@"评论失败,请稍后重试~"];
-                    
                 }];
             }
         }
      }
-    
 }
+
 #pragma mark - 监听事件
-- (void) keyboardWillChangeFrame:(NSNotification *) note {
+- (void)keyboardWillChangeFrame:(NSNotification *) note {
     
     // 1.取得弹出后的键盘frame
     CGRect keyboardFrame = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
@@ -1687,7 +1567,7 @@
     
 }
 
-- (void) keyboardChangeFrame:(NSNotification *) note {
+- (void)keyboardChangeFrame:(NSNotification *) note {
     
     // 1.取得弹出后的键盘frame
     //    CGRect keyboardFrame = [note.userInfo[UIKeyboardFrameEndUserInfoKey] CGRectValue];
@@ -2488,16 +2368,7 @@
     }];
 }
 
--(void)viewWillDisappear:(BOOL)animated{
-    
-    [super viewWillDisappear:animated];
-    
-    if (_gif) {
-        
-        [_gif removeView];
-    }
- 
-}
+
 
 - (IBAction)imageButtonClick:(id)sender {
     

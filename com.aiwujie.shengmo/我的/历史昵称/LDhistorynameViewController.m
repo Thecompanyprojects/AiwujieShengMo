@@ -9,6 +9,7 @@
 #import "LDhistorynameViewController.h"
 #import "LDhistorynameModel.h"
 
+
 @interface LDhistorynameViewController ()<UITableViewDataSource,UITableViewDelegate,DZNEmptyDataSetSource,DZNEmptyDataSetDelegate>
 @property (nonatomic,strong) NSMutableArray *dataSource;
 @property (nonatomic,strong) UITableView *table;
@@ -23,6 +24,9 @@
     self.dataSource = [NSMutableArray array];
     [self createData];
     [self.view addSubview:self.table];
+    
+
+    
 }
 
 -(void)createData
@@ -56,8 +60,6 @@
     }
     return _table;
 }
-
-
 
 #pragma mark -UITableViewDataSource
 

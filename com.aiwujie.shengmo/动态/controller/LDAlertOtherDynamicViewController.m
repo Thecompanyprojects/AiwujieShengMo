@@ -91,14 +91,11 @@
 @implementation LDAlertOtherDynamicViewController
 
 -(void)viewWillAppear:(BOOL)animated{
-    
     [super viewWillAppear:animated];
     if (ISIPHONEX) {
-        
         self.scrollView.frame = CGRectMake(0, 0, WIDTH, [self getIsIphoneX:ISIPHONEX]);
         
     }else{
-        
         self.scrollView.frame = CGRectMake(0, 0, WIDTH, HEIGHT);
     }
     _scrollView.contentSize = CGSizeMake(WIDTH, CGRectGetHeight(_scrollView.frame) + 20);
@@ -121,6 +118,28 @@
     [self createScanData];
     [self createButton];
 }
+
+- (UIImagePickerController *)imagePickerVc {
+    if (_imagePickerVc == nil) {
+        _imagePickerVc = [[UIImagePickerController alloc] init];
+        _imagePickerVc.delegate = self;
+        // set appearance / 改变相册选择页的导航栏外观
+        _imagePickerVc.navigationBar.barTintColor = self.navigationController.navigationBar.barTintColor;
+        _imagePickerVc.navigationBar.tintColor = self.navigationController.navigationBar.tintColor;
+        UIBarButtonItem *tzBarItem, *BarItem;
+        if (iOS9Later) {
+            tzBarItem = [UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[TZImagePickerController class]]];
+            BarItem = [UIBarButtonItem appearanceWhenContainedInInstancesOfClasses:@[[UIImagePickerController class]]];
+        } else {
+            tzBarItem = [UIBarButtonItem appearanceWhenContainedIn:[TZImagePickerController class], nil];
+            BarItem = [UIBarButtonItem appearanceWhenContainedIn:[UIImagePickerController class], nil];
+        }
+        NSDictionary *titleTextAttributes = [tzBarItem titleTextAttributesForState:UIControlStateNormal];
+        [BarItem setTitleTextAttributes:titleTextAttributes forState:UIControlStateNormal];
+    }
+    return _imagePickerVc;
+}
+
 
 /**
  创建界面
@@ -165,15 +184,8 @@
     _topicLabel.numberOfLines = 0;
     _topicLabel.lineBreakMode = NSLineBreakByWordWrapping;
     [self.backView addSubview:_topicLabel];
-
-//    if (self.index != 0) {
-//
-//        [self.tagView reloadData:self.index];
-//
-//    }else{
-
-        [self.tagView reloadData:0];
-//    }
+    
+    [self.tagView reloadData:0];
     
     self.publishView  = [[UIView alloc] init];
     self.publishView.backgroundColor = [UIColor whiteColor];
@@ -255,31 +267,27 @@
             if ([responseObject[@"data"][@"content"] length] != 0) {
                 
                 self.contentStr =  responseObject[@"data"][@"content"];
-                self.topicStr = [NSString stringWithFormat:@"%@%@%@",@"#",responseObject[@"data"][@"topictitle"],@"#"];
+                NSString *newStr = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"topictitle"]];
+                if (newStr.length==0) {
+                    self.topicStr = @"";
+                }
+                else
+                {
+                    self.topicStr = [NSString stringWithFormat:@"%@%@%@",@"#",responseObject[@"data"][@"topictitle"],@"#"];
+                }
                 self.textView.text = [NSString stringWithFormat:@"%@%@",self.topicStr,self.contentStr];
-                
                 self.numberLabel.text = [NSString stringWithFormat:@"%ld/10000",(unsigned long)self.textView.text.length];
                 self.topicTid = responseObject[@"data"][@"tid"];
-                
                 if (self.textView.text.length == 0) {
-                    
                     [self.textLabel setHidden:NO];
-                    
                 }else{
-                    
                     [self.textLabel setHidden:YES];
                 }
-
             }else{
-            
                 self.textView.text = @"";
-                
                 self.numberLabel.text = [NSString stringWithFormat:@"%d/10000",0];
-                    
                 [self.textLabel setHidden:NO];
-                    
             }
-            
             //用于进行删除添加图片操作的数组
             [_selectedPhotos addObjectsFromArray:responseObject[@"data"][@"pic"]];
             [_selectedSyArray  addObjectsFromArray:responseObject[@"data"][@"sypic"]];
@@ -287,9 +295,10 @@
             //用于对比是否图片更改的原始数组
             [_pictureArray addObjectsFromArray:responseObject[@"data"][@"pic"]];
             [_shuiyinArray addObjectsFromArray:responseObject[@"data"][@"sypic"]];
-
-            [self.collectionView reloadData];
-        
+            
+            [self changeFrame:_selectedPhotos];
+            [_collectionView reloadData];
+            
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
@@ -357,22 +366,14 @@
 -(void)clickTagViewOrTopic{
     
     [_topicArray removeAllObjects];
-    
     _topicLabel.text = @"";
-    
     _topicLabel.frame = CGRectMake(10, CGRectGetMaxY(self.tagView.frame) + 10, WIDTH - 20, 0);
-    
     self.numberLabel.text = [NSString stringWithFormat:@"%ld/10000",(unsigned long)self.textView.text.length];
-    
     if (self.textView.text.length == 0) {
-        
         [self.textLabel setHidden:NO];
-        
     }else{
-        
         [self.textLabel setHidden:YES];
     }
-    
     [self getDynamicHeight];
 }
 
@@ -730,6 +731,7 @@
     
     // 如不需要长按排序效果，将LxGridViewFlowLayout类改成UICollectionViewFlowLayout即可
     //    LxGridViewFlowLayout *layout = [[LxGridViewFlowLayout alloc] init];
+    
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     _margin = 4;
     _itemWH = (WIDTH - 2 * _margin - 24) / 3 - _margin;
@@ -738,15 +740,17 @@
     layout.minimumLineSpacing = _margin;
     
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(_warnLabel.frame) + 10, WIDTH - 20, _itemWH + 2 * _margin) collectionViewLayout:layout];
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     _collectionView.alwaysBounceVertical = YES;
+    _collectionView.alwaysBounceHorizontal = YES;
+    _collectionView.scrollEnabled = NO;
     _collectionView.backgroundColor = [UIColor whiteColor];
     _collectionView.contentInset = UIEdgeInsetsMake(6, 4, 4, 4);
     _collectionView.dataSource = self;
     _collectionView.delegate = self;
-    _collectionView.scrollEnabled = NO;
     _collectionView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     [self.scrollView addSubview:_collectionView];
-    [_collectionView registerClass:[TZTestCell class] forCellWithReuseIdentifier:@"TZTestCell"];
+    [_collectionView registerClass:[TZTestCell class] forCellWithReuseIdentifier:@"TZTestCell22"];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
@@ -756,45 +760,42 @@
     }
 }
 
+-(void)changeFrame:(NSArray *)imageArray{
+    
+    if (imageArray.count <= 2) {
+        _collectionView.frame = CGRectMake(10, 275, WIDTH - 20, _itemWH + 2 * _margin);
+    }else if(imageArray.count <= 5 && imageArray.count > 2){
+        _collectionView.frame = CGRectMake(10, 275, WIDTH - 20, 2 * _itemWH + 3 * _margin);
+    }else if (imageArray.count <= 9 && imageArray.count > 5){
+        _collectionView.frame = CGRectMake(10, 275, WIDTH - 20, 3 * _itemWH + 4 * _margin);
+    }
+    [self getDynamicHeight];
+}
+
 #pragma mark UICollectionView
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    
     if (_selectedPhotos.count == 9) {
-        
         return _selectedPhotos.count;
     }
-   
     return _selectedPhotos.count + 1;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
-    TZTestCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TZTestCell" forIndexPath:indexPath];
-    
+    TZTestCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TZTestCell22" forIndexPath:indexPath];
     if (indexPath.row == _selectedPhotos.count) {
-        
         cell.imageView.image = [UIImage imageNamed:@"添加图片"];
-        
         cell.imageView.contentMode = UIViewContentModeScaleToFill;
-        
         cell.deleteBtn.hidden = YES;
-        
     } else {
-        
         [cell.imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_selectedPhotos[indexPath.row]]] placeholderImage:[UIImage imageNamed:@"动态图片默认"]];
-        
         cell.imageView.contentMode = UIViewContentModeScaleAspectFill;
-        
         cell.imageView.clipsToBounds = YES;
-        
         cell.deleteBtn.hidden = NO;
     }
-  
     cell.deleteBtn.tag = indexPath.row;
-    
     [cell.deleteBtn addTarget:self action:@selector(deleteBtnClik:) forControlEvents:UIControlEventTouchUpInside];
-    
     return cell;
 }
 
@@ -839,11 +840,8 @@
             
         }
     }else{
-        
         __weak typeof(self) weakSelf=self;
-        
         [ImageBrowserViewController show:self type:PhotoBroswerVCTypeModal index:indexPath.row imagesBlock:^NSArray *{
-            
             return weakSelf.selectedSyArray;
         }];
     }
@@ -852,7 +850,7 @@
 #pragma mark - TZImagePickerController
 
 - (void)pushImagePickerController {
-    
+
     TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:1 columnNumber:3 delegate:self pushPhotoPickerVc:YES];
     
 #pragma mark - 四类个性化设置，这些参数都可以不传，此时会走默认设置
@@ -872,8 +870,7 @@
     imagePickerVc.circleCropRadius = 100;
     
     imagePickerVc.cropRect = CGRectMake(0, (HEIGHT - WIDTH)/2, WIDTH, WIDTH);
-    
-    //    imagePickerVc.maxImagesCount = 1;
+
     
     [self presentViewController:imagePickerVc animated:YES completion:nil];
 }
@@ -901,12 +898,14 @@
         
         UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
         if ([UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) {
+            
             self.imagePickerVc.delegate = self;
             self.imagePickerVc.sourceType = sourceType;
             if(iOS8Later) {
-                _imagePickerVc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
+                self.imagePickerVc.modalPresentationStyle = UIModalPresentationOverCurrentContext;
             }
-            [self presentViewController:_imagePickerVc animated:YES completion:nil];
+            [self presentViewController:self.imagePickerVc animated:YES completion:nil];
+            
         } else {
             NSLog(@"模拟器中无法打开照相机,请在真机中使用");
         }
@@ -961,9 +960,8 @@
 - (void)refreshCollectionViewWithAddedAsset:(id)asset image:(UIImage *)image {
     
     NSArray *photos = @[image];
-    
     [self thumbnaiWithImage:photos andAssets:nil];
-    
+   
     [_collectionView reloadData];
 }
 
@@ -982,9 +980,7 @@
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
-    
     if ([picker isKindOfClass:[UIImagePickerController class]]) {
-        
         [picker dismissViewControllerAnimated:YES completion:nil];
     }
 }
@@ -997,9 +993,9 @@
     // NSLog(@"cancel");
 }
 
-
 - (void)imagePickerController:(TZImagePickerController *)picker didFinishPickingPhotos:(NSArray *)photos sourceAssets:(NSArray *)assets isSelectOriginalPhoto:(BOOL)isSelectOriginalPhoto {
     [self thumbnaiWithImage:photos andAssets:assets];
+
 }
 
 ////上传图片
@@ -1008,9 +1004,9 @@
     [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 
     _isSelectOriginalPhoto = NO;
-
+    
     AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-
+    
     [manager POST:[NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Api/dynamicPicUpload"] parameters: nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
 
         NSData *imageData = UIImageJPEGRepresentation(imageArray[0], 0.1);
@@ -1033,8 +1029,8 @@
         [_addArray addObject:[NSString stringWithFormat:@"%@%@",PICHEADURL,responseObject[@"data"][@"slimg"]]];
         [_addArray addObject:[NSString stringWithFormat:@"%@%@",PICHEADURL,responseObject[@"data"][@"syimg"]]];
 
+        [self changeFrame:_selectedPhotos];
         [_collectionView reloadData];
-
         [MBProgressHUD hideHUDForView:self.view animated:YES];
 
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -1056,7 +1052,7 @@
         [_deleteArray addObject:_selectedSyArray[sender.tag]];
         [_selectedSyArray removeObjectAtIndex:sender.tag];
     }
-    
+    [self changeFrame:_selectedPhotos];
     [_collectionView reloadData];
 }
 

@@ -29,14 +29,9 @@
     
     TencentOAuth *_tencentOAuth;
 }
-
-
 @property (nonatomic,strong) UITableView *tableView;
-
 @property (nonatomic,strong) NSArray *dataArray;
-
 @property (nonatomic,copy) NSString *status;
-
 //绑定的状态
 @property (nonatomic,copy) NSString *bindPhoneState;
 @property (nonatomic,copy) NSString *bindEmailState;
@@ -58,25 +53,23 @@
 
 -(void)getBindState{
 
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
-    manager.requestSerializer.timeoutInterval = 10.f;
-    [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
+//    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
+//    [manager.requestSerializer willChangeValueForKey:@"timeoutInterval"];
+//    manager.requestSerializer.timeoutInterval = 10.f;
+//    [manager.requestSerializer didChangeValueForKey:@"timeoutInterval"];
+    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getBindingState"];
-    NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-        //NSLog(@"%@",responseObject);
+    NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]?:@""};
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         
         if (integer != 2000) {
             
-            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObject objectForKey:@"msg"]];
+            [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
             
         }else{
             
-            if ([responseObject[@"data"][@"mobile"] length] == 0) {
+            if ([responseObj[@"data"][@"mobile"] length] == 0) {
                 
                 _bindPhoneState = @"";
                 
@@ -84,15 +77,15 @@
                 
             }else{
                 
-                _phoneNum = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"mobile"]];
-            
-                NSString *str = [responseObject[@"data"][@"mobile"] stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
+                _phoneNum = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"mobile"]];
+                
+                NSString *str = [responseObj[@"data"][@"mobile"] stringByReplacingCharactersInRange:NSMakeRange(3, 4) withString:@"****"];
                 
                 _bindPhoneState = str;
                 
             }
             
-            if ([responseObject[@"data"][@"email"] length] == 0) {
+            if ([responseObj[@"data"][@"email"] length] == 0) {
                 
                 _bindEmailState = @"";
                 
@@ -100,9 +93,9 @@
                 
             }else{
                 
-                _emailNum = [NSString stringWithFormat:@"%@",responseObject[@"data"][@"email"]];
+                _emailNum = [NSString stringWithFormat:@"%@",responseObj[@"data"][@"email"]];
                 
-                NSArray *array = [responseObject[@"data"][@"email"] componentsSeparatedByString:@"@"];
+                NSArray *array = [responseObj[@"data"][@"email"] componentsSeparatedByString:@"@"];
                 
                 NSString *string = [NSString string];
                 
@@ -111,39 +104,35 @@
                     string = [string stringByAppendingString:@"*"];
                 }
                 
-                NSString *str = [responseObject[@"data"][@"email"] stringByReplacingCharactersInRange:NSMakeRange(1, [array[0] length] - 2) withString:string];
+                NSString *str = [responseObj[@"data"][@"email"] stringByReplacingCharactersInRange:NSMakeRange(1, [array[0] length] - 2) withString:string];
                 
                 _bindEmailState = str;
                 
             }
-
-            if ([responseObject[@"data"][@"openid"] length] == 0) {
+            
+            if ([responseObj[@"data"][@"openid"] length] == 0) {
                 
                 _bindOpenidState = @"";
                 
             }else{
-            
-                if ([responseObject[@"data"][@"channel"] intValue] == 1) {
+                
+                if ([responseObj[@"data"][@"channel"] intValue] == 1) {
                     
                     _bindOpenidState = @"已绑定微信";
                     
-                }else if([responseObject[@"data"][@"channel"] intValue] == 2){
-                
+                }else if([responseObj[@"data"][@"channel"] intValue] == 2){
+                    
                     _bindOpenidState = @"已绑定QQ";
                     
-                }else if([responseObject[@"data"][@"channel"] intValue] == 3){
-                
+                }else if([responseObj[@"data"][@"channel"] intValue] == 3){
+                    
                     _bindOpenidState = @"已绑定微博";
                 }
             }
             
             [self.tableView reloadData];
         }
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-      
+    } failed:^(NSString *errorMsg) {
         
     }];
 

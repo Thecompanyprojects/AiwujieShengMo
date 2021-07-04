@@ -11,5 +11,5 @@
 @interface LDDetailPageViewController : UIViewController
 
 @property (nonatomic,assign) int index;
-
+@property (nonatomic,copy) NSString *numStr;
 @end

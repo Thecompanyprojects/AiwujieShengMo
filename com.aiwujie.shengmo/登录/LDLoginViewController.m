@@ -111,8 +111,6 @@
         
         NSLog(@"登陆成功。当前登录的用户ID：%@", userId);
         
-        //                [self createData:userId];
-        
         [[NSUserDefaults standardUserDefaults] setObject:userId forKey:@"userId"];
         
         UITabBarItem * item=[mvc.tabBar.items objectAtIndex:2];
@@ -600,21 +598,17 @@
     [self.navigationController pushViewController:hvc animated:YES];
 }
 - (IBAction)phoneNumberRegesterClick:(id)sender {
-    
     [self.view endEditing:YES];
-    
     LDRegisterViewController *rvc = [[LDRegisterViewController alloc] init];
-    
     [self.navigationController pushViewController:rvc animated:YES];
 }
+
 - (IBAction)emailRegesterClick:(id)sender {
-    
     [self.view endEditing:YES];
-    
     LDEmailRegisterViewController *evc = [[LDEmailRegisterViewController alloc] init];
-    
     [self.navigationController pushViewController:evc animated:YES];
 }
+
 - (IBAction)QQclick:(id)sender {
     
 //    QQViewController *qq = [[QQViewController alloc] init];
@@ -627,15 +621,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

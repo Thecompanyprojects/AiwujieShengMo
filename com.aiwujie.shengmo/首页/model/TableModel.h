@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface TableModel : NSObject
+@interface TableModel : NSObject<NSCoding,NSCopying>
 
 @property (nonatomic,copy) NSString *age;
 @property (nonatomic,copy) NSString *distance;
@@ -79,4 +79,5 @@
 //动态被封
 @property (nonatomic,copy) NSString *dynamicstatus;
 
+@property (nonatomic,copy) NSString *addtime;
 @end

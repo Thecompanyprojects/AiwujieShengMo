@@ -350,22 +350,17 @@
     
     [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
     
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString string];
-    
     NSDictionary *parameters = [NSDictionary dictionary];
-    
     if ([content integerValue] == 1) {
-        
         url = [NSString stringWithFormat:@"%@%@",PICHEADURL,userListNewth];
         
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
             
-            parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"layout":@"1",@"type":content,@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"onlinestate":@"",@"realname":@"",@"age":@"",@"sex":@"",@"sexual":@"",@"role":@"",@"culture":@"",@"monthly":@""};
+            parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"layout":@"1",@"type":content,@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"onlinestate":@"",@"realname":@"",@"age":@"",@"sex":@"",@"sexual":@"",@"role":@"",@"culture":@"",@"monthly":@"",@"loginid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]?:@""};
         }else{
             
-            parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"layout":@"1",@"type":content,@"lat":@"",@"lng":@"",@"onlinestate":@"",@"realname":@"",@"age":@"",@"sex":@"",@"sexual":@"",@"role":@"",@"culture":@"",@"monthly":@""};
+            parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"layout":@"1",@"type":content,@"lat":@"",@"lng":@"",@"onlinestate":@"",@"realname":@"",@"age":@"",@"sex":@"",@"sexual":@"",@"role":@"",@"culture":@"",@"monthly":@"",@"loginid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]?:@""};
         }
         
     }else if ([content integerValue] == 2){
@@ -374,11 +369,11 @@
         
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
             
-            parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"1",@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+            parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"1",@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"loginid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]?:@""};
             
         }else{
             
-            parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"1",@"lat":@"",@"lng":@"",@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
+            parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"1",@"lat":@"",@"lng":@"",@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"loginid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]?:@""};
             
         }
 
@@ -388,66 +383,42 @@
         
         if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"hideLocation"] intValue] == 0) {
             
-             parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"2",@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"]};
+             parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"2",@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":[[NSUserDefaults standardUserDefaults] objectForKey:@"latitude"],@"lng":[[NSUserDefaults standardUserDefaults] objectForKey:@"longitude"],@"loginid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]?:@""};
             
             
         }else{
             
-             parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"2",@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":@"",@"lng":@""};
+             parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"type":@"2",@"login_uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"],@"lat":@"",@"lng":@"",@"loginid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]?:@""};
             
         }
-
     }
     
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] intValue];
-        
-//        NSLog(@"%@",responseObject);
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] intValue];
         
         if (integer == 2000) {
             
             [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
             
-            for (NSDictionary *dic in responseObject[@"data"]) {
-                
+            for (NSDictionary *dic in responseObj[@"data"]) {
                 TableModel *model = [[TableModel alloc] init];
-                
                 [model setValuesForKeysWithDictionary:dic];
-                
                 model.select = NO;
-                
                 [_dataArray addObject:model];
-                
             }
-            
             self.tableView.mj_footer.hidden = NO;
-            
             [self.tableView reloadData];
-            
             [self.tableView.mj_footer endRefreshing];
-            
         }else if (integer == 4001) {
-        
             [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-            
             self.tableView.mj_footer.hidden = YES;
-            
         }else{
-            
             [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-        
             [self.tableView.mj_footer endRefreshing];
         }
-        
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [MBProgressHUD hideHUDForView:self.navigationController.view animated:YES];
-
         [self.tableView.mj_footer endRefreshing];
-        
     }];
     
 }
@@ -458,14 +429,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

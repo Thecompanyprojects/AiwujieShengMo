@@ -14,15 +14,11 @@
 -(void)setModel:(DynamicModel *)model{
 
     _model = model;
-    
     for (UIView *view in self.picView.subviews) {
-    
         if ([view isKindOfClass:[UIImageView class]]) {
-            
             [view removeFromSuperview];
         }
     }
-    
     for (UIView *view in self.contentView.subviews) {
         
         if ([view isKindOfClass:[UIButton class]] && view.frame.origin.y > self.headButton.frame.origin.y && view.frame.origin.y < self.picView.frame.origin.y) {
@@ -40,13 +36,10 @@
     if ([_model.is_volunteer intValue] == 1) {
         
         self.vipView.hidden = NO;
-        
         self.vipView.image = [UIImage imageNamed:@"志愿者标识"];
-        
     }else if ([_model.is_admin intValue] == 1) {
         
         self.vipView.hidden = NO;
-        
         self.vipView.image = [UIImage imageNamed:@"官方认证"];
         
     }else{
@@ -308,6 +301,7 @@
     }
     
     self.zanLabel.text = [NSString stringWithFormat:@"%@",model.laudnum];
+    [self.bottom.zanBtn setTitle:[NSString stringWithFormat:@"%@",model.laudnum] forState:normal];
     
     if (model.pic.count != 0) {
         
@@ -379,37 +373,28 @@
         }
         
     }else{
-    
         self.picH.constant = 0;
-        
         self.picTopH.constant = 0;
     }
-
     if ([model.laudstate intValue] == 0) {
-        
         self.zanImageView.image = [UIImage imageNamed:@"赞灰"];
-        
+        [self.bottom.zanBtn setImage:[UIImage imageNamed:@"赞灰"] forState:normal];
     }else{
-        
         self.zanImageView.image = [UIImage imageNamed:@"赞紫"];
+        [self.bottom.zanBtn setImage:[UIImage imageNamed:@"赞紫"] forState:normal];
     }
-    
     if ([_model.role isEqualToString:@"S"]) {
         
         self.sexualLabel.text = @"斯";
-        
         self.sexualLabel.backgroundColor = BOYCOLOR;
-        
     }else if ([_model.role isEqualToString:@"M"]){
         
         self.sexualLabel.text = @"慕";
-        
         self.sexualLabel.backgroundColor = GIRLECOLOR;
         
     }else if ([_model.role isEqualToString:@"SM"]){
         
         self.sexualLabel.text = @"双";
-        
         self.sexualLabel.backgroundColor = DOUBLECOLOR;
     }else{
     
@@ -439,12 +424,16 @@
     self.ageLabel.text = [NSString stringWithFormat:@"%@",_model.age];
     
     self.contentLabel.text = [NSString stringWithFormat:@"%@",_model.comnum];
-
+    [self.bottom.commentBtn setTitle:[NSString stringWithFormat:@"%@",_model.comnum] forState:normal];
+    
     self.rewardLabel.text = [NSString stringWithFormat:@"%@",_model.rewardnum];
+    [self.bottom.replyBtn setTitle:[NSString stringWithFormat:@"%@",_model.rewardnum] forState:normal];
     
     [self getWealthAndCharmState:_wealthLabel andView:_wealthView andNSLayoutConstraint:_wealthW andType:@"财富"];
     
     [self getWealthAndCharmState:_charmLabel andView:_charmView andNSLayoutConstraint:_charmW andType:@"魅力"];
+    
+    [self.bottom.topBtn setTitle:model.topnum?:@"0" forState:normal];
     
 }
 
@@ -532,36 +521,27 @@
  * 文字自适应宽度
  */
 -(CGSize)fitLabelWidth:(NSString *)string{
-    
     CGSize size = [string sizeWithAttributes:@{NSFontAttributeName: [UIFont systemFontOfSize:10.0]}];
     // ceilf()向上取整函数, 只要大于1就取整数2. floor()向下取整函数, 只要小于2就取整数1.
     CGSize labelSize = CGSizeMake(ceilf(size.width), ceilf(size.height));
-    
     return labelSize;
-    
 }
 
 #pragma 点击图片调用代理方法
 -(void)tap:(UITapGestureRecognizer *)tap{
-    
     if ([self.delegate respondsToSelector:@selector(tap:)]) {
-        
          [_delegate tap:tap];
     }
-
 }
 
 #pragma 点击话题调用代理方法
 -(void)topicButtonClick{
-    
     if (_model.topictitle.length != 0) {
-        
         if (self.delegate && [self.delegate respondsToSelector:@selector(transmitClickModel:)]) {
             
             [self.delegate transmitClickModel:_model];
         }
     }
-    
 }
 
 - (void)awakeFromNib {
@@ -581,13 +561,45 @@
     
     self.sexualLabel.layer.cornerRadius = 2;
     self.sexualLabel.clipsToBounds = YES;
+    
+    self.bottom = [bottomView new];
+    self.bottom.backgroundColor = [UIColor whiteColor];
+    [self.contentView addSubview: self.bottom];
+    [self.bottom mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.contentView).with.offset(-2);
+        make.height.mas_offset(38);
+        make.left.equalTo(self.contentView);
+        make.right.equalTo(self.contentView);
+    }];
+    [self.bottom.zanBtn addTarget:self action:@selector(zanbtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.bottom.commentBtn addTarget:self action:@selector(commentbtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.bottom.replyBtn addTarget:self action:@selector(replybtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.bottom.topBtn addTarget:self action:@selector(topbtnClick) forControlEvents:UIControlEventTouchUpInside];
 }
-
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
+#pragma mark - delegate
+
+-(void)zanbtnClick
+{
+    [self.delegate zanTabVClick:self];
+}
+
+-(void)commentbtnClick
+{
+    [self.delegate commentTabVClick:self];
+}
+
+-(void)replybtnClick
+{
+    [self.delegate replyTabVClick:self];
+}
+
+-(void)topbtnClick
+{
+    [self.delegate topTabVClick:self];
+}
 @end

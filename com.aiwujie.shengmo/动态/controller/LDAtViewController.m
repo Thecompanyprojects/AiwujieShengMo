@@ -32,15 +32,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
     self.navigationItem.title = @"@过我的";
-    
     _dataArray = [NSMutableArray array];
-    
     [self createTableView];
-    
     [self createCommentData];
-    
 }
 
 -(void)createCommentData{

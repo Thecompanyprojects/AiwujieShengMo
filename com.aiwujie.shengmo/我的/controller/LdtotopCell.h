@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface LdtotopCell : UICollectionViewCell
-
+-(void)setDatafromIndex:(NSInteger )indexrow;
 @end
 
 NS_ASSUME_NONNULL_END

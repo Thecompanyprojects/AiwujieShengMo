@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+typedef void (^ReturnValueBlock) (NSString* numStr);
 
 @interface LDMyReceiveGifViewController : UIViewController
-
+@property(nonatomic, copy) ReturnValueBlock returnValueBlock;
 @end

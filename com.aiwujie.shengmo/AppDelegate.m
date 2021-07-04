@@ -15,6 +15,7 @@
 #import "UMMobClick/MobClick.h"
 #import <Bugly/Bugly.h>
 
+
 @interface AppDelegate ()<CLLocationManagerDelegate,RCIMConnectionStatusDelegate,UIAlertViewDelegate,RCIMReceiveMessageDelegate,WXApiDelegate,WeiboSDKDelegate,QQApiInterfaceDelegate>
 
 @property (nonatomic,strong) CLLocationManager *locationManager;
@@ -35,31 +36,27 @@
     self.window.backgroundColor = [UIColor whiteColor];
     
     //bugly
-     [Bugly startWithAppId:@"0b279600f2"];
+    [Bugly startWithAppId:@"3fec6eff57"];
     
     //@{}代表Dictionary  设置title颜色
     [[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1],NSFontAttributeName:[UIFont systemFontOfSize:17]}];
     
     [UINavigationBar appearance].translucent = NO;
     
-    [[UINavigationBar appearance]
-     setBarTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
     
     //用keychain存储用户的唯一标示uuid,用于封设备
     UICKeyChainStore *keychain = [UICKeyChainStore keyChainStoreWithService:@"com.aiwujie.shengmoApp"];
     
     if ([keychain[@"device_token"] length] == 0) {
-        
         NSString *IDFV = [UIDevice currentDevice].identifierForVendor.UUIDString;
-        
         [keychain setString:[NSString stringWithFormat:@"%@",IDFV] forKey:@"device_token"];
-        
     }
 
     //友盟统计
     UMConfigInstance.appKey = @"591a7b45677baa4928000098";
     UMConfigInstance.channelId = @"App Store";
-//    UMConfigInstance.eSType = E_UM_GAME; //仅适用于游戏场景，应用统计不用设置
+    //UMConfigInstance.eSType = E_UM_GAME; //仅适用于游戏场景，应用统计不用设置
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
     [MobClick setAppVersion:version];
     [MobClick startWithConfigure:UMConfigInstance];

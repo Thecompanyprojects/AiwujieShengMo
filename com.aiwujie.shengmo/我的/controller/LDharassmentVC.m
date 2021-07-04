@@ -108,6 +108,16 @@ static NSString *LDharassmentIdentfity = @"LDharassmentIdentfity";
     }
 }
 
+- (void)didMoveToParentViewController:(UIViewController*)parent{
+    [super didMoveToParentViewController:parent];
+    if(!parent){
+        if (self.returnValueBlock) {
+            //将自己的值传出去，完成传值
+            self.returnValueBlock(self.isAll);
+        }
+    }
+}
+
 /**
  修改SVIP消息设置情况
  */

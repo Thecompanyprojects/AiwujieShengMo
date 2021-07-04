@@ -149,15 +149,11 @@
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"recommendBadge"] integerValue] > 0) {
         
         _recommendDogLabel.text = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"recommendBadge"]];
-        
         _recommendDogLabel.hidden = NO;
-        
         [self.tabBarController.tabBar showBadgeOnItemIndex:3];
         
     }else{
-        
         _recommendDogLabel.hidden = YES;
-        
         [self.tabBarController.tabBar hideBadgeOnItemIndex:3];
     }
     
@@ -921,7 +917,6 @@
     }
 }
 
-
 //生成翻页控制器
 -(void)createPageViewController{
     
@@ -954,8 +949,7 @@
     // 在页面上，显示UIPageViewController对象的View
     [self addChildViewController:_pageViewController];
     [self.view addSubview:_pageViewController.view];
-}
-
+} 
 /**
  * 创建第四页话题页
  */

@@ -35,20 +35,13 @@
 }
 
 -(void)createData{
-
-   AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
+    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Users/getmywallet"];
-    
-    
     NSDictionary *parameters = @{@"uid":[[NSUserDefaults standardUserDefaults] objectForKey:@"uid"]};
-    
     
     [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//        NSLog(@"%@",responseObject);
         
         if (integer != 2000) {
             
@@ -101,26 +94,19 @@
 -(void)rightButtonOnClick{
     
     LDBillViewController *bvc = [[LDBillViewController alloc] init];
-    
     [self.navigationController pushViewController:bvc animated:YES];
 }
 
-
 - (IBAction)chargeButtonClick:(id)sender {
-    
     LDChargeCenterViewController *cvc = [[LDChargeCenterViewController alloc] init];
-    
     [self.navigationController pushViewController:cvc animated:YES];
 }
 
 - (IBAction)depositButtonClick:(id)sender {
     
     LDDepositViewController *dvc = [[LDDepositViewController alloc] init];
-    
     dvc.beanNumber = _balance;
-    
     dvc.scale = _scale;
-    
     [self.navigationController pushViewController:dvc animated:YES];
 }
 
@@ -128,15 +114,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

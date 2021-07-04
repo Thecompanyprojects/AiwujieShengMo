@@ -62,57 +62,57 @@
     [self createPageViewController];
     
     //创建创建话题按钮
-    [self createTopic];
+//    [self createTopic];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideCreateTopicButton) name:@"创建话题按钮隐藏" object:nil];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showCreateTopicButton) name:@"创建话题按钮显示" object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideCreateTopicButton) name:@"创建话题按钮隐藏" object:nil];
+//
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showCreateTopicButton) name:@"创建话题按钮显示" object:nil];
 }
 
 
--(void)hideCreateTopicButton{
-    
-    _createTopicButton.hidden = YES;
-}
-
--(void)showCreateTopicButton{
-    
-    _createTopicButton.hidden = NO;
-}
+//-(void)hideCreateTopicButton{
+//
+//    _createTopicButton.hidden = YES;
+//}
+//
+//-(void)showCreateTopicButton{
+//
+//    _createTopicButton.hidden = NO;
+//}
 
 -(void)dealloc{
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
--(void)createTopic{
-    
-    CGFloat createTopicW = 106;
-    CGFloat createTopicH = 44;
-    CGFloat createTopicBottomY = 100;
-    
-    if (ISIPHONEX) {
-        
-        _createTopicButton = [[UIButton alloc] initWithFrame:CGRectMake((WIDTH - createTopicW)/2, HEIGHT - createTopicBottomY - createTopicH - 34 - 24, createTopicW, createTopicH)];
-        
-    }else{
-        
-        if (ISIPHONEPLUS) {
-            
-            _createTopicButton = [[UIButton alloc] initWithFrame:CGRectMake((WIDTH - (createTopicW / 375) * WIDTH)/2, HEIGHT - createTopicBottomY - (createTopicH / 667) * HEIGHT, (createTopicW / 375) * WIDTH, (createTopicH / 667) * HEIGHT)];
-            
-        }else{
-            
-            _createTopicButton = [[UIButton alloc] initWithFrame:CGRectMake((WIDTH - createTopicW)/2, HEIGHT - createTopicBottomY - createTopicH, createTopicW, createTopicH)];
-        }
-    }
-    
-    [_createTopicButton setBackgroundImage:[UIImage imageNamed:@"创建话题"] forState:UIControlStateNormal];
-    
-    [_createTopicButton addTarget:self action:@selector(createTopicButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.view addSubview:_createTopicButton];
-}
+//-(void)createTopic{
+//
+//    CGFloat createTopicW = 106;
+//    CGFloat createTopicH = 44;
+//    CGFloat createTopicBottomY = 100;
+//
+//    if (ISIPHONEX) {
+//
+//        _createTopicButton = [[UIButton alloc] initWithFrame:CGRectMake((WIDTH - createTopicW)/2, HEIGHT - createTopicBottomY - createTopicH - 34 - 24, createTopicW, createTopicH)];
+//
+//    }else{
+//
+//        if (ISIPHONEPLUS) {
+//
+//            _createTopicButton = [[UIButton alloc] initWithFrame:CGRectMake((WIDTH - (createTopicW / 375) * WIDTH)/2, HEIGHT - createTopicBottomY - (createTopicH / 667) * HEIGHT, (createTopicW / 375) * WIDTH, (createTopicH / 667) * HEIGHT)];
+//
+//        }else{
+//
+//            _createTopicButton = [[UIButton alloc] initWithFrame:CGRectMake((WIDTH - createTopicW)/2, HEIGHT - createTopicBottomY - createTopicH, createTopicW, createTopicH)];
+//        }
+//    }
+//
+//    [_createTopicButton setBackgroundImage:[UIImage imageNamed:@"创建话题"] forState:UIControlStateNormal];
+//
+//    [_createTopicButton addTarget:self action:@selector(createTopicButtonClick) forControlEvents:UIControlEventTouchUpInside];
+//
+//    [self.view addSubview:_createTopicButton];
+//}
 
 -(void)createTopicButtonClick{
     

@@ -186,16 +186,12 @@
         }
     }
     
-    NSDictionary *parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"lat":[NSString stringWithFormat:@"%lf",self.lat],@"lng":[NSString stringWithFormat:@"%lf",self.lng],@"layout":@"1",@"age":age,@"sex":sex,@"sexual":sexual,@"role":role,@"education":education,@"month":month,@"online":online,@"real":real};
+    NSDictionary *parameters = @{@"page":[NSString stringWithFormat:@"%d",_page],@"lat":[NSString stringWithFormat:@"%lf",self.lat],@"lng":[NSString stringWithFormat:@"%lf",self.lng],@"layout":@"1",@"age":age,@"sex":sex,@"sexual":sexual,@"role":role,@"education":education,@"month":month,@"online":online,@"real":real,@"type":@"1"};
     
     [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
-        
         _integer = [[responseObj objectForKey:@"retcode"] integerValue];
-        
         if (_integer != 2000 && _integer != 2001) {
-            
             [AlertTool alertWithViewController:self andTitle:@"提示" andMessage:[responseObj objectForKey:@"msg"]];
-            
         }else{
             if ([str intValue] == 1) {
                 [self.dataSource removeAllObjects];
@@ -218,17 +214,11 @@
 -(void)createRightBtn{
     //右侧下拉列表
     _rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 5, 20, 20)];
-    
-    
     if ([[[NSUserDefaults standardUserDefaults] objectForKey:@"searchSwitch"] length] == 0 || [[[NSUserDefaults standardUserDefaults] objectForKey:@"searchSwitch"] integerValue] == 0) {
-        
         [_rightButton setImage:[UIImage imageNamed:@"条件筛选"] forState:UIControlStateNormal];
-        
     }else{
-        
         [_rightButton setImage:[UIImage imageNamed:@"条件筛选绿"] forState:UIControlStateNormal];
     }
-    
     _rightButton.titleLabel.font = [UIFont systemFontOfSize:14];
     [_rightButton addTarget:self action:@selector(rightButtonOnClick:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_rightButton];

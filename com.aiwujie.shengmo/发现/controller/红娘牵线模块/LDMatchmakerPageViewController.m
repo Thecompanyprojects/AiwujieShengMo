@@ -112,71 +112,42 @@
 
 -(void)createDataType:(NSString *)type{
 
-    AFHTTPSessionManager *manager = [LDAFManager sharedManager];
-    
     NSString *url = [NSString stringWithFormat:@"%@%@",PICHEADURL,@"Api/Matchmaker/getMatchUsersList"];
-
     NSDictionary *parameters = @{@"page":[NSString stringWithFormat:@"%d",_collectPage],@"sex":[NSString stringWithFormat:@"%d",[self.content intValue] - 1]};
     
-    [manager POST:url parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        NSInteger integer = [[responseObject objectForKey:@"retcode"] integerValue];
-        
-//        NSLog(@"%@",responseObject);
+    [NetManager afPostRequest:url parms:parameters finished:^(id responseObj) {
+        NSInteger integer = [[responseObj objectForKey:@"retcode"] integerValue];
         
         if (integer != 2000) {
             
             if (integer == 3000 || integer == 3001) {
                 
                 if ([type intValue] == 1) {
-                    
                     [_collectArray removeAllObjects];
-                    
                     [self.collectionView reloadData];
-                    
                     self.collectionView.mj_footer.hidden = YES;
-                    
                 }else{
-                    
-                    [self.collectionView.mj_footer endRefreshingWithNoMoreData];  
+                    [self.collectionView.mj_footer endRefreshingWithNoMoreData];
                 }
             }
-            
         }else{
             
             if ([type intValue] == 1) {
-                
                 [_collectArray removeAllObjects];
-                
                 [self.collectionView reloadData];
-
             }
-            
-            for (NSDictionary *dic in responseObject[@"data"]) {
-                
-                MatchmakerModel *model = [[MatchmakerModel alloc] init];
-                
-                [model setValuesForKeysWithDictionary:dic];
-                
-                [_collectArray addObject:model];
-            }
-            
+            NSMutableArray *data = [NSMutableArray arrayWithArray:[NSArray yy_modelArrayWithClass:[MatchmakerCell class] json:responseObj[@"data"]]];
+            [self.collectArray addObjectsFromArray:data];
             self.collectionView.mj_footer.hidden = NO;
-            
             [self.collectionView reloadData];
-            
             [self.collectionView.mj_footer endRefreshing];
             
         }
         
         [self.collectionView.mj_header endRefreshing];
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failed:^(NSString *errorMsg) {
         [self.collectionView.mj_header endRefreshing];
         [self.collectionView.mj_footer endRefreshing];
-        
     }];
 
 }

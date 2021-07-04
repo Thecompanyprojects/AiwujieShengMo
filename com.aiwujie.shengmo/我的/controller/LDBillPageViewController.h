@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface LDBillPageViewController : UIViewController
-
+@property (nonatomic,copy) NSString *numStr;
 @end

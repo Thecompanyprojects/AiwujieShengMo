@@ -29,43 +29,48 @@ static NSString *_stampNum;
 /**
  * 兑换会员的弹框提示
  */
-+(void)alertWithViewController:(UIViewController *)controller type:(NSString *)type andAlertDidSelectItem:(void(^)(int index, NSString *viptype))selectBlock{
++(void)alertWithViewController:(UIViewController *)controller type:(NSString *)type num:(NSString *)numStr andAlertDidSelectItem:(void(^)(int index, NSString *viptype))selectBlock;{
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    //礼物魔豆兑换充值魔豆
+    UIAlertAction *ChangeAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换充值魔豆"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if (selectBlock) {
+            selectBlock(1, @"CHANGEMODOU");
+        }
+    }];
     
     UIAlertAction *SVIPAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换SVIP"] style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
         
         NSArray *SVIPArray = @[@"1个月/1920魔豆", @"3个月/5220魔豆", @"8个月/13470魔豆", @"12个月/19470魔豆"];
+        NSMutableArray *arrs = [NSMutableArray new];
+        [arrs addObject:[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"魔豆)"]];
+        [arrs addObjectsFromArray:SVIPArray];
         
         UIAlertController *SVIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
         
-        for (int i = 0; i < SVIPArray.count; i++) {
-            
-            UIAlertAction *month = [UIAlertAction actionWithTitle:SVIPArray[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-         
+        for (int i = 0; i < arrs.count; i++) {
+            UIAlertAction *month = [UIAlertAction actionWithTitle:arrs[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 if (selectBlock) {
-                    
                     selectBlock(i, @"SVIP");
                 }
-                
             }];
             
             [SVIPAlert addAction:month];
-            
-            if (PHONEVERSION.doubleValue >= 8.3) {
-                
+            if (PHONEVERSION.doubleValue >= 8.3&&i!=0) {
                 [month setValue:MainColor forKey:@"_titleTextColor"];
             }
+            if (PHONEVERSION.doubleValue >= 8.3&&i==0) {
+                [month setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
+            }
         }
-        
         [self cancelActionWithAlert:SVIPAlert];
-        
         [controller presentViewController:SVIPAlert animated:YES completion:nil];
     }];
     
     UIAlertAction * VIPAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换VIP"] style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
      
-        NSArray *VIPArray = @[@"1个月/450魔豆", @"3个月/1320魔豆", @"6个月/2520魔豆", @"12个月/4470魔豆"];
+        NSArray *VIPArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"魔豆)"],@"1个月/450魔豆", @"3个月/1320魔豆", @"6个月/2520魔豆", @"12个月/4470魔豆"];
         
         UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
         
@@ -82,9 +87,11 @@ static NSString *_stampNum;
             
             [VIPAlert addAction:month];
             
-            if (PHONEVERSION.doubleValue >= 8.3) {
-                
+            if (PHONEVERSION.doubleValue >= 8.3&&i!=0) {
                 [month setValue:MainColor forKey:@"_titleTextColor"];
+            }
+            if (PHONEVERSION.doubleValue >= 8.3&&i==0) {
+                [month setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
             }
         }
         
@@ -92,28 +99,76 @@ static NSString *_stampNum;
         
         [controller presentViewController:VIPAlert animated:YES completion:nil];
     }];
+    
+    UIAlertAction *topcareAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换推顶卡"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
-    UIAlertAction *chargeAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换邮票(30魔豆/张)"] style:UIAlertActionStyleDefault  handler:^(UIAlertAction * _Nonnull action) {
+        NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"魔豆)"],@"3张/450魔豆", @"10张/1500魔豆", @"30张/4500魔豆", @"50张/7500魔豆", @"100张/15000魔豆", @"308张/45000魔豆"];
         
-        if (selectBlock) {
+        UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        for (int i = 0; i < TopcardArray.count; i++) {
+            UIAlertAction *month = [UIAlertAction actionWithTitle:TopcardArray[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                if (selectBlock) {
+                    selectBlock(i, @"TOPCARD");
+                }
+            }];
+            [VIPAlert addAction:month];
             
-            selectBlock(0, @"兑换邮票");
+            if (PHONEVERSION.doubleValue >= 8.3&&i!=0) {
+                [month setValue:MainColor forKey:@"_titleTextColor"];
+            }
+            if (PHONEVERSION.doubleValue >= 8.3&&i==0) {
+                [month setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
+            }
+
+        }
+        [self cancelActionWithAlert:VIPAlert];
+        [controller presentViewController:VIPAlert animated:YES completion:nil];
+    }];
+    
+
+    UIAlertAction *chargeAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"%@%@",type,@"兑换邮票"] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+        NSArray *TopcardArray = @[[NSString stringWithFormat:@"%@%@%@",@"(剩余",numStr,@"魔豆)"],@"3张/90魔豆", @"10张/300魔豆", @"30张/900魔豆", @"50张/1500魔豆", @"100张/3000魔豆", @"308张/9000魔豆"];
+        
+        UIAlertController *VIPAlert = [UIAlertController alertControllerWithTitle:nil message:nil    preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        for (int i = 0; i < TopcardArray.count; i++) {
+            UIAlertAction *month = [UIAlertAction actionWithTitle:TopcardArray[i] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                if (selectBlock) {
+                    selectBlock(i, @"YOUPIAO");
+                }
+            }];
+            [VIPAlert addAction:month];
+            
+            if (PHONEVERSION.doubleValue >= 8.3&&i!=0) {
+                [month setValue:MainColor forKey:@"_titleTextColor"];
+            }
+            if (PHONEVERSION.doubleValue >= 8.3&&i==0) {
+                [month setValue:[UIColor blackColor] forKey:@"_titleTextColor"];
+            }
         }
         
+        [self cancelActionWithAlert:VIPAlert];
+        [controller presentViewController:VIPAlert animated:YES completion:nil];
     }];
-
+    
+//    if ([type isEqualToString:@"礼物魔豆"]) {
+//        [alert addAction:ChangeAction];
+//    }
+    
     [alert addAction:VIPAction];
     [alert addAction:SVIPAction];
     [alert addAction:chargeAction];
+    [alert addAction:topcareAction];
     [self cancelActionWithAlert:alert];
-    
     if (PHONEVERSION.doubleValue >= 8.3) {
-        
+        [ChangeAction setValue:MainColor forKey:@"_titleTextColor"];
         [SVIPAction setValue:MainColor forKey:@"_titleTextColor"];
         [VIPAction setValue:MainColor forKey:@"_titleTextColor"];
         [chargeAction setValue:MainColor forKey:@"_titleTextColor"];
+        [topcareAction setValue:MainColor forKey:@"_titleTextColor"];
     }
-    
     [controller presentViewController:alert animated:YES completion:nil];
 }
 
